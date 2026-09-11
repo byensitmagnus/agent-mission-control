@@ -1,0 +1,7 @@
+interface:
+  display_name: "Agent Mission Control"
+  short_description: "Coordinate bounded software missions"
+  icon_small: "./assets/icon-small.svg"
+  icon_large: "./assets/icon-large.svg"
+  brand_color: "#8b5cf6"
+  default_prompt: "Use $agent-mission-control to coordinate this bounded software mission and return verified evidence."

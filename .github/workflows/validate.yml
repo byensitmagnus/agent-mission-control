@@ -8,12 +8,21 @@ permissions:
   contents: read
 
 jobs:
-  skill:
+  structural-validation:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ["3.11", "3.14"]
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with:
-          python-version: "3.12"
-      - name: Validate skill package
+          python-version: ${{ matrix.python-version }}
+      - name: Validate structural contracts
         run: python scripts/validate.py
+      - name: Run validator negative controls
+        run: python scripts/test_validate.py
+      - name: Test disposable eval fixture preparation
+        run: python scripts/test_prepare_eval.py
+      - name: Test plugin packaging
+        run: python scripts/test_package_plugin.py

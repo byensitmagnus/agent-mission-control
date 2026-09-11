@@ -2,140 +2,113 @@
   <img src="assets/mission-control.svg" alt="Agent Mission Control" width="100%" />
 </p>
 
-<p align="center">
-  <strong>One lead. Focused agents. Measurable progress. Independent proof.</strong>
-</p>
+<p align="center"><strong>One lead. Focused agents. Measurable progress. Independent proof.</strong></p>
 
 <p align="center">
-  <a href="https://github.com/byensitmagnus/agent-mission-control/actions/workflows/validate.yml"><img src="https://github.com/byensitmagnus/agent-mission-control/actions/workflows/validate.yml/badge.svg" alt="Validation" /></a>
-  <a href="https://github.com/byensitmagnus/agent-mission-control/releases"><img src="https://img.shields.io/github/v/release/byensitmagnus/agent-mission-control?color=8b5cf6" alt="Release" /></a>
+  <a href="https://github.com/byensitmagnus/agent-mission-control/actions/workflows/validate.yml"><img src="https://github.com/byensitmagnus/agent-mission-control/actions/workflows/validate.yml/badge.svg" alt="Structural validation" /></a>
+  <a href="https://github.com/byensitmagnus/agent-mission-control/releases"><img src="https://img.shields.io/github/v/release/byensitmagnus/agent-mission-control?color=8b5cf6" alt="Published release" /></a>
   <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-22d3ee" alt="MIT License" /></a>
 </p>
 
-`agent-mission-control` is a portable agent skill for complex engineering work:
-major refactors, performance optimization, migrations, multi-surface builds,
-and release-critical changes.
+Agent Mission Control is a portable skill for complex software work. It keeps
+one lead responsible for architecture, focused workers responsible for bounded
+jobs, and acceptance tied to independent evidence. A durable Mission View helps
+long runs resume without trusting stale conversation summaries.
 
-It is not a swarm launcher. A lead agent freezes the goal and proof contract,
-delegates only genuinely independent work, runs measurable candidate loops when
-needed, and accepts a result only after fresh verification.
+Use it for cross-cutting features, migrations, measured optimization and release
+preparation. Simple edits and dependent chains stay with one agent. There is no
+daemon, database, custom dashboard, telemetry or private companion-skill dependency.
 
-## The control loop
+## Install and activate
 
-```mermaid
-flowchart LR
-    A[Freeze contract] --> B{Independent jobs?}
-    B -->|No| C[Direct implementation]
-    B -->|Yes| D[Isolated workers]
-    C --> E{Measurable iteration?}
-    D --> E
-    E -->|No| F[Independent review]
-    E -->|Yes| G[Candidate loop]
-    G --> F
-    F --> H[Lead verification]
-    H --> I{Release gates pass?}
-    I -->|No| J[Diagnose or stop]
-    I -->|Yes| K[Release-ready]
-    K --> L[Held-out skill learning]
+Skill-only activates `SKILL.md` with its `references/`, `templates/`, `assets/`
+and `agents/openai.yaml`. Installing this repository root also copies its docs,
+scripts, evals and inactive profile examples into the same skill directory. Ask Codex:
+
+```text
+Use $skill-installer to install https://github.com/byensitmagnus/agent-mission-control
+at repository path . as agent-mission-control.
 ```
 
-## Why it works
-
-| Layer | Owns | Never owns |
-|---|---|---|
-| Lead | Goal, architecture, scope, integration, final evidence | Rubber-stamping worker claims |
-| Workers | One bounded task and its evidence | Changing the goal or evaluator |
-| Candidate loop | One measurable hypothesis at a time | Parallel mutation of the same candidate |
-| Verifier | Trying to disprove the result | Approving its own implementation |
-| Learning loop | Held-out skill improvement after the run | Rewriting live rules mid-release |
-
-The core separation is deliberate:
-
-- **Delegation** scales independent work.
-- **Variation** improves a measurable candidate.
-- **Verification** proves the selected result.
-- **Learning** improves future runs after the current run is closed.
-
-## Install
-
-### Global Codex skill
-
-```bash
-git clone https://github.com/byensitmagnus/agent-mission-control.git ~/.agents/skills/agent-mission-control
-```
-
-### Project-local skill
-
-```bash
-git clone https://github.com/byensitmagnus/agent-mission-control.git .agents/skills/agent-mission-control
-```
-
-Then invoke it explicitly:
+If that destination exists, inspect it first; never overwrite it silently.
+A repository clone may instead be placed in a new
+`.agents/skills/agent-mission-control` directory. Restart Codex after installation if the skill is not visible.
 
 ```text
 $agent-mission-control
 
-Prepare this application for release. Preserve existing user data, run
-independent work in parallel where safe, and stop before deploy.
+Prepare this application for release. Preserve existing user data, delegate
+independent work where useful, verify it, and stop before deploy.
 ```
 
-Codex may also select the skill automatically when a task matches its
-description.
+The portable core keeps your selected lead. The optional
+[Astra-led Codex profile](examples/codex/README.md) selects Astra as root, Luna
+for research, Terra for implementation/verification and Sol for independent
+review, with at most three concurrent subagents. Model availability varies.
+Applying the profile is a separate explicit setup action; review the diff and
+get acceptance before merging existing config or agent files. Nothing
+installs these files or changes `AGENTS.md` automatically.
 
-## Works standalone
+Build a local plugin bundle from this checkout with a new destination:
 
-No runtime dependency is required. If these companion skills are installed,
-Mission Control delegates their specialized phases instead of duplicating them:
+```bash
+python scripts/package_plugin.py work/plugin/agent-mission-control
+```
 
-- `context-diamond` — dependency-aware fan-out, contracts, and verification.
-- `avo` — candidate lineage and evaluator-driven repair.
-- `skillopt-sleep-learned` — validated release and staging lessons.
-- `skillopt-sleep` — offline, held-out-gated skill evolution, based on
-  [Microsoft SkillOpt](https://github.com/microsoft/SkillOpt).
+The bundle contains the skill, UI assets and license. It does not install Codex
+config or custom agents. Existing destinations are refused. Host installation
+and discovery are **NOT VERIFIED**; this command only builds the package.
 
-## Use it for
+## During a mission
 
-- architecture-changing refactors;
-- performance work with a reproducible benchmark;
-- installers, migrations, and data-preserving upgrades;
-- dashboards or apps spanning several independent surfaces;
-- release preparation where CI alone is not enough.
+Routine edits finish with the lead's proportionate check. This diagram applies
+to qualified missions:
 
-Skip it for copy changes, routine website edits, obvious one-file fixes, and
-linear tasks where a single agent can finish and verify the work directly.
+```mermaid
+flowchart LR
+    A[Freeze goal and gates] --> B{Independent jobs?}
+    B -->|No| C[Serialized mission work]
+    B -->|Yes| D[Bounded workers]
+    C --> E[Test and independent review]
+    D --> E
+    E --> F{Gates pass?}
+    F -->|No| G[Repair within authority]
+    G --> E
+    F -->|Yes| H[Verified local result]
+```
 
-## Design influences
+Inspect workers in the Codex app subagent view or CLI `/agent`. Inspect durable
+progress in the root-owned `MISSION.md`, based on the versioned
+[Mission View template](templates/mission-view.md). It records ownership, hard
+gates, evidence, blockers and the next action. On resume, root checks it against
+HEAD, workspace state and artifacts. A local PASS never grants deploy permission.
 
-Mission Control adapts ideas from:
+The [FPS Booster example](examples/fps-booster-release.md) follows a mission
+from scope through isolated work, verification, repair and the deploy boundary.
+Its example status is illustrative, not measured proof.
 
-- [Agent Orchestrator](https://github.com/Untrivial-ai/agent-orchestrator) —
-  persistent lead ownership, isolated workers, and status derived from facts;
-- [Codex Astra/Luna Orchestrator](https://github.com/donvito/codex-astra-luna-orchestrator) —
-  strong-lead/efficient-worker model routing and independent review;
-- [NVIDIA AVO](https://arxiv.org/abs/2603.24517) — recoverable candidate
-  lineage, execution feedback, and supervisor intervention;
-- [Microsoft SkillOpt](https://github.com/microsoft/SkillOpt) — bounded textual
-  skill edits accepted through held-out validation.
+## What is verified
 
-This repository contains an independent workflow synthesis. It is not
-affiliated with or endorsed by OpenAI, NVIDIA, Microsoft, or the referenced
-projects.
-
-## Validate
+With Python 3.11+, run:
 
 ```bash
 python scripts/validate.py
+python scripts/test_validate.py
+python scripts/test_prepare_eval.py
+python scripts/test_package_plugin.py
 ```
 
-The validator uses only Python's standard library. CI runs it on every push and
-pull request.
+CI checks structure, metadata, paths, templates and disposable tooling controls.
+It does not prove agent behavior. The [nine-case eval package](evals/README.md)
+and [candidate evidence log](evals/v0.2-candidate-log.md) distinguish PASS from
+NOT VERIFIED. The controlled behavioral comparison, host integration and cost
+or token savings are not established.
 
 ## Contributing and security
 
-Small, evidence-backed improvements are welcome. Read [CONTRIBUTING.md](CONTRIBUTING.md)
-before opening a pull request. Report security problems through
-[SECURITY.md](SECURITY.md), not a public issue.
+Read [CONTRIBUTING.md](CONTRIBUTING.md) and [SECURITY.md](SECURITY.md).
+Private vulnerability reporting was observed disabled; use the documented
+contact-request route without publishing vulnerability details.
 
-## License
-
-[MIT](LICENSE) © 2026 Byens IT.
+[MIT](LICENSE) © 2026 Byens IT. Independent project; no endorsement by OpenAI,
+NVIDIA, Microsoft or the projects that inspired it.

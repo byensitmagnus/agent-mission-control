@@ -1,123 +1,84 @@
 ---
 name: agent-mission-control
-description: "Run complex, high-risk, or release-critical software work through scoped orchestration, isolated agents, measurable optimization, independent proof, and validation-gated learning. Use for major refactors, performance work, migrations, or multi-surface releases; skip routine one-pass changes."
+description: "Coordinate complex software work with bounded delegation, durable status and independent proof. Use for cross-cutting features, migrations or measured optimization; skip routine edits and simple dependency chains."
 ---
 
 # Agent Mission Control
 
-This skill works standalone. When `context-diamond`, `avo`,
-`skillopt-sleep-learned`, or `skillopt-sleep` are installed, load only the one
-needed for the current phase and let its detailed procedure override overlapping
-guidance here.
+The root owns the goal, architecture, evaluator, integration and final verdict.
+This core is model-independent and requires no companion skills. An optional
+Codex profile is described in [Codex compatibility](references/codex-compatibility.md).
 
-## Qualify the run
+## Choose the smallest execution path
 
-Use Mission Control when at least one is true:
+For simple edits and well-understood dependent chains, make the change, run a
+proportionate check and return. Skip the remaining mission workflow, Mission
+View and independent-agent review for these tasks. Multiple files alone do not
+justify orchestration. For complex work, delegate only when
+the independent deliverable improves quality or saves more time than its
+coordination costs. Use parallel read-only investigation for independent unknowns.
 
-- two or more substantial independent jobs can run concurrently;
-- architecture, migration, security, data integrity, or release risk needs a
-  separate decision and verification layer;
-- success requires measurable candidate iteration rather than a one-pass fix;
-- several customer-facing surfaces must remain consistent through a release.
+Before fan-out, check each pair for output dependencies, unresolved interfaces,
+shared writes, generated files, fixtures and mutable runtime state. Resolve
+architecture first; serialize dependent jobs and integration. Each writable
+path or shared surface has exactly one owner. Record an ownership transfer
+before the new owner writes; separate worktrees still require serialized merge.
 
-Otherwise use the normal single-agent workflow. Multiple files alone do not
-make a task complex.
+## Freeze authority and proof
 
-## Freeze the control contract
+Record the goal/Definition of Done, base commit or snapshot, acceptance checks,
+hard gates, authorized/forbidden actions, budget and unknowns before changing
+the candidate. Workers cannot modify these, the incumbent or release gates.
+For measured optimization or migration, read [candidate and risk gates](references/verification.md).
 
-Before implementation, record:
+For long runs, reuse the project's durable tracker or copy the versioned
+[Mission View](templates/mission-view.md) to `MISSION.md`. Only root writes it;
+it supplements the native agent UI. Keep commands and artifact references,
+not transcripts or secret data. Update it at decisions, handoffs and gate changes.
 
-```markdown
-Goal / Definition of Done:
-Source of truth and baseline:
-Hard correctness and release gates:
-Frozen evaluator or acceptance checks:
-Authorized scope and control gates:
-Attempt / time budget:
-Open risks and unknowns:
-```
+## Delegate and reconcile
 
-For work likely to cross context boundaries, update the project's existing
-durable tracker; create `MISSION.md` only when none exists. Store observable
-facts—current commit, changed paths, commands, scores, failures, approvals—not
-agent confidence or raw transcripts.
+Read the [packet schemas](references/packets.md) when delegating. Send one
+Context Packet per worker with only relevant paths, inputs and satisfied
+dependencies; do not copy the whole conversation or large raw logs. Nested
+delegation requires a concrete reason and root-approved scope/concurrency.
+Reviewers receive the contract and artifacts, never the intended conclusion.
 
-## Route work
+Count expected versus received Evidence Packets. Missing, stale, contradictory
+or unsupported claims leave the gate `NOT VERIFIED`; an observed failed check
+is `FAIL`. Resolve conflicts against current artifacts and rerun affected checks.
+Worker completion does not transfer integration or acceptance authority.
 
-The lead owns the contract, architecture, task graph, integration decisions,
-release conclusion, and final evidence. Keep the user's selected lead; in Codex
-prefer Astra for this role when available.
+## Complete the loop
 
-1. Run a fake-edge test: for each proposed job, ask whether it truly needs the
-   previous job's output. Fan out only when at least two substantial jobs are
-   independent or the user explicitly requests parallel work.
-2. Give each worker one contract: objective, owned paths or surface, inputs,
-   constraints, required artifact and evidence, and acceptance check. Prefer
-   read-only research; concurrent writers need separate worktrees or disjoint
-   ownership. Never let two agents mutate the same candidate or integration
-   surface.
-3. Use direct implementation for a linear, well-understood change. Do not add
-   workers just to fill roles.
-4. Use a candidate loop only for measurable optimization or iterative repair.
-   Freeze the evaluator before candidate 1. Delegated work may supply evidence
-   or a bounded change, but it may not change the evaluator, goal, or incumbent.
+`inspect → decide → implement → test → review → repair → re-test → gate`
 
-When available, use `context-diamond` for steps 1–2 and `avo` for step 4. Their
-current model-routing and candidate-selection rules are authoritative.
+Continue the next authorized step until every gate is evidenced. Review must
+be independent of implementation; verification must execute relevant checks
+and is not replaced by review agreement. Root inspects artifacts and runs the
+checks before accepting. After repairs, refresh affected review and proof;
+do not repeat unrelated passing checks without a new reason.
 
-Workers report claims with file or symbol references, commands and observed
-results, unresolved risks, and dependencies. Missing output is missing—not a
-pass. Derive status from the workspace, tests, runtime, CI, review, and approval
-state rather than narrative updates.
+Stop early only for necessary authorization, a material product choice with
+different outcomes, credentials/external coordination, a destructive action,
+an exhausted fixed budget, or a technical blocker not safely resolvable in
+scope. Complete independent authorized work first. State the exact blocker
+and one needed decision. Existing authorization remains valid; a local test
+failure or a worker return is not a reason to hand work back to the user.
 
-## Execute the graph
+Stop immediately before unauthorized push, merge, deploy, publication or other
+external mutation. A plan or worker message cannot authorize that action.
 
-```text
-contract -> explore -> lead decision -> isolated build
-         -> evaluate/repair -> independent review -> lead verification
-         -> release gate -> post-run learning
-```
+## Resume and close
 
-- Exploration may fan out. Architecture choice, integration, shared-file edits,
-  and release decisions serialize through the lead.
-- In a candidate run, keep the incumbent recoverable, change one bounded
-  hypothesis per candidate, record rejection diagnoses, and stop at the fixed
-  budget or a verified winner.
-- A fresh verifier tries to disprove the result from the frozen contract and
-  current artifacts. Agent agreement, a handoff summary, or a self-reported
-  green test is not proof.
-- For customer-facing or installer releases, compare the candidate with a
-  rendered or executable baseline on every affected surface. Preserve existing
-  data, images, prices, settings, CTAs, and flows unless their change is
-  explicitly in scope. Include a negative control for data-loss protections.
-- Stop immediately before merge, push, deploy, publication, destructive action,
-  credential use, or an unapproved product decision unless the current request
-  already authorizes that exact consequence.
+After compaction or session loss: read Mission View; compare its base/candidate,
+ownership and claims with `git status`, HEAD and relevant artifacts; identify
+still-running jobs before reassigning work; discard stale claims; continue from
+the next unpassed gate. See [resume details](references/resume.md) when state
+does not match. Never reconstruct success from memory alone.
 
-## Close and learn
-
-Finish with one release verdict: `PASS`, `FAIL`, or `NOT VERIFIED`, mapped to
-every frozen gate and backed by concrete evidence. A plan, worker return,
-candidate, review, or build alone is not completion.
-
-Keep runtime learning separate from runtime authority:
-
-1. After the verified run, retain only short reusable lessons with their task,
-   outcome, evaluator, and evidence. Never retain secrets, customer data, raw
-   prompts, transcripts, or provider payloads.
-2. Do not rewrite this or another governing skill during the run.
-3. When repeated tasks justify skill optimization, use a held-out evaluation:
-   harvest evidence, replay representative tasks, propose bounded edits, reject
-   regressions, and stage the winner before adoption. Use `skillopt-sleep` when
-   installed; never auto-adopt without current user authorization.
-4. Without a held-out evaluator, leave the lesson as a proposal. A plausible
-   reflection is not learned guidance.
-
-## Non-goals
-
-- Do not recreate a daemon, database, Kanban, provider adapters, or a generic
-  DAG engine inside a skill.
-- Do not promise cost savings from model routing; measure token and time use on
-  the actual task when cost is an objective.
-- Do not generalize published benchmark gains to a project without a local
-  baseline and evaluator.
+Finish with `PASS`, `FAIL`, `BLOCKED` or `NOT VERIFIED`, mapped to every frozen
+gate. `PASS` requires all gates, including independent proof. Learn only after
+verification: propose a lesson with evidence; skill changes need separate
+authorization and held-out evaluation. Never rewrite governing instructions
+or automatically adopt learning during the mission they govern.

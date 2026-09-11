@@ -1,5 +1,7 @@
 # Example: FPS Booster release
 
+This is an illustrative end-to-end mission. The values below are sample evidence, not a measured run of FPS Booster.
+
 ```text
 $agent-mission-control
 
@@ -9,12 +11,24 @@ preserve every supported profile and setting during upgrade, and stop before
 deploy.
 ```
 
-Mission Control should:
+Mission stages:
 
-- freeze the hardware/workload baseline and data-preservation gates;
-- isolate optimizer, dashboard, and installer ownership after their interfaces
-  are fixed;
-- use a candidate loop only for measured optimizer improvements;
-- require independent runtime, migration, rollback, and rendered UI evidence;
-- return `PASS`, `FAIL`, or `NOT VERIFIED` instead of a confidence statement;
-- leave any skill-learning proposal until after the release run is verified.
+1. Freeze the hardware/workload baseline, supported profiles, crash guard, and rollback gates.
+2. Fix interfaces, then give optimizer, dashboard, and installer to separate native subagents.
+3. Run a candidate loop only for measured optimizer changes; keep the evaluator fixed.
+4. Independently review runtime, migration, rollback, and rendered UI evidence.
+5. Lead verification returns `PASS`, `FAIL`, `BLOCKED` or `NOT VERIFIED`; repair failed gates and rerun affected checks before stopping at deploy.
+Propose skill learning only after the release run is verified.
+
+Illustrative mission record:
+
+```text
+MISSION: fps-booster-release
+STATUS: NOT VERIFIED
+SCOPE: optimizer, dashboard, installer
+GATES: p99 baseline; crash rate; profile preservation; migration; rollback; rendered UI
+EVIDENCE: baseline=sample; candidate=sample; migration=sample; rollback=sample; UI=sample
+DECISION: NOT VERIFIED — sample evidence is not a measured release result
+```
+
+Replace each sample with fresh, reproducible evidence from the target application before calling the mission `PASS`.
