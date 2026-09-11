@@ -1,0 +1,79 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="460" viewBox="0 0 1200 460" role="img" aria-labelledby="title desc">
+  <title id="title">Agent Mission Control</title>
+  <desc id="desc">A glowing orchestration graph connecting a lead agent to focused workers, verification, release, and learning.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#050816"/>
+      <stop offset="0.55" stop-color="#10102a"/>
+      <stop offset="1" stop-color="#071827"/>
+    </linearGradient>
+    <linearGradient id="line" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#8b5cf6"/>
+      <stop offset="1" stop-color="#22d3ee"/>
+    </linearGradient>
+    <radialGradient id="glow">
+      <stop offset="0" stop-color="#22d3ee" stop-opacity="0.42"/>
+      <stop offset="1" stop-color="#22d3ee" stop-opacity="0"/>
+    </radialGradient>
+    <filter id="shadow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="10" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <pattern id="grid" width="32" height="32" patternUnits="userSpaceOnUse">
+      <path d="M32 0H0V32" fill="none" stroke="#94a3b8" stroke-opacity="0.055"/>
+    </pattern>
+  </defs>
+  <rect width="1200" height="460" rx="28" fill="url(#bg)"/>
+  <rect width="1200" height="460" rx="28" fill="url(#grid)"/>
+  <circle cx="920" cy="180" r="260" fill="url(#glow)"/>
+
+  <g fill="none" stroke="url(#line)" stroke-width="2" stroke-opacity="0.55">
+    <path d="M765 120C835 120 825 86 890 86"/>
+    <path d="M765 120C835 120 825 154 890 154"/>
+    <path d="M765 120C835 120 825 222 890 222"/>
+    <path d="M1010 86C1060 86 1038 290 1080 290"/>
+    <path d="M1010 154C1060 154 1038 290 1080 290"/>
+    <path d="M1010 222C1060 222 1038 290 1080 290"/>
+    <path d="M1080 320C1025 370 925 370 870 330" stroke-dasharray="6 8"/>
+  </g>
+
+  <g filter="url(#shadow)">
+    <circle cx="735" cy="120" r="30" fill="#11162f" stroke="#8b5cf6" stroke-width="2"/>
+    <circle cx="920" cy="86" r="18" fill="#0d1b2b" stroke="#22d3ee" stroke-width="2"/>
+    <circle cx="920" cy="154" r="18" fill="#0d1b2b" stroke="#22d3ee" stroke-width="2"/>
+    <circle cx="920" cy="222" r="18" fill="#0d1b2b" stroke="#22d3ee" stroke-width="2"/>
+    <circle cx="1080" cy="290" r="24" fill="#10172c" stroke="#a78bfa" stroke-width="2"/>
+    <circle cx="870" cy="330" r="15" fill="#0c2330" stroke="#34d399" stroke-width="2"/>
+  </g>
+
+  <g font-family="Inter,Segoe UI,Arial,sans-serif">
+    <text x="64" y="92" fill="#22d3ee" font-size="15" font-weight="700" letter-spacing="4">BYENS IT · OPEN SOURCE</text>
+    <text x="64" y="158" fill="#f8fafc" font-size="54" font-weight="800">Agent Mission</text>
+    <text x="64" y="218" fill="url(#line)" font-size="54" font-weight="800">Control</text>
+    <text x="66" y="266" fill="#aebbd0" font-size="19">One lead. Focused agents. Independent proof.</text>
+
+    <g font-size="13" font-weight="700">
+      <rect x="64" y="310" width="154" height="38" rx="19" fill="#8b5cf6" fill-opacity="0.14" stroke="#8b5cf6"/>
+      <text x="89" y="334" fill="#c4b5fd">CONTEXT DIAMOND</text>
+      <rect x="232" y="310" width="82" height="38" rx="19" fill="#22d3ee" fill-opacity="0.12" stroke="#22d3ee"/>
+      <text x="256" y="334" fill="#67e8f9">AVO</text>
+      <rect x="328" y="310" width="112" height="38" rx="19" fill="#34d399" fill-opacity="0.11" stroke="#34d399"/>
+      <text x="353" y="334" fill="#6ee7b7">SKILLOPT</text>
+    </g>
+
+    <g fill="#dbeafe" font-size="11" font-weight="700" text-anchor="middle">
+      <text x="735" y="124">LEAD</text>
+      <text x="920" y="90">01</text>
+      <text x="920" y="158">02</text>
+      <text x="920" y="226">03</text>
+      <text x="1080" y="294">VERIFY</text>
+      <text x="870" y="334">✓</text>
+    </g>
+    <g fill="#7dd3fc" font-size="10" letter-spacing="1.5">
+      <text x="950" y="90">EXPLORE</text>
+      <text x="950" y="158">BUILD</text>
+      <text x="950" y="226">TEST</text>
+      <text x="980" y="334">LEARN ONLY AFTER PROOF</text>
+    </g>
+  </g>
+</svg>
