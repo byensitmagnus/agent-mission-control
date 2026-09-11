@@ -41,6 +41,8 @@ def unsafe_profile(root): replace(root / "examples/codex/.codex/agents/mission_r
 def missing_role(root): (root / "examples/codex/.codex/agents/mission_verifier.toml").unlink()
 def invalid_eval_path(root):
     path = root / "evals/cases.json"; data = json.loads(path.read_text(encoding="utf-8")); data["cases"][0]["fixture"] = {"../escape.txt": "x"}; path.write_text(json.dumps(data), encoding="utf-8")
+def invalid_activation(root):
+    path = root / "evals/cases.json"; data = json.loads(path.read_text(encoding="utf-8")); data["cases"][0]["activation"] = []; path.write_text(json.dumps(data), encoding="utf-8")
 def drive_eval_path(root):
     path = root / "evals/cases.json"; data = json.loads(path.read_text(encoding="utf-8")); data["cases"][0]["fixture"] = {"C:/escape.txt": "x"}; path.write_text(json.dumps(data), encoding="utf-8")
 def eval_ancestor_collision(root):
@@ -64,7 +66,7 @@ def main() -> int:
         false_pass: "overall PASS requires every hard gate PASS", empty_jobs: "empty section Jobs", empty_authority: "empty section Authority",
         ready_job: "invalid job lifecycle status", complete_job: "invalid job lifecycle status",
         unsafe_profile: "unsafe sandbox mode", missing_role: "must be exactly",
-        invalid_eval_path: "unsafe fixture path", drive_eval_path: "unsafe fixture path", eval_ancestor_collision: "conflicting fixture file and directory",
+        invalid_eval_path: "unsafe fixture path", invalid_activation: "invalid activation", drive_eval_path: "unsafe fixture path", eval_ancestor_collision: "conflicting fixture file and directory",
         broken_link: "broken local link", malformed_svg: "malformed SVG", svg_event: "event handler forbidden",
         svg_style_import: "unsafe SVG element style", placeholder: "unfinished placeholder",
     }

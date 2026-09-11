@@ -1,4 +1,34 @@
-# Independent final review — 2026-09-11
+# Adaptive candidate 2: independent review
+
+The historical review below belongs to `358680d`; its old test counts and
+behavioral limitations are not results for the current candidate.
+
+Current reviewer: separate read-only Luna agent with fresh product context
+(no implementation-worker conversations), following its earlier source-only
+research. It inspected actual files/diff, ran the structural validator, 25
+negative controls, packaging tests and fixture tests, and exercised hostile Git
+environment, archive/source parity, source links and the official plugin
+validator. Final code/eval reinspection completed on both Python versions;
+no material runtime, packaging or evaluator defect remained. Its status-record
+findings are resolved in the current Mission View and this review record.
+
+Verdict: PASS for the independent local artifact review. The reviewer
+confirmed the final status-record corrections; no material findings remain.
+Behavioral acceptance remains NOT VERIFIED.
+
+Findings repaired by the lead/workers:
+- Eval README case count and command IDs were stale; updated to eleven/v2.
+- Historical review and current review were not distinguished; marked here.
+- Result template used an obsolete case ID; updated for schema v2.
+- Final archive proof exposed host-dependent text line endings; tracked text
+  now uses LF and opposite autocrlf archive builds preserve every file byte.
+
+Root independently found and repaired inherited Git environment/provenance
+ambiguity in the builder and linked-ancestor gaps in fixture preparation.
+Both changes have executable negative controls. Full current proof is recorded
+in [the candidate log](v0.2-candidate-log.md).
+
+# Historical review: candidate 1 / rubric v1 — 2026-09-11
 
 Reviewer: fresh read-only Sol agent, reasoning high, with requirements and
 current artifacts but no worker conversations or proposed acceptance verdict.

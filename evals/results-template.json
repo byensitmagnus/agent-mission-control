@@ -1,12 +1,12 @@
 {
-  "schema_version": 1,
+  "schema_version": 2,
   "model": "NOT MEASURED",
   "reasoning": "NOT MEASURED",
   "date_utc": "NOT MEASURED",
   "source_commit": "NOT VERIFIED",
   "candidate_snapshot_sha256": "NOT MEASURED",
-  "case": "01-text",
-  "expected_routing": "Direct; no orchestration or fan-out",
+  "case": "01-small-linear",
+  "expected_routing": "Direct local edit",
   "observed_routing": "NOT VERIFIED",
   "prompt_sha256": "NOT MEASURED",
   "fixture_sha256": "NOT MEASURED",
@@ -23,5 +23,9 @@
   "elapsed_seconds": "NOT MEASURED",
   "tokens": "NOT MEASURED",
   "verdict": "NOT VERIFIED",
-  "limitations": ["Schema example; no subject agent has run."]
+  "limitations": [
+    "Schema example; no subject agent has run."
+  ],
+  "activation": "description",
+  "evaluator_sha256": "NOT MEASURED"
 }

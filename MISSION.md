@@ -1,88 +1,98 @@
 schema_version: 1
 overall: NOT VERIFIED
 
-# v0.2 local candidate mission
+# Adaptive v0.2 candidate
 
 ## Goal / Definition of Done
 
-Produce one local v0.2 candidate from the actual baseline, with portable core,
-optional documented Codex profile, durable context/evidence/state contracts,
-nine fixed evalcases, structural tooling, accurate public docs and independent
-review. The frozen contract is [the candidate log](evals/v0.2-candidate-log.md).
+A portable selective runtime, conditional references, safe same-source packages,
+realistic behavioral evals and independent proof. The local implementation is
+complete. Behavioral superiority requires controlled subject runs and remains
+NOT VERIFIED; no static test is substituted for that gate.
 
 ## Base and candidate
 
-Base and candidate-1 parent: `fdbf07fa3443ca454509ca36ace6e2651b9fc2e6`.
-Branch: `feat/local-v0.2-candidate`. Candidate 1 is the current working tree;
-candidate 2 has not been started. Snapshot is recorded in final proof artifacts.
+Public v0.1.0/main: `fdbf07fa3443ca454509ca36ace6e2651b9fc2e6`.
+Local parent: `358680dd4fedb3faf38a4599d1e20ed9a376c0fd`, initially clean.
+Branch: `codex/v0.2-adaptive`. The enclosing commit identifies this candidate.
+The exact final commit/clean-worktree/scan proof is recorded externally after
+commit creation to avoid self-referential hashes in this file.
+Earlier candidate-1 results are explicitly historical.
 
 ## Hard gates
 
 | Gate | Status | Evidence |
 |---|---|---|
-| Baseline identity/public/CI | PASS | Root public API GETs, 2026-09-11T18:59:03Z; public, one successful workflow |
-| Portable core and durable contracts | PASS | Fresh independent review, evals/final-review.md |
-| Safe profile/plugin package | PASS | Root four package tests and official plugin validation |
-| Structural and negative controls | PASS | Root 24 negative controls plus valid states on Python 3.11/3.14 |
-| Nine-case behavioral comparison | NOT VERIFIED | Isolated agent sessions unavailable; see evals/README.md |
-| Independent final review | PASS | evals/final-review.md, no material residual findings |
-| Delivery provenance | NOT VERIFIED | Enclosing Git commit and external delivery report record final clean-tree proof |
+| Repository identity and intact baseline | PASS | Root HEAD/status/remote and baseline archive checks |
+| Selective portable runtime and conditional references | PASS | Current files, structural checks, independent inspection |
+| Same-source skill/plugin packages and integrity | PASS | 12 package tests, both official validators, cross-Python byte equality |
+| Fixture isolation and structural safety | PASS | 25 negative controls and 11 tripled fixture preparations on Python 3.11/3.14 |
+| Controlled behavior and superiority | NOT VERIFIED | Clean authenticated context unavailable; evals/README.md |
+| Independent final review | PASS | Executed final code/eval review; status corrections in evals/final-review.md |
+| Enclosing commit and clean delivery | NOT VERIFIED | Read actual enclosing Git state and external delivery report |
 
 ## Authority
 
-Authorized: one local feature branch, repository edits, bounded subagents,
-safe local tests/disposable fixtures, repairs and one local candidate commit.
-Forbidden: push, merge, release, GitHub settings/security changes, credentials,
-external or destructive actions. Disposable fixture history has no remote and
-is separate from the one candidate commit. No user configuration is installed.
+Local edits, one safe branch, disposable fixtures, tests, repairs, read-only
+sources, bounded agents and one local commit are authorized. No push, merge,
+release, GitHub settings changes, live host installation, destructive cleanup
+or permission bypass. Existing installed governing skills were not changed:
+this repository is the explicitly requested offline product candidate.
 
 ## Jobs
 
 | Job | Agent | Status | Owned scope |
 |---|---|---|---|
-| Orchestration audit | audit_orchestration / Sol | completed | Read-only core |
-| Codex compatibility audit | audit_codex / Sol | completed | Official public sources |
-| Public repo audit | audit_public / Luna | completed | Read-only public GitHub and docs |
-| Validation tooling | audit_orchestration / Sol | completed | Validator, negative tests, workflow |
-| Profile and packaging | audit_codex / Sol | completed | Codex example, UI metadata/icons, packager/tests |
-| Public docs | audit_public / Luna | completed | README, SECURITY, CONTRIBUTING, release example |
-| Integration and proof | Root / Astra | completed | Core, references, templates, evals, final integration |
+| Primary source verification | source_review | completed | Five primary design sources, read-only |
+| Packaging | packaging | completed | Builder and package tests |
+| Eval design and feasibility | evals | completed | Cases/rubric/preparer/tests/eval README |
+| Integration and proof | Lead | completed | Runtime, docs, validator, actual final checks |
+| Independent final review | source_review | completed | Read-only final diff and executable checks |
 
-Three audit packets expected and received. Three implementation packets expected
-and received; root verification and fresh independent final review are complete. No worker owns active
-writes now. Root has reclaimed completed scopes for integration fixes.
+All implementation scopes are returned to the lead. No worker is left writing.
+The reviewer received requirements and artifacts, not implementation dialogue.
+Missing controlled runs are not counted as completed agent jobs.
 
 ## Decisions and evidence
 
-- Keep canonical skill at repository root; plugin builder copies it into the
-  documented `skills/agent-mission-control/` layout. Plugin installation does not
-  install `.codex/config.toml` or `.codex/agents/`; official docs do not promise it.
-- Four distinct optional roles: research, implementation, review, runtime
-  verification; concurrency three excludes root. No daemon or extra dependency.
-- Private vulnerability reporting is disabled (`enabled: false`, public API);
-  security docs use a contact-only public issue until maintainer enables it.
-- Root review found a destructive error-cleanup race in the first packager;
-  repair atomically claims the destination and never deletes on failure.
-- The user permits an honest NOT VERIFIED behavioral result if clean isolated
-  agent runs are unavailable. Structural proof is separately reported.
+Evaluator SHA256(cases bytes || rubric bytes), frozen before runtime writes:
+`2c4f07976eef82371c10029e17e985a4d515c95c246b5c02aae386440f3060ac`.
+
+Candidate hypothesis: phase-specific references reduce irrelevant routing
+constraints while retaining ownership and evidence. Correctness/safety take
+precedence, then completed cases with no regressions. The new candidate is
+retained for review, not accepted as a demonstrated optimization winner.
+
+[The candidate log](evals/v0.2-candidate-log.md) records sources, comparison,
+commands and package hashes. [The 33 records](evals/results/2026-09-11-adaptive.json)
+bind identical inputs across three runtime snapshots. Zero controlled runs.
+One noncontrolled CLI pilot completed a fixture heading; root verified its diff
+and excluded it from comparative scoring. Model savings are not measured.
+
+Root repaired Git-source/environment ambiguity, linked-ancestor escapes in
+fixture preparation, and invalid activation JSON-type handling. All have
+negative controls. A final Git archive byte check also caught host-dependent
+line endings; .gitattributes now fixes text to LF and both autocrlf settings
+produce identical source bytes. The original visual asset Git blobs are unchanged.
 
 ## Blockers
 
-Controlled behavioral comparison: Windows sandbox initialization fails with
-`apply deny-read ACLs`; native workers share filesystem/config context, and
-separate authenticated CLI sessions would require prohibited credential use.
-No technical blocker prevents remaining package verification and local commit.
+Default-profile prompt inspection still contains shared home instructions.
+A clean temporary profile retains the target skill but its client request
+failed HTTP 401 without authentication. The authenticated ephemeral pilot's
+approval-review path also was not fully observed. A clean authenticated isolated
+subject context has not been established without host auth/config setup.
+These limits block behavioral acceptance, not completed local implementation.
 
 ## Next action
 
-Retain this local candidate. The next unpassed functional gate is controlled
-behavioral evaluation in a working isolated agent environment. No further local
-implementation step remains; delivery provenance is read from the enclosing Git
-commit and final report, never inferred from an embedded commit hash.
+Read the enclosing commit and external delivery evidence for the final local
+commit, clean-tree and secret-scan checks. The remaining behavioral gate needs
+a clean authenticated isolated runtime.
+Push, merge and release remain outside the current mandate.
 
 ## Last verified
 
-Baseline commit: `fdbf07fa3443ca454509ca36ace6e2651b9fc2e6`.
-UTC: `2026-09-11T18:59:03Z` for public baseline checks. The candidate working-tree
-snapshot and record timestamps are in evals/results/2026-09-11.json; the final
-delivery report names the exact committed source and its verification time.
+2026-09-11: root executed relevant checks on Python 3.11.9 and 3.14.3.
+Current runtime and evaluator hashes are in the linked comparison record.
+Reconcile actual HEAD, dirty state and external delivery evidence on resume.

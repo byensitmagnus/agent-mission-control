@@ -1,15 +1,31 @@
-# Codex profile example
+# Optional Codex profile
 
-This example adds four project-scoped agents and caps spawned agents at three concurrent threads. The cap excludes the root thread. Review and verification are separate: the reviewer inspects the change for defects, while the verifier runs safe checks against the acceptance criteria.
+The portable skill needs no particular model, provider or companion skill.
+Choose capabilities first: a strong lead owns architecture and integration;
+focused workers handle bounded work; escalate when uncertainty or risk demands
+it. One available agent can work serially, with required independent proof
+left NOT VERIFIED until it is actually available.
 
-Apply it manually in a trusted project:
+The TOML files here are one optional example, not runtime policy:
 
-1. Diff `examples/codex/.codex/config.toml` against the project's existing `.codex/config.toml`. Confirm the exact merge before changing an existing file, then merge only the settings you want. Never replace the whole file.
-2. Diff each file in `examples/codex/.codex/agents/` against an agent with the same name. Confirm each overwrite or merge before changing an existing file, then add or merge it individually. Never replace existing roles or `AGENTS.md` wholesale.
-3. Start a new Codex task and confirm the four roles are available before relying on them.
+| Responsibility | Example model | Write scope |
+|---|---|---|
+| Lead | Astra | Architecture, integration, final evidence |
+| Investigation | Luna | Read-only |
+| Implementation | Terra | One assigned workspace scope |
+| Runtime verification | Terra | Read-only; authorized disposable test outputs as needed |
+| Review | Sol | Read-only, separate from implementation |
 
-The model IDs and reasoning efforts are current documented examples. Availability varies by account, rollout, sign-in method, and client. These choices do not promise a particular price or usage level; select available alternatives when needed.
+The example caps subagents at three concurrent threads. It does not require
+four roles or any fan-out. Available model names, effort levels and client
+support vary; substitute available models after checking the actual client.
+Measure actual usage when cost matters; no savings are established here.
 
-The plugin package does not copy or install this profile. Adding project configuration is always a separate, explicit action.
+Apply only the settings explicitly wanted in a trusted project. Inspect diffs
+against existing `.codex/config.toml` and `.codex/agents/*.toml`; preserve
+unrelated settings and existing roles. Installing the plugin does not apply
+this example or modify `AGENTS.md`. This development task has not installed
+it on a host or verified live discovery.
 
-The packaging script never overwrites a destination. If copying fails after it creates the destination, it leaves that incomplete folder in place and reports the error so you can inspect it safely.
+[Compatibility and format sources](compatibility.md) explain what the example
+assumes. The core remains usable when these provider-specific files are absent.

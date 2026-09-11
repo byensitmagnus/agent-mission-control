@@ -18,6 +18,12 @@ def digest(data):
     return hashlib.sha256(data).hexdigest()
 
 
+def load_evaluator():
+    cases_bytes = (ROOT / "evals/cases.json").read_bytes()
+    rubric_bytes = (ROOT / "evals/rubric.md").read_bytes()
+    return json.loads(cases_bytes), digest(cases_bytes + rubric_bytes)
+
+
 def relative_path(value):
     path = PurePosixPath(value)
     if (not value or path.is_absolute() or ".." in path.parts
@@ -56,12 +62,24 @@ def git_environment():
     return env
 
 
+def reject_linked_ancestors(path, label):
+    for current in (path.absolute(), *path.absolute().parents):
+        if not current.exists() and not current.is_symlink():
+            continue
+        attributes = getattr(current.lstat(), "st_file_attributes", 0)
+        if current.is_symlink() or attributes & 0x400:
+            raise ValueError(f"linked {label} is not allowed: {current}")
+
+
 def prepare(case_id, destination, skill_source):
-    cases = json.loads((ROOT / "evals/cases.json").read_text(encoding="utf-8"))["cases"]
+    evaluator, evaluator_hash = load_evaluator()
+    cases = evaluator["cases"]
     case = next((item for item in cases if item["id"] == case_id), None)
     if case is None:
         raise ValueError(f"unknown case: {case_id}")
     paths = fixture_paths(case["fixture"])
+    reject_linked_ancestors(skill_source, "skill source or ancestor")
+    reject_linked_ancestors(destination.parent, "destination parent or ancestor")
     if not (skill_source / "SKILL.md").is_file():
         raise ValueError("skill source has no SKILL.md")
     # Fixtures and copied skill files are data, not arbitrary filesystem imports.
@@ -106,8 +124,11 @@ def prepare(case_id, destination, skill_source):
     run("add", "--", ".")
     run("commit", "--quiet", "-m", "Disposable eval fixture")
     fixture_commit = run("rev-parse", "HEAD")
-    prompt = ("Use $agent-mission-control from .agents/skills/agent-mission-control.\n\n"
-              + case["prompt"] + "\n\n"
+    activation = case["activation"]
+    skill_instruction = ("Use $agent-mission-control from "
+                         ".agents/skills/agent-mission-control.\n\n"
+                         if activation == "explicit" else "")
+    prompt = (skill_instruction + case["prompt"] + "\n\n"
               "Work only in this disposable workspace. Local inspection, edits and "
               "safe tests are authorized unless the task is read-only. No credentials, "
               "network mutations, push, deploy or publication. Do not edit the installed "
@@ -116,7 +137,12 @@ def prepare(case_id, destination, skill_source):
     skill_hashes = {path.relative_to(skill).as_posix(): digest(path.read_bytes())
                     for path in sorted(skill.rglob("*")) if path.is_file()}
     manifest = {
-        "schema_version": 1, "case": case_id, "fixture_commit": fixture_commit,
+        "schema_version": 2, "case": case_id, "activation": activation,
+        "fixture_commit": fixture_commit,
+        "evaluator_sha256": evaluator_hash,
+        "case_definition_sha256": digest(json.dumps(
+            case, sort_keys=True, separators=(",", ":")
+        ).encode()),
         "prompt_sha256": digest(prompt.encode()),
         "fixture_sha256": {name: digest(text.encode()) for name, text in case["fixture"].items()},
         "skill_files_sha256": skill_hashes,

@@ -1,0 +1,2 @@
+# Keep text snapshots byte-stable across Windows and Unix.
+* text=auto eol=lf

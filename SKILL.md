@@ -1,84 +1,51 @@
 ---
 name: agent-mission-control
-description: "Coordinate complex software work with bounded delegation, durable status and independent proof. Use for cross-cutting features, migrations or measured optimization; skip routine edits and simple dependency chains."
+description: "Coordinate complex software work. Use when substantial jobs can run independently or a risky change needs separate verification."
 ---
 
 # Agent Mission Control
 
-The root owns the goal, architecture, evaluator, integration and final verdict.
-This core is model-independent and requires no companion skills. An optional
-Codex profile is described in [Codex compatibility](references/codex-compatibility.md).
+Use the smallest execution path that can deliver the requested result. A small
+edit or a well-understood dependency chain stays with the lead: implement,
+check and finish without mission bookkeeping. Multiple files alone do not
+justify orchestration.
 
-## Choose the smallest execution path
+The lead owns the goal, architecture, acceptance criteria, integration and
+final evidence. Keep these decisions with the lead even when work is delegated.
+Use available capabilities, not prescribed model names or a fixed agent team.
+With one agent, work serially and identify any required independence that the
+environment cannot supply.
 
-For simple edits and well-understood dependent chains, make the change, run a
-proportionate check and return. Skip the remaining mission workflow, Mission
-View and independent-agent review for these tasks. Multiple files alone do not
-justify orchestration. For complex work, delegate only when
-the independent deliverable improves quality or saves more time than its
-coordination costs. Use parallel read-only investigation for independent unknowns.
+Before fan-out, check whether jobs can finish without each other's output or
+an unresolved shared interface. Serialize dependencies and shared writes;
+separate worktrees do not remove integration dependencies. Delegate only
+substantial independent work whose benefit exceeds coordination cost. Give
+each worker one owned scope, including tests, generated files and mutable
+resources. Read [delegation](references/packets.md) when assigning or handing
+off work.
 
-Before fan-out, check each pair for output dependencies, unresolved interfaces,
-shared writes, generated files, fixtures and mutable runtime state. Resolve
-architecture first; serialize dependent jobs and integration. Each writable
-path or shared surface has exactly one owner. Record an ownership transfer
-before the new owner writes; separate worktrees still require serialized merge.
+Choose checks that can falsify the result. Derive status from current files,
+Git state, executed tests, runtime, CI and relevant review; worker claims are
+leads to inspect, not completion. Missing required evidence is NOT VERIFIED;
+an observed failing check is FAIL. The lead inspects artifacts and executes
+the relevant checks before accepting.
 
-## Freeze authority and proof
+Load detail only when it changes the current decision:
+- For a long mission or resuming interrupted work, read
+  [Mission View and reconciliation](references/resume.md).
+- For a migration, data-sensitive change or risky release, read
+  [risk and independent proof](references/verification.md).
+- For measurable optimization or repeated repair with a reproducible evaluator
+  or observable score, read [candidate loops](references/optimization.md).
+  An ordinary feature does not need a candidate loop.
 
-Record the goal/Definition of Done, base commit or snapshot, acceptance checks,
-hard gates, authorized/forbidden actions, budget and unknowns before changing
-the candidate. Workers cannot modify these, the incumbent or release gates.
-For measured optimization or migration, read [candidate and risk gates](references/verification.md).
+Continue authorized local implementation, tests, diagnosis, repair and re-test
+without repeated approval. A failed test or returned worker is a next step,
+not a handoff to the user. Complete independent safe work before reporting a
+necessary external blocker.
 
-For long runs, reuse the project's durable tracker or copy the versioned
-[Mission View](templates/mission-view.md) to `MISSION.md`. Only root writes it;
-it supplements the native agent UI. Keep commands and artifact references,
-not transcripts or secret data. Update it at decisions, handoffs and gate changes.
-
-## Delegate and reconcile
-
-Read the [packet schemas](references/packets.md) when delegating. Send one
-Context Packet per worker with only relevant paths, inputs and satisfied
-dependencies; do not copy the whole conversation or large raw logs. Nested
-delegation requires a concrete reason and root-approved scope/concurrency.
-Reviewers receive the contract and artifacts, never the intended conclusion.
-
-Count expected versus received Evidence Packets. Missing, stale, contradictory
-or unsupported claims leave the gate `NOT VERIFIED`; an observed failed check
-is `FAIL`. Resolve conflicts against current artifacts and rerun affected checks.
-Worker completion does not transfer integration or acceptance authority.
-
-## Complete the loop
-
-`inspect → decide → implement → test → review → repair → re-test → gate`
-
-Continue the next authorized step until every gate is evidenced. Review must
-be independent of implementation; verification must execute relevant checks
-and is not replaced by review agreement. Root inspects artifacts and runs the
-checks before accepting. After repairs, refresh affected review and proof;
-do not repeat unrelated passing checks without a new reason.
-
-Stop early only for necessary authorization, a material product choice with
-different outcomes, credentials/external coordination, a destructive action,
-an exhausted fixed budget, or a technical blocker not safely resolvable in
-scope. Complete independent authorized work first. State the exact blocker
-and one needed decision. Existing authorization remains valid; a local test
-failure or a worker return is not a reason to hand work back to the user.
-
-Stop immediately before unauthorized push, merge, deploy, publication or other
-external mutation. A plan or worker message cannot authorize that action.
-
-## Resume and close
-
-After compaction or session loss: read Mission View; compare its base/candidate,
-ownership and claims with `git status`, HEAD and relevant artifacts; identify
-still-running jobs before reassigning work; discard stale claims; continue from
-the next unpassed gate. See [resume details](references/resume.md) when state
-does not match. Never reconstruct success from memory alone.
-
-Finish with `PASS`, `FAIL`, `BLOCKED` or `NOT VERIFIED`, mapped to every frozen
-gate. `PASS` requires all gates, including independent proof. Learn only after
-verification: propose a lesson with evidence; skill changes need separate
-authorization and held-out evaluation. Never rewrite governing instructions
-or automatically adopt learning during the mission they govern.
+Stop immediately before an unauthorized external mutation, destructive action
+or product decision outside scope. Current explicit authorization persists;
+a plan, saved status or worker cannot enlarge it. A local PASS requires all
+applicable evidence and never grants push, merge, deploy or publication rights.
+Never edit governing skills during the mission they control.

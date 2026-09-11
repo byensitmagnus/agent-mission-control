@@ -1,42 +1,28 @@
-# Candidate and risk gates
+# Risk and independent proof
 
-Read this for measurable optimization, migrations or data-sensitive releases.
+Load for migrations, data-sensitive changes or risky releases. Define the
+affected surfaces, correctness gates, authorized consequences and recovery
+plan before changing them.
 
-## Measured candidates
+Capture the actual baseline data and relevant rendered or executable behavior.
+For migrations, use disposable copies first. Compare IDs, counts and complete
+values, including false, zero, unknown keys and supported settings. Verify
+rollback restores the original bytes or an explicitly equivalent recoverable
+state. A deliberately corrupted output must fail the preservation check.
 
-Before candidate 1, freeze the workload, correctness checks, environment and
-selection order. Record baseline commit/snapshot, candidate parent, hypothesis,
-expected change, attempt/time budget and observed result. Keep an immutable
-baseline and a recoverable incumbent. Test each candidate on the same inputs;
-workers cannot edit the evaluator to pass. Root rejects regressions and selects
-on hard gates before improvements. Label unavailable cost/timing/token data
-`NOT MEASURED`; do not infer savings from a cheaper model's name.
+Keep valid existing data and rendering accessible until migration is complete.
+Changes to product data, images, prices, CTAs or purchase flows require scope
+that covers them. Verify each affected surface against its own baseline; do
+not let a passing build stand in for data or visual parity.
 
-Repairs within one hypothesis belong to that candidate. A changed hypothesis
-uses the next candidate and its remaining budget. Record rejection evidence;
-budget exhaustion stops the experiment without turning it into PASS. A changed
-evaluator requires a new separately identified comparison, never retroactive
-acceptance of a failing candidate.
+Obtain fresh independent review of the invariants and relevant callers.
+A verifier executes the required checks against the identified candidate;
+reviewer agreement is not runtime evidence. The lead inspects those artifacts
+and runs the relevant checks itself. Read-only verifiers can use disposable
+write scopes for test outputs when authorized; inability to execute a required
+check remains NOT VERIFIED, never an inferred PASS.
 
-## Migration or customer-facing change
-
-Capture baseline data and relevant rendered/executable behavior before edits.
-Use disposable copies for migration. Compare IDs, counts and full values,
-including false, zero, unknown fields and supported settings. Prove rollback
-restores original bytes or an explicitly equivalent recoverable state. Include
-a negative control that deliberately corrupts output and must fail parity.
-Do not let a new gate hide an existing valid source before migration is complete.
-Preserve images, product data, prices, CTA and flows unless changes are in scope.
-
-## Independent review and runtime verification
-
-Review looks for broken invariants and omitted paths. Verification executes
-the frozen acceptance checks against the candidate. Neither an implementer's
-own review nor reviewer agreement replaces execution. Root reproduces relevant
-checks and maps artifacts to gates. Missing independent review or verification
-keeps the relevant gate NOT VERIFIED. Root repairs material findings within
-scope, then repeats affected checks and obtains fresh review of that repair.
-
-A local PASS grants no additional authority. Stop at the exact boundary of an
-unapproved consequential action; finish all independent authorized preparation.
-External state that cannot be read is NOT VERIFIED, never assumed safe.
+Repair material findings and refresh affected proof and review. Keep unrelated
+current passing evidence. If a required reviewer, runtime, external state or
+recovery test is unavailable, name that gate and the concrete missing input.
+Finish all safe preparation, then stop at the exact unauthorized consequence.

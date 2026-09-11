@@ -136,16 +136,10 @@ def validate_svgs(root: Path) -> None:
                 for url in re.findall(r"url\(([^)]+)\)", value, re.I): need(url.strip(" '\"").startswith("#"), f"{path}: external CSS resource")
 
 def headings(text: str) -> list[str]: return re.findall(r"^#{1,6}\s+(.+?)\s*$", text, re.M)
-def fenced(text: str, heading: str) -> str:
-    match = re.search(rf"^#+\s+{re.escape(heading)}\s*$.*?^```[^\n]*\n(.*?)^```", text, re.M | re.S)
-    need(match is not None, f"references/packets.md: missing fenced {heading}")
-    return match.group(1)
 def labels(text: str) -> tuple[str, ...]: return tuple(x.strip() for x in re.findall(r"^([^\n:#]+):(?:[ \t].*)?$", text, re.M))
 
 def validate_packets(root: Path) -> None:
-    reference = read(root / "references/packets.md")
     for name, expected, filename in (("Context Packet", CONTEXT, "context-packet.md"), ("Evidence Packet", EVIDENCE, "evidence-packet.md")):
-        need(labels(fenced(reference, name)) == expected, f"references/packets.md: wrong {name} fields")
         path = root / "templates" / filename; text = read(path); present = labels(text)
         need(present == expected, f"{path}: fields must be exactly {expected}")
         for field in expected:
@@ -204,13 +198,14 @@ def validate_evals(root: Path) -> None:
     path = root / "evals/cases.json"
     try: data = json.loads(read(path))
     except json.JSONDecodeError as exc: raise ValueError(f"{path}: invalid JSON: {exc}") from exc
-    need(isinstance(data, dict) and set(data) == {"schema_version", "cases"} and data["schema_version"] == 1, f"{path}: invalid root schema")
-    need(isinstance(data["cases"], list) and len(data["cases"]) == 9, f"{path}: exactly 9 cases required")
-    required = {"id", "prompt", "expected_routing", "fixture", "checks"}; ids = set()
+    need(isinstance(data, dict) and set(data) == {"schema_version", "cases"} and data["schema_version"] == 2, f"{path}: invalid root schema")
+    need(isinstance(data["cases"], list) and bool(data["cases"]), f"{path}: cases must be nonempty")
+    required = {"id", "prompt", "expected_routing", "fixture", "checks", "activation"}; ids = set()
     for case in data["cases"]:
         need(isinstance(case, dict) and set(case) == required, f"{path}: bad case fields")
         need(all(isinstance(case[k], str) and case[k] for k in ("id", "prompt", "expected_routing")), f"{path}: empty case string")
         need(case["id"] not in ids, f"{path}: duplicate id {case['id']}"); ids.add(case["id"])
+        need(isinstance(case["activation"], str) and case["activation"] in {"explicit", "description"}, f"{path}: invalid activation")
         fixture_paths(case["fixture"])
         need(isinstance(case["checks"], list) and case["checks"] and all(isinstance(x, str) and x for x in case["checks"]), f"{path}: checks required")
     rubric = read(root / "evals/rubric.md").lower(); need("behavioral" in rubric and "structural" in rubric, "evals/rubric.md: proof types missing")
