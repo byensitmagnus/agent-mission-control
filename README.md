@@ -1,29 +1,63 @@
 <p align="center">
-  <img src="assets/mission-control.svg" alt="Agent Mission Control" width="100%" />
+  <img src="docs/assets/cover.jpg" alt="Agent Mission Control — adaptive workflows for coding agents, illustrated as a lead coordinating focused work and verification" width="100%" />
 </p>
 
-<p align="center"><strong>One lead. Focused agents. Measurable progress. Independent proof.</strong></p>
+# Agent Mission Control
 
-<p align="center">
-  <a href="https://github.com/byensitmagnus/agent-mission-control/actions/workflows/validate.yml"><img src="https://github.com/byensitmagnus/agent-mission-control/actions/workflows/validate.yml/badge.svg" alt="Structural validation" /></a>
-  <a href="https://github.com/byensitmagnus/agent-mission-control/releases"><img src="https://img.shields.io/github/v/release/byensitmagnus/agent-mission-control?color=8b5cf6" alt="Published release" /></a>
-  <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-22d3ee" alt="MIT License" /></a>
+**One objective. The smallest useful workflow. Evidence you can inspect.**
+
+Agent Mission Control is an open-source **AI agent orchestration skill for Codex**
+and compatible coding-agent hosts. This standalone candidate brings adaptive
+workflows, scoped context packs, measurable optimization and independent
+verification behind one entrypoint. Your host provides agents and tools; AMC
+selects the useful work and the context each task needs.
+
+<p>
+  <a href="https://github.com/byensitmagnus/agent-mission-control/actions/workflows/validate.yml"><img src="https://github.com/byensitmagnus/agent-mission-control/actions/workflows/validate.yml/badge.svg?branch=codex%2Fv0.2-adaptive" alt="Candidate structural and package checks" /></a>
+  <a href="https://github.com/byensitmagnus/agent-mission-control/releases/tag/v0.1.0"><img src="https://img.shields.io/badge/published-v0.1.0-8b5cf6" alt="Published version 0.1.0" /></a>
+  <img src="https://img.shields.io/badge/v0.2-experimental-f0b35b" alt="Version 0.2 is experimental" />
+  <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-22d3ee" alt="MIT license" /></a>
 </p>
 
-Agent Mission Control turns one software objective into the smallest useful
-workflow and verifies completion. The lead owns architecture and integration.
-Clear edits stay direct; scouts, workers and loops are added only when useful.
-The core works without companion skills or a custom runtime.
+[Use the skill](#use-the-skill) · [Build and install](#build-and-install) · [Optional Codex profile](examples/codex/README.md) · [Evaluation report](evals/v0.2-standalone-candidate.md)
 
-This is an **unreleased standalone candidate**. Current work and proof are in
-[the standalone report](evals/v0.2-standalone-candidate.md) and [MISSION](MISSION.md). The following comparisons are retained history. The [previous qualification](evals/v0.2-qualification.md)
-ended **FAIL** after 19 controlled subjects. [Iteration 2](evals/v0.2-control-candidate.md) narrowed activation
-and removes competing execution ownership. It is staged for review; improved
-engineering outcomes and token savings remain **NOT VERIFIED**.
+> **Experimental candidate — not a verified replacement for v0.1.0.**
+> Six focused agent sessions exposed both useful behavior and correctness
+> failures. General engineering gains, token savings and native project-role
+> loading remain **NOT VERIFIED**. See the [full results and limitations](evals/v0.2-standalone-candidate.md).
 
-[Design sources and license decisions](references/provenance.md) explains the adopted and
-rejected mechanisms. Native sessions, tools and context management remain with
-Codex or the host.
+## A workflow that fits the task
+
+```mermaid
+flowchart LR
+    A["Objective + constraints"] --> B{"Lead routes"}
+    B --> C["Direct work"]
+    B --> D["Scoped agents"]
+    C --> E["Verify current result"]
+    D --> F["Lead integrates"]
+    F --> E
+    E --> G["Evidence + verdict"]
+```
+
+Scouting, optimization, independent review, repair and post-run learning are
+added only when the task warrants them. Native sessions and tools remain with
+Codex or the host. There is no extra daemon, mandatory companion skill or
+custom workflow engine to install.
+
+| Included | Purpose |
+|---|---|
+| Task-specific context packs | Give each worker the relevant question, inputs, authority and acceptance check. |
+| Conditional workflow references | Load routing, optimization, review or recovery detail when useful. |
+| Resource and learning boundaries | Use observed usage; evaluate lessons separately from live execution. |
+| Portable packages | Build the same runtime as a skill folder or Codex plugin. |
+
+Context packs limit handoffs; they do not create a security sandbox. Shared
+host instructions and filesystem access may still apply.
+
+[Source and license decisions](references/provenance.md) explain adopted and
+rejected mechanisms. [MISSION](MISSION.md) records development state.
+The [earlier qualification](evals/v0.2-qualification.md) and
+[iteration 2 report](evals/v0.2-control-candidate.md) preserve previous results.
 
 ## One execution owner
 
