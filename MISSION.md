@@ -111,3 +111,23 @@ Source/runtime safety checks pass; overall remains NOT VERIFIED for replacement
 because a clean comparative outcome, broad behavior preservation and complete
 custom-role activation are not proven. No more subjects are authorized by this
 frozen experiment; no global adoption or publication is performed.
+
+## Active iteration 4: native attribution before a substantive canary
+
+Prior iterations above remain historical. Start: codex/v0.2-adaptive at
+f82187da443469acdf5d3cf22432787420593457, clean; 98 tracked files pinned in
+external proof/validation-4/incumbent-lock.json. Current authority allows local
+changes, bounded experiments, review and a local commit; no push/merge/publish,
+remote settings, global installation/config changes or permission bypass.
+
+One native Luna attribution probe completed, but the exact skill body could not
+be read and intended role settings did not take effect. Host command policy
+blocked actual file operations. Second launcher rejected by automatic approval
+review before execution. No canary or v3 run: their activation precondition failed.
+Independent local work adds a development preservation diagnostic and a narrow
+optimization-reference clarification, without modifying frozen evaluations.
+
+Current verdict: NOT VERIFIED. A small source change and green local checks do
+not establish native activation or replacement readiness. Next: resolve the
+native launcher/permission attribution blocker, then one attributable canary.
+See [iteration 4 evidence and decisions](evals/v0.2-runtime-validation.md).

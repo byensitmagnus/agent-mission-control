@@ -12,6 +12,14 @@ the existing record. Accept only a strict improvement under the frozen rule with
 no higher-priority regression; ties keep the incumbent. Workers cannot change the
 evaluator or acceptance. A changed evaluator starts a separate baseline comparison.
 
+Before optimizing, identify accepted inputs and observable behavior that the
+visible evaluator does not cover. Use the recoverable incumbent for a small
+differential check of those cases (for example: input types, equality, ordering,
+first-value retention and mutation). A faster benchmark cannot justify narrowing
+that contract. On a preservation mismatch, reject or repair the candidate; keep
+the incumbent until the relevant checks pass. Added diagnostics are a separate
+development comparison and must not silently alter a frozen evaluation.
+
 Repair from observed failures. After two consecutive non-improvements or evaluator
 drift, inspect raw evidence and lineage before changing the hypothesis. Before
 another candidate, apply the [resource checkpoint](resources.md); do not repeat

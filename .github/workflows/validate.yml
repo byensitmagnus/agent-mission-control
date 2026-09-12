@@ -24,5 +24,7 @@ jobs:
         run: python scripts/test_validate.py
       - name: Test disposable eval fixture preparation
         run: python scripts/test_prepare_eval.py
+      - name: Check preservation diagnostic controls
+        run: python evals/preservation_check.py --self-check
       - name: Test plugin packaging
         run: python scripts/test_package_plugin.py
