@@ -97,7 +97,7 @@ def _validate_default_source(source: Path) -> None:
     if os.path.normcase(str(top_level)) != os.path.normcase(str(source)):
         raise ValueError(f"default source is not the repository root: {source}")
     origin = _git(source, "config", "--local", "--no-includes", "--get", "remote.origin.url")
-    if origin != EXPECTED_ORIGIN:
+    if origin not in {EXPECTED_ORIGIN, EXPECTED_ORIGIN.removesuffix(".git")}:
         raise ValueError(f"unexpected default source origin: {origin!r}")
 
 

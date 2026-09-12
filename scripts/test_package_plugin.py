@@ -202,6 +202,30 @@ class PackagePluginTests(unittest.TestCase):
                         package(wrong_destination)
             self.assertFalse(wrong_destination.exists())
 
+    def test_default_source_accepts_canonical_https_spellings_only(self) -> None:
+        origins = (
+            (EXPECTED_ORIGIN, True),
+            (EXPECTED_ORIGIN.removesuffix(".git"), True),
+            (EXPECTED_ORIGIN + ".evil", False),
+            (EXPECTED_ORIGIN.replace("github.com", "github.com.example.invalid"), False),
+            (EXPECTED_ORIGIN.replace("byensitmagnus", "another-owner"), False),
+            (EXPECTED_ORIGIN.replace("https://", "http://"), False),
+        )
+        for origin, accepted in origins:
+            with self.subTest(origin=origin), tempfile.TemporaryDirectory() as temporary:
+                root = Path(temporary)
+                source = make_source(root)
+                init_repo(source, origin)
+                destination = root / "output" / PLUGIN_NAME
+                with patch("package_plugin.SOURCE_ROOT", source):
+                    if accepted:
+                        package(destination, package_format="skill")
+                        assert_skill_bytes(self, source, destination)
+                    else:
+                        with self.assertRaisesRegex(ValueError, "unexpected default source origin"):
+                            package(destination, package_format="skill")
+                        self.assertFalse(destination.exists())
+
     def test_default_source_ignores_injected_git_repository_environment(self) -> None:
         with tempfile.TemporaryDirectory() as temporary:
             root = Path(temporary)
