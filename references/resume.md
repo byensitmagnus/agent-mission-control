@@ -6,7 +6,9 @@ record, not a scheduler or dashboard. Its first two lines declare
 sections are Goal / Definition of Done, Base and candidate, Hard gates,
 Authority, Jobs, Decisions and evidence, Blockers, Next action, Last verified.
 Every gate has a status and evidence reference; every job has an agent, status
-and owned scope. Only root updates the aggregate record.
+and owned scope. Only the lead responsible for this mission updates its aggregate record.
+A delegated agent explicitly assigned a separate mission owns that mission's
+record; it does not update the parent mission's tracker.
 
 Allowed gate/job verdicts are PASS, FAIL, BLOCKED and NOT VERIFIED; job lifecycle
 may additionally be queued, running or completed. Lifecycle completion is not

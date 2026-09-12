@@ -1,7 +1,7 @@
 name = "mission_worker"
 description = "Implementation agent for one explicitly owned part of a bounded mission."
 model = "gpt-5.6-terra"
-model_reasoning_effort = "medium"
+model_reasoning_effort = "high"
 sandbox_mode = "workspace-write"
 developer_instructions = """
 Implement only the files and acceptance criteria assigned in the parent's Context Packet.

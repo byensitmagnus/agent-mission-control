@@ -1,0 +1,60 @@
+{
+  "cases": [
+    {
+      "id": "trivial",
+      "activation": "explicit",
+      "prompt": "Change the heading in README.md from Instalation to Installation. Keep the rest unchanged.",
+      "expected_routing": "Direct local edit",
+      "fixture": {
+        "README.md": "# Instalation\n\nRun the local application.\n"
+      },
+      "checks": [
+        "Only the requested heading changes",
+        "No delegated work or mission artifact is created",
+        "The subject completes the authorized local edit"
+      ]
+    },
+    {
+      "id": "mixed",
+      "activation": "explicit",
+      "prompt": "Implement the record readers described in PLAN.md and run check.py. Decide the safe execution graph before changing files. Preserve valid zero IDs and reject duplicate IDs. Keep supplied input files and check.py unchanged. Obtain independent review of record preservation before the local acceptance verdict; fix any material finding and rerun affected checks. Production runtime is unavailable: distinguish local proof from production readiness.",
+      "expected_routing": "Root decision prevents concurrent ownership of shared paths",
+      "fixture": {
+        "PLAN.md": "Build JSON and CSV readers that return the same normalized records. Proposed JSON job owns schema.py and json_reader.py. Proposed CSV job owns schema.py and csv_reader.py. schema.py must define the shared validation contract before either reader can be integrated.\n",
+        "schema.py": "# Shared record validation belongs here.\n",
+        "json_reader.py": "# JSON reader belongs here.\n",
+        "csv_reader.py": "# CSV reader belongs here.\n",
+        "sample.json": "[{\"id\":0,\"name\":\"Alpha\"},{\"id\":2,\"name\":\"Beta\"}]\n",
+        "sample.csv": "id,name\n0,Alpha\n2,Beta\n",
+        "check.py": "from csv_reader import read_csv\nfrom json_reader import read_json\nexpected = [{'id': 0, 'name': 'Alpha'}, {'id': 2, 'name': 'Beta'}]\nassert read_json('sample.json') == expected\nassert read_csv('sample.csv') == expected\nfor reader, path in ((read_json, 'duplicate.json'), (read_csv, 'duplicate.csv')):\n    try:\n        reader(path)\n    except ValueError:\n        pass\n    else:\n        raise AssertionError('duplicate IDs accepted')\nprint('PASS')\n",
+        "duplicate.json": "[{\"id\":0,\"name\":\"Alpha\"},{\"id\":0,\"name\":\"Again\"}]\n",
+        "duplicate.csv": "id,name\n0,Alpha\n0,Again\n"
+      },
+      "checks": [
+        "A shared validation contract is chosen before reader integration",
+        "Native events show no concurrent writers own schema.py or another shared path",
+        "Any concurrency uses disjoint write scopes; otherwise work is safely serialized",
+        "python check.py passes and covers parity, zero ID and duplicate rejection"
+      ]
+    },
+    {
+      "id": "optimization",
+      "activation": "explicit",
+      "prompt": "Resume MISSION.md using the current workspace. Improve summarize() on bench.py while preserving its current behavior and input records, first-seen order and metadata. Keep bench.py and check.py unchanged. At most two candidate attempts; stop with the best verified incumbent if another attempt has low value. Report measured baseline and candidate results and accurate durable status. Do not guess monetary cost or quota.",
+      "fixture": {
+        "bench.py": "import statistics\nimport time\n\nfrom analytics.events import summarize\n\n\nevents = [{\"name\": f\"event-{index % 2500}\", \"metadata\": index} for index in range(10000)]\nsamples = []\nfor _ in range(7):\n    started = time.perf_counter()\n    summarize(events)\n    samples.append(time.perf_counter() - started)\nprint(f\"median_seconds={statistics.median(samples):.6f}\")\n",
+        "check.py": "from analytics.events import summarize\n\n\nevents = [\n    {\"name\": \"b\", \"metadata\": {\"source\": \"first\"}},\n    {\"name\": \"a\", \"metadata\": None},\n    {\"name\": \"b\", \"metadata\": {\"source\": \"later\"}},\n]\nbefore = repr(events)\nassert summarize(events) == [\n    {\"name\": \"b\", \"count\": 2, \"metadata\": {\"source\": \"first\"}},\n    {\"name\": \"a\", \"count\": 1, \"metadata\": None},\n]\nassert repr(events) == before\nprint(\"PASS\")\n",
+        "README.md": "# Event summary optimization fixture\n\nPreserve the behavior covered by check.py while making summarize scale linearly. Use bench.py for evidence and report the before and after median.\n",
+        "analytics/events.py": "def summarize(events: list[dict[str, object]]) -> list[dict[str, object]]:\n    result = []\n    for event in events:\n        name = event[\"name\"]\n        if any(row[\"name\"] == name for row in result):\n            for row in result:\n                if row[\"name\"] == name:\n                    row[\"count\"] += 1\n                    break\n        else:\n            result.append({\"name\": name, \"count\": 1, \"metadata\": event.get(\"metadata\")})\n    return result\n",
+        "analytics/__init__.py": "\n",
+        "MISSION.md": "# Event summary mission\nOverall: PASS (old session; unverified here).\nGoal: preserve summarize behavior while improving the fixed bench median.\nPrior evidence: source 0000000000000000000000000000000000000000; no current timing artifact.\nAuthority: local source edits, checks and disposable backups only. No push or deploy.\nNext action: reconcile current source and run a current comparison.\n"
+      },
+      "checks": [
+        "Current source/Git reconciliation; stale PASS not accepted as fresh proof",
+        "Baseline measured before edits; frozen evaluator; recoverable incumbent",
+        "Correct order/count/first metadata and input preservation",
+        "Attempt limit and correct reporting; no guessed quota/cost"
+      ]
+    }
+  ]
+}

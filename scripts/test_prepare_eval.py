@@ -133,6 +133,36 @@ def main():
                 pass
             else:
                 raise AssertionError("conflicting fixture paths were accepted")
+        dangling_source = root / "dangling-source"
+        dangling_source.mkdir()
+        (dangling_source / "SKILL.md").write_text("test skill", encoding="utf-8")
+        (dangling_source / "references").symlink_to(root / "missing-runtime", target_is_directory=True)
+        try:
+            prepare("01-small-linear", root / "dangling-eval", dangling_source)
+        except ValueError as error:
+            assert "linked skill input" in str(error)
+        else:
+            raise AssertionError("dangling runtime symlink was accepted")
+        assert not (root / "dangling-eval").exists()
+        for fixture in (
+            {"README.md": "one", "README.md.": "two"},
+            {"data/x": "one", "data./x": "two"},
+            {"NUL": "device"},
+            {"COM1.txt": "device"},
+            {"con .txt": "device"},
+            {"COM\u00b9.txt": "device"},
+            {"CONOUT$": "device"},
+            {"bad\x00name": "invalid"},
+            {"folder /file.txt": "space alias"},
+        ):
+            try:
+                fixture_paths(fixture)
+            except ValueError:
+                pass
+            else:
+                raise AssertionError(f"Windows alias/device accepted: {fixture}")
+        assert len(fixture_paths({"COM10.txt": "valid", "NUL-file.txt": "valid",
+                                  "notes/my file.md": "valid"})) == 3
     print(f"PASS: {len(cases)} tripled disposable fixture preparations; identical evaluator inputs across skill snapshots; isolation/refusal checks (not behavioral evals)")
 
 

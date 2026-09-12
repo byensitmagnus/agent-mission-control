@@ -1,0 +1,298 @@
+{
+  "date": "2026-09-12",
+  "verdict": "NOT VERIFIED as a replacement; experimental standalone candidate only",
+  "starting_head": "a04c09899f0ad604e542ec7455685e3bf673267d",
+  "contract_sha256": "223aa9922376aa7e03b0b4999228f8c4daba41174dbce66699e8690b06a01eb6",
+  "cases_sha256": "898e32618070648fdf798735bcfc07de02eb365a12443de0a806bc7271c8791e",
+  "actual_subjects": 6,
+  "astra_subjects": 0,
+  "source_decision_probes": 5,
+  "outcomes": [
+    {
+      "case": "trivial",
+      "arm": "incumbent",
+      "correct": true,
+      "only_requested_file_changed": true,
+      "no_new_artifacts": true
+    },
+    {
+      "case": "trivial",
+      "arm": "candidate",
+      "correct": true,
+      "only_requested_file_changed": true,
+      "no_new_artifacts": true
+    },
+    {
+      "case": "mixed",
+      "arm": "incumbent",
+      "fixture_correctness": true,
+      "supplied_inputs_evaluator_unchanged": true,
+      "root_check": "PASS",
+      "source_load": "local only observed",
+      "subject_review": "no separate reviewer observed"
+    },
+    {
+      "case": "mixed",
+      "arm": "candidate",
+      "fixture_correctness": true,
+      "supplied_inputs_evaluator_unchanged": true,
+      "root_check": "PASS",
+      "source_load": "global and local bodies observed; contaminated",
+      "subject_review": "parent review requested but not received before subject return; controller efficiency reminder applied"
+    },
+    {
+      "case": "optimization",
+      "arm": "incumbent",
+      "visible_fixture_checks": true,
+      "evaluator_unchanged": true,
+      "root_check": "PASS",
+      "root_benchmark": "median_seconds=0.000793",
+      "mission_updated": false,
+      "supplemental_behavior_preserved": false
+    },
+    {
+      "case": "optimization",
+      "arm": "candidate-r1",
+      "visible_fixture_checks": true,
+      "evaluator_unchanged": true,
+      "root_check": "PASS",
+      "root_benchmark": "median_seconds=0.000752",
+      "mission_updated": true,
+      "supplemental_behavior_preserved": false
+    }
+  ],
+  "usage": {
+    "as_of": "2026-09-12T19:20:38.003090+00:00",
+    "lead_observed": {
+      "input_tokens": 7995110,
+      "cached_input_tokens": 7712128,
+      "output_tokens": 55644
+    },
+    "workers_observed": {
+      "input_tokens": 19980619,
+      "cached_input_tokens": 19100416,
+      "output_tokens": 110580
+    },
+    "subjects": [
+      {
+        "role": "/root/subject_t0",
+        "thread_id": "01a096ee-3224-7e63-b894-1a6a2db7f860",
+        "models": [
+          "gpt-5.6-luna"
+        ],
+        "efforts": [
+          "high"
+        ],
+        "seconds": 142.8,
+        "usage": {
+          "input_tokens": 590839,
+          "cached_input_tokens": 552448,
+          "output_tokens": 4043
+        },
+        "child_spawns": 0,
+        "source_reads": [
+          {
+            "time": "2026-09-12T18:43:32.319Z",
+            "tool": "exec",
+            "input_sha256": "a6e8fb3c730c96a54f0b9dbcb150fc87713621905dac3a3dadf7581219ab4598",
+            "local_amc_path_mentioned": true,
+            "global_companion_path_mentioned": false
+          },
+          {
+            "time": "2026-09-12T18:43:41.472Z",
+            "tool": "exec",
+            "input_sha256": "f2c1bdecbd4e31afc3b260e074be07fc0b7a67b96dfb114a1903ca46738e6af9",
+            "local_amc_path_mentioned": true,
+            "global_companion_path_mentioned": false
+          },
+          {
+            "time": "2026-09-12T18:43:58.881Z",
+            "tool": "exec",
+            "input_sha256": "27850065127b51575b3b2ecae57abab30e8a2c04523f9ca8e4c57d9877af554b",
+            "local_amc_path_mentioned": true,
+            "global_companion_path_mentioned": false
+          }
+        ]
+      },
+      {
+        "role": "/root/subject_t1",
+        "thread_id": "01a096f0-ca05-7960-9dcc-e4804d3487e6",
+        "models": [
+          "gpt-5.6-luna"
+        ],
+        "efforts": [
+          "high"
+        ],
+        "seconds": 84.6,
+        "usage": {
+          "input_tokens": 395389,
+          "cached_input_tokens": 378368,
+          "output_tokens": 2325
+        },
+        "child_spawns": 0,
+        "source_reads": [
+          {
+            "time": "2026-09-12T18:46:24.077Z",
+            "tool": "exec",
+            "input_sha256": "45171d482b04ccf997ca8620b7db0915e66d670589182fb9b3b0e3902d928102",
+            "local_amc_path_mentioned": true,
+            "global_companion_path_mentioned": false
+          }
+        ]
+      },
+      {
+        "role": "/root/subject_m0",
+        "thread_id": "01a096f2-b4c3-7671-9f9b-ea3db0cc94b0",
+        "models": [
+          "gpt-5.6-luna"
+        ],
+        "efforts": [
+          "high"
+        ],
+        "seconds": 353.4,
+        "usage": {
+          "input_tokens": 1240007,
+          "cached_input_tokens": 1187328,
+          "output_tokens": 11689
+        },
+        "child_spawns": 0,
+        "source_reads": [
+          {
+            "time": "2026-09-12T18:48:27.312Z",
+            "tool": "exec",
+            "input_sha256": "4fee14a5fec9db20821a1915e6a82a0b527094cb4ab15a3d5f2e3e0cabdb31dc",
+            "local_amc_path_mentioned": true,
+            "global_companion_path_mentioned": false
+          },
+          {
+            "time": "2026-09-12T18:48:39.554Z",
+            "tool": "exec",
+            "input_sha256": "8ed8bbdac758c420ad497da5429ba7f6409b146a31c82be45e776e1176575ce2",
+            "local_amc_path_mentioned": true,
+            "global_companion_path_mentioned": false
+          }
+        ]
+      },
+      {
+        "role": "/root/subject_m1",
+        "thread_id": "01a096f8-bc36-7053-9679-d3c86f880e53",
+        "models": [
+          "gpt-5.6-luna"
+        ],
+        "efforts": [
+          "high"
+        ],
+        "seconds": 461.1,
+        "usage": {
+          "input_tokens": 1714797,
+          "cached_input_tokens": 1636096,
+          "output_tokens": 15490
+        },
+        "child_spawns": 0,
+        "source_reads": [
+          {
+            "time": "2026-09-12T18:55:02.375Z",
+            "tool": "exec",
+            "input_sha256": "bbfad0c47e3b44e101c354f071d73316d7c09dc790f758ac422b8a737b1a00cd",
+            "local_amc_path_mentioned": false,
+            "global_companion_path_mentioned": false
+          },
+          {
+            "time": "2026-09-12T18:55:20.715Z",
+            "tool": "exec",
+            "input_sha256": "f52ec79ceefa68dc7967d7aac3f77019837d7fc935fd3aebe7cadef5fd4bc2d6",
+            "local_amc_path_mentioned": true,
+            "global_companion_path_mentioned": false
+          },
+          {
+            "time": "2026-09-12T18:56:08.358Z",
+            "tool": "exec",
+            "input_sha256": "61e1c02c305c8d2b481f472f695e18ffcaa3abf21ebd56f2600c426b4c5c0372",
+            "local_amc_path_mentioned": true,
+            "global_companion_path_mentioned": false
+          }
+        ]
+      },
+      {
+        "role": "/root/subject_o0",
+        "thread_id": "01a096fa-ea2c-7ca3-91b2-8ebd85cb5aef",
+        "models": [
+          "gpt-5.6-luna"
+        ],
+        "efforts": [
+          "high"
+        ],
+        "seconds": 395.0,
+        "usage": {
+          "input_tokens": 1586243,
+          "cached_input_tokens": 1526272,
+          "output_tokens": 11683
+        },
+        "child_spawns": 0,
+        "source_reads": [
+          {
+            "time": "2026-09-12T18:57:34.268Z",
+            "tool": "exec",
+            "input_sha256": "764136ccd22f442c1025cb642b67d6e40148a3757d78ccd6b8bcbde6ad55e82f",
+            "local_amc_path_mentioned": true,
+            "global_companion_path_mentioned": false
+          },
+          {
+            "time": "2026-09-12T18:57:50.748Z",
+            "tool": "exec",
+            "input_sha256": "ea39e8503c15a2793a3507b05822efdc2a506456e1d607207dbb7ecb8f6d89cd",
+            "local_amc_path_mentioned": true,
+            "global_companion_path_mentioned": false
+          }
+        ]
+      },
+      {
+        "role": "/root/subject_o1",
+        "thread_id": "01a09702-5605-7391-800f-ad7230637c20",
+        "models": [
+          "gpt-5.6-luna"
+        ],
+        "efforts": [
+          "high"
+        ],
+        "seconds": 336.3,
+        "usage": {
+          "input_tokens": 1176646,
+          "cached_input_tokens": 1132032,
+          "output_tokens": 10687
+        },
+        "child_spawns": 0,
+        "source_reads": [
+          {
+            "time": "2026-09-12T19:05:39.941Z",
+            "tool": "exec",
+            "input_sha256": "0ff64e0875ed8ad641cadd715337982ebb812b3f05bcfe48d5f954a3e8b03aa7",
+            "local_amc_path_mentioned": true,
+            "global_companion_path_mentioned": false
+          },
+          {
+            "time": "2026-09-12T19:05:51.582Z",
+            "tool": "exec",
+            "input_sha256": "50448660acb2278b1c41efb02e9e83dcbd14f4c9f54450c1950b8f6a60108897",
+            "local_amc_path_mentioned": true,
+            "global_companion_path_mentioned": false
+          }
+        ]
+      }
+    ],
+    "method": "Current user iteration lead plus linked task agents; live lower bound. Cached input is subset; no billing, quota, guardian/platform or unobserved cost claim. Native telemetry read-only, raw prompts omitted. Counter resets preserve positive segments.",
+    "notes": [
+      "All 10 new agents spawned with fork_turns=none; Terra reviewer reused for two narrow addenda.",
+      "Six actual Luna subject sessions. Five Terra decision probes are source interpretation only.",
+      "Root selected model is Astra; observed host config is ultra. Optional example is medium and does not change this thread.",
+      "Shared global prompt/catalog remain; no billed savings or clean-room claim."
+    ]
+  },
+  "limits": [
+    "shared global instruction/catalog context; mixed candidate loaded both global and local AMC",
+    "mixed candidate received one efficiency reminder and requested parent review; not an autonomous independent-review completion",
+    "both optimization artifacts fail supplementary preservation for unhashable names despite visible checks passing",
+    "final context-pack clarification was source-reviewed; six exact subject snapshots retained, not silently replaced",
+    "no measured billing savings, generic DAG superiority, complete learning replay or custom-role execution proof"
+  ]
+}

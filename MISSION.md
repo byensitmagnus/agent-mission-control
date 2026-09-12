@@ -1,98 +1,113 @@
 schema_version: 1
 overall: NOT VERIFIED
 
-# Adaptive v0.2 candidate
+# Resource-disciplined iteration 2 (completed history)
 
 ## Goal / Definition of Done
 
-A portable selective runtime, conditional references, safe same-source packages,
-realistic behavioral evals and independent proof. The local implementation is
-complete. Behavioral superiority requires controlled subject runs and remains
-NOT VERIFIED; no static test is substituted for that gate.
+Recommend one simpler local candidate with preserved safety, passing existing
+checks and independent Luna review. This PASS concerns that iteration only;
+engineering superiority remains NOT VERIFIED. Previous qualification remains FAIL.
 
 ## Base and candidate
 
-Public v0.1.0/main: `fdbf07fa3443ca454509ca36ace6e2651b9fc2e6`.
-Local parent: `358680dd4fedb3faf38a4599d1e20ed9a376c0fd`, initially clean.
-Branch: `codex/v0.2-adaptive`. The enclosing commit identifies this candidate.
-The exact final commit/clean-worktree/scan proof is recorded externally after
-commit creation to avoid self-referential hashes in this file.
-Earlier candidate-1 results are explicitly historical.
+Branch codex/v0.2-adaptive; HEAD a04c09899f0ad604e542ec7455685e3bf673267d.
+Candidate: thin mission state/acceptance layer, one execution owner per mechanism.
+Parent: local a04 runtime plus already-uncommitted tooling/evaluation fixes.
+The original runtime snapshot remains in external proof/iteration-2/incumbent.
 
 ## Hard gates
 
 | Gate | Status | Evidence |
 |---|---|---|
-| Repository identity and intact baseline | PASS | Root HEAD/status/remote and baseline archive checks |
-| Selective portable runtime and conditional references | PASS | Current files, structural checks, independent inspection |
-| Same-source skill/plugin packages and integrity | PASS | 12 package tests, both official validators, cross-Python byte equality |
-| Fixture isolation and structural safety | PASS | 25 negative controls and 11 tripled fixture preparations on Python 3.11/3.14 |
-| Controlled behavior and superiority | NOT VERIFIED | Clean authenticated context unavailable; evals/README.md |
-| Independent final review | PASS | Executed final code/eval review; status corrections in evals/final-review.md |
-| Enclosing commit and clean delivery | NOT VERIFIED | Read actual enclosing Git state and external delivery report |
+| Simpler ownership and conditional fallback | PASS | evals/v0.2-control-candidate.md; instruction-metrics.json |
+| Structural and safety regression checks | PASS | external root-checks.json |
+| Independent Luna review | PASS | external review/review.md; ten fixed scenarios |
+| Honest limits and resource reporting | PASS | report; external resource-usage.json |
 
 ## Authority
 
-Local edits, one safe branch, disposable fixtures, tests, repairs, read-only
-sources, bounded agents and one local commit are authorized. No push, merge,
-release, GitHub settings changes, live host installation, destructive cleanup
-or permission bypass. Existing installed governing skills were not changed:
-this repository is the explicitly requested offline product candidate.
+Local edits, tests, offline packages and Luna workers authorized. No push, merge,
+release, global skill changes or host installation. At most three new Astra subject
+runs allowed; zero used. No wider behavioral matrix.
 
 ## Jobs
 
 | Job | Agent | Status | Owned scope |
 |---|---|---|---|
-| Primary source verification | source_review | completed | Five primary design sources, read-only |
-| Packaging | packaging | completed | Builder and package tests |
-| Eval design and feasibility | evals | completed | Cases/rubric/preparer/tests/eval README |
-| Integration and proof | Lead | completed | Runtime, docs, validator, actual final checks |
-| Independent final review | source_review | completed | Read-only final diff and executable checks |
-
-All implementation scopes are returned to the lead. No worker is left writing.
-The reviewer received requirements and artifacts, not implementation dialogue.
-Missing controlled runs are not counted as completed agent jobs.
+| Evidence and incumbent decisions | luna_evidence | PASS | Read-only evidence; external probe JSON |
+| Repo inspection and optional profile | luna_repo | PASS | examples/codex plus external check logs |
+| Independent review | luna_candidate_review | PASS | Read-only candidate/profile; external review |
+| Architecture, runtime and proof integration | Lead | PASS | Runtime/docs; executed root checks |
 
 ## Decisions and evidence
 
-Evaluator SHA256(cases bytes || rubric bytes), frozen before runtime writes:
-`2c4f07976eef82371c10029e17e985a4d515c95c246b5c02aae386440f3060ac`.
-
-Candidate hypothesis: phase-specific references reduce irrelevant routing
-constraints while retaining ownership and evidence. Correctness/safety take
-precedence, then completed cases with no regressions. The new candidate is
-retained for review, not accepted as a demonstrated optimization winner.
-
-[The candidate log](evals/v0.2-candidate-log.md) records sources, comparison,
-commands and package hashes. [The 33 records](evals/results/2026-09-11-adaptive.json)
-bind identical inputs across three runtime snapshots. Zero controlled runs.
-One noncontrolled CLI pilot completed a fixture heading; root verified its diff
-and excluded it from comparative scoring. Model savings are not measured.
-
-Root repaired Git-source/environment ambiguity, linked-ancestor escapes in
-fixture preparation, and invalid activation JSON-type handling. All have
-negative controls. A final Git archive byte check also caught host-dependent
-line endings; .gitattributes now fixes text to LF and both autocrlf settings
-produce identical source bytes. The original visual asset Git blobs are unchanged.
+Frozen contract SHA256 cc5881e020a10d0806714d70a1e149bfe12bd66ebb2dce416cb11348ff58a2ce.
+One candidate accepted under source-ownership/safety/size gates. Reduced AMC
+instruction bytes are not task efficacy or billed savings. See
+[iteration report](evals/v0.2-control-candidate.md). Historical
+[qualification](evals/v0.2-qualification.md) remains unchanged.
 
 ## Blockers
 
-Default-profile prompt inspection still contains shared home instructions.
-A clean temporary profile retains the target skill but its client request
-failed HTTP 401 without authentication. The authenticated ephemeral pilot's
-approval-review path also was not fully observed. A clean authenticated isolated
-subject context has not been established without host auth/config setup.
-These limits block behavioral acceptance, not completed local implementation.
+None. The requested next-candidate gate is complete; no user action is required.
 
 ## Next action
 
-Read the enclosing commit and external delivery evidence for the final local
-commit, clean-tree and secret-scan checks. The remaining behavioral gate needs
-a clean authenticated isolated runtime.
-Push, merge and release remain outside the current mandate.
+None within this iteration. No further automatic experiments or publication.
 
 ## Last verified
 
-2026-09-11: root executed relevant checks on Python 3.11.9 and 3.14.3.
-Current runtime and evaluator hashes are in the linked comparison record.
-Reconcile actual HEAD, dirty state and external delivery evidence on resume.
+2026-09-12: root checks and fresh Luna review. Exact dirty-tree identities, local
+package hashes and secret scans are in delivery-proof.json under
+C:/Users/Usmo1/Documents/ChatGPT/ai Orchestrator/proof/iteration-2.
+HEAD is unchanged; local changes are uncommitted and preserved.
+
+## Source-mining acceptance completed
+
+[Reference comparison and ownership map](evals/design-mining.md) covers current
+native Codex, local Diamond/AVO and pinned upstream code/publications.
+Source addendum SHA256 069d6b5cc4f1f134b5859a6bdca6607a0f8f181bd276bb83a864911c4a094480.
+Native host ownership and a focused-worker route are implemented. A Luna reviewer
+found one ambiguous owner; it was repaired and rechecked. Original 10 plus 2
+addendum source scenarios PASS, with no unresolved material finding.
+No new Astra subjects. Native telemetry includes child counter resets and explicitly
+excludes unobserved billing/platform overhead. No superiority or cost-saving claim.
+
+## Active iteration 3: standalone adaptive AMC
+
+The complete iteration-2 record above is retained as history. Its PASS and Next
+action apply to iteration 2 only. Current start: codex/v0.2-adaptive at
+a04c09899f0ad604e542ec7455685e3bf673267d, with all 91 incumbent files preserved
+in external proof/standalone-3/incumbent and incumbent-lock.json.
+
+Current goal: standalone adaptive routing with conditional work/context,
+capability, optimization, review, recovery, learning and resource controls.
+Authority: local edits, focused agents, tests, opt-in project examples, offline
+packages and a justified local commit. No push/merge/release/deploy, global
+configuration/installation or credential-sensitive operations.
+
+Contract SHA256: 223aa9922376aa7e03b0b4999228f8c4daba41174dbce66699e8690b06a01eb6.
+Budget: one candidate, up to two material repairs, six matched Luna subjects,
+zero new Astra subjects. Reused cases are development fixtures, not blinded tests.
+
+Current gates: inspected source/license evidence, actual tasks, independent
+review, safety regressions, equal package bytes and honest resource reporting.
+Status: iteration evidence collected; replacement qualification remains NOT VERIFIED.
+No external blocker. Original experimental failures and contamination are retained.
+Daily/native miners own separate external reports; subjects own separate
+workspaces; lead owns integration. Lead rejected the scout's companion-owner
+proposal because the new mandate requires standalone AMC. Lead triages clear
+routes; scouts serve valuable uncertainty, per the final user clarification.
+
+Current decision: retain this as an experimental standalone candidate, not a
+verified replacement. Six subjects, source review and two clarifications are
+complete; final packaging/source checks are recorded in external delivery proof.
+Proof: C:/Users/Usmo1/Documents/ChatGPT/ai Orchestrator/proof/standalone-3.
+
+
+Final iteration report: [standalone candidate](evals/v0.2-standalone-candidate.md).
+Source/runtime safety checks pass; overall remains NOT VERIFIED for replacement
+because a clean comparative outcome, broad behavior preservation and complete
+custom-role activation are not proven. No more subjects are authorized by this
+frozen experiment; no global adoption or publication is performed.

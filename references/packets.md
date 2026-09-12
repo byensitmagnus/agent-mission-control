@@ -1,40 +1,55 @@
-# Delegation and handoffs
+# Work, context and capability routing
 
-Load when independent work merits a worker, or ownership changes.
+Delegate when a bounded job buys useful information or execution after context,
+coordination and integration cost. Ask whether each job truly needs another's
+output. Freeze shared interfaces first; parallelize ready independent work;
+serialize dependent work and shared mutable resources. A worktree alone does not
+make jobs independent. Each writer owns one exclusive scope, including tests,
+generated files and resources. Confirm the old owner stopped before transferring
+writes; if uncertain, inspect read-only. Preserve collaborators' edits.
 
-Before assigning writers, compare their paths, generated outputs, fixtures,
-services and mutable state. Freeze shared interfaces first. Resolve overlap
-by narrowing scopes or finishing and handing off one job before the next.
-Isolation protects edits; it does not make dependent tasks independent.
+## Scout and capability choice
 
-Give the worker only enough context to act:
-- objective, why it is independent and the base commit or file snapshot;
-- one owned scope, relevant inputs and satisfied dependencies;
-- constraints, allowed actions, deliverable and an acceptance check.
+A scout is useful when scope, dependencies or needed expertise remain unclear.
+Give it the objective, authority, relevant paths/current facts and one bounded
+triage question. Ask for a compact proposed graph: nodes/owners, real dependencies,
+uncertainties, appropriate capability and necessary proof. Include optimization,
+recovery or learning only if the facts justify them. It does not execute the whole
+mission or recruit a team. Skip scouting when the lead already knows the route.
 
-These are information requirements, not mandatory headings. Use a short
-paragraph when sufficient; the [Context Packet](../templates/context-packet.md)
-is a populated example. Link paths and small excerpts instead of sending the
-full conversation. State when collaborators share the workspace and require
-preservation of their edits. Nested delegation must fit the same ownership
-and permission boundaries and have an independent reason.
+Choose among models and tools the host actually exposes. Keep the selected lead;
+use a fast capable tier for focused discovery, mechanical edits and bounded
+review; a general tier for routine implementation; a stronger specialist for
+hard domain work. Escalate for unresolved architecture, conflicting evidence,
+critical data/security risk or repeated cheaper failure, with a concrete reason.
+Do not default every child to the lead model or force difficult work onto the
+cheapest tier. If the requested capability is unavailable, report the limit and
+choose a supported alternative; do not silently upgrade cost or invent IDs.
 
-Use a strong available lead for architecture and integration; focused or
-cheaper workers suit bounded work. Escalate a job when its uncertainty or risk
-exceeds the worker's capabilities. If cost is an objective, measure actual
-usage; a model name is not cost evidence.
+Set child model and reasoning independently of the lead when native tools allow.
+Short context and high reasoning are compatible: prefer high practical effort
+for cheap focused work; max only when supported and worth its latency. No effort
+label guarantees quality. Use native read-only roles for research/review and
+bounded write permissions for implementation; a prompt scope is not a sandbox.
+Host concurrency is a ceiling, not a target. With no delegation API, work serially
+and disclose any required independence that cannot be provided.
 
-On return, require artifact locations, changed/inspected paths, commands with
-observed results, acceptance status and unresolved risks. The
-[Evidence Packet](../templates/evidence-packet.md) illustrates missing proof.
-Do not promote a bounded worker verdict into the mission verdict.
+## Handoff and integration
 
-Reconcile expected and received deliverables. Inspect differences and run
-affected checks before integration; keep missing, stale or conflicting claims
-unverified. Record the old owner as stopped and the transfer as accepted before
-the next writer starts. If a worker might still be running, inspect native
-state or stay read-only until exclusive ownership is established.
+Send goal, current source identity, necessary inputs, exclusive owned scope,
+constraints/authority and acceptance check. Start new workers with fresh context
+and a task-specific packet, without the parent's or siblings' conversations.
+Pass only necessary outputs from dependency jobs through the lead. A researcher
+needs its question and sources; an implementer needs the agreed interfaces and
+relevant findings. The lead keeps the overall state and evidence, not every raw
+transcript. Shared host rules/tools can still be present; fresh history is not
+full prompt isolation. [Context Packet](../templates/context-packet.md) is optional
+formatting. Nested delegation needs its own value, scope and resource room.
 
-Give a separate reviewer the requirements and current artifacts without the
-implementer's intended conclusion. Review is evidence about defects, while
-runtime verification requires actual execution.
+Require paths/diff, commands actually run, results and unresolved risks; the
+[Evidence Packet](../templates/evidence-packet.md) is optional formatting. Reconcile
+expected against received results, inspect artifacts and execute acceptance checks.
+Route a finding to its responsible owner with a reproducible failure; integrate
+its repair after prerequisites, then refresh only affected evidence. Missing or
+failed workers stay visible. Independent review follows
+[verification](verification.md) when risk or acceptance warrants it.

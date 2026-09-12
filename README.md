@@ -10,28 +10,43 @@
   <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-22d3ee" alt="MIT License" /></a>
 </p>
 
-Agent Mission Control helps a lead agent finish complex software work with
-clear ownership and evidence. Small edits stay direct. Independent substantial
-jobs can run in parallel. Dependencies and integration stay serialized.
-Long missions resume from the workspace, not yesterday's summary.
+Agent Mission Control turns one software objective into the smallest useful
+workflow and verifies completion. The lead owns architecture and integration.
+Clear edits stay direct; scouts, workers and loops are added only when useful.
+The core works without companion skills or a custom runtime.
 
-This is a **local v0.2 candidate**, not a published upgrade. Controlled routing
-improvement over v0.1.0 and 358680d is **NOT VERIFIED**. There is no daemon,
-database, telemetry, mandatory model team or companion-skill dependency.
+This is an **unreleased standalone candidate**. Current work and proof are in
+[the standalone report](evals/v0.2-standalone-candidate.md) and [MISSION](MISSION.md). The following comparisons are retained history. The [previous qualification](evals/v0.2-qualification.md)
+ended **FAIL** after 19 controlled subjects. [Iteration 2](evals/v0.2-control-candidate.md) narrowed activation
+and removes competing execution ownership. It is staged for review; improved
+engineering outcomes and token savings remain **NOT VERIFIED**.
 
-## Direct work or fan-out?
+[Design sources and license decisions](references/provenance.md) explains the adopted and
+rejected mechanisms. Native sessions, tools and context management remain with
+Codex or the host.
 
-| Task | Execution |
+## One execution owner
+
+| Need | Owner |
 |---|---|
-| Fix a heading or update a function and its callers | Lead edits and checks directly |
-| Independent substantial transport and storage investigations | Scoped workers, if coordination is worthwhile |
-| Shared API, then dependent adapters | Lead fixes the interface; dependent work waits |
-| Risky migration or release | Preserve baseline and recovery; obtain separate proof |
-| Measured optimization | Freeze evaluator, compare candidates, retain verified incumbent |
+| Ordinary edit or understood dependency chain | Lead's normal implementation/check loop |
+| One focused independent job | Native scoped worker when it adds useful value |
+| Substantial independent workstreams | AMC work/context routing; native agents |
+| Measured candidate optimization | AMC frozen evaluator, recoverable incumbent and bounded attempts |
+| Cross-phase state, recovery and final acceptance | Lead with Mission Control |
+| Offline learning | Separate completed-task workflow |
 
-The lead always owns architecture, acceptance, integration and final evidence.
-Multiple files alone do not justify orchestration. One available agent can
-work serially; required independent proof is never invented.
+The entrypoint loads relevant references for work/capability routing, optimization,
+review, recovery, resource checks or separate learning. Context Diamond, AVO and
+SkillOpt are credited design sources, not required installations. Domain skills
+remain optional technical help. Explicitly requested procedures retain one owner;
+do not duplicate their loops or bypass their gates.
+
+If optimization delegates jobs, the lead retains selection and workers own only
+those bounded jobs. Reuse the existing tracker and adequate current review;
+Mission Control does not create an additional team or verification cycle.
+The lead still inspects artifacts and executes relevant acceptance checks.
+Required independent proof is never invented when only one agent is available.
 
 ## Use the skill
 
@@ -42,7 +57,7 @@ Prepare this application for release. Preserve existing user data, delegate
 independent work where useful, verify it, and stop before deploy.
 ```
 
-A minimal Context Packet can be this short:
+A bounded handoff can be this short:
 
 ```text
 Goal: Check deadline behavior in transport.py against requirements.md.
@@ -53,7 +68,7 @@ Authority: Local reads and non-mutating checks; no external changes.
 Return: Boundary results, file anchors and risks; verify before/at/after expiry.
 ```
 
-Use only relevant context. [Delegation](references/packets.md) covers ownership
+Use only relevant context. [Work and capability routing](references/packets.md) covers ownership
 transfers; the [populated packet](templates/context-packet.md) gives a longer
 example when needed.
 
@@ -107,8 +122,7 @@ Do not blindly overwrite. To uninstall a skill, remove only its confirmed
 installation directory after preserving edits; uninstall a plugin through the
 host's plugin manager. The builder performs neither action.
 
-The [optional Codex profile](examples/codex/README.md) shows capability-based
-roles using Astra/Luna/Terra/Sol as example names. It is not loaded by the
+The [optional Codex profile](examples/codex/README.md) shows independently configured lead and child models/reasoning. It is not loaded by the
 portable runtime. Actual cost, token savings and broad compatibility are
 not established.
 
@@ -127,11 +141,11 @@ disposable fixture integrity. They do not prove agent behavior. The
 dependencies, ownership, resume, measurable variation, release risk and
 authority. Compare all three sources under the same frozen rubric.
 
-[Current evidence](evals/v0.2-candidate-log.md) distinguishes executed checks
-from missing behavioral proof. [Offline skill evolution](CONTRIBUTING.md)
+[Previous qualification](evals/v0.2-qualification.md) preserves the failed
+comparison and its limitations. [Offline skill evolution](CONTRIBUTING.md)
 uses completed-run failures and held-out replay; it never rewrites the skill
 during the mission it governs. Read [security guidance](SECURITY.md) before
 reporting vulnerabilities.
 
-[MIT](LICENSE) © 2026 Byens IT. Independent project; no endorsement by OpenAI,
+[MIT](LICENSE) Â© 2026 Byens IT. Independent project; no endorsement by OpenAI,
 NVIDIA, Microsoft or the projects that inspired it.

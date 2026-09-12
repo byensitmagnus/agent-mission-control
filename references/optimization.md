@@ -1,34 +1,21 @@
-# Measurable candidate loops
+# Measured improvement
 
-Load only when a reproducible evaluator or observable score makes comparing
-candidates useful. Do ordinary feature implementation directly; a test suite
-alone does not justify searching alternatives.
+Use for the portion of a mission with a reproducible evaluator or observable
+objective measure. Ordinary implementation does not need candidate search.
+The lead owns selection; delegated jobs cannot run a competing outer loop.
 
-Before changing candidate 1, freeze the workload, correctness checks,
-environment, metric priority and attempt/time budget. Execute the baseline.
-Record its source identity and score, and keep a recoverable incumbent.
-An unrepeatable baseline or missing evaluator leaves improvement NOT VERIFIED.
+Before editing, freeze workload, correctness gates, environment, metric priority
+and attempt/time/resource budget. Execute the baseline and keep its source recoverable.
+An unrepeatable baseline leaves improvement NOT VERIFIED. Try one bounded
+hypothesis; record parent/source, commands, correctness, score and diagnosis in
+the existing record. Accept only a strict improvement under the frozen rule with
+no higher-priority regression; ties keep the incumbent. Workers cannot change the
+evaluator or acceptance. A changed evaluator starts a separate baseline comparison.
 
-Choose a bounded hypothesis using the task and previous candidates, including
-rejection evidence. Implement, evaluate, diagnose and repair autonomously within
-scope. The agent chooses how to investigate and edit; no fixed variation
-operator or agent topology is required.
-
-Record each candidate's parent, hypothesis, source snapshot, commands,
-correctness result, score and acceptance or rejection reason. Accept only
-when correctness passes and the frozen selection rule matches or improves
-the incumbent without regressing a higher-priority metric. Keep the incumbent
-when a candidate loses; an equal score may be retained only if the frozen rule
-allows it, and is not an improvement claim.
-
-Workers may supply bounded changes or evidence; they cannot change the
-evaluator, goal, selection rule or incumbent. A changed evaluator starts a
-separate comparison with the baseline rerun, never a retroactive pass.
-
-When attempts repeat or stall, inspect lineage and raw failure evidence before
-choosing a different hypothesis. Exhausting the budget ends the experiment
-with the best verified candidate or an exact unresolved gate. Do not expand
-the budget or hide failed correctness to manufacture a winner.
-
-Report unavailable cost, tokens or time as NOT MEASURED. This loop optimizes
-the task artifact; it never changes the skill governing the current mission.
+Repair from observed failures. After two consecutive non-improvements or evaluator
+drift, inspect raw evidence and lineage before changing the hypothesis. Before
+another candidate, apply the [resource checkpoint](resources.md); do not repeat
+a strategy without new information. At the budget limit retain the best verified
+candidate and disclose unresolved gates. Do not expand the budget to manufacture
+a winner. Report unobserved resources as NOT MEASURED, including missing child
+usage. This loop changes the task artifact, not its governing skills.

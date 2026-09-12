@@ -102,7 +102,9 @@ def validate_codex(root: Path) -> None:
     data = load_toml(path); agents = data.get("agents")
     need(set(data) == {"model", "model_reasoning_effort", "agents"}, f"{path}: unsupported top-level key")
     need(data["model"] == "gpt-6-astra" and data["model_reasoning_effort"] in {"low", "medium", "high", "xhigh"}, f"{path}: root model must be gpt-6-astra with supported reasoning")
-    need(isinstance(agents, dict) and set(agents) == {"enabled", "max_concurrent_threads_per_session"}, f"{path}: unsupported [agents] key")
+    need(isinstance(agents, dict) and set(agents) == {"enabled", "max_concurrent_threads_per_session", "default_subagent_model", "default_subagent_reasoning_effort"}, f"{path}: unsupported [agents] key")
+    need(agents["default_subagent_model"] in MODELS, f"{path}: unsupported default subagent model")
+    need(agents["default_subagent_reasoning_effort"] in {"low", "medium", "high", "xhigh"}, f"{path}: bad default subagent reasoning effort")
     need(isinstance(data.get("model"), str) and data["model"].strip(), f"{path}: root model required")
     need(isinstance(agents, dict) and agents.get("enabled") is True and agents.get("max_concurrent_threads_per_session") == 3, f"{path}: [agents] must enable 3 concurrent threads")
 

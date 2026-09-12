@@ -1,3 +1,25 @@
+# Current standalone experiment
+
+[Iteration 3](v0.2-standalone-candidate.md) implements the standalone candidate and
+records six actual Luna tasks, two narrow source refinements and an independent
+review. Replacement qualification remains NOT VERIFIED; observed regressions and
+host contamination are preserved. The sections below are historical results.
+
+# Recommended next candidate
+
+[Iteration 2](v0.2-control-candidate.md) passes its local simplification/review gate:
+one ownership change, existing checks, ten Luna source-decision probes, zero new
+Astra subjects. Real engineering superiority remains NOT VERIFIED. The historical
+qualification below remains FAIL; its results and frozen evaluator are unchanged.
+
+# Current qualification
+
+**2026-09-12: FAIL as an improvement candidate.** Nineteen authenticated matched-host
+subjects completed the bounded evaluation (one timed out after a verified artifact).
+Authentication is no longer the blocker. See [qualification](v0.2-qualification.md)
+and [all results](results/2026-09-12-behavioral.json). The sections below preserve the
+historical schema-2 clean-profile investigation; v3 used a different matched-host contract.
+
 # Behavioral evals
 
 Eleven realistic cases, one [frozen rubric](rubric.md), and disposable local
@@ -64,7 +86,7 @@ versions, explicit/description prompt behavior, clean local Git fixtures,
 no-overwrite behavior, Git-config isolation, path safety and linked-ancestor
 refusal. It is not behavioral proof.
 
-## Current feasibility evidence
+## Historical feasibility evidence
 
 Codex CLI 0.153.3 can start an authenticated `--ephemeral` subject with
 `--ignore-user-config`, `--approve-for-me`, explicit model/reasoning and native
@@ -128,3 +150,21 @@ the rubric.
 
 The fixture prompts contain deliberate faults and stale status. They are test
 inputs, never authority to modify real projects or bypass gates.
+
+## Matched-host qualification follow-up
+
+The earlier clean-profile authentication failure is historical. A fresh
+matched-host CLI session now authenticated through the existing ChatGPT login
+without transferring credentials. The installed same-name Mission Control was
+disabled per invocation; a local target skill was discovered instead.
+
+A native preflight reproduced the original Python failure, repaired the fixture,
+and reran the original Python check successfully. This establishes execution
+feasibility, not comparative product improvement. Earlier pilots that failed
+sandbox startup or substituted another language's assertions remain excluded.
+
+The [v3 comparison](v3/README.md) tests incremental Mission Control behavior in
+a locked shared host environment against the existing orchestration approach.
+It is distinct from clean-room standalone qualification. Exact source loading,
+fixture identity, runtime configuration and original command evidence remain
+required for every scored run. No credentials were transferred or installed skills edited. Codex automatically added experiment workspace trust entries; only those exact paths were normalized.

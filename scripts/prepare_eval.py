@@ -4,14 +4,17 @@
 import argparse
 import hashlib
 import json
+import ntpath
 import os
-from pathlib import Path, PurePosixPath
+from pathlib import Path, PurePosixPath, PureWindowsPath
 import shutil
 import subprocess
 
 
 ROOT = Path(__file__).resolve().parents[1]
 RUNTIME_DIRS = ("agents", "references", "templates", "assets")
+# Python 3.11 lacks ntpath.isreserved; use its pathlib device-name check.
+_windows_reserved = getattr(ntpath, "isreserved", lambda name: PureWindowsPath(name).is_reserved())
 
 
 def digest(data):
@@ -25,11 +28,16 @@ def load_evaluator():
 
 
 def relative_path(value):
+    if not isinstance(value, str):
+        raise ValueError(f"unsafe fixture path: {value}")
     path = PurePosixPath(value)
     if (not value or path.is_absolute() or ".." in path.parts
             or ":" in value or "\\" in value or str(path) != value
             or any(part.startswith(".") for part in path.parts)):
         raise ValueError(f"unsafe fixture path: {value}")
+    if any(part.endswith((".", " ")) or "\x00" in part or _windows_reserved(part)
+           for part in path.parts):
+        raise ValueError(f"unsafe Windows fixture path: {value!r}")
     return path
 
 
@@ -86,7 +94,7 @@ def prepare(case_id, destination, skill_source):
     sources = [skill_source / "SKILL.md"]
     for name in RUNTIME_DIRS:
         directory = skill_source / name
-        if directory.exists():
+        if os.path.lexists(directory):
             sources.extend([directory, *directory.rglob("*")])
     for source in sources:
         if source.is_symlink() or getattr(source.lstat(), "st_file_attributes", 0) & 0x400:
