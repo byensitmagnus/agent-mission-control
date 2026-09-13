@@ -1,0 +1,78 @@
+{
+  "date": "2026-09-13",
+  "type": "bounded-installation-and-first-use-check",
+  "client": "codex-cli 0.153.3 app-server",
+  "platform": "Windows",
+  "readme_source_commit": "86382362ba7c0baf0260832e5476a925694a35b2",
+  "release": "v0.2.0-candidate.4",
+  "skill_zip_sha256": "8d3ddc2007910b2632337aa8527f9d3f3909977657337e81cd15208d20fc3fc9",
+  "discovery": {
+    "project_path": ".agents/skills/agent-mission-control/SKILL.md",
+    "scope": "repo",
+    "enabled": true,
+    "same_named_user_skill_observed": true,
+    "selection": "Explicit skill input with project path"
+  },
+  "attempts": [
+    {
+      "verdict": "NOT VERIFIED",
+      "reason": "Sandbox reader startup failed; no invented result.",
+      "model": "gpt-5.6-luna",
+      "requested_effort": "low",
+      "elapsed_seconds": 29.14,
+      "files_unchanged": true,
+      "global_config_unchanged": true,
+      "single_command_approvals": 0,
+      "usage": {
+        "totalTokens": 124938,
+        "inputTokens": 124256,
+        "cachedInputTokens": 106240,
+        "cacheWriteInputTokens": 0,
+        "outputTokens": 682,
+        "reasoningOutputTokens": 231
+      }
+    },
+    {
+      "verdict": "FAIL",
+      "reason": "Approved read succeeded; content was supported but line citations were incorrect.",
+      "model": "gpt-5.6-luna",
+      "requested_effort": "low",
+      "elapsed_seconds": 30.5,
+      "files_unchanged": true,
+      "global_config_unchanged": true,
+      "single_command_approvals": 1,
+      "usage": {
+        "totalTokens": 78983,
+        "inputTokens": 77927,
+        "cachedInputTokens": 59648,
+        "cacheWriteInputTokens": 0,
+        "outputTokens": 1056,
+        "reasoningOutputTokens": 592
+      }
+    },
+    {
+      "verdict": "PASS",
+      "reason": "Three supported bullets with existing README headings; explicitly no project checks run.",
+      "model": "gpt-5.6-luna",
+      "requested_effort": "low",
+      "elapsed_seconds": 21.06,
+      "files_unchanged": true,
+      "global_config_unchanged": true,
+      "single_command_approvals": 1,
+      "usage": {
+        "totalTokens": 52888,
+        "inputTokens": 52344,
+        "cachedInputTokens": 34304,
+        "cacheWriteInputTokens": 0,
+        "outputTokens": 544,
+        "reasoningOutputTokens": 222
+      }
+    }
+  ],
+  "limits": [
+    "Final invocation used normal one-command approval for the known Windows sandbox startup failure.",
+    "Existing host skills/tools were present; this was a fresh project and conversation, not an empty user configuration.",
+    "No desktop or IDE UI, plugin installation, custom role enforcement, update/remove behavior or model-comparison claim.",
+    "Cached input is part of input; counters cover these Luna invocations, not the supervising task or monetary cost."
+  ]
+}

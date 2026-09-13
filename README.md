@@ -44,15 +44,13 @@ your permissions. [Walk through all three scenarios →](docs/how-it-works.md)
 and follow the [short setup guide](docs/getting-started.md). It includes a prompt
 you can give Codex to handle installation for you.
 
-Once the skill is available, start with your actual goal:
+**First time?** Start with the [small read-only task](docs/getting-started.md#3-try-a-small-first-task).
+AMC reads your project's README and returns its purpose, one use case and one
+limitation, with references to README sections. No project files are changed
+and no project checks are run.
 
-```text
-$agent-mission-control
-
-Help me finish this feature.
-Keep the existing behavior, use extra agents only where helpful,
-and show me what you changed and how you checked it.
-```
+Then give it the bug, feature or release task you actually need. If more than one
+AMC entry appears, choose the installed copy inside your project.
 
 **New to this?** Use your current model and normal permissions. The optional
 [Sol / Terra / Luna profile](examples/codex/README.md) is for people who want
