@@ -1,9 +1,15 @@
 # Candidate.8: installation and engineering evidence
 
-Local engineering check, 2026-09-13, followed by development-branch publication.
-The published release download is still candidate.4. Runtime instructions are byte-identical
+Local engineering checks, 2026-09-13, followed by candidate.8 prerelease packaging.
+Runtime instructions are byte-identical
 to the retained candidate.7 runtime; this iteration changes tooling and guidance,
 not the rules of an ongoing product task.
+
+For release preparation, both archives were rebuilt and passed the official
+skill/plugin validators. Their checksums match the local values below, and all
+16 runtime files match the retained candidate.7 snapshot. The
+[candidate.8 release](https://github.com/byensitmagnus/agent-mission-control/releases/tag/v0.2.0-candidate.8)
+binds the final source tag to the published assets and checksums.
 
 ## Concrete changes and user benefit
 
@@ -89,7 +95,7 @@ daemon/worktree/recovery strengths and the other project's Codex-profile scope.
 
 ## Follow-up: safe updates of existing installations
 
-The same development branch now closes a concrete first-use gap: existing
+The candidate.8 source also closes a concrete first-use gap: existing
 installations previously required manual replacement. The explicit
 `--update --expected-installed-sha256` operation replaces only the reviewed
 file contents and retains the entire old directory outside skill discovery.
@@ -103,7 +109,7 @@ change was added. [Use the update flow](hosts.md#update-an-existing-project-inst
 The lead executed 13 installer tests and 13 package tests, with no skips, and
 structural/diff checks. A separate command-line journey installed the actual
 candidate.4 runtime plus a local customization into each of five disposable
-projects, then updated to this branch. All five retained the exact old bytes,
+projects, then updated to candidate.8 source. All five retained the exact old bytes,
 matched the new runtime, preserved project instructions, refused stale
 confirmation without writes and made a repeated matching update a no-op.
 These are filesystem/CLI checks, not native host activation or productivity
@@ -119,3 +125,21 @@ A fresh Luna reviewer independently ran the installer controls and a disposable
 CLI status check; no material finding remained. The updater research observation
 in the mission record is separate read-only product work. It did not run or
 change the product and is not a cross-model benchmark.
+
+## Read-only research observation
+
+An initial bounded product-code investigation left a destination-path hypothesis
+unresolved because the supplied snapshot omitted its application caller. A fresh
+Terra lead and one Luna worker received that caller at the same pinned commit,
+alongside the new [read-only recipe](task-guide.md#research-code-without-changing-it).
+They traced the real argument origin and guards, then rejected the suspected
+normal-flow defect. Terra narrowed an overly broad direct-CLI statement from
+Luna; the controller independently checked the retained source anchors and all
+eight snapshot hashes. No product code, tests or application were executed or
+changed. No additional user coordination prompt was needed after dispatch.
+
+The useful result was a supported refutation, not a manufactured bug. The recipe
+makes caller access, counterevidence, ownership and untested behavior explicit.
+This applies existing packet/review guidance; it changes no runtime instruction.
+It is one development observation with added context, not a held-out or causal
+comparison. Cost, speed and general user-effort improvements were not measured.

@@ -77,6 +77,47 @@ files with saved state and identifies current artifacts. A new plan alone is
 not the requested completion. If another agent is still writing, ownership needs
 resolution before a new writer takes over.
 
+## Research code without changing it
+
+Use this when another task owns implementation, or when you want evidence before
+deciding to change code. Pin a commit or disposable source snapshot; starting
+file paths are entry points, not a reason to omit a necessary caller or guard.
+
+```text
+$agent-mission-control
+
+Investigate [one concrete question] in [read-only snapshot and identity].
+Start at [paths/symbols]. Follow relevant callers, guards and existing tests
+inside this snapshot. Do not edit or execute product code, run builds/tests,
+change the live workspace, or send its owner new instructions.
+Write the report only to [separate output path].
+
+Own useful delegation and verification within [small effort/agent budget].
+Give each worker the question, source identity, permitted read scope and
+required evidence. If a necessary dependency is missing, identify it and
+resolve it within authorized read access; do not guess or widen write scope.
+
+For each material finding, give the trigger, source anchors, impact and
+counterevidence you checked. Distinguish what the code establishes from
+runtime behavior that was not tested. Missing caller context is a missing
+source dependency, not automatically a need to execute the application.
+Check version-sensitive API assumptions against primary documentation when
+external reading is authorized; otherwise name that unresolved assumption.
+
+The lead must challenge worker findings before retaining them. Zero
+confirmed defects is valid. Return findings or reasoned refutations,
+existing test coverage, proposed next checks and remaining uncertainties.
+Do not implement the proposed repairs.
+```
+
+**Inspect the delivery:** citations support the precise claim and the relevant
+call path is covered. A helper accepting an argument does not establish that a
+user can supply it through the application. Neither a worker's confidence nor
+reviewer agreement substitutes for tracing that boundary. This recipe
+uses AMC's existing [packet](../references/packets.md) and
+[verification](../references/verification.md) guidance; it adds no mandatory
+research stage to ordinary implementation.
+
 ## What a completed delivery looks like
 
 **Illustration:** a CSV export writes an empty cell for a legitimate zero value.

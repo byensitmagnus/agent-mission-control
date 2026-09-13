@@ -90,5 +90,9 @@ These are evidence gaps and product priorities, not extra gates for every user
 task. A dashboard clone, more role files or a larger test count would not by
 themselves demonstrate better delivered work.
 
+[Reviewed code research priorities](research-priorities.md) add exact source
+anchors, counterevidence and the smallest next investigations. They distinguish
+possible improvements from accepted implementation work.
+
 [Install AMC](getting-started.md) · [Understand its workflow](how-it-works.md) ·
 [Sources and attribution](sources.md)

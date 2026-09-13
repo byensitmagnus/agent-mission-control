@@ -8,18 +8,19 @@ installation, native discovery and completed work.
 
 ## Install the current source
 
-The commands in this section require the **candidate.8 development source**
-and Python 3.11+. They are not included in the published candidate.4 ZIP or its
-source tag. Clone the development branch explicitly:
+The commands in this section require **candidate.8 source**, Git and Python
+3.11+. The runtime ZIPs contain the skill; the installer is in the source
+repository. Clone the release tag explicitly:
 
 ```bash
-git clone --branch codex/amc-autonomy-proof --single-branch https://github.com/byensitmagnus/agent-mission-control.git
+git clone --branch v0.2.0-candidate.8 --single-branch https://github.com/byensitmagnus/agent-mission-control.git
 cd agent-mission-control
 ```
 
 Alternatively, use the [published ZIP instructions](getting-started.md#1-install-the-skill)
-with the directory for your host below. Cloning public `main` and downloading
-candidate.4 do not select the candidate.8 development source.
+with the directory for your host below. That route requires neither Git nor
+Python. The source installer checks Git provenance, so use a clone rather than
+GitHub's automatic source ZIP when following the commands here.
 
 From the AMC source checkout, choose one host and an existing target project:
 
@@ -75,7 +76,7 @@ overwrite it. `--check` is read-only and does not launch a host or make a model 
 ## Update an existing project installation
 
 Update from a trusted AMC source checkout after work using the old copy has
-stopped. The source installer in this branch provides a separate, explicit
+stopped. The candidate.8 source installer provides a separate, explicit
 update operation. It does not change your selected model or host settings.
 
 First inspect the existing installation against the new source:

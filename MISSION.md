@@ -329,3 +329,71 @@ additional user coordination prompts were observed after research dispatch.
 The workflow's packet/delegation/review/report stages were exercised; interrupted
 worker recovery, native profile activation and savings were not measured. Keep
 current runtime rules; the concrete code improvement is the separate installer.
+
+## Evidence-led research recipe and candidate.8 release — 2026-09-13
+
+User approved continuing the proposed release, reusable research recipe and one
+small Terra→Luna follow-up, with competitor code/docs, actual AMC checks and
+ongoing product evidence informing changes. Parent: b6d6294. Both competitor
+heads still match the inspected pins; reuse that code audit. No new runtime
+rules, compulsory role/profile, service or speculative implementation.
+
+Frozen acceptance: add a discoverable, copyable read-only research recipe to
+the existing task guide. It must identify the snapshot, permit necessary caller/
+guard inspection within that snapshot, preserve a running product owner's work,
+separate missing context from unexecuted behavior, require counterevidence and
+permit a no-defect conclusion. Review against the actual context omission and
+claim corrections from the first research run. One fresh Terra→Luna pair may
+apply it to the still-open updater target-path question with the missing caller
+supplied. No FPS execution/edits or extra model comparison; root checks the
+result and source identity. That is a development observation, not a held-out
+test or proof of causal improvement from the recipe.
+
+Release gates: structural/link checks for changed documentation; preserved
+runtime/evaluation bytes and existing code proof; generated skill/plugin ZIP
+identity and applicable validators; green exact-head PR; merge without rewriting
+history; candidate.8 prerelease assets and downloaded checksums verified. Update
+onboarding to the actual published version. Global installed skills and the
+active product workflow stay unchanged. One recipe attempt; repair only concrete
+findings. Existing private proof holds source and raw product observations.
+
+| Candidate | Parent | Observable improvement | Status |
+|---|---|---|---|
+| Existing task guide | b6d6294 | Bug/feature/resume recipes; no read-only research recipe | Baseline inspected |
+| Research recipe | b6d6294 | Explicit reusable read-only scope, dependencies and finding limits | Accepted after bounded follow-up and controller source review |
+
+Follow-up outcome: one fresh Terra→Luna pair traced the newly supplied caller
+at the original snapshot identity and refuted the normal-flow hypothesis. Terra
+narrowed the worker's direct-CLI claim. Root independently checked the caller,
+argument origin, downstream guard, existing test scope and eight unchanged source
+hashes; publisher verification was further qualified as policy-dependent. No
+product execution, edits or additional user coordination occurred. Missing
+context was resolved through source access. Keep runtime instructions unchanged;
+the reusable task recipe is the accepted documentation improvement.
+
+Ongoing product observation remains separate: the identified candidate's first
+61 code gates passed with physical mutation disabled and no source change during
+the run. The package build was still in progress when inspected. That is neither
+physical lifecycle proof nor evidence that AMC caused the result. The product
+owner continues its existing mission without a new instruction from this task.
+
+Release preparation updates onboarding to candidate.8 and distinguishes runtime
+ZIPs from the tagged-source installer. Source CI, package validation and remote
+publication identity are recorded separately from native-host and behavioral
+evidence. Final merge/release confirmation is retained in the external release
+record to avoid changing the reviewed source merely to record its own commit.
+
+User additionally authorized two parallel Luna research jobs: AMC code risks
+and competitor code mechanisms, research only. Exact fork commits were fetched
+into the existing local source clones without changing their checkouts. The
+controller independently checked the retained anchors and narrowed two worker
+recommendations: repeated JSON members are a defensive validation opportunity,
+not demonstrated corruption of current cases; mandatory admission keys are
+deferred because a mission field alone cannot ensure atomic worker creation.
+Both current evaluator JSON files passed a read-only duplicate-member inspection.
+No implementation, competitor execution or new product action followed.
+
+The public [research priorities](docs/research-priorities.md) preserve source
+identity, counterevidence, adopt/defer decisions and proposed next checks for a
+future authorized task. The two raw worker reports remain private proof; this
+reviewed document is the handoff, not a new runtime instruction or work order.

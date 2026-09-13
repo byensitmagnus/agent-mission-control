@@ -8,13 +8,12 @@ another orchestration tool or an assistant working directly.
 
 | Version | Available as | What this means |
 |---|---|---|
-| **v0.2.0-candidate.4** | [Published early-use release](https://github.com/byensitmagnus/agent-mission-control/releases/tag/v0.2.0-candidate.4), with skill/plugin ZIPs and checksums. | This is the version used by the public installation guide. It is a prerelease. |
+| **v0.2.0-candidate.4** | [Earlier release](https://github.com/byensitmagnus/agent-mission-control/releases/tag/v0.2.0-candidate.4), with skill/plugin ZIPs and checksums. | Historical first-use evidence concerns this prerelease. |
 | **0.2.0-candidate.7** | Retained local experiment and runtime snapshot; no published release ZIP. | It adds verification guidance with a bounded review-ownership experiment. |
-| **0.2.0-candidate.8** | Development source in this branch; no published release ZIP. | Same runtime as candidate.7, with five-host installation/checking and repaired evaluation/accounting utilities. [Engineering evidence](engineering-candidate.8.md). Downloading candidate.4 does not install these changes. |
+| **v0.2.0-candidate.8** | [Current prerelease](https://github.com/byensitmagnus/agent-mission-control/releases/tag/v0.2.0-candidate.8), with skill/plugin ZIPs and checksums. | Same runtime as candidate.7. Tagged source adds five-host installation/checking/updating and repaired evaluation/accounting utilities; these scripts are separate from the runtime ZIPs. [Engineering evidence](engineering-candidate.8.md). |
 
-The repository's public-main CI badge does not describe this development branch;
-check the pull request's Checks tab for its current source.
-For a development package, keep its source identity and archive checksum together.
+The repository's CI badge describes current `main`, not every earlier release.
+Keep the release tag's source identity and archive checksum together.
 [Build instructions](development.md#build-both-formats) are for contributors;
 normal use needs neither Python nor a custom model profile.
 
@@ -27,6 +26,7 @@ normal use needs neither Python nor a custom model profile.
 | [candidate.6 versus candidate.7](../evals/acceptance-review/README.md) | Both repaired the gate correctly, 19/19 controller checks. Candidate.7 additionally obtained a fresh acceptance reviewer; a trivial control used no child. | One pair with shared host instructions. Both needed zero extra user process prompts. No general quality, user-effort or speed improvement is proven. |
 | [Engineering validation](development.md#run-local-engineering-checks) | Checks cover structure, package integrity, fixtures, preservation, accounting and replay tooling. | Passing tooling tests is not proof of an agent's behavior on your project. |
 | [Host portability](engineering-candidate.8.md#host-observations) | The real runtime installs identically in five isolated project directories; Grok's native inspector finds the exact project copy. | File placement is not native discovery. Other current client observations and end-to-end limits are stated individually. |
+| [Read-only research follow-up](engineering-candidate.8.md#read-only-research-observation) | One Terra lead delegated to Luna, checked counterevidence and returned a supported refutation without further user coordination. The controller checked the retained claim and unchanged snapshot. | One development observation with newly supplied caller context; no causal comparison, runtime execution or measured savings. |
 
 [Earlier qualification failures](../evals/v0.2-qualification.md) and
 [real product observations](../evals/v0.2-fps-pilot.md) remain available.

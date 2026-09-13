@@ -15,21 +15,22 @@ The same guide covers candidate.8's new project installer and byte check.
 ## 1. Install the skill
 
 The simplest package is
-[agent-mission-control-skill.zip](https://github.com/byensitmagnus/agent-mission-control/releases/download/v0.2.0-candidate.4/agent-mission-control-skill.zip)
-from the [candidate release](https://github.com/byensitmagnus/agent-mission-control/releases/tag/v0.2.0-candidate.4).
+[agent-mission-control-skill.zip](https://github.com/byensitmagnus/agent-mission-control/releases/download/v0.2.0-candidate.8/agent-mission-control-skill.zip)
+from the [candidate release](https://github.com/byensitmagnus/agent-mission-control/releases/tag/v0.2.0-candidate.8).
 Choose that asset rather than GitHub's automatic “Source code” download.
 
-This guide installs the published **candidate.4** prerelease. The separate
-candidate.8 development source is not included in that download.
+This guide installs the **candidate.8** prerelease runtime. The optional
+[install/check/update CLI](hosts.md#install-the-current-source) is in the tagged
+source repository, not the runtime ZIP.
 [Compare version status and evidence](evidence.md#choose-a-version-deliberately).
 
 **Let Codex handle the files.** Open your intended project and paste:
 
 ```text
-Install Agent Mission Control v0.2.0-candidate.4 in this project only.
+Install Agent Mission Control v0.2.0-candidate.8 in this project only.
 
 Use the skill ZIP and SHA256SUMS.txt from:
-https://github.com/byensitmagnus/agent-mission-control/releases/tag/v0.2.0-candidate.4
+https://github.com/byensitmagnus/agent-mission-control/releases/tag/v0.2.0-candidate.8
 
 Check the ZIP against the listed SHA-256 checksum. Extract the
 agent-mission-control folder into .agents/skills/ in this project.
@@ -182,7 +183,7 @@ permission. If reading remains unavailable, the first task is not complete.
 
 **How do I update or remove it?** Compare a new version in a separate folder,
 preserve local edits, then replace only the confirmed project installation. The
-development source offers an [explicit update with a retained backup](hosts.md#update-an-existing-project-installation)
+candidate.8 source offers an [explicit update with a retained backup](hosts.md#update-an-existing-project-installation)
 and refuses to replace files that changed after your inspection.
 Remove that same installation folder to uninstall, after saving any changes.
 Neither action requires changing your global Codex configuration.

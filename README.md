@@ -18,7 +18,7 @@
 
 <p align="center">
   <a href="https://github.com/byensitmagnus/agent-mission-control/actions/workflows/validate.yml"><img src="https://github.com/byensitmagnus/agent-mission-control/actions/workflows/validate.yml/badge.svg?branch=main" alt="Public main engineering checks" /></a>
-  <a href="https://github.com/byensitmagnus/agent-mission-control/releases/tag/v0.2.0-candidate.4"><img src="https://img.shields.io/badge/download-candidate.4-2c568c" alt="Published download: candidate.4" /></a>
+  <a href="https://github.com/byensitmagnus/agent-mission-control/releases/tag/v0.2.0-candidate.8"><img src="https://img.shields.io/badge/download-candidate.8-2c568c" alt="Published download: candidate.8" /></a>
   <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-2c568c" alt="MIT license" /></a>
 </p>
 
@@ -34,6 +34,7 @@ constraints and decisions that need your authority.
 | A bug fixed | Reproduce it, make the repair and check affected behavior. | The change, checks and remaining limitations. |
 | A feature built | Split genuinely independent work, then integrate and verify it. | One coherent result, with evidence for its acceptance criteria. |
 | Interrupted work finished | Reconcile the saved mission with current files and valid proof. | Progress from the remaining work and a clear final status. |
+| Code investigated before a change | Trace callers and guards in a read-only snapshot, then challenge findings. | Supported findings or reasoned refutations, with untested behavior clearly identified. |
 
 Small tasks stay with the lead. Larger tasks can use native subagents when they
 add value. There is no fixed team size or required model pairing, and no AMC
@@ -43,8 +44,8 @@ server to operate. Host tools and permissions determine what can actually run.
 
 1. **Install the project skill.** The [setup guide](docs/getting-started.md#1-install-the-skill)
    provides a copyable installation prompt and checksum check for the
-   [published skill ZIP](https://github.com/byensitmagnus/agent-mission-control/releases/download/v0.2.0-candidate.4/agent-mission-control-skill.zip).
-   This installs **candidate.4**. The [candidate.8 source installer](docs/hosts.md#install-the-current-source)
+   [published skill ZIP](https://github.com/byensitmagnus/agent-mission-control/releases/download/v0.2.0-candidate.8/agent-mission-control-skill.zip).
+   This installs **candidate.8**. The [source installer](docs/hosts.md#install-the-current-source)
    adds checked installation for five hosts and
    [reviewed updates with a retained backup](docs/hosts.md#update-an-existing-project-installation).
 2. **Select your project copy** of `agent-mission-control` using your
@@ -66,8 +67,9 @@ no changed files and an explicit “no checks run.” This checks basic use;
 your project's working behavior needs its own tests.
 
 **Then use it on work you need done:** [fix a bug](docs/task-guide.md#fix-a-bug),
-[build a feature](docs/task-guide.md#build-a-feature) or
-[resume unfinished work](docs/task-guide.md#resume-unfinished-work).
+[build a feature](docs/task-guide.md#build-a-feature),
+[resume unfinished work](docs/task-guide.md#resume-unfinished-work) or
+[research code without changing it](docs/task-guide.md#research-code-without-changing-it).
 Each recipe includes a prompt and what to inspect when it finishes.
 
 ## Know what “done” means
@@ -89,15 +91,15 @@ This is an output example, not a measured run.
 
 | Version | Status | Evidence |
 |---|---|---|
-| **candidate.4** | Published early-use skill and plugin ZIPs. The download links above use this version. | Package checks and a bounded Windows CLI skill-selection/first-use check. |
+| **candidate.4** | Earlier published skill and plugin ZIPs. | Package checks and a bounded Windows CLI skill-selection/first-use check for that version. |
 | **candidate.7** | Retained review-ownership experiment; not a release download. | One controlled repair comparison: both versions passed 19 checks; candidate.7 also arranged independent acceptance review. |
-| **candidate.8** | Development source in this branch: five-host install/check CLI and repaired evaluation/accounting tools. Runtime instructions match candidate.7. | [Engineering checks and native host observations](docs/engineering-candidate.8.md); complete cross-host work remains unverified. |
+| **candidate.8** | Current prerelease skill/plugin ZIPs; tagged source adds five-host install/check/update CLI and repaired evaluation/accounting tools. Runtime instructions match candidate.7. | [Engineering checks and native host observations](docs/engineering-candidate.8.md); complete cross-host work remains unverified. |
 
 **General improvements in cost, speed, quality or user effort are not established.**
 The [evidence guide](docs/evidence.md) explains what each check covers, host
 limitations, earlier failures and how to evaluate AMC on your own work.
-The CI badge reports public `main`. Use the pull request's Checks tab for this
-development branch; its source is separate from the candidate.4 release ZIP.
+The CI badge reports public `main`. The release tag identifies the packaged
+source; its `SHA256SUMS.txt` identifies the download bytes.
 
 ## Choose the right tool
 
@@ -117,6 +119,7 @@ workspace UI. A model profile fits when you want explicit role/model presets.
 | Understand delegation, review and recovery | [How it works](docs/how-it-works.md) |
 | Choose optional role/model settings | [Advanced Codex profile](examples/codex/README.md) |
 | Inspect results or contribute a change | [Evidence](docs/evidence.md) · [Development](docs/development.md) · [Contributing](CONTRIBUTING.md) |
+| Continue evidence-led improvement work | [Reviewed code research and next checks](docs/research-priorities.md) |
 
 ## Built in the open
 
