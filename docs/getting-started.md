@@ -1,23 +1,36 @@
 # Get started with Agent Mission Control
 
-You need Codex with access to the project you want to work on. AMC supplies the
-workflow instructions; your existing Codex account supplies models and tools.
+[Install](#1-install-the-skill) · [Select](#2-select-the-installed-copy) ·
+[First task](#3-try-a-small-first-task) · [Real work](task-guide.md) ·
+[Troubleshooting](#troubleshooting)
+
+You need a coding assistant with native Agent Skills and access to your project.
+AMC supplies workflow instructions; your existing account supplies models and tools.
 The skill does not need its own API key or a separate server.
+
+The published ZIP example below uses Codex. For **Claude Code, Cursor, Grok or
+Kimi**, use the [host directory and invocation table](hosts.md#install-the-current-source).
+The same guide covers candidate.8's new project installer and byte check.
 
 ## 1. Install the skill
 
 The simplest package is
-[agent-mission-control-skill.zip](https://github.com/byensitmagnus/agent-mission-control/releases/download/v0.2.0-candidate.4/agent-mission-control-skill.zip)
-from the [candidate release](https://github.com/byensitmagnus/agent-mission-control/releases/tag/v0.2.0-candidate.4).
+[agent-mission-control-skill.zip](https://github.com/byensitmagnus/agent-mission-control/releases/download/v0.2.0-candidate.8/agent-mission-control-skill.zip)
+from the [candidate release](https://github.com/byensitmagnus/agent-mission-control/releases/tag/v0.2.0-candidate.8).
 Choose that asset rather than GitHub's automatic “Source code” download.
+
+This guide installs the **candidate.8** prerelease runtime. The optional
+[install/check/update CLI](hosts.md#install-the-current-source) is in the tagged
+source repository, not the runtime ZIP.
+[Compare version status and evidence](evidence.md#choose-a-version-deliberately).
 
 **Let Codex handle the files.** Open your intended project and paste:
 
 ```text
-Install Agent Mission Control v0.2.0-candidate.4 in this project only.
+Install Agent Mission Control v0.2.0-candidate.8 in this project only.
 
 Use the skill ZIP and SHA256SUMS.txt from:
-https://github.com/byensitmagnus/agent-mission-control/releases/tag/v0.2.0-candidate.4
+https://github.com/byensitmagnus/agent-mission-control/releases/tag/v0.2.0-candidate.8
 
 Check the ZIP against the listed SHA-256 checksum. Extract the
 agent-mission-control folder into .agents/skills/ in this project.
@@ -95,7 +108,7 @@ The answer should say that project checks were **not run**. Reading a README
 does not establish that an application works or is ready to release.
 
 For example, in AMC's own repository the answer can explain that AMC is a
-Codex orchestration skill, name feature work as an example, and note that
+portable orchestration skill, name feature work as an example, and note that
 host capabilities vary. This is an illustration of the expected content,
 not a prescribed answer for your project.
 
@@ -104,6 +117,9 @@ and no project files changed. No extra agent or paid model comparison is needed.
 [See the dated installation check and its host limits](../examples/codex/compatibility.md#2026-09-13-standalone-skill-first-use-check).
 
 ## 4. Move on to your actual task
+
+Choose a [bug, feature or resume recipe](task-guide.md). Each includes an outcome,
+scope and delivery check; the lead handles worker coordination and integration.
 
 Once the small task works, give AMC a bug, feature or investigation you already
 need. For a larger release task, you can use:
@@ -120,6 +136,21 @@ and show the checks and any remaining blockers. Stop before deployment.
 Expect a clear objective, a useful route, relevant changes or findings, and
 checks you can inspect. On longer work, expect a progress record that can be
 resumed. You do not need to ask for AVO, Context Diamond and learning separately.
+
+## Troubleshooting
+
+| What you see | What to check |
+|---|---|
+| AMC is missing from the picker | Check `.agents/skills/agent-mission-control/SKILL.md` inside the intended project, then restart Codex. Avoid a doubled `agent-mission-control` folder. |
+| Two AMC entries appear | Select the exact project path. The global and project copies remain separate. |
+| The agent cannot read the README | Resolve the normal host file-access approval or permission error. A completed reply is not a successful read. |
+| No subagents appear | A small task may correctly stay direct. Confirm host support if the work requires independent help; skill installation does not add that capability. |
+| The output claims tests passed without evidence | Inspect the actual command output and affected artifact. Ask the lead to resolve the missing proof before accepting completion. |
+
+To stop using this project copy, deselect it and move just its
+`.agents/skills/agent-mission-control/` folder outside the discovery directory.
+Keep it as a backup if customized, then restart Codex. This does not require
+editing global model settings or removing another skill with the same name.
 
 ## Common questions
 
@@ -151,7 +182,9 @@ per-command approval. Do not disable the sandbox or grant a permanent blanket
 permission. If reading remains unavailable, the first task is not complete.
 
 **How do I update or remove it?** Compare a new version in a separate folder,
-preserve local edits, then replace only the confirmed project installation.
+preserve local edits, then replace only the confirmed project installation. The
+candidate.8 source offers an [explicit update with a retained backup](hosts.md#update-an-existing-project-installation)
+and refuses to replace files that changed after your inspection.
 Remove that same installation folder to uninstall, after saving any changes.
 Neither action requires changing your global Codex configuration.
 

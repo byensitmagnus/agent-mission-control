@@ -94,8 +94,11 @@ def prepare(case_id, destination, skill_source):
     sources = [skill_source / "SKILL.md"]
     for name in RUNTIME_DIRS:
         directory = skill_source / name
-        if os.path.lexists(directory):
-            sources.extend([directory, *directory.rglob("*")])
+        if directory.is_symlink():
+            raise ValueError(f"linked skill input is not allowed: {directory}")
+        if not directory.is_dir():
+            raise ValueError(f"skill source missing runtime directory: {directory}")
+        sources.extend([directory, *directory.rglob("*")])
     for source in sources:
         if source.is_symlink() or getattr(source.lstat(), "st_file_attributes", 0) & 0x400:
             raise ValueError(f"linked skill input is not allowed: {source}")
@@ -118,8 +121,7 @@ def prepare(case_id, destination, skill_source):
     skill.mkdir(parents=True)
     shutil.copy2(skill_source / "SKILL.md", skill / "SKILL.md")
     for name in RUNTIME_DIRS:
-        if (skill_source / name).is_dir():
-            shutil.copytree(skill_source / name, skill / name)
+        shutil.copytree(skill_source / name, skill / name)
 
     # Local fixture history only: no remote, credentials, user hooks or signing.
     git = ["git", "-c", "core.hooksPath=", "-c", "core.attributesFile=",

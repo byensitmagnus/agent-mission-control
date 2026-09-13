@@ -226,3 +226,174 @@ or active model/permission change is part of this publication.
 Acceptance: source/doc review, local structural checks, secret scan, generated
 package checks, GitHub CI, merge without rewriting history, downloadable candidate
 assets and inspection of the rendered public README.
+
+
+## Whole-project code and host portability — 2026-09-13
+
+Magnus clarified that the comparison includes code, native host support and
+actual user value, not only visual presentation. This iteration used the separate
+development checkout; the FPS owner and its candidate.6 runtime were untouched.
+The current local source is candidate.8. Its runtime is byte-identical to the
+retained candidate.7; governing workflow rules were not modified mid-product-run.
+
+Concrete code fixes reject incomplete evaluation runtime directories and duplicate
+session IDs in accounting. The new project installer uses the existing packager,
+stages and verifies bytes before activation, refuses existing/linked paths, and
+provides a read-only installed-byte check. Five native directory mappings are
+documented; file installation and native discovery remain distinct verdicts.
+The validator now checks mobile srcset assets. The optional verifier profile's
+description accurately names its read-only evidence-inspection scope.
+
+Local engineering acceptance PASS: lead-executed affected installer, fixture,
+usage, packaging and validator checks; independent executable review; 114 local
+links and 21 anchors; source/package byte checks. All 136 pre-existing files
+remain and 83 evaluation files are unchanged. Grok's native inspector found the
+exact newly installed project skill. Codex's isolated loader probe and Kimi's
+launcher failed for local environment reasons; other client execution remains
+NOT VERIFIED. No model benchmark, global installation, push or publication.
+
+The [engineering record](docs/engineering-candidate.8.md) and
+[host guide](docs/hosts.md) state exact support limits. Public main/release remain
+candidate.4. Existing candidate.7 observations stay attributable to their original
+runtime. Product benefit and comparative superiority require actual completed
+work; the code inspection alone does not supply those results.
+
+## Safe project updates — active iteration, 2026-09-13
+
+Goal / Definition of Done: complete an existing user's install → inspect →
+update journey without losing the old installation or changing host settings.
+The user authorized continued AMC improvement and PR publication, with small
+model use rather than large behavioral benchmarks. FPS and its governing
+candidate.6 remain outside this work. Parent: PR #5 head ccc234e29be34e8fbf3b05639bbd14ea083ef8ea.
+
+Frozen evaluator, before implementation: supported safe update changes from
+absent to present. An explicit `--update --expected-installed-sha256 <digest>`
+must replace only the reviewed installation; `--check` supplies that fingerprint
+and the changed file list. Stage and verify new bytes before moving old bytes.
+Retain the complete old directory outside native skill discovery, with its exact
+path returned. Refuse missing/malformed/stale confirmation, linked paths and a
+source/destination change during staging. A handled activation failure restores
+the old installation when its destination is free; if another owner occupies
+it, preserve both owners' data and report the retained backup for recovery.
+Abrupt process/power loss may require recovery from that retained directory;
+do not claim automatic restart recovery. No recursive deletion or force flag.
+
+Higher-priority gates: existing install/check preservation controls continue to
+pass; new installed bytes match source on all five destinations; actual old
+customized bytes remain recoverable; no global/model/permission/AGENTS changes;
+all historical evaluations and runtime instructions stay unchanged. Native
+activation, user productivity and cost savings are outside this code proof.
+
+Ownership: Terra owns only scripts/install_skill.py and its tests; one fresh
+Luna reviewer may inspect that implementation without edits. Root owns the
+frozen evaluator, independent execution, integration, documentation and PR.
+These implementation and user-guide jobs have independent write scopes. No
+further agent trial is budgeted; permit at most two evidence-driven repairs.
+
+| Candidate | Parent | Hypothesis | Correctness | Metric | Decision |
+|---|---|---|---|---|---|
+| Incumbent | ccc234e | Existing install/check | Existing CI PASS; CLI rejects new update flags before execution | Safe update absent | Retained base |
+| Update candidate | ccc234e | Reviewed update + retained original | 13 installer + 13 package tests PASS, no skips; independent Luna review PASS; five actual version-to-version CLI journeys PASS | Safe update present; preservation gates PASS | Accept local candidate; PR checks pending |
+
+Next action: publish the locally accepted candidate to the existing PR and
+verify its remote checks. Existing setup/model-profile advice
+already covers the scout's concern; do not add a duplicate profile installer.
+
+### User refinement: budgeted read-only FPS research
+
+The user chose FPS bug/code research as the Terra→Luna workflow observation.
+The AMC implementation owner finishes its separate code task. The research uses
+seven tracked updater/trust/test files from a pinned product snapshot retained
+in external private proof. The active FPS task
+continues independently; do not write its repository, run its tests/app, launch
+the updater, change Windows or send the owner new work orders.
+
+Terra receives the frozen scope and AMC runtime; it gives one Luna a concise
+context packet about updater completion/relaunch correctness. Terra must inspect
+the child's evidence, reject unsupported findings, and return a bounded research
+report with file/line anchors, triggers, impact, existing test coverage and
+unexecuted proof. Zero confirmed bugs is valid. Root verifies retained claims.
+One Terra and one Luna, no retries/model comparison/extra fan-out. The observed
+workflow must keep source hashes unchanged and require no user coordination.
+This establishes only this read-only research outcome; it cannot establish
+general productivity, budget savings, implementation/recovery quality or
+superiority over the competitors. No AMC runtime rule change follows by default.
+
+Completed research observation: Terra delegated one bounded question with a
+saved 133-word context packet, read Luna's result and checked production guards
+and existing tests. Root further narrowed one reporting-risk finding, retained
+an unsupported target-path hypothesis as unconfirmed, and corrected observation
+metadata that had confused brief constraints with user interventions. All seven
+source files stayed unchanged; no product execution or repair occurred. Zero
+additional user coordination prompts were observed after research dispatch.
+The workflow's packet/delegation/review/report stages were exercised; interrupted
+worker recovery, native profile activation and savings were not measured. Keep
+current runtime rules; the concrete code improvement is the separate installer.
+
+## Evidence-led research recipe and candidate.8 release — 2026-09-13
+
+User approved continuing the proposed release, reusable research recipe and one
+small Terra→Luna follow-up, with competitor code/docs, actual AMC checks and
+ongoing product evidence informing changes. Parent: b6d6294. Both competitor
+heads still match the inspected pins; reuse that code audit. No new runtime
+rules, compulsory role/profile, service or speculative implementation.
+
+Frozen acceptance: add a discoverable, copyable read-only research recipe to
+the existing task guide. It must identify the snapshot, permit necessary caller/
+guard inspection within that snapshot, preserve a running product owner's work,
+separate missing context from unexecuted behavior, require counterevidence and
+permit a no-defect conclusion. Review against the actual context omission and
+claim corrections from the first research run. One fresh Terra→Luna pair may
+apply it to the still-open updater target-path question with the missing caller
+supplied. No FPS execution/edits or extra model comparison; root checks the
+result and source identity. That is a development observation, not a held-out
+test or proof of causal improvement from the recipe.
+
+Release gates: structural/link checks for changed documentation; preserved
+runtime/evaluation bytes and existing code proof; generated skill/plugin ZIP
+identity and applicable validators; green exact-head PR; merge without rewriting
+history; candidate.8 prerelease assets and downloaded checksums verified. Update
+onboarding to the actual published version. Global installed skills and the
+active product workflow stay unchanged. One recipe attempt; repair only concrete
+findings. Existing private proof holds source and raw product observations.
+
+| Candidate | Parent | Observable improvement | Status |
+|---|---|---|---|
+| Existing task guide | b6d6294 | Bug/feature/resume recipes; no read-only research recipe | Baseline inspected |
+| Research recipe | b6d6294 | Explicit reusable read-only scope, dependencies and finding limits | Accepted after bounded follow-up and controller source review |
+
+Follow-up outcome: one fresh Terra→Luna pair traced the newly supplied caller
+at the original snapshot identity and refuted the normal-flow hypothesis. Terra
+narrowed the worker's direct-CLI claim. Root independently checked the caller,
+argument origin, downstream guard, existing test scope and eight unchanged source
+hashes; publisher verification was further qualified as policy-dependent. No
+product execution, edits or additional user coordination occurred. Missing
+context was resolved through source access. Keep runtime instructions unchanged;
+the reusable task recipe is the accepted documentation improvement.
+
+Ongoing product observation remains separate: the identified candidate's first
+61 code gates passed with physical mutation disabled and no source change during
+the run. The package build was still in progress when inspected. That is neither
+physical lifecycle proof nor evidence that AMC caused the result. The product
+owner continues its existing mission without a new instruction from this task.
+
+Release preparation updates onboarding to candidate.8 and distinguishes runtime
+ZIPs from the tagged-source installer. Source CI, package validation and remote
+publication identity are recorded separately from native-host and behavioral
+evidence. Final merge/release confirmation is retained in the external release
+record to avoid changing the reviewed source merely to record its own commit.
+
+User additionally authorized two parallel Luna research jobs: AMC code risks
+and competitor code mechanisms, research only. Exact fork commits were fetched
+into the existing local source clones without changing their checkouts. The
+controller independently checked the retained anchors and narrowed two worker
+recommendations: repeated JSON members are a defensive validation opportunity,
+not demonstrated corruption of current cases; mandatory admission keys are
+deferred because a mission field alone cannot ensure atomic worker creation.
+Both current evaluator JSON files passed a read-only duplicate-member inspection.
+No implementation, competitor execution or new product action followed.
+
+The public [research priorities](docs/research-priorities.md) preserve source
+identity, counterevidence, adopt/defer decisions and proposed next checks for a
+future authorized task. The two raw worker reports remain private proof; this
+reviewed document is the handoff, not a new runtime instruction or work order.

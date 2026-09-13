@@ -1,5 +1,11 @@
 # Current engineering validation
 
+[Candidate.7 acceptance-review case](acceptance-review/README.md) records a
+bounded comparison with candidate.6 and supplies a runnable 19-case controller.
+Both repairs passed; only candidate.7 obtained independent acceptance review.
+This is narrow behavior evidence with shared-host limitations, not general
+quality, autonomy or cost qualification. Historical results below are unchanged.
+
 The [whole-project research review](../docs/research-basis.md) is the basis for
 the current local candidate. Routine acceptance uses deterministic tooling,
 source review and observed real-task defects. No new behavioral benchmark is

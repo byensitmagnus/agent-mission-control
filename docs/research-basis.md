@@ -191,10 +191,13 @@ than these development examples.
 
 ## Whole-project review and implemented changes
 
-The implementation remains a Markdown skill plus existing Python tooling. The
-source snapshot before this update contained 117 files, including pre-existing
-uncommitted work. The current runtime changes are candidate.4; installed/global
-skills and Codex settings are separate and were not modified.
+This section records the review that produced **candidate.4**, now the published
+prerelease. Its starting snapshot contained 117 files, including pre-existing
+uncommitted work. The implementation remained a Markdown skill plus existing
+Python tooling; installed/global skills and Codex settings were not modified.
+Later development candidates are described separately in the
+[current version and evidence guide](evidence.md); this historical review does
+not certify their runtime changes.
 
 | Area inspected | Decision and evidence boundary |
 |---|---|

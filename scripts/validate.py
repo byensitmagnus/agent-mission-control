@@ -108,16 +108,29 @@ def validate_codex(root: Path) -> None:
     need(isinstance(data.get("model"), str) and data["model"].strip(), f"{path}: root model required")
     need(isinstance(agents, dict) and agents.get("enabled") is True and agents.get("max_concurrent_threads_per_session") == 3, f"{path}: [agents] must enable 3 concurrent threads")
 
+def srcset_urls(value: str):
+    while value.strip(" ,"):
+        value = value.lstrip(" ,")
+        parts = value.split(maxsplit=1)
+        url, rest = parts[0], parts[1] if len(parts) > 1 else ""
+        yield url.rstrip(",")
+        # A trailing comma ends a URL; otherwise skip its optional descriptors.
+        # Commas inside a data URL stay part of that URL.
+        value = rest if url.endswith(",") else rest.partition(",")[2]
+
+
 def validate_links(root: Path) -> None:
     patterns = (re.compile(r"!?\[[^\]]*\]\(([^)]+)\)"), re.compile(r"<(?:img|source)\b[^>]*\bsrc=[\"']([^\"']+)[\"']", re.I))
     for path in sorted(root.rglob("*.md")):
         text = read(path)
-        for pattern in patterns:
-            for raw in pattern.findall(text):
-                value = raw.strip().strip("<>").split(maxsplit=1)[0]
-                if not value or value.startswith("#") or re.match(r"^(?:https?:|mailto:|data:)", value, re.I): continue
-                target = value.split("#", 1)[0].split("?", 1)[0]
-                need(resolve_link(root, target, path).exists(), f"{path}: broken local link {raw}")
+        links = [raw for pattern in patterns for raw in pattern.findall(text)]
+        for value in re.findall(r"<(?:img|source)\b[^>]*\bsrcset=[\"']([^\"']+)[\"']", text, re.I):
+            links.extend(srcset_urls(value))
+        for raw in links:
+            value = raw.strip().strip("<>").split(maxsplit=1)[0]
+            if not value or value.startswith("#") or re.match(r"^(?:https?:|mailto:|data:)", value, re.I): continue
+            target = value.split("#", 1)[0].split("?", 1)[0]
+            need(resolve_link(root, target, path).exists(), f"{path}: broken local link {raw}")
 
 def validate_svgs(root: Path) -> None:
     files = sorted(root.rglob("*.svg")); need(bool(files), "no SVG assets found")

@@ -60,6 +60,12 @@ def main():
         session(root,'offset-child','lead',[count(7,2,1)],'2026-09-12T19:00:10-05:00')
         result=snapshot(root,'lead',SINCE,['offset-child'])
         assert result['coverage_complete_through_observed_counters']
+        duplicate=root/'duplicate.jsonl'
+        duplicate.write_text((root/'lead.jsonl').read_text(encoding='utf-8'),encoding='utf-8')
+        try:snapshot(root,'lead',SINCE)
+        except ValueError as error:assert str(error)=='duplicate session id: lead'
+        else:raise AssertionError('duplicate session ID did not fail closed')
+        duplicate.unlink()  # Keep this failure from masking the timestamp controls below.
         for cutoff in ('invalid','2026-09-13T00:00:10','2026-09-13',None):
             try:snapshot(root,'lead',cutoff)
             except ValueError:pass
@@ -69,6 +75,6 @@ def main():
             try:snapshot(root,'lead',SINCE)
             except ValueError:pass
             else:raise AssertionError('Invalid event timestamp accepted')
-    print('PASS: timezone boundaries, invalid timestamps, counter deltas/resets, descendants, failed attempts, missing baselines, partial writes and transcript exclusion')
+    print('PASS: timezone boundaries, invalid timestamps, duplicate IDs, counter deltas/resets, descendants, failed attempts, missing baselines, partial writes and transcript exclusion')
 
 if __name__=='__main__':main()

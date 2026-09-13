@@ -53,6 +53,9 @@ def eval_ancestor_collision(root):
     path = root / "evals/cases.json"; data = json.loads(path.read_text(encoding="utf-8")); data["cases"][0]["fixture"] = {"a": "file", "a/b.txt": "child"}; path.write_text(json.dumps(data), encoding="utf-8")
 def broken_link(root):
     path = root / "README.md"; path.write_text(path.read_text(encoding="utf-8") + "\n[broken](missing-file.md)\n", encoding="utf-8")
+
+def broken_srcset(root):
+    path = root / "README.md"; path.write_text(path.read_text(encoding="utf-8") + '\n<source srcset="assets/icon-small.svg 1x, missing-mobile.svg 2x" />\n', encoding="utf-8")
 def malformed_svg(root): (root / "assets/mission-control.svg").write_text("<svg>", encoding="utf-8")
 def svg_event(root): replace(root / "assets/icon-small.svg", "<svg ", '<svg onload="alert(1)" ')
 def svg_style_import(root): replace(root / "assets/icon-small.svg", "</svg>", "<style>@import url(https://example.test/x.css);</style></svg>")
@@ -60,6 +63,10 @@ def placeholder(root):
     path = root / "README.md"; path.write_text(path.read_text(encoding="utf-8") + "\nTODO unfinished\n", encoding="utf-8")
 
 def main() -> int:
+    from validate import srcset_urls
+    assert list(srcset_urls('a.svg 1x,b.svg 2x')) == ['a.svg', 'b.svg']
+    assert list(srcset_urls('data:image/png;base64,AAAA 1x, b.svg 2x')) == ['data:image/png;base64,AAAA', 'b.svg']
+    assert list(srcset_urls('a.svg,b.svg 2x')) == ['a.svg,b.svg']
     baseline = run(ROOT)
     if baseline.returncode:
         print(baseline.stdout + baseline.stderr, end="", file=sys.stderr); print("FAIL: baseline must validate", file=sys.stderr); return 1
@@ -72,7 +79,7 @@ def main() -> int:
         unsafe_profile: "unsafe sandbox mode", missing_role: "must be exactly",
         bad_lead_model: "root model must be supported", bad_child_model: "unsupported default subagent model", bad_child_effort: "bad default subagent reasoning effort",
         invalid_eval_path: "unsafe fixture path", invalid_activation: "invalid activation", drive_eval_path: "unsafe fixture path", eval_ancestor_collision: "conflicting fixture file and directory",
-        broken_link: "broken local link", malformed_svg: "malformed SVG", svg_event: "event handler forbidden",
+        broken_link: "broken local link", broken_srcset: "broken local link", malformed_svg: "malformed SVG", svg_event: "event handler forbidden",
         svg_style_import: "unsafe SVG element style", placeholder: "unfinished placeholder",
     }
     for mutation, expected in controls.items():
