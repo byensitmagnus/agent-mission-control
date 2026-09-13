@@ -18,18 +18,15 @@ choose an available model and effort suitable for a bounded job, but AMC makes n
 promise about price, speed, or quality. Current files and executed checks—not a
 worker saying “done”—decide the result.
 
+![Three AMC examples: edit-check-done; focused feature help with integration and verification; release investigation, improvement and gate verification.](assets/workflow-scenarios.png)
+
 These are illustrative routes, not recorded executions or mandatory pipelines.
 
 ## 1. A tiny edit stays tiny
 
 **Prompt:** “Change the typo in the Settings heading and check the page still builds.”
 
-```mermaid
-flowchart LR
-  A[Lead reads task] --> B[Edit heading]
-  B --> C[Run relevant check]
-  C --> D[Report file and result]
-```
+**Route:** Lead edits the heading, runs the relevant check, and reports the result.
 
 There are no children, plans, or reviews to coordinate. The observable delivery
 is the changed file and its build/check output.
@@ -39,21 +36,10 @@ is the changed file and its build/check output.
 **Prompt:** “Add export. One person can examine the file format while another
 checks the permission boundary; integrate the result and test it.”
 
-```mermaid
-flowchart TD
-  A[Lead fixes interfaces] --> B[Format investigation]
-  A --> C[Permission review]
-  B --> I[Implement agreed feature]
-  C --> I
-  I --> D[Lead integrates]
-  D --> E[Run feature checks]
-  E --> F{Evidence passes?}
-  F -->|No| G{Repair within scope and budget?}
-  G -->|Yes| R[Repair and rerun affected checks]
-  R --> F
-  G -->|No| X[Report failed or blocked gate]
-  F -->|Yes| H[Verdict with evidence]
-```
+**Route:** Lead defines the interfaces; format investigation and permission review
+run independently; implementation follows their findings; the lead integrates
+and runs feature checks. Confirmed failures get a bounded repair and recheck.
+If repair cannot continue within scope and budget, report the failed or blocked gate.
 
 The two jobs run together only because neither needs the other's answer. Their
 deliverables are file anchors, findings, and reproducible checks. Shared editing
@@ -64,23 +50,11 @@ and integration remain serial, so agents do not overwrite each other.
 **Prompt:** “Prepare FPS Booster for release: improve p99 frametime, preserve
 profiles on upgrade, and stop before deployment.”
 
-```mermaid
-flowchart TD
-  A[Freeze baseline and release gates] --> B[Independent profile or installer audit]
-  A --> C{Measured optimizer change needed?}
-  C -->|Yes| D[Fixed-evaluator candidate loop]
-  C -->|No| E[Direct implementation]
-  B --> F[Lead checks current artifact]
-  D --> F
-  E --> F
-  F --> G{All gates proven?}
-  G -->|No| H{Repair within scope and budget?}
-  H -->|Yes| R[Repair and rerun affected checks]
-  R --> F
-  H -->|No| X[Report failed or unverified gates]
-  G -->|Yes| I[Release-ready evidence; stop before deploy]
-  I -. completed run may justify .-> J[Optional separate learning proposal]
-```
+**Route:** Freeze the baseline and release gates; audit independent boundaries;
+implement or run a measured candidate loop; inspect the current artifact and
+verify every applicable gate. Repair within scope and budget, or report unresolved
+gates. Stop before deployment as requested. A completed run may justify a separate
+learning proposal.
 
 Here the optimization loop is conditional: it exists only if p99 frametime has
 a stable workload and evaluator. Profile preservation, rollback, crash guard,
