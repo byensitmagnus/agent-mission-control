@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="docs/assets/cover.jpg" alt="Agent Mission Control — a lead agent coordinating focused work and verification" width="100%" />
+  <img src="docs/assets/workflow-overview.png" alt="Agent Mission Control: your goal, lead chooses, work directly or with focused help, then verify the result" width="100%" />
 </p>
 
 <h1 align="center">Agent Mission Control</h1>
@@ -60,16 +60,8 @@ to configure individual roles; it is not required.
 
 ## How the work moves
 
-```mermaid
-flowchart TD
-  goal["Your goal"] --> lead{"Lead chooses useful work"}
-  lead --> direct["Work directly"]
-  lead --> focused["Focused agents + context packs"]
-  direct --> check["Check the result"]
-  focused --> integrate["Lead integrates"]
-  integrate --> check
-  check --> result["Result + evidence"]
-```
+The lead chooses direct work or useful independent help, integrates any delegated
+results, and checks the current artifact against your goal.
 
 A **context pack** gives a worker its question, relevant files, boundaries and
 acceptance check. Research does not need an unrelated implementation transcript.
