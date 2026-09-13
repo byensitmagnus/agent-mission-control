@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64" role="img" aria-labelledby="title desc">
+  <title id="title">Agent Mission Control</title>
+  <desc id="desc">A cyan mission node connected to two purple agent nodes on a dark square.</desc>
+  <rect width="64" height="64" rx="14" fill="#111827"/>
+  <path d="M32 20 17 42M32 20l15 22M17 42h30" fill="none" stroke="#8b5cf6" stroke-width="4" stroke-linecap="round"/>
+  <circle cx="32" cy="20" r="8" fill="#22d3ee"/>
+  <circle cx="17" cy="42" r="6" fill="#8b5cf6"/>
+  <circle cx="47" cy="42" r="6" fill="#8b5cf6"/>
+</svg>

@@ -1,0 +1,37 @@
+name: Share an experience
+description: Tell us what worked, what was confusing, or where AMC chose the wrong workflow.
+title: "[Experience]: "
+body:
+  - type: markdown
+    attributes:
+      value: |
+        A small real example is enough. No benchmark or token bill is required.
+        Please remove secrets, private prompts, customer data and personal paths.
+        For vulnerabilities, follow SECURITY.md instead of posting details here.
+  - type: input
+    id: setup
+    attributes:
+      label: Your setup
+      description: AMC version, host, and models if you know them.
+      placeholder: "candidate.4, Codex, Sol lead"
+    validations:
+      required: true
+  - type: textarea
+    id: task
+    attributes:
+      label: What were you trying to do?
+      description: A short task description, without private information.
+    validations:
+      required: true
+  - type: textarea
+    id: happened
+    attributes:
+      label: What happened, and what did you expect?
+      description: Include confusing setup steps or unnecessary agent work.
+    validations:
+      required: true
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Anything we can inspect?
+      description: Optional sanitized error, small reproduction, relevant check or screenshot.

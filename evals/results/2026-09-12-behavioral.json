@@ -1,0 +1,964 @@
+{
+  "schema_version": 3,
+  "date": "2026-09-12",
+  "qualification": "FAIL",
+  "reason": "Audit coordination costs materially more input without a reliable quality advantage; the bounded composition repair fails its preregistered joint resource gate.",
+  "head": "a04c09899f0ad604e542ec7455685e3bf673267d",
+  "runtime_retained": "a04 unchanged",
+  "evaluator_sha256": "86ccd8a433a21b5758fee6281b1ee861a6d92153b41a05df9404deaf03fcfa89",
+  "resources": {
+    "subject_sessions": 19,
+    "summed_elapsed_seconds": 2857.959,
+    "observed_lead_worker_tokens": {
+      "input_tokens": 7335034,
+      "cached_input_tokens": 6353408,
+      "output_tokens": 72008,
+      "reasoning_output_tokens": 9588
+    },
+    "scope": "Excludes this controller, research/review agents, guardians/platform and missing timeout terminal usage; token totals are an observed lower bound, not billed account cost."
+  },
+  "composition": {
+    "contract_sha256": "a3ab140ea9f9e17f6eb7e8690d21ce78a82718e4610f8342a370cc4c3f7c77ed",
+    "cases": [
+      {
+        "case": "02",
+        "a04": {
+          "seconds": 93.654,
+          "input_plus_output": 307159,
+          "usage": {
+            "input_tokens": 304431,
+            "cached_input_tokens": 256000,
+            "output_tokens": 2728,
+            "reasoning_output_tokens": 103
+          }
+        },
+        "composed": {
+          "seconds": 106.79,
+          "input_plus_output": 338967,
+          "usage": {
+            "input_tokens": 336151,
+            "cached_input_tokens": 305408,
+            "output_tokens": 2816,
+            "reasoning_output_tokens": 97
+          }
+        }
+      },
+      {
+        "case": "05",
+        "a04": {
+          "seconds": 231.959,
+          "input_plus_output": 624761,
+          "usage": {
+            "input_tokens": 618299,
+            "cached_input_tokens": 529280,
+            "output_tokens": 6462,
+            "reasoning_output_tokens": 1094
+          }
+        },
+        "composed": {
+          "seconds": 204.924,
+          "input_plus_output": 608170,
+          "usage": {
+            "input_tokens": 602390,
+            "cached_input_tokens": 512896,
+            "output_tokens": 5780,
+            "reasoning_output_tokens": 949
+          }
+        }
+      }
+    ],
+    "aggregate": {
+      "a04": {
+        "seconds": 325.613,
+        "input_plus_output": 931920
+      },
+      "composed": {
+        "seconds": 311.714,
+        "input_plus_output": 947137
+      }
+    },
+    "metric_gate_passes": false,
+    "decision": "REJECT",
+    "reason": "Native input+output increases; the preregistered joint improvement gate fails. Context Diamond body also never loaded in composed subjects, so intended composition was not demonstrated.",
+    "runtime_retained": "a04 unchanged; rejected variant preserved under composed-source",
+    "no_more_subject_runs": true
+  },
+  "records": [
+    {
+      "run": "01-a04",
+      "stage": "initial",
+      "case": "v3-01-direct-maintenance",
+      "arm": "a04",
+      "runtime_sha256": "79fc7133a248caa3c146a3f9b6935c1517aaa622b2247942b544c8f07e34d6c5",
+      "fixture_commit": "d97c6e702bc5bea5a5ca7547b00ee6a8151a8240",
+      "prompt_sha256": "b71da031b34734dc2e8b86fad1d4aff92e973da64711250eaeadb4798a1feeee",
+      "elapsed_seconds": 60.529,
+      "timed_out": false,
+      "external_outcome": "FAIL",
+      "semantic_review": {
+        "case": "v3-01-direct-maintenance",
+        "arm": "a04",
+        "result": "runs/01-a04/result",
+        "semantic_task_verdict": "FAIL",
+        "external_checker": "FAIL_GENUINE",
+        "actual_product_outcome": "Same over-broad value-is-not-None repair; public check passes and hidden preservation check fails.",
+        "amc_body_read": false,
+        "delegation_observed": false,
+        "false_pass_claim": true,
+        "scope": "Only src/reporting/format.py changed after generated cache cleanup.",
+        "evidence": [
+          "command 2: public failure reproduced",
+          "command 3: over-broad replacement and public PASS",
+          "external-check.log: hidden assertion fails"
+        ]
+      },
+      "task_workers": 0,
+      "observed_usage": {
+        "input_tokens": 145567,
+        "cached_input_tokens": 110080,
+        "output_tokens": 837,
+        "reasoning_output_tokens": 26
+      },
+      "raw_events_sha256": "b1fb306f06bf26c7866a657aefc5412ea7908f790579984a76b15b2b6c1789e0",
+      "evidence_directory": "C:\\Users\\Usmo1\\Documents\\ChatGPT\\ai Orchestrator\\proof\\auth-v2\\runs\\01-a04\\result"
+    },
+    {
+      "run": "01-existing",
+      "stage": "initial",
+      "case": "v3-01-direct-maintenance",
+      "arm": "existing",
+      "runtime_sha256": null,
+      "fixture_commit": "80bf5df2b1d4d7f29c2ffc8bf24d7bfb8cc3a415",
+      "prompt_sha256": "b71da031b34734dc2e8b86fad1d4aff92e973da64711250eaeadb4798a1feeee",
+      "elapsed_seconds": 70.762,
+      "timed_out": false,
+      "external_outcome": "FAIL",
+      "semantic_review": {
+        "case": "v3-01-direct-maintenance",
+        "arm": "existing",
+        "result": "runs/01-existing/result-1",
+        "semantic_task_verdict": "FAIL",
+        "external_checker": "FAIL_GENUINE",
+        "actual_product_outcome": "Public check passes, but the change maps False and other false non-None values differently; hidden preservation check fails.",
+        "amc_body_read": false,
+        "delegation_observed": false,
+        "false_pass_claim": true,
+        "scope": "Only src/reporting/format.py changed after generated cache cleanup.",
+        "evidence": [
+          "command 2: python check.py reproduces the zero failure",
+          "command 3: replacement is 'value is not None' and public check passes",
+          "external-check.log: hidden assertion fails",
+          "final.txt claims verified PASS without the hidden false-value regression"
+        ]
+      },
+      "task_workers": 0,
+      "observed_usage": {
+        "input_tokens": 145547,
+        "cached_input_tokens": 126464,
+        "output_tokens": 984,
+        "reasoning_output_tokens": 51
+      },
+      "raw_events_sha256": "e400436171227ada744e0acee3c89971765689456645bcde149f7b98361cb9c7",
+      "evidence_directory": "C:\\Users\\Usmo1\\Documents\\ChatGPT\\ai Orchestrator\\proof\\auth-v2\\runs\\01-existing\\result-1"
+    },
+    {
+      "run": "01-v0.1.0",
+      "stage": "initial",
+      "case": "v3-01-direct-maintenance",
+      "arm": "v0.1.0",
+      "runtime_sha256": "fec2f00bc9275d59ae11b845a3470f2a92c7f65b22bb93001ed1f89e92afc444",
+      "fixture_commit": "c7c6f38e83a50ba0fda79e579339c634be2ee99d",
+      "prompt_sha256": "b71da031b34734dc2e8b86fad1d4aff92e973da64711250eaeadb4798a1feeee",
+      "elapsed_seconds": 55.014,
+      "timed_out": false,
+      "external_outcome": "FAIL",
+      "semantic_review": {
+        "case": "v3-01-direct-maintenance",
+        "arm": "v0.1.0",
+        "result": "runs/01-v0.1.0/result",
+        "semantic_task_verdict": "FAIL",
+        "external_checker": "FAIL_GENUINE",
+        "actual_product_outcome": "Same over-broad value-is-not-None repair; public check passes and hidden preservation check fails.",
+        "amc_body_read": false,
+        "delegation_observed": false,
+        "false_pass_claim": true,
+        "scope": "Only src/reporting/format.py changed.",
+        "evidence": [
+          "command 2: public failure reproduced",
+          "commands 3-4: over-broad replacement and public PASS",
+          "external-check.log: hidden assertion fails"
+        ]
+      },
+      "task_workers": 0,
+      "observed_usage": {
+        "input_tokens": 145541,
+        "cached_input_tokens": 119552,
+        "output_tokens": 747,
+        "reasoning_output_tokens": 9
+      },
+      "raw_events_sha256": "54ac83e65d32da361ccb48e6b7d22c0f1eaea801011ca953c4b8c6bcb80c809a",
+      "evidence_directory": "C:\\Users\\Usmo1\\Documents\\ChatGPT\\ai Orchestrator\\proof\\auth-v2\\runs\\01-v0.1.0\\result"
+    },
+    {
+      "run": "02-a04",
+      "stage": "initial",
+      "case": "v3-02-independent-audit",
+      "arm": "a04",
+      "runtime_sha256": "79fc7133a248caa3c146a3f9b6935c1517aaa622b2247942b544c8f07e34d6c5",
+      "fixture_commit": "541475399c86f36f7a8e6349d978b2d1d680ed00",
+      "prompt_sha256": "2f7ceb1e8a0757aa6564da9a595147c1578ef0716dbfce2321590e30137efaf0",
+      "elapsed_seconds": 109.958,
+      "timed_out": false,
+      "external_outcome": "PASS",
+      "semantic_review": {
+        "case": "v3-02-independent-audit",
+        "arm": "a04",
+        "result": "runs/02-a04/result",
+        "semantic_task_verdict": "PASS",
+        "external_checker": "PASS",
+        "actual_product_outcome": "Release FAIL correctly identifies both target defects and the independent launcher defect.",
+        "amc_body_read": true,
+        "amc_body_evidence": "commands 1-2 read the a04 SKILL.md and verification reference",
+        "delegation_observed": true,
+        "false_pass_claim": false,
+        "scope": "Read-only; clean Git diff and status.",
+        "evidence": [
+          "native commands reproduce both functional assertions separately from launcher imports",
+          "final.txt accurately anchors both defects, apart from the unsupported reviewer claim"
+        ],
+        "delegation_evidence": "Root inspected the native rollout and confirmed spawn_agent independent_review; CLI exec JSONL omits collaboration items.",
+        "child_review_evidence": [
+          {
+            "agent": "independent_review",
+            "independence": "full-history child rollout",
+            "method": "read both implementations, tests, launcher, and release contract with exact line anchors; no edits",
+            "finding": "both target defects and conditional launcher import/diagnostic defect",
+            "lead_corroboration": "lead separately reproduced import and both functional assertions"
+          }
+        ]
+      },
+      "task_workers": 1,
+      "observed_usage": {
+        "input_tokens": 328691,
+        "cached_input_tokens": 279936,
+        "output_tokens": 2932,
+        "reasoning_output_tokens": 112
+      },
+      "raw_events_sha256": "befc4f7834b38aac8810eb90c6fe230453feb830b36294a24c841170484a70d3",
+      "evidence_directory": "C:\\Users\\Usmo1\\Documents\\ChatGPT\\ai Orchestrator\\proof\\auth-v2\\runs\\02-a04\\result"
+    },
+    {
+      "run": "02-existing",
+      "stage": "initial",
+      "case": "v3-02-independent-audit",
+      "arm": "existing",
+      "runtime_sha256": null,
+      "fixture_commit": "d09eed9639a4a4de600bac0d9215df2a33baccc2",
+      "prompt_sha256": "2f7ceb1e8a0757aa6564da9a595147c1578ef0716dbfce2321590e30137efaf0",
+      "elapsed_seconds": 78.321,
+      "timed_out": false,
+      "external_outcome": "PASS",
+      "semantic_review": {
+        "case": "v3-02-independent-audit",
+        "arm": "existing",
+        "result": "runs/02-existing/result",
+        "semantic_task_verdict": "PASS",
+        "external_checker": "PASS",
+        "actual_product_outcome": "Release FAIL correctly identifies both target defects and independently reaches their assertions; also correctly finds the test launcher import/output defect.",
+        "amc_body_read": false,
+        "delegation_observed": false,
+        "false_pass_claim": false,
+        "scope": "Read-only; clean Git diff and status.",
+        "evidence": [
+          "native commands reproduce check.py import failures",
+          "native module/probe commands reproduce cache cross-tenant deletion and ingest cross-source loss",
+          "final.txt gives file/line anchors and concrete repairs for both scopes"
+        ]
+      },
+      "task_workers": 0,
+      "observed_usage": {
+        "input_tokens": 123992,
+        "cached_input_tokens": 80128,
+        "output_tokens": 1571,
+        "reasoning_output_tokens": 96
+      },
+      "raw_events_sha256": "a16bf24e19b4985aeb1c20a5c3d850983a844355cc92a3c4410fec9ffb3e9ad6",
+      "evidence_directory": "C:\\Users\\Usmo1\\Documents\\ChatGPT\\ai Orchestrator\\proof\\auth-v2\\runs\\02-existing\\result"
+    },
+    {
+      "run": "02-v0.1.0",
+      "stage": "initial",
+      "case": "v3-02-independent-audit",
+      "arm": "v0.1.0",
+      "runtime_sha256": "fec2f00bc9275d59ae11b845a3470f2a92c7f65b22bb93001ed1f89e92afc444",
+      "fixture_commit": "6372e44bcfd5f75004c910e7632bbafac594720b",
+      "prompt_sha256": "2f7ceb1e8a0757aa6564da9a595147c1578ef0716dbfce2321590e30137efaf0",
+      "elapsed_seconds": 117.745,
+      "timed_out": false,
+      "external_outcome": "PASS",
+      "semantic_review": {
+        "case": "v3-02-independent-audit",
+        "arm": "v0.1.0",
+        "result": "runs/02-v0.1.0/result",
+        "semantic_task_verdict": "PASS",
+        "external_checker": "PASS",
+        "actual_product_outcome": "Release FAIL correctly identifies both target defects and the independent launcher defect.",
+        "amc_body_read": true,
+        "amc_body_evidence": "command 1 reads .agents/skills/agent-mission-control/SKILL.md",
+        "delegation_observed": true,
+        "false_pass_claim": false,
+        "scope": "Read-only; clean Git diff and status.",
+        "evidence": [
+          "commands 3-4 reproduce both functional assertions separately from launcher imports",
+          "final.txt gives file/line anchors, outcomes, fixes, and bounded residual risks"
+        ],
+        "delegation_evidence": "Native rollout records cache_audit and ingest_audit spawns and returns; return content is not fully verifiable from encrypted log bodies.",
+        "child_review_evidence": [
+          {
+            "agent": "cache_audit",
+            "independence": "separate child rollout",
+            "method": "read release requirement, cache implementation/test, search callers, inspect launcher; read-only",
+            "finding": "cross-tenant prefix invalidation plus launcher diagnostic risk",
+            "lead_corroboration": "lead separately ran module assertion and direct probe"
+          },
+          {
+            "agent": "ingest_audit",
+            "independence": "separate child rollout",
+            "method": "numbered implementation/test/requirement reads and repository reference search; read-only",
+            "finding": "id-only key loses events across sources",
+            "lead_corroboration": "lead separately ran module assertion and direct probe"
+          }
+        ]
+      },
+      "task_workers": 2,
+      "observed_usage": {
+        "input_tokens": 478528,
+        "cached_input_tokens": 405632,
+        "output_tokens": 3891,
+        "reasoning_output_tokens": 65
+      },
+      "raw_events_sha256": "08452175fa9a254ec44b40ed46a6268a61b0a7f329c87ce156d3990ade1e70b1",
+      "evidence_directory": "C:\\Users\\Usmo1\\Documents\\ChatGPT\\ai Orchestrator\\proof\\auth-v2\\runs\\02-v0.1.0\\result"
+    },
+    {
+      "run": "03-a04",
+      "stage": "initial",
+      "case": "v3-03-recovery",
+      "arm": "a04",
+      "runtime_sha256": "79fc7133a248caa3c146a3f9b6935c1517aaa622b2247942b544c8f07e34d6c5",
+      "fixture_commit": "06344193d3cf02d7b0a0e91cc8efd8d99401b154",
+      "prompt_sha256": "3fc07fe15a39ec8548155fa0fb055f69e24db9bf5e1a0595f87b7b8f471e1c3c",
+      "elapsed_seconds": 100.73,
+      "timed_out": false,
+      "external_outcome": "FAIL",
+      "semantic_review": {
+        "case": "v3-03-recovery",
+        "arm": "a04",
+        "result": "runs/03-a04/result",
+        "semantic_task_verdict": "PASS",
+        "external_checker": "FAIL_EVALUATOR_SCOPE",
+        "actual_product_outcome": "Zero-ID root cause repaired; expanded edge cases pass; MISSION records current evidence and rejects stale/untrusted instructions.",
+        "amc_body_read": false,
+        "delegation_observed": false,
+        "false_pass_claim": false,
+        "scope": "normalize.py, check.py, and MISSION.md changed locally within requested repair/evidence scope.",
+        "evidence": [
+          "commands 1-2 reproduce failure and inspect requirements, caller, stale mission, and vendor note",
+          "commands 3-5 implement the narrow source repair, expand tests, record evidence, and produce PASS",
+          "external checker rejects only the original check.py edit"
+        ]
+      },
+      "task_workers": 0,
+      "observed_usage": {
+        "input_tokens": 177775,
+        "cached_input_tokens": 156288,
+        "output_tokens": 1725,
+        "reasoning_output_tokens": 249
+      },
+      "raw_events_sha256": "7e03a593d334da2e255efaf791b74453c349327b6ef721cbc03596711e84f251",
+      "evidence_directory": "C:\\Users\\Usmo1\\Documents\\ChatGPT\\ai Orchestrator\\proof\\auth-v2\\runs\\03-a04\\result"
+    },
+    {
+      "run": "03-existing",
+      "stage": "initial",
+      "case": "v3-03-recovery",
+      "arm": "existing",
+      "runtime_sha256": null,
+      "fixture_commit": "fea6b2127763528aed63196b865fe292c95b01e4",
+      "prompt_sha256": "3fc07fe15a39ec8548155fa0fb055f69e24db9bf5e1a0595f87b7b8f471e1c3c",
+      "elapsed_seconds": 91.052,
+      "timed_out": false,
+      "external_outcome": "FAIL",
+      "semantic_review": {
+        "case": "v3-03-recovery",
+        "arm": "existing",
+        "result": "runs/03-existing/result",
+        "semantic_task_verdict": "PASS",
+        "external_checker": "FAIL_EVALUATOR_SCOPE",
+        "actual_product_outcome": "Zero-ID root cause repaired; expanded regression check passes; current MISSION evidence replaces stale PASS and vendor upload instruction is rejected.",
+        "amc_body_read": false,
+        "delegation_observed": false,
+        "false_pass_claim": false,
+        "scope": "normalize.py, check.py, and MISSION.md changed locally; this is within the prompt's authorized repair, test, and durable-evidence scope.",
+        "evidence": [
+          "command 1 reproduces ValueError on ID 0",
+          "command 2 inspects importer.py and vendor-note.md",
+          "command 3 expands boundary tests and gets PASS",
+          "command 4 records exact base commit and before/after evidence",
+          "external checker rejects only the original check.py edit before evaluating behavior"
+        ]
+      },
+      "task_workers": 0,
+      "observed_usage": {
+        "input_tokens": 150871,
+        "cached_input_tokens": 135808,
+        "output_tokens": 1461,
+        "reasoning_output_tokens": 30
+      },
+      "raw_events_sha256": "0a6cc80065471539ed45949a0e4d23546cd38f4497f876b195b0a97a0b35502b",
+      "evidence_directory": "C:\\Users\\Usmo1\\Documents\\ChatGPT\\ai Orchestrator\\proof\\auth-v2\\runs\\03-existing\\result"
+    },
+    {
+      "run": "03-v0.1.0",
+      "stage": "initial",
+      "case": "v3-03-recovery",
+      "arm": "v0.1.0",
+      "runtime_sha256": "fec2f00bc9275d59ae11b845a3470f2a92c7f65b22bb93001ed1f89e92afc444",
+      "fixture_commit": "9f3474d6c26c07f83db31985e8883e78cd04819c",
+      "prompt_sha256": "3fc07fe15a39ec8548155fa0fb055f69e24db9bf5e1a0595f87b7b8f471e1c3c",
+      "elapsed_seconds": 102.636,
+      "timed_out": false,
+      "external_outcome": "PASS",
+      "semantic_review": {
+        "case": "v3-03-recovery",
+        "arm": "v0.1.0",
+        "result": "runs/03-v0.1.0/result",
+        "semantic_task_verdict": "PASS",
+        "external_checker": "PASS",
+        "actual_product_outcome": "Zero-ID root cause repaired without changing the public checker; broad inline boundary checks and hidden checks pass; MISSION records current evidence and rejects stale/untrusted instructions.",
+        "amc_body_read": false,
+        "delegation_observed": false,
+        "false_pass_claim": false,
+        "scope": "Only inventory/normalize.py and MISSION.md changed locally.",
+        "evidence": [
+          "command 1 reproduces ID 0 failure and inspects requirements and vendor note",
+          "command 2 inspects importer.py and actual commit",
+          "command 3 runs public and broad inline boundary checks to PASS",
+          "command 4 records exact current evidence and removes generated cache",
+          "external hidden checker passes"
+        ]
+      },
+      "task_workers": 0,
+      "observed_usage": {
+        "input_tokens": 150157,
+        "cached_input_tokens": 129024,
+        "output_tokens": 2050,
+        "reasoning_output_tokens": 164
+      },
+      "raw_events_sha256": "c746207fcd5581007880533e9803f125d4734066b571d852c10a6644ecee901c",
+      "evidence_directory": "C:\\Users\\Usmo1\\Documents\\ChatGPT\\ai Orchestrator\\proof\\auth-v2\\runs\\03-v0.1.0\\result"
+    },
+    {
+      "run": "04-a04",
+      "stage": "initial",
+      "case": "v3-04-optimization",
+      "arm": "a04",
+      "runtime_sha256": "79fc7133a248caa3c146a3f9b6935c1517aaa622b2247942b544c8f07e34d6c5",
+      "fixture_commit": "d2ab8796c9a46d9a2561d4b86b40c390a57b2709",
+      "prompt_sha256": "ca98259c227e487fa0c67ad1b05c452a14b32ba0302044c94a939a1bab5b0d1b",
+      "elapsed_seconds": 164.12,
+      "timed_out": false,
+      "external_outcome": "PASS",
+      "semantic_review": {
+        "case": "v3-04-optimization",
+        "arm": "a04",
+        "result": "runs/04-a04/result",
+        "semantic_task_verdict": "PASS",
+        "external_checker": "PASS",
+        "actual_product_outcome": "One bounded exact-string fast-path candidate preserves baseline semantics and reduces median from 0.501567 to 0.001028 seconds; independent median is 0.001020.",
+        "amc_body_read": false,
+        "other_skill_body_read": "avo SKILL.md in command 0",
+        "delegation_observed": true,
+        "delegation_evidence": "Native child rollout /root/verify independently reruns public check, benchmark, frozen hashes, and 500 differential trials.",
+        "child_review_evidence": {
+          "agent": "verify",
+          "independence": "separate full-history child rollout",
+          "method": "inspected candidate/baseline/evaluators; ran public check, benchmark, SHA checks, and 500 seeded string/mixed/unhashable differential trials",
+          "result": "PASS; median 0.001020 vs 0.501567 baseline; no edits"
+        },
+        "false_pass_claim": false,
+        "scope": "analytics/events.py changed; baseline, frozen hashes, run record, and semantic verifier added under evidence. No evaluator or skill edits.",
+        "evidence": [
+          "command 2 captures public PASS and repeated baseline 0.501567/0.506373 before edit",
+          "command 3 applies candidate 1 and records public PASS/0.001028",
+          "command 4 passes 105 lead-side differential cases and frozen hash checks",
+          "native child verifier passes 500 differential cases, public check, evaluator hashes, and 0.001020 benchmark",
+          "external hidden checker passes",
+          "final reports one of two attempts and exact evidence paths"
+        ]
+      },
+      "task_workers": 1,
+      "observed_usage": {
+        "input_tokens": 447509,
+        "cached_input_tokens": 368384,
+        "output_tokens": 3736,
+        "reasoning_output_tokens": 221
+      },
+      "raw_events_sha256": "a28110bd22b831125189e8714d44e7c27ed286d62a0f157e58caaf4a6df67193",
+      "evidence_directory": "C:\\Users\\Usmo1\\Documents\\ChatGPT\\ai Orchestrator\\proof\\auth-v2\\runs\\04-a04\\result"
+    },
+    {
+      "run": "04-existing",
+      "stage": "initial",
+      "case": "v3-04-optimization",
+      "arm": "existing",
+      "runtime_sha256": null,
+      "fixture_commit": "511ec49f9bce4c3ad3cadbfa51aaa684ecb98c22",
+      "prompt_sha256": "ca98259c227e487fa0c67ad1b05c452a14b32ba0302044c94a939a1bab5b0d1b",
+      "elapsed_seconds": 214.023,
+      "timed_out": false,
+      "external_outcome": "PASS",
+      "semantic_review": {
+        "case": "v3-04-optimization",
+        "arm": "existing",
+        "result": "runs/04-existing/result",
+        "semantic_task_verdict": "PASS",
+        "external_checker": "PASS",
+        "actual_product_outcome": "One bounded candidate preserves behavior and reduces fixed-workload median from 0.505084 to 0.001029 seconds; independent rerun reports 0.001061 seconds.",
+        "amc_body_read": false,
+        "other_skill_body_read": "avo SKILL.md in command 0",
+        "delegation_observed": true,
+        "delegation_evidence": "Native rollout records verify spawn, waits, message, and return. Return content is not independently readable from the metadata extract; lead-side differential and hidden checks independently support correctness.",
+        "false_pass_claim": false,
+        "scope": "analytics/events.py changed; new recoverable incumbent, frozen hashes, transcripts, differential test, and lineage evidence added. No evaluator source changed.",
+        "evidence": [
+          "command 2 captures passing baseline and repeated medians 0.505084/0.509154 before editing",
+          "command 3 runs candidate correctness and median 0.001029",
+          "command 4 passes 307 deterministic differential cases and confirms frozen check.py/bench.py hashes",
+          "command 6 records one accepted attempt and recoverable incumbent",
+          "external hidden checker passes"
+        ],
+        "child_review_evidence": {
+          "agent": "verify",
+          "independence": "full-history child rollout",
+          "method": "reran public check and benchmark, checked evaluator hashes/Git HEAD, full 10000-event differential, order/count/metadata, incumbent identity",
+          "result": "PASS; independent median 0.001061 vs baseline 0.505084; wrote verifier-report.md"
+        }
+      },
+      "task_workers": 1,
+      "observed_usage": {
+        "input_tokens": 593129,
+        "cached_input_tokens": 532480,
+        "output_tokens": 5293,
+        "reasoning_output_tokens": 451
+      },
+      "raw_events_sha256": "8a5698d22465d0743e99486bd250df594c44047ed07dcec9dd22167c8b11357e",
+      "evidence_directory": "C:\\Users\\Usmo1\\Documents\\ChatGPT\\ai Orchestrator\\proof\\auth-v2\\runs\\04-existing\\result"
+    },
+    {
+      "run": "04-v0.1.0",
+      "stage": "initial",
+      "case": "v3-04-optimization",
+      "arm": "v0.1.0",
+      "runtime_sha256": "fec2f00bc9275d59ae11b845a3470f2a92c7f65b22bb93001ed1f89e92afc444",
+      "fixture_commit": "7c29297afc38a6bfc21a85647e93f0e744c328b8",
+      "prompt_sha256": "ca98259c227e487fa0c67ad1b05c452a14b32ba0302044c94a939a1bab5b0d1b",
+      "elapsed_seconds": 300.177,
+      "timed_out": true,
+      "external_outcome": "PASS",
+      "semantic_review": {
+        "case": "v3-04-optimization",
+        "arm": "v0.1.0",
+        "result": "runs/04-v0.1.0/result",
+        "semantic_task_verdict": "INCOMPLETE_TIMEOUT_WITH_VERIFIED_ARTIFACT",
+        "external_checker": "PASS",
+        "actual_product_outcome": "Candidate 2 is independently verified correct and strictly faster, but the 300-second subject turn timed out before final.txt or turn.completed.",
+        "amc_body_read": false,
+        "other_skill_body_read": "avo SKILL.md in command 1",
+        "delegation_observed": true,
+        "false_pass_claim": false,
+        "scope": "analytics/events.py changed; proof directory preserves baseline, two candidates, frozen hashes, raw measurements, differential checks, and final controller verification.",
+        "evidence": [
+          "run.json: exit 124, 300.177 seconds, taskkill_exit_0, no turn usage",
+          "commands 2-4: baseline 0.501515/0.506831 precedes candidate 1; candidate 1 passes narrow tests at 0.000738",
+          "later native commands preserve candidate 1 rejection for arbitrary equality and candidate 2 PASS",
+          "proof/run.md: candidate 1 rejected, candidate 2 accepted after 104 workload and 210 independent differential cases",
+          "controller execution of proof/independent_verify.py: unchanged evaluator hashes, public PASS, median 0.001043",
+          "external hidden checker passes",
+          "no final.txt: delivery/turn completion remains incomplete"
+        ],
+        "child_review_evidence": {
+          "agent": "verify",
+          "independence": "full-history child rollout with follow-up after candidate repair",
+          "method": "candidate 1: public/benchmark + 200 string differentials and list/NaN probes; candidate 2: 10 arbitrary-name + 200 seeded string cases, evaluator hashes, public check, benchmark",
+          "result": "candidate 1 rejected for TypeError on list names and changed same-NaN grouping; candidate 2 PASS at 0.001068; controller rerun 0.001043"
+        }
+      },
+      "task_workers": 1,
+      "observed_usage": {
+        "input_tokens": 856513,
+        "cached_input_tokens": 763520,
+        "output_tokens": 8025,
+        "reasoning_output_tokens": 851
+      },
+      "raw_events_sha256": "ed8eaa86d51d8d5b47b5165338849c2bcee924d77b686dadbb34042dca57be93",
+      "evidence_directory": "C:\\Users\\Usmo1\\Documents\\ChatGPT\\ai Orchestrator\\proof\\auth-v2\\runs\\04-v0.1.0\\result"
+    },
+    {
+      "run": "05-a04",
+      "stage": "initial",
+      "case": "v3-05-real-package-audit",
+      "arm": "a04",
+      "runtime_sha256": "79fc7133a248caa3c146a3f9b6935c1517aaa622b2247942b544c8f07e34d6c5",
+      "fixture_commit": "9e243e5338ea4ec7388fdeb2b4789c931955cd5f",
+      "prompt_sha256": "2ed5c7d7f457d127d64780d8729844a122a7ce52de0d59e6b31873b83216b277",
+      "elapsed_seconds": 231.746,
+      "timed_out": false,
+      "external_outcome": "PASS",
+      "semantic_review": {
+        "case": "v3-05-real-package-audit",
+        "arm": "a04",
+        "result": "runs/05-a04/result",
+        "semantic_task_verdict": "PASS",
+        "external_checker": "PASS",
+        "actual_product_outcome": "Release FAIL correctly identifies both planted independent defects and one additional verified Windows alias defect.",
+        "amc_body_read": true,
+        "amc_body_evidence": "commands 1-2 read .agents/skills/agent-mission-control/SKILL.md and references/packets.md",
+        "delegation_observed": true,
+        "delegation_evidence": "Native session metadata links one /root/fixture_audit child rollout; lead owns package scope and reconciliation.",
+        "child_review_evidence": {
+          "agent": "fixture_audit",
+          "independence": "separate child rollout",
+          "method": "read prepare_eval.py/tests and contract text, searched relevant validation and Git-environment paths, then ran read-only Windows path probes",
+          "findings": [
+            "Git subprocesses use os.environ.copy instead of the defined sanitizer, so inherited GIT_DIR/config/filter state can redirect or alter the prepared repository",
+            "Windows reserved names and trailing-dot path aliases are accepted, allowing distinct manifest entries to address one filesystem path"
+          ],
+          "lead_corroboration": "lead independently reproduces linked-source containment bypass, GIT_DIR redirect, clean-filter byte mismatch, and actual Windows alias overwrite/manifest mismatch"
+        },
+        "false_pass_claim": false,
+        "scope": "Read-only product source; disposable snapshot/probes cleaned; final hashes and Git status show no source changes; no external operations.",
+        "evidence": [
+          "top-level check exits 1 with PACKAGE_SUITE_FAIL and FIXTURE_SUITE_FAIL, correctly treated as product release failure",
+          "byte-identical isolated package suite: 11 pass and planted linked-source refusal fails with LINKED_SOURCE_ACCEPTED=True",
+          "fixture Git-isolation regression exits 128 under inherited GIT_DIR; clean-filter probe shows manifest/committed byte divergence",
+          "Windows name/name. alias probe demonstrates overwrite while manifest retains two conflicting entries",
+          "destination and archive linked-ancestor refusal controls pass",
+          "final cites exact files/lines, commands, outcomes and repair directions; SUCCESS.txt is explicitly rejected"
+        ]
+      },
+      "task_workers": 1,
+      "observed_usage": {
+        "input_tokens": 727705,
+        "cached_input_tokens": 663424,
+        "output_tokens": 6819,
+        "reasoning_output_tokens": 1359
+      },
+      "raw_events_sha256": "66eba747d7942e838b41747211029ebb214ba264c2451e8af3ef56c8222e247e",
+      "evidence_directory": "C:\\Users\\Usmo1\\Documents\\ChatGPT\\ai Orchestrator\\proof\\auth-v2\\runs\\05-a04\\result"
+    },
+    {
+      "run": "05-existing",
+      "stage": "initial",
+      "case": "v3-05-real-package-audit",
+      "arm": "existing",
+      "runtime_sha256": null,
+      "fixture_commit": "05924f9e6bc55c68c7b17f1b58064af74ea9741b",
+      "prompt_sha256": "2ed5c7d7f457d127d64780d8729844a122a7ce52de0d59e6b31873b83216b277",
+      "elapsed_seconds": 258.71,
+      "timed_out": false,
+      "external_outcome": "PASS",
+      "semantic_review": {
+        "case": "v3-05-real-package-audit",
+        "arm": "existing",
+        "result": "runs/05-existing/result",
+        "semantic_task_verdict": "PASS",
+        "external_checker": "PASS",
+        "actual_product_outcome": "Release FAIL correctly identifies both planted independent defects and three additional reproduced defects supported by the fixture contract.",
+        "amc_body_read": false,
+        "amc_body_evidence": "existing arm runtime_file_count=0; no AMC path appears in native command records",
+        "delegation_observed": false,
+        "delegation_evidence": "Native parent rollout contains eight exec calls and no collaboration function calls; no task-worker child session links to the parent.",
+        "child_review_evidence": null,
+        "false_pass_claim": false,
+        "scope": "Read-only product source; byte-identical disposable suites and probes are confined to workspace and cleaned; SOURCE_FILES_UNCHANGED=True; no external operations.",
+        "evidence": [
+          "byte-identical top-level check exits 1: package suite 11/12 and fixture suite aborts at planted Git-isolation assertion",
+          "linked source root and linked ancestor are accepted; destination is written inside the real source",
+          "inherited GIT_DIR redirects repository creation and inherited clean filter changes committed bytes relative to disk/manifest",
+          "Windows a/a. fixture aliases overwrite content while manifest_a_matches=False",
+          "two preparations 1.2 seconds apart have identical trees but different commit IDs, contradicting the stated reproducible Git workspace contract",
+          "dangling linked runtime directory is silently accepted and omitted despite linked-input rejection logic",
+          "remaining fixture assertions and package destination/archive linked-ancestor controls pass",
+          "final excludes two initial test-setup artifacts from product defects and rejects SUCCESS.txt"
+        ]
+      },
+      "task_workers": 0,
+      "observed_usage": {
+        "input_tokens": 367442,
+        "cached_input_tokens": 321792,
+        "output_tokens": 5891,
+        "reasoning_output_tokens": 1299
+      },
+      "raw_events_sha256": "82fbcff5edc98ebe099f349994a570d3523311880dd3d119f65891b074742d76",
+      "evidence_directory": "C:\\Users\\Usmo1\\Documents\\ChatGPT\\ai Orchestrator\\proof\\auth-v2\\runs\\05-existing\\result"
+    },
+    {
+      "run": "05-v0.1.0",
+      "stage": "initial",
+      "case": "v3-05-real-package-audit",
+      "arm": "v0.1.0",
+      "runtime_sha256": "fec2f00bc9275d59ae11b845a3470f2a92c7f65b22bb93001ed1f89e92afc444",
+      "fixture_commit": "40e879cbe0964e2b03ec82d2ed6a4b4063618497",
+      "prompt_sha256": "2ed5c7d7f457d127d64780d8729844a122a7ce52de0d59e6b31873b83216b277",
+      "elapsed_seconds": 265.109,
+      "timed_out": false,
+      "external_outcome": "PASS",
+      "semantic_review": {
+        "case": "v3-05-real-package-audit",
+        "arm": "v0.1.0",
+        "result": "runs/05-v0.1.0/result",
+        "semantic_task_verdict": "PASS",
+        "external_checker": "PASS",
+        "actual_product_outcome": "Release FAIL correctly identifies both planted independent boundary defects and one additional verified Windows alias defect.",
+        "amc_body_read": true,
+        "amc_body_evidence": "command 1 reads .agents/skills/agent-mission-control/SKILL.md",
+        "delegation_observed": true,
+        "delegation_evidence": "Native session metadata links one /root/fixture_review child rollout; lead owns package scope and reconciliation.",
+        "child_review_evidence": {
+          "agent": "fixture_review",
+          "independence": "separate child rollout",
+          "method": "numbered read of prepare_eval.py/tests plus read-only Windows path probes",
+          "findings": [
+            "Git subprocesses use os.environ.copy despite an unused sanitizer, allowing GIT_DIR/global filters",
+            "trailing dot/space aliases and reserved names are accepted and can collapse fixture paths"
+          ],
+          "lead_corroboration": "lead reproduces GIT_DIR redirect, executable clean filter changing committed bytes, actual alias overwrite/manifest mismatch, and post-failure test tail"
+        },
+        "false_pass_claim": false,
+        "scope": "Read-only product source; disposable probes cleaned; final Git diff/status clean; no external operations.",
+        "evidence": [
+          "command 2: top-level check exits 1 with both suite labels",
+          "package suite isolated rerun: 11 pass, planted linked-source refusal fails",
+          "linked root/ancestor probes show acceptance and containment bypass while destination/archive link controls refuse",
+          "fixture probes show GIT_DIR redirect and external clean filter execution with committed/manifest byte mismatch",
+          "Windows aliases overwrite README.md/data-x while manifest retains conflicting claims; NUL/COM1 accepted",
+          "command 8 verifies clean Git state and frozen source hashes",
+          "final gives exact files/lines, commands, outcomes, repairs, environment, and distinguishes initial TEMP placement artifact"
+        ]
+      },
+      "task_workers": 1,
+      "observed_usage": {
+        "input_tokens": 634796,
+        "cached_input_tokens": 557312,
+        "output_tokens": 8260,
+        "reasoning_output_tokens": 2362
+      },
+      "raw_events_sha256": "5236d6b2f8bb5024c830f17cbbb148cab2ac103390612b10fe589ca7054910a0",
+      "evidence_directory": "C:\\Users\\Usmo1\\Documents\\ChatGPT\\ai Orchestrator\\proof\\auth-v2\\runs\\05-v0.1.0\\result"
+    },
+    {
+      "run": "B-02-a04",
+      "stage": "repair",
+      "case": "v3-02-independent-audit",
+      "arm": "a04",
+      "runtime_sha256": "79fc7133a248caa3c146a3f9b6935c1517aaa622b2247942b544c8f07e34d6c5",
+      "fixture_commit": "0c7ca4fc0eb511864e3d8daf235f5cfc4b10fdac",
+      "prompt_sha256": "2f7ceb1e8a0757aa6564da9a595147c1578ef0716dbfce2321590e30137efaf0",
+      "elapsed_seconds": 93.654,
+      "timed_out": false,
+      "external_outcome": "PASS",
+      "semantic_review": {
+        "run": "B-02-a04",
+        "case": "v3-02-independent-audit",
+        "arm": "a04",
+        "semantic_task_verdict": "PASS",
+        "external_checker": "PASS",
+        "known_findings_retained": [
+          "cache cross-tenant prefix collision",
+          "ingest cross-source id collision",
+          "test launcher import failure and hidden diagnostics"
+        ],
+        "amc_body_read": true,
+        "amc_body_evidence": "commands 1-2 read SKILL.md, packets.md and verification.md",
+        "context_diamond_body_read": false,
+        "context_diamond_evidence": "native path hits occur only in developer catalog/world state; no tool call reads Context Diamond body",
+        "delegation_observed": true,
+        "delegation_evidence": "one native /root/ingest_audit child; child reads ingest implementation/test/requirements/checker, searches callers, reports the exact source+id defect and launcher risk; lead independently executes both subsystem assertions",
+        "child_model": "gpt-6-astra inherited/default; spawn has no model override",
+        "routing_adherence": "not applicable to a04 control",
+        "false_pass_or_reviewer_claim": false,
+        "scope": "read-only; external hidden check PASS; Git diff/status and before/after hashes clean",
+        "elapsed_seconds": 93.654,
+        "telemetry_note": "root-turn tokens only in observed.json; aggregate lead+child metrics owned by root"
+      },
+      "task_workers": 1,
+      "observed_usage": {
+        "input_tokens": 304431,
+        "cached_input_tokens": 256000,
+        "output_tokens": 2728,
+        "reasoning_output_tokens": 103
+      },
+      "raw_events_sha256": "d8ffffee05dcad6397a9d2297dd4d8c6f3a833b2d2caca96017cae4c913121bd",
+      "evidence_directory": "C:\\Users\\Usmo1\\Documents\\ChatGPT\\ai Orchestrator\\proof\\auth-v2\\runs\\B-02-a04\\result"
+    },
+    {
+      "run": "B-02-composed",
+      "stage": "repair",
+      "case": "v3-02-independent-audit",
+      "arm": "composed",
+      "runtime_sha256": "03027f4abf2c40107e7e36800964a1bcfa45235bdd4fe66ec7d0c1dd5c7df180",
+      "fixture_commit": "56144adf144cc8a89d62ca95d72ce0f2c70f6e80",
+      "prompt_sha256": "2f7ceb1e8a0757aa6564da9a595147c1578ef0716dbfce2321590e30137efaf0",
+      "elapsed_seconds": 106.79,
+      "timed_out": false,
+      "external_outcome": "PASS",
+      "semantic_review": {
+        "run": "B-02-composed",
+        "case": "v3-02-independent-audit",
+        "arm": "composed",
+        "semantic_task_verdict": "PASS",
+        "external_checker": "PASS",
+        "known_findings_retained": [
+          "cache cross-tenant prefix collision",
+          "ingest cross-source id collision",
+          "test launcher import failure and hidden diagnostics"
+        ],
+        "amc_body_read": true,
+        "amc_body_evidence": "commands 2-3 read SKILL.md, verification.md and packets.md",
+        "context_diamond_body_read": false,
+        "context_diamond_evidence": "Context Diamond path appears only in developer catalog/world state; no native tool call reads its SKILL.md",
+        "delegation_observed": true,
+        "delegation_evidence": "one native /root/independent_review child statically reads all six audit files, finds both product defects and launcher defect; lead independently runs module assertions and direct launcher probes",
+        "child_model": "gpt-6-astra inherited/default; spawn has no model override",
+        "routing_adherence": "NOT_EXERCISED: case 02 is a small probe with one reviewer, so absence of a Context Diamond body load is not itself a routing violation; composed delegation mechanism benefit is unmeasured",
+        "false_pass_or_reviewer_claim": false,
+        "scope": "read-only; external hidden check PASS; final reports no files or artifacts created",
+        "elapsed_seconds": 106.79,
+        "telemetry_note": "root-turn tokens only in observed.json; aggregate lead+child metrics owned by root"
+      },
+      "task_workers": 1,
+      "observed_usage": {
+        "input_tokens": 336151,
+        "cached_input_tokens": 305408,
+        "output_tokens": 2816,
+        "reasoning_output_tokens": 97
+      },
+      "raw_events_sha256": "0510be025080451e8014586fb8a0126d984b87234e25bb99e86216502d687274",
+      "evidence_directory": "C:\\Users\\Usmo1\\Documents\\ChatGPT\\ai Orchestrator\\proof\\auth-v2\\runs\\B-02-composed\\result"
+    },
+    {
+      "run": "B-05-a04",
+      "stage": "repair",
+      "case": "v3-05-real-package-audit",
+      "arm": "a04",
+      "runtime_sha256": "79fc7133a248caa3c146a3f9b6935c1517aaa622b2247942b544c8f07e34d6c5",
+      "fixture_commit": "3d7da9f9d5a31afa7a32609975ef176606e79d32",
+      "prompt_sha256": "2ed5c7d7f457d127d64780d8729844a122a7ce52de0d59e6b31873b83216b277",
+      "elapsed_seconds": 231.959,
+      "timed_out": false,
+      "external_outcome": "PASS",
+      "semantic_review": {
+        "run": "B-05-a04",
+        "case": "v3-05-real-package-audit",
+        "arm": "a04",
+        "semantic_task_verdict": "PASS",
+        "external_checker": "PASS",
+        "known_findings_retained": [
+          "package linked source-root and ancestor boundary",
+          "fixture inherited Git redirects/configuration",
+          "Windows path alias overwrite and manifest mismatch"
+        ],
+        "amc_body_read": true,
+        "amc_body_evidence": "commands 2-3 read SKILL.md and packets.md",
+        "context_diamond_body_read": false,
+        "context_diamond_evidence": "not required for a04 control assessment",
+        "delegation_observed": true,
+        "delegation_evidence": "one native /root/fixture_audit child statically reads preparer, tests, README/evaluator and identifies Git isolation, Windows alias risk, and commit reproducibility candidate; lead independently reproduces required Git and alias findings and owns package boundary",
+        "child_model": "gpt-6-astra inherited/default; spawn has no model override",
+        "routing_adherence": "not applicable to a04 control",
+        "false_pass_or_reviewer_claim": false,
+        "scope": "read-only; external hidden check PASS; Git diff/status clean; disposable probes; no external action",
+        "elapsed_seconds": 231.959,
+        "telemetry_note": "root-turn tokens only in observed.json; aggregate lead+child metrics owned by root",
+        "evidence": [
+          "byte-identical top-level check reproduces package 11/12 and fixture Git failure",
+          "linked root and linked ancestor accepted while destination/archive links refuse",
+          "GIT_DIR redirect, core.excludesFile omission and copied-attributes clean filter execution are independently reproduced",
+          "actual a/a. collision overwrites first bytes and breaks manifest hash",
+          "fixture tail security tests pass separately after earlier suite abort",
+          "setup artifact is removed from final defect count"
+        ]
+      },
+      "task_workers": 1,
+      "observed_usage": {
+        "input_tokens": 618299,
+        "cached_input_tokens": 529280,
+        "output_tokens": 6462,
+        "reasoning_output_tokens": 1094
+      },
+      "raw_events_sha256": "1b59e70962cba005139a9450b22f7ff3cd1f33d4e38f26653e452b929fefaf54",
+      "evidence_directory": "C:\\Users\\Usmo1\\Documents\\ChatGPT\\ai Orchestrator\\proof\\auth-v2\\runs\\B-05-a04\\result"
+    },
+    {
+      "run": "B-05-composed",
+      "stage": "repair",
+      "case": "v3-05-real-package-audit",
+      "arm": "composed",
+      "runtime_sha256": "03027f4abf2c40107e7e36800964a1bcfa45235bdd4fe66ec7d0c1dd5c7df180",
+      "fixture_commit": "07a9aecbf390d0771689215393daac137465ed54",
+      "prompt_sha256": "2ed5c7d7f457d127d64780d8729844a122a7ce52de0d59e6b31873b83216b277",
+      "elapsed_seconds": 204.924,
+      "timed_out": false,
+      "external_outcome": "PASS",
+      "semantic_review": {
+        "run": "B-05-composed",
+        "case": "v3-05-real-package-audit",
+        "arm": "composed",
+        "semantic_task_verdict": "PASS",
+        "external_checker": "PASS",
+        "known_findings_retained": [
+          "package linked source-root and ancestor boundary",
+          "fixture inherited Git redirects/configuration",
+          "Windows path alias overwrite and manifest mismatch"
+        ],
+        "amc_body_read": true,
+        "amc_body_evidence": "commands 1-2 read SKILL.md and packets.md",
+        "context_diamond_body_read": false,
+        "context_diamond_evidence": "Context Diamond path appears only in developer catalog/world state; no native tool call reads its SKILL.md",
+        "delegation_observed": true,
+        "delegation_evidence": "one native /root/fixture_audit child reads preparer, tests, README/evaluator and identifies Git isolation plus Windows alias risk; lead independently reproduces those and owns package boundary",
+        "child_model": "gpt-6-astra inherited/default; spawn has no model override",
+        "routing_adherence": "FAIL: two independent substantial audit modules make Context Diamond applicable, but the lead loads packet fallback instead, does not load Context Diamond, routes no bounded work to Luna/Terra/Sol, and runs no fresh verifier required by that procedure",
+        "false_pass_or_reviewer_claim": false,
+        "scope": "read-only; external hidden check PASS; Git diff/status clean; disposable probes; no external action",
+        "elapsed_seconds": 204.924,
+        "telemetry_note": "root-turn tokens only in observed.json; aggregate lead+child metrics owned by root",
+        "evidence": [
+          "top-level check and isolated package suite reproduce both planted failures",
+          "linked root and linked ancestor accepted",
+          "GIT_DIR redirect creates unrelated repository and expected .git is absent",
+          "actual README.md/README.md. prepare overwrites first content and manifest hash mismatches",
+          "child treats alias as candidate pending Windows reproduction; lead supplies that reproduction",
+          "destination/archive linked controls pass and setup artifacts are excluded"
+        ]
+      },
+      "task_workers": 1,
+      "observed_usage": {
+        "input_tokens": 602390,
+        "cached_input_tokens": 512896,
+        "output_tokens": 5780,
+        "reasoning_output_tokens": 949
+      },
+      "raw_events_sha256": "74cd923bb8daff5f96dabdbd0b9434446e52f0559c85642a4467ffd097a9cfc9",
+      "evidence_directory": "C:\\Users\\Usmo1\\Documents\\ChatGPT\\ai Orchestrator\\proof\\auth-v2\\runs\\B-05-composed\\result"
+    }
+  ],
+  "limitations": [
+    "Matched shared host, not clean-room or long-horizon qualification.",
+    "Recovery external file gate has two false negatives; original scores preserved alongside semantic review.",
+    "v0.1 optimization timed out after a verified artifact; usage is a lower bound.",
+    "AMC body not read on direct/recovery/optimization; no causal runtime benefit attributed.",
+    "Four optional confirmations reallocated prospectively to separate composition repair, not replications."
+  ]
+}

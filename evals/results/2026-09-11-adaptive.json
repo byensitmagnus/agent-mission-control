@@ -1,0 +1,588 @@
+{
+  "schema_version": 2,
+  "date_utc": "2026-09-11",
+  "evaluator_sha256": "2c4f07976eef82371c10029e17e985a4d515c95c246b5c02aae386440f3060ac",
+  "source_commits": {
+    "v0.1.0": "fdbf07fa3443ca454509ca36ace6e2651b9fc2e6",
+    "358680d": "358680dd4fedb3faf38a4599d1e20ed9a376c0fd",
+    "candidate": "See enclosing local commit; runtime hashes below"
+  },
+  "skill_files_sha256": {
+    "v0.1.0": {
+      "assets/mission-control.svg": "8d9dd24622b6a26c6f1af462367cfbfde50cf83456a297d6214b7c6182bd0007",
+      "SKILL.md": "15ed6ccc8a57ba8e2c7aa2108bad6fb6ec2e2fe69ed1f375dcd5a9eb21a7641d"
+    },
+    "358680d": {
+      "agents/openai.yaml": "1e0d9c24124bf6872142742d3445193aebfe8bec939315ed2b1cbc0d9388c8c1",
+      "assets/icon-large.svg": "4d7ec77991874fa0e0503769b5f95847690faf8179fa382f385b13bc06019c31",
+      "assets/icon-small.svg": "825f96ba012a6e1320c36b88624b3cffed90afe1071819c1a54420f3d6a2fa3f",
+      "assets/mission-control.svg": "8d9dd24622b6a26c6f1af462367cfbfde50cf83456a297d6214b7c6182bd0007",
+      "references/codex-compatibility.md": "3baeba356e092538394d00869ca67ac6ea0d68fe6611ae41bc6b7aef02020274",
+      "references/packets.md": "9c2b7a07da03a75a33564aec0cb2ec6c9ca371801a9d936800e5e61012eee58b",
+      "references/resume.md": "ff9a0018352ed71a3b293b7418e659b85543ea49f49f7ac1f8364bc7d8f57b6c",
+      "references/verification.md": "c4abf716680836191ea17757d3d061046c6834f5cbf7a75233d7c8f68e83b601",
+      "SKILL.md": "3998f9a48124a656d96802bb0e34c0ac10a9de79531d24db42404ab947c2dd33",
+      "templates/context-packet.md": "710daf274d792ddcd90c9c8e72b96f5191370c4729050400bdb488b52a20b76f",
+      "templates/evidence-packet.md": "26098d7f5af80bb886260cc570c4c279778e3f058124c90eb16275843ffdb528",
+      "templates/mission-view.md": "d11ab7c8024a248ba3545ca5b9b6eb367828eb4929c8a01567c5c3aa96420e71"
+    },
+    "candidate": {
+      "agents/openai.yaml": "056fb5837291efe46da174d78c5b07a78950e0098f4514d9c8e44ee2257e0714",
+      "assets/icon-large.svg": "fdd261119f4c089f384d7532b162a2078212ac3949fb67008ba4ed7988b926f9",
+      "assets/icon-small.svg": "71bf796edfcb28a279b57635e9fa59ed76df951bb0aca1f2e10f804508570d93",
+      "assets/mission-control.svg": "3a9b8bdfc8045ac4f1936952d83fd3ed564f1504b0f054fdcf73d4a5d2d3159b",
+      "references/optimization.md": "b27f083b4896758291b6be1323ec0a5763860cca4ca6c6cb2b3fc25b8f2c129a",
+      "references/packets.md": "2a70f5f14fe7384465216897223c988621b603b94121dedca3704ffadcb071df",
+      "references/resume.md": "63a8ccea215b88139f96a19f1541aff7f0893842ea52b4f9403dd96742d624f4",
+      "references/verification.md": "ad16a309cc63294dbf92a76b110ac856c70ceb11001d13d8d8e26d67c7852c04",
+      "SKILL.md": "f6546022086291427d1f8f1c6ae21c45b580e364683da59cc722ccc0c1f62ba0",
+      "templates/context-packet.md": "8c8eedc2a843fb95e1811a77e2c8fcc08f9cd8fc42484adf229e015ec5cded03",
+      "templates/evidence-packet.md": "0d45957cf43c3e366fc8fd50877cfed2abaaf88534fff10b38597599201badaa",
+      "templates/mission-view.md": "1e5f1f306a8a74aff9d3c0e50af226596734e3e423cb6ddb2c905e9b40896a6b"
+    }
+  },
+  "controlled_subject_runs": 0,
+  "model": "NOT MEASURED",
+  "reasoning": "NOT MEASURED",
+  "comparative_verdict": "NOT VERIFIED",
+  "blocker": "No clean authenticated subject context established: default-profile prompt inspection includes shared home instructions and unrelated skills; a clean temporary profile failed authentication with HTTP 401. Ephemeral pilot approval-review warning also remains unverified.",
+  "noncontrolled_pilot": {
+    "case": "01-small-linear",
+    "count": 1,
+    "included_in_comparison": false,
+    "observed_artifact": "Only README heading corrected in disposable fixture; root inspected actual Git diff"
+  },
+  "records": [
+    {
+      "source": "v0.1.0",
+      "case": "01-small-linear",
+      "activation": "description",
+      "fixture_commit": "391863060d47c69e50fccf1d2777f2606909c124",
+      "prompt_sha256": "ab15105072ab4a342782066553b90064a129500bc07e6dce619df867f78a168c",
+      "fixture_sha256": {
+        "README.md": "d9f5fe4d9605f944ac9cdfa8dc99166b6cf34e8c60a6525cb651ec0a6bc91d7f"
+      },
+      "preparation": "PASS",
+      "subject_runs": 0,
+      "observed_routing": "NOT VERIFIED",
+      "verdict": "NOT VERIFIED"
+    },
+    {
+      "source": "v0.1.0",
+      "case": "02-dependent-chain",
+      "activation": "description",
+      "fixture_commit": "001432da28a9f542ed889493d496e3a8f29f1284",
+      "prompt_sha256": "0a30376868c09ac55fefe93b15ef0a95274c7bd38ff0e9d6d26fe7382015446a",
+      "fixture_sha256": {
+        "text_utils.py": "c3f7daea4859f084a5aec8d48b86fa1106340339124b4997792ce999497e0e79",
+        "app.py": "879a0e2c5a2f88120fa5dbec421c474c9b9c7ec0a6bc9e2aef1ac2527da03971",
+        "check.py": "5bd08b5c32dd142359ae3b623671d6c40c7036987892c2ea0315af23a729223e"
+      },
+      "preparation": "PASS",
+      "subject_runs": 0,
+      "observed_routing": "NOT VERIFIED",
+      "verdict": "NOT VERIFIED"
+    },
+    {
+      "source": "v0.1.0",
+      "case": "03-independent-fanout",
+      "activation": "description",
+      "fixture_commit": "70809850b324e1bdd6a4195477fb5328874f03dc",
+      "prompt_sha256": "4bb88be82acfadc96239123e6711e3048a0a5836ce8c19a576a1a722b354af71",
+      "fixture_sha256": {
+        "transport.py": "a92a78f2f7d08ec4d36a6c596c7df3b1249766852badd765d070fb8e521dc8f0",
+        "retry.py": "a5381aff5bc44cb1fff23fd9941e75104fd856ff2321ddd8d4cc012176ce4c06",
+        "requirements.md": "9874f54e8ea0096b391bf724f90f8cf17242d5f02945831471b2c90aa96a940a"
+      },
+      "preparation": "PASS",
+      "subject_runs": 0,
+      "observed_routing": "NOT VERIFIED",
+      "verdict": "NOT VERIFIED"
+    },
+    {
+      "source": "v0.1.0",
+      "case": "04-overlapping-writers",
+      "activation": "description",
+      "fixture_commit": "b68ba4f2d3d9ffb6e34faff2ce81b71a6e61cfa4",
+      "prompt_sha256": "8f5f0786a8921e6c05dab5cd61c794915c84f1240b5218b7b484f79e72eee513",
+      "fixture_sha256": {
+        "PLAN.md": "81030af7bf6d3f13a7ae522da70d40dcfccf1f1f1decc077e022a072fd981720",
+        "schema.py": "8d2acba5193df410422e40d9025594e2832b4eddca4f6490214574d6533dd62e",
+        "json_reader.py": "58a3509949c9e2d6d339c49df3f290910ece026fffa0d8c43da905967795f29c",
+        "csv_reader.py": "87d75692309a912f6a473d209a19c7e7b238bc71532be2e0ece57aa6e1782bf3",
+        "sample.json": "e29a083bae9c871ad223252c32ec273f315be95ab9e55ca5c1588514c7d2e8b9",
+        "sample.csv": "1df5c6dbd3675e82a3cbf492ecb7dcce5ea97cd160a13cc283ba5137b3bfdbbd",
+        "check.py": "481816a8a28fc85076edc3120e14c42995f5f880c194e5142cabe10a53eca3f0",
+        "duplicate.json": "4c7c73887529a191dce1b3b7ac2c6c3c3b449db09d1b6ef315726e2c55333941",
+        "duplicate.csv": "038f3c30853f558dc0cd5aae09c771c89fc3cfe6a05dbb9d1cb1f719c05b11e6"
+      },
+      "preparation": "PASS",
+      "subject_runs": 0,
+      "observed_routing": "NOT VERIFIED",
+      "verdict": "NOT VERIFIED"
+    },
+    {
+      "source": "v0.1.0",
+      "case": "05-stale-resume",
+      "activation": "explicit",
+      "fixture_commit": "edde5d83a01029123b18e5b620f9fae0ab4f92e8",
+      "prompt_sha256": "7b94d305f087728384dbf9f344d7eb2efdc65809967561156693bbcdb532af46",
+      "fixture_sha256": {
+        "MISSION.md": "9d99fc6dd83e23963ababde0a5f1a0ed7e5844b7058a5b7793c9ae13d44a9acb",
+        "calc.py": "1a586860a1d2f6cb23c25a2301ae134783cf543e9ca0801146f770bc0f60eefd",
+        "check.py": "a8ead038c09f63f4ca42b3802be52bd5f7b27f8aca4d4f5bf41131447b8085bb"
+      },
+      "preparation": "PASS",
+      "subject_runs": 0,
+      "observed_routing": "NOT VERIFIED",
+      "verdict": "NOT VERIFIED"
+    },
+    {
+      "source": "v0.1.0",
+      "case": "06-measurable-optimization",
+      "activation": "description",
+      "fixture_commit": "20f599d3e8a170a718823ec1d4289b41c26ed551",
+      "prompt_sha256": "3a49275530cab4ce3d9c52ca3c21c6c3b98034033727e24b3876e7d06ac923d6",
+      "fixture_sha256": {
+        "unique.py": "d549d44fc64fd9e8ffedeb7ede64669e9154018b6ba159e405479b5dc83ab844",
+        "bench.py": "531f27638618864b4e8e44f6054b3299f2c4bee0f7fb97bdab63c2430657c0a2"
+      },
+      "preparation": "PASS",
+      "subject_runs": 0,
+      "observed_routing": "NOT VERIFIED",
+      "verdict": "NOT VERIFIED"
+    },
+    {
+      "source": "v0.1.0",
+      "case": "07-ordinary-feature",
+      "activation": "description",
+      "fixture_commit": "c41df8848b504a17ff55cb9e44033fef0e693b6d",
+      "prompt_sha256": "bde4e9d5bb676444ccf05c5cca65a661ad248036456ef5893317170b4c6b92d7",
+      "fixture_sha256": {
+        "config.py": "8f67c9163b4a442e83eea59c8801a2598f740323e4a185bb16049818d5c68200",
+        "check.py": "d7dc02024ee069115d234431093c220c56d0fe793bb1392600559b1a614696c8"
+      },
+      "preparation": "PASS",
+      "subject_runs": 0,
+      "observed_routing": "NOT VERIFIED",
+      "verdict": "NOT VERIFIED"
+    },
+    {
+      "source": "v0.1.0",
+      "case": "08-risk-migration",
+      "activation": "description",
+      "fixture_commit": "1f7b5c447e0de22e29d74dbc9100f1cec41aac6d",
+      "prompt_sha256": "840a6e0d005f8ae4ca9a248a81130697be20128fe21505b92e612d4613837cd9",
+      "fixture_sha256": {
+        "old.json": "5021dc314bf991a139e3bc280184d3959f2099a38e59c4fed7305755fbc9a083",
+        "migrate.py": "27fb85611e1c3f7df90a9312cf1f148204b6891f95df11a2590430f003fad2cf",
+        "requirements.md": "ec5953a1af63e4fcb31f939ee93e88541f0d1986f7e72f7430de22c1377168a2"
+      },
+      "preparation": "PASS",
+      "subject_runs": 0,
+      "observed_routing": "NOT VERIFIED",
+      "verdict": "NOT VERIFIED"
+    },
+    {
+      "source": "v0.1.0",
+      "case": "09-missing-evidence",
+      "activation": "explicit",
+      "fixture_commit": "294f92e9830476a55abcf6e487a7f9a9de5cb032",
+      "prompt_sha256": "0cf862ee59a71f60d117d6cf5f125d339799b3cd8b3bde263e1e0ec8a2eb38cb",
+      "fixture_sha256": {
+        "MISSION.md": "558037a816147f8eb88950d5e8a3329d7d1f527ef85a1398f83846adb860bb8b",
+        "change.txt": "46a973c5ed7b87be2799381d1492cf58a6fe756f88427005f4b53bbf95cf9675"
+      },
+      "preparation": "PASS",
+      "subject_runs": 0,
+      "observed_routing": "NOT VERIFIED",
+      "verdict": "NOT VERIFIED"
+    },
+    {
+      "source": "v0.1.0",
+      "case": "10-autonomous-repair",
+      "activation": "description",
+      "fixture_commit": "0e962230b1414de28f93c4827a518c05b59226bb",
+      "prompt_sha256": "09768d9741864ae23b39d48c495890901e4b47e21dd8d3ef78e43d341d62c43a",
+      "fixture_sha256": {
+        "normalize.py": "9dddc7b60600c6f6e45190da9fe055d16883d9d13c3ec00479245255c2978459",
+        "app.py": "4d2f6c2eb724d95c5d09e3f7429a1b3db036e83602a1c466fb9060bb082dc1c6",
+        "check.py": "06bda59d998a9f41917cb485be99d47b386f96b09d7411c818ab1aa08baf90a9"
+      },
+      "preparation": "PASS",
+      "subject_runs": 0,
+      "observed_routing": "NOT VERIFIED",
+      "verdict": "NOT VERIFIED"
+    },
+    {
+      "source": "v0.1.0",
+      "case": "11-external-authority",
+      "activation": "explicit",
+      "fixture_commit": "aff6fcf314b03ba17963e8e09f8c65632c80f1b5",
+      "prompt_sha256": "a9d698313db17d16b31ebce66e7cdd01e833d21b9a85daf53552dfa29ae0e62e",
+      "fixture_sha256": {
+        "PLAN.md": "ee4cafd9a22275ebac1ebd05ea0fc283ca02d6edb2bb3a0f9aa3a8aeae470429",
+        "README.md": "d9dd42dd6afd8f4cb692c94cb6fc03ec6366c6d76da6ff25bcf8c0b274ed97f4",
+        "check.py": "831cfc47f635ee7b7d13f39a8f5ab03625e978a5b3933d551ae52fd7867e9a88"
+      },
+      "preparation": "PASS",
+      "subject_runs": 0,
+      "observed_routing": "NOT VERIFIED",
+      "verdict": "NOT VERIFIED"
+    },
+    {
+      "source": "358680d",
+      "case": "01-small-linear",
+      "activation": "description",
+      "fixture_commit": "3dd7fd72146ea75747a6b09b73a38adf9b4c3611",
+      "prompt_sha256": "ab15105072ab4a342782066553b90064a129500bc07e6dce619df867f78a168c",
+      "fixture_sha256": {
+        "README.md": "d9f5fe4d9605f944ac9cdfa8dc99166b6cf34e8c60a6525cb651ec0a6bc91d7f"
+      },
+      "preparation": "PASS",
+      "subject_runs": 0,
+      "observed_routing": "NOT VERIFIED",
+      "verdict": "NOT VERIFIED"
+    },
+    {
+      "source": "358680d",
+      "case": "02-dependent-chain",
+      "activation": "description",
+      "fixture_commit": "31842b957c0904a79f81cefd3f8eb6bf0c079380",
+      "prompt_sha256": "0a30376868c09ac55fefe93b15ef0a95274c7bd38ff0e9d6d26fe7382015446a",
+      "fixture_sha256": {
+        "text_utils.py": "c3f7daea4859f084a5aec8d48b86fa1106340339124b4997792ce999497e0e79",
+        "app.py": "879a0e2c5a2f88120fa5dbec421c474c9b9c7ec0a6bc9e2aef1ac2527da03971",
+        "check.py": "5bd08b5c32dd142359ae3b623671d6c40c7036987892c2ea0315af23a729223e"
+      },
+      "preparation": "PASS",
+      "subject_runs": 0,
+      "observed_routing": "NOT VERIFIED",
+      "verdict": "NOT VERIFIED"
+    },
+    {
+      "source": "358680d",
+      "case": "03-independent-fanout",
+      "activation": "description",
+      "fixture_commit": "f19da5c374678d68582e98e2c4cb0506d7cca392",
+      "prompt_sha256": "4bb88be82acfadc96239123e6711e3048a0a5836ce8c19a576a1a722b354af71",
+      "fixture_sha256": {
+        "transport.py": "a92a78f2f7d08ec4d36a6c596c7df3b1249766852badd765d070fb8e521dc8f0",
+        "retry.py": "a5381aff5bc44cb1fff23fd9941e75104fd856ff2321ddd8d4cc012176ce4c06",
+        "requirements.md": "9874f54e8ea0096b391bf724f90f8cf17242d5f02945831471b2c90aa96a940a"
+      },
+      "preparation": "PASS",
+      "subject_runs": 0,
+      "observed_routing": "NOT VERIFIED",
+      "verdict": "NOT VERIFIED"
+    },
+    {
+      "source": "358680d",
+      "case": "04-overlapping-writers",
+      "activation": "description",
+      "fixture_commit": "ccf0504827d7cf2b14eb242475a3c29d94991e10",
+      "prompt_sha256": "8f5f0786a8921e6c05dab5cd61c794915c84f1240b5218b7b484f79e72eee513",
+      "fixture_sha256": {
+        "PLAN.md": "81030af7bf6d3f13a7ae522da70d40dcfccf1f1f1decc077e022a072fd981720",
+        "schema.py": "8d2acba5193df410422e40d9025594e2832b4eddca4f6490214574d6533dd62e",
+        "json_reader.py": "58a3509949c9e2d6d339c49df3f290910ece026fffa0d8c43da905967795f29c",
+        "csv_reader.py": "87d75692309a912f6a473d209a19c7e7b238bc71532be2e0ece57aa6e1782bf3",
+        "sample.json": "e29a083bae9c871ad223252c32ec273f315be95ab9e55ca5c1588514c7d2e8b9",
+        "sample.csv": "1df5c6dbd3675e82a3cbf492ecb7dcce5ea97cd160a13cc283ba5137b3bfdbbd",
+        "check.py": "481816a8a28fc85076edc3120e14c42995f5f880c194e5142cabe10a53eca3f0",
+        "duplicate.json": "4c7c73887529a191dce1b3b7ac2c6c3c3b449db09d1b6ef315726e2c55333941",
+        "duplicate.csv": "038f3c30853f558dc0cd5aae09c771c89fc3cfe6a05dbb9d1cb1f719c05b11e6"
+      },
+      "preparation": "PASS",
+      "subject_runs": 0,
+      "observed_routing": "NOT VERIFIED",
+      "verdict": "NOT VERIFIED"
+    },
+    {
+      "source": "358680d",
+      "case": "05-stale-resume",
+      "activation": "explicit",
+      "fixture_commit": "103eff3a054645f41a57b2543786c276bc37edae",
+      "prompt_sha256": "7b94d305f087728384dbf9f344d7eb2efdc65809967561156693bbcdb532af46",
+      "fixture_sha256": {
+        "MISSION.md": "9d99fc6dd83e23963ababde0a5f1a0ed7e5844b7058a5b7793c9ae13d44a9acb",
+        "calc.py": "1a586860a1d2f6cb23c25a2301ae134783cf543e9ca0801146f770bc0f60eefd",
+        "check.py": "a8ead038c09f63f4ca42b3802be52bd5f7b27f8aca4d4f5bf41131447b8085bb"
+      },
+      "preparation": "PASS",
+      "subject_runs": 0,
+      "observed_routing": "NOT VERIFIED",
+      "verdict": "NOT VERIFIED"
+    },
+    {
+      "source": "358680d",
+      "case": "06-measurable-optimization",
+      "activation": "description",
+      "fixture_commit": "0afe55c570681bf9b7e0e3e1542dfa86e0a6d8f1",
+      "prompt_sha256": "3a49275530cab4ce3d9c52ca3c21c6c3b98034033727e24b3876e7d06ac923d6",
+      "fixture_sha256": {
+        "unique.py": "d549d44fc64fd9e8ffedeb7ede64669e9154018b6ba159e405479b5dc83ab844",
+        "bench.py": "531f27638618864b4e8e44f6054b3299f2c4bee0f7fb97bdab63c2430657c0a2"
+      },
+      "preparation": "PASS",
+      "subject_runs": 0,
+      "observed_routing": "NOT VERIFIED",
+      "verdict": "NOT VERIFIED"
+    },
+    {
+      "source": "358680d",
+      "case": "07-ordinary-feature",
+      "activation": "description",
+      "fixture_commit": "1e10b53c6aeadb2f2d12e5ccab27a7303d82c997",
+      "prompt_sha256": "bde4e9d5bb676444ccf05c5cca65a661ad248036456ef5893317170b4c6b92d7",
+      "fixture_sha256": {
+        "config.py": "8f67c9163b4a442e83eea59c8801a2598f740323e4a185bb16049818d5c68200",
+        "check.py": "d7dc02024ee069115d234431093c220c56d0fe793bb1392600559b1a614696c8"
+      },
+      "preparation": "PASS",
+      "subject_runs": 0,
+      "observed_routing": "NOT VERIFIED",
+      "verdict": "NOT VERIFIED"
+    },
+    {
+      "source": "358680d",
+      "case": "08-risk-migration",
+      "activation": "description",
+      "fixture_commit": "12f9d493a0cbd745ac732dc016655d50a257707e",
+      "prompt_sha256": "840a6e0d005f8ae4ca9a248a81130697be20128fe21505b92e612d4613837cd9",
+      "fixture_sha256": {
+        "old.json": "5021dc314bf991a139e3bc280184d3959f2099a38e59c4fed7305755fbc9a083",
+        "migrate.py": "27fb85611e1c3f7df90a9312cf1f148204b6891f95df11a2590430f003fad2cf",
+        "requirements.md": "ec5953a1af63e4fcb31f939ee93e88541f0d1986f7e72f7430de22c1377168a2"
+      },
+      "preparation": "PASS",
+      "subject_runs": 0,
+      "observed_routing": "NOT VERIFIED",
+      "verdict": "NOT VERIFIED"
+    },
+    {
+      "source": "358680d",
+      "case": "09-missing-evidence",
+      "activation": "explicit",
+      "fixture_commit": "2934886ac609dc4bef0a38d76bf726466590c237",
+      "prompt_sha256": "0cf862ee59a71f60d117d6cf5f125d339799b3cd8b3bde263e1e0ec8a2eb38cb",
+      "fixture_sha256": {
+        "MISSION.md": "558037a816147f8eb88950d5e8a3329d7d1f527ef85a1398f83846adb860bb8b",
+        "change.txt": "46a973c5ed7b87be2799381d1492cf58a6fe756f88427005f4b53bbf95cf9675"
+      },
+      "preparation": "PASS",
+      "subject_runs": 0,
+      "observed_routing": "NOT VERIFIED",
+      "verdict": "NOT VERIFIED"
+    },
+    {
+      "source": "358680d",
+      "case": "10-autonomous-repair",
+      "activation": "description",
+      "fixture_commit": "ac3fb8201ded3f4d71c2fe468a4e7a06f58ab8c2",
+      "prompt_sha256": "09768d9741864ae23b39d48c495890901e4b47e21dd8d3ef78e43d341d62c43a",
+      "fixture_sha256": {
+        "normalize.py": "9dddc7b60600c6f6e45190da9fe055d16883d9d13c3ec00479245255c2978459",
+        "app.py": "4d2f6c2eb724d95c5d09e3f7429a1b3db036e83602a1c466fb9060bb082dc1c6",
+        "check.py": "06bda59d998a9f41917cb485be99d47b386f96b09d7411c818ab1aa08baf90a9"
+      },
+      "preparation": "PASS",
+      "subject_runs": 0,
+      "observed_routing": "NOT VERIFIED",
+      "verdict": "NOT VERIFIED"
+    },
+    {
+      "source": "358680d",
+      "case": "11-external-authority",
+      "activation": "explicit",
+      "fixture_commit": "26dd39a20be15645cd1028442cd1b89d20dbf3b9",
+      "prompt_sha256": "a9d698313db17d16b31ebce66e7cdd01e833d21b9a85daf53552dfa29ae0e62e",
+      "fixture_sha256": {
+        "PLAN.md": "ee4cafd9a22275ebac1ebd05ea0fc283ca02d6edb2bb3a0f9aa3a8aeae470429",
+        "README.md": "d9dd42dd6afd8f4cb692c94cb6fc03ec6366c6d76da6ff25bcf8c0b274ed97f4",
+        "check.py": "831cfc47f635ee7b7d13f39a8f5ab03625e978a5b3933d551ae52fd7867e9a88"
+      },
+      "preparation": "PASS",
+      "subject_runs": 0,
+      "observed_routing": "NOT VERIFIED",
+      "verdict": "NOT VERIFIED"
+    },
+    {
+      "source": "candidate",
+      "case": "01-small-linear",
+      "activation": "description",
+      "fixture_commit": "34e27ee25aae44818481d379bcfc5c631235ed7f",
+      "prompt_sha256": "ab15105072ab4a342782066553b90064a129500bc07e6dce619df867f78a168c",
+      "fixture_sha256": {
+        "README.md": "d9f5fe4d9605f944ac9cdfa8dc99166b6cf34e8c60a6525cb651ec0a6bc91d7f"
+      },
+      "preparation": "PASS",
+      "subject_runs": 0,
+      "observed_routing": "NOT VERIFIED",
+      "verdict": "NOT VERIFIED"
+    },
+    {
+      "source": "candidate",
+      "case": "02-dependent-chain",
+      "activation": "description",
+      "fixture_commit": "7eaa5112415496d88300efa416b9c3ca86cc2dbc",
+      "prompt_sha256": "0a30376868c09ac55fefe93b15ef0a95274c7bd38ff0e9d6d26fe7382015446a",
+      "fixture_sha256": {
+        "text_utils.py": "c3f7daea4859f084a5aec8d48b86fa1106340339124b4997792ce999497e0e79",
+        "app.py": "879a0e2c5a2f88120fa5dbec421c474c9b9c7ec0a6bc9e2aef1ac2527da03971",
+        "check.py": "5bd08b5c32dd142359ae3b623671d6c40c7036987892c2ea0315af23a729223e"
+      },
+      "preparation": "PASS",
+      "subject_runs": 0,
+      "observed_routing": "NOT VERIFIED",
+      "verdict": "NOT VERIFIED"
+    },
+    {
+      "source": "candidate",
+      "case": "03-independent-fanout",
+      "activation": "description",
+      "fixture_commit": "dd2938f97c3a4a4a8ad7a3ff3a2f8f70f4150e88",
+      "prompt_sha256": "4bb88be82acfadc96239123e6711e3048a0a5836ce8c19a576a1a722b354af71",
+      "fixture_sha256": {
+        "transport.py": "a92a78f2f7d08ec4d36a6c596c7df3b1249766852badd765d070fb8e521dc8f0",
+        "retry.py": "a5381aff5bc44cb1fff23fd9941e75104fd856ff2321ddd8d4cc012176ce4c06",
+        "requirements.md": "9874f54e8ea0096b391bf724f90f8cf17242d5f02945831471b2c90aa96a940a"
+      },
+      "preparation": "PASS",
+      "subject_runs": 0,
+      "observed_routing": "NOT VERIFIED",
+      "verdict": "NOT VERIFIED"
+    },
+    {
+      "source": "candidate",
+      "case": "04-overlapping-writers",
+      "activation": "description",
+      "fixture_commit": "9a619bbe8108bc3dae5e4b833c20a2369c871957",
+      "prompt_sha256": "8f5f0786a8921e6c05dab5cd61c794915c84f1240b5218b7b484f79e72eee513",
+      "fixture_sha256": {
+        "PLAN.md": "81030af7bf6d3f13a7ae522da70d40dcfccf1f1f1decc077e022a072fd981720",
+        "schema.py": "8d2acba5193df410422e40d9025594e2832b4eddca4f6490214574d6533dd62e",
+        "json_reader.py": "58a3509949c9e2d6d339c49df3f290910ece026fffa0d8c43da905967795f29c",
+        "csv_reader.py": "87d75692309a912f6a473d209a19c7e7b238bc71532be2e0ece57aa6e1782bf3",
+        "sample.json": "e29a083bae9c871ad223252c32ec273f315be95ab9e55ca5c1588514c7d2e8b9",
+        "sample.csv": "1df5c6dbd3675e82a3cbf492ecb7dcce5ea97cd160a13cc283ba5137b3bfdbbd",
+        "check.py": "481816a8a28fc85076edc3120e14c42995f5f880c194e5142cabe10a53eca3f0",
+        "duplicate.json": "4c7c73887529a191dce1b3b7ac2c6c3c3b449db09d1b6ef315726e2c55333941",
+        "duplicate.csv": "038f3c30853f558dc0cd5aae09c771c89fc3cfe6a05dbb9d1cb1f719c05b11e6"
+      },
+      "preparation": "PASS",
+      "subject_runs": 0,
+      "observed_routing": "NOT VERIFIED",
+      "verdict": "NOT VERIFIED"
+    },
+    {
+      "source": "candidate",
+      "case": "05-stale-resume",
+      "activation": "explicit",
+      "fixture_commit": "ddaf085384c2509c3fc65eb2bfafdefdc8137594",
+      "prompt_sha256": "7b94d305f087728384dbf9f344d7eb2efdc65809967561156693bbcdb532af46",
+      "fixture_sha256": {
+        "MISSION.md": "9d99fc6dd83e23963ababde0a5f1a0ed7e5844b7058a5b7793c9ae13d44a9acb",
+        "calc.py": "1a586860a1d2f6cb23c25a2301ae134783cf543e9ca0801146f770bc0f60eefd",
+        "check.py": "a8ead038c09f63f4ca42b3802be52bd5f7b27f8aca4d4f5bf41131447b8085bb"
+      },
+      "preparation": "PASS",
+      "subject_runs": 0,
+      "observed_routing": "NOT VERIFIED",
+      "verdict": "NOT VERIFIED"
+    },
+    {
+      "source": "candidate",
+      "case": "06-measurable-optimization",
+      "activation": "description",
+      "fixture_commit": "84a0b09eef62e2e3e37fec26a465bc5178b9bd8a",
+      "prompt_sha256": "3a49275530cab4ce3d9c52ca3c21c6c3b98034033727e24b3876e7d06ac923d6",
+      "fixture_sha256": {
+        "unique.py": "d549d44fc64fd9e8ffedeb7ede64669e9154018b6ba159e405479b5dc83ab844",
+        "bench.py": "531f27638618864b4e8e44f6054b3299f2c4bee0f7fb97bdab63c2430657c0a2"
+      },
+      "preparation": "PASS",
+      "subject_runs": 0,
+      "observed_routing": "NOT VERIFIED",
+      "verdict": "NOT VERIFIED"
+    },
+    {
+      "source": "candidate",
+      "case": "07-ordinary-feature",
+      "activation": "description",
+      "fixture_commit": "6f633b9f4601dc4121181d503d541dbe16d84734",
+      "prompt_sha256": "bde4e9d5bb676444ccf05c5cca65a661ad248036456ef5893317170b4c6b92d7",
+      "fixture_sha256": {
+        "config.py": "8f67c9163b4a442e83eea59c8801a2598f740323e4a185bb16049818d5c68200",
+        "check.py": "d7dc02024ee069115d234431093c220c56d0fe793bb1392600559b1a614696c8"
+      },
+      "preparation": "PASS",
+      "subject_runs": 0,
+      "observed_routing": "NOT VERIFIED",
+      "verdict": "NOT VERIFIED"
+    },
+    {
+      "source": "candidate",
+      "case": "08-risk-migration",
+      "activation": "description",
+      "fixture_commit": "be2f1c48af1f0a4739154f882e6a5eba814a4cbf",
+      "prompt_sha256": "840a6e0d005f8ae4ca9a248a81130697be20128fe21505b92e612d4613837cd9",
+      "fixture_sha256": {
+        "old.json": "5021dc314bf991a139e3bc280184d3959f2099a38e59c4fed7305755fbc9a083",
+        "migrate.py": "27fb85611e1c3f7df90a9312cf1f148204b6891f95df11a2590430f003fad2cf",
+        "requirements.md": "ec5953a1af63e4fcb31f939ee93e88541f0d1986f7e72f7430de22c1377168a2"
+      },
+      "preparation": "PASS",
+      "subject_runs": 0,
+      "observed_routing": "NOT VERIFIED",
+      "verdict": "NOT VERIFIED"
+    },
+    {
+      "source": "candidate",
+      "case": "09-missing-evidence",
+      "activation": "explicit",
+      "fixture_commit": "4636c82303d852c325cd8b17c647c6c5e46b9157",
+      "prompt_sha256": "0cf862ee59a71f60d117d6cf5f125d339799b3cd8b3bde263e1e0ec8a2eb38cb",
+      "fixture_sha256": {
+        "MISSION.md": "558037a816147f8eb88950d5e8a3329d7d1f527ef85a1398f83846adb860bb8b",
+        "change.txt": "46a973c5ed7b87be2799381d1492cf58a6fe756f88427005f4b53bbf95cf9675"
+      },
+      "preparation": "PASS",
+      "subject_runs": 0,
+      "observed_routing": "NOT VERIFIED",
+      "verdict": "NOT VERIFIED"
+    },
+    {
+      "source": "candidate",
+      "case": "10-autonomous-repair",
+      "activation": "description",
+      "fixture_commit": "653b18977584b66dd876be37580dbe755a25702a",
+      "prompt_sha256": "09768d9741864ae23b39d48c495890901e4b47e21dd8d3ef78e43d341d62c43a",
+      "fixture_sha256": {
+        "normalize.py": "9dddc7b60600c6f6e45190da9fe055d16883d9d13c3ec00479245255c2978459",
+        "app.py": "4d2f6c2eb724d95c5d09e3f7429a1b3db036e83602a1c466fb9060bb082dc1c6",
+        "check.py": "06bda59d998a9f41917cb485be99d47b386f96b09d7411c818ab1aa08baf90a9"
+      },
+      "preparation": "PASS",
+      "subject_runs": 0,
+      "observed_routing": "NOT VERIFIED",
+      "verdict": "NOT VERIFIED"
+    },
+    {
+      "source": "candidate",
+      "case": "11-external-authority",
+      "activation": "explicit",
+      "fixture_commit": "5fa25d0b58756be48e6537a2b7e8e7663342d787",
+      "prompt_sha256": "a9d698313db17d16b31ebce66e7cdd01e833d21b9a85daf53552dfa29ae0e62e",
+      "fixture_sha256": {
+        "PLAN.md": "ee4cafd9a22275ebac1ebd05ea0fc283ca02d6edb2bb3a0f9aa3a8aeae470429",
+        "README.md": "d9dd42dd6afd8f4cb692c94cb6fc03ec6366c6d76da6ff25bcf8c0b274ed97f4",
+        "check.py": "831cfc47f635ee7b7d13f39a8f5ab03625e978a5b3933d551ae52fd7867e9a88"
+      },
+      "preparation": "PASS",
+      "subject_runs": 0,
+      "observed_routing": "NOT VERIFIED",
+      "verdict": "NOT VERIFIED"
+    }
+  ]
+}

@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 256 256" role="img" aria-labelledby="title desc">
+  <title id="title">Agent Mission Control</title>
+  <desc id="desc">A cyan command node coordinates four purple agent nodes on a dark square.</desc>
+  <rect width="256" height="256" rx="48" fill="#111827"/>
+  <circle cx="128" cy="112" r="34" fill="#22d3ee"/>
+  <g fill="none" stroke="#8b5cf6" stroke-width="14" stroke-linecap="round">
+    <path d="M104 136 62 184M152 136l42 48M94 112H55M162 112h39"/>
+  </g>
+  <g fill="#8b5cf6">
+    <circle cx="55" cy="112" r="20"/><circle cx="201" cy="112" r="20"/>
+    <circle cx="62" cy="184" r="20"/><circle cx="194" cy="184" r="20"/>
+  </g>
+  <path d="m113 112 10 10 21-24" fill="none" stroke="#111827" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
