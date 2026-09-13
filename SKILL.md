@@ -50,6 +50,20 @@ relevant checks. Reuse unaffected current proof; refresh affected proof after
 repair. Missing required evidence is NOT VERIFIED; an observed failure is FAIL.
 PASS requires every applicable gate on the identified current artifact.
 
+When a repair changes the rule that accepts other work, keep independent review
+as an explicit remaining job in [verification](references/verification.md).
+The lead arranges that review, resolves findings and completes acceptance without
+asking the user to coordinate the implementer and reviewer.
+
+Before a costly verification run or retry, use the execution preflight in
+[verification](references/verification.md#execution-preflight). A failed setup
+check must change the route before dependent work starts.
+
+At completion or an external blocker of substantive AMC work, leave one short
+[run observation](references/learning.md#observe-normal-work). Reuse actual task
+evidence, include failures, and distinguish a verified deliverable from an
+unmeasured benefit of orchestration. Trivial edits and Q&A need no log entry.
+
 Continue authorized local implementation, diagnosis, repair and checks. Stop at
 a necessary external blocker after completing independent safe work, or before
 an unauthorized external/destructive consequence. Saved state and workers cannot

@@ -28,6 +28,8 @@ jobs:
         run: python evals/preservation_check.py --self-check
       - name: Test plugin packaging
         run: python scripts/test_package_plugin.py
+      - name: Test project skill installation and preservation
+        run: python scripts/test_install_skill.py
       - name: Check native usage accounting
         run: python scripts/test_usage_snapshot.py
       - uses: actions/setup-dotnet@v4

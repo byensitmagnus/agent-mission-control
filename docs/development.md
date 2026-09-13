@@ -37,6 +37,7 @@ python scripts/validate.py
 python scripts/test_validate.py
 python scripts/test_prepare_eval.py
 python scripts/test_package_plugin.py
+python scripts/test_install_skill.py
 python scripts/test_usage_snapshot.py
 python evals/preservation_check.py --self-check
 python evals/fps_replay.py --self-check

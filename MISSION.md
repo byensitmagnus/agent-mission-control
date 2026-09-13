@@ -226,3 +226,34 @@ or active model/permission change is part of this publication.
 Acceptance: source/doc review, local structural checks, secret scan, generated
 package checks, GitHub CI, merge without rewriting history, downloadable candidate
 assets and inspection of the rendered public README.
+
+
+## Whole-project code and host portability — 2026-09-13
+
+Magnus clarified that the comparison includes code, native host support and
+actual user value, not only visual presentation. This iteration used the separate
+development checkout; the FPS owner and its candidate.6 runtime were untouched.
+The current local source is candidate.8. Its runtime is byte-identical to the
+retained candidate.7; governing workflow rules were not modified mid-product-run.
+
+Concrete code fixes reject incomplete evaluation runtime directories and duplicate
+session IDs in accounting. The new project installer uses the existing packager,
+stages and verifies bytes before activation, refuses existing/linked paths, and
+provides a read-only installed-byte check. Five native directory mappings are
+documented; file installation and native discovery remain distinct verdicts.
+The validator now checks mobile srcset assets. The optional verifier profile's
+description accurately names its read-only evidence-inspection scope.
+
+Local engineering acceptance PASS: lead-executed affected installer, fixture,
+usage, packaging and validator checks; independent executable review; 114 local
+links and 21 anchors; source/package byte checks. All 136 pre-existing files
+remain and 83 evaluation files are unchanged. Grok's native inspector found the
+exact newly installed project skill. Codex's isolated loader probe and Kimi's
+launcher failed for local environment reasons; other client execution remains
+NOT VERIFIED. No model benchmark, global installation, push or publication.
+
+The [engineering record](docs/engineering-candidate.8.md) and
+[host guide](docs/hosts.md) state exact support limits. Public main/release remain
+candidate.4. Existing candidate.7 observations stay attributable to their original
+runtime. Product benefit and comparative superiority require actual completed
+work; the code inspection alone does not supply those results.

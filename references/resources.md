@@ -6,6 +6,11 @@ progress the next action is likely to buy: another fan-out, model escalation,
 candidate attempt, repeated repair, rapid context growth or a known budget limit.
 Tiny operations do not need their own checkpoint.
 
+If an expensive retry produces no new evidence or repeats a known setup failure,
+inspect its command and prerequisites before choosing another model or full run.
+Escalate a bounded reasoning problem when capability is the bottleneck; more
+agents do not resolve a missing runtime or accelerate one serial test process.
+
 When observable, retain wall-clock, lead input/output and cached input, workers
 by actual model/effort, active/completed counts, attempts/repairs and verified
 progress. Cached input is a subset of input, not additional tokens. Distinguish

@@ -1,5 +1,5 @@
 name = "mission_verifier"
-description = "Read-only runtime verification of acceptance criteria for a bounded mission."
+description = "Read-only inspection of acceptance evidence for a bounded mission."
 model = "gpt-5.6-luna"
 model_reasoning_effort = "medium"
 sandbox_mode = "read-only"

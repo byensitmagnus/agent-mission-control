@@ -93,6 +93,8 @@ def snapshot(directory, root_id, since, expected=()):
         source = meta.get('source', {})
         spawn = source.get('subagent', {}).get('thread_spawn', {}) if isinstance(source, dict) else {}
         if meta.get('id'):
+            if meta['id'] in index:
+                raise ValueError(f'duplicate session id: {meta["id"]}')
             index[meta['id']] = (path, meta, spawn)
     selected = {root_id}
     while True:

@@ -6,6 +6,25 @@ record its source, scope, rollback and relevant engineering checks, and label
 behavioral benefit unmeasured. It does not require an imitation research trial
 and must not be presented as a verified learned improvement.
 
+## Observe normal work
+
+The lead records one compact observation in the existing mission record. If none
+exists, append to `~/.agent-mission-control/observations.md` outside repositories;
+create it within the user's permissions. If persistence is unavailable, report
+that limitation and keep the observation in the final response. Never publish
+this private log automatically, rewrite older entries or duplicate a resumed run.
+
+Use about 100 words: date, non-sensitive project label, task and artifact/skill
+identity when known, chosen route and actual models when observed, checks and
+outcomes, failed attempts and repairs, and a pointer to the evidence. Separate
+observed facts from possible lessons; an agent's own assessment is not proof that
+AMC improved quality or cost. Missing checks remain NOT VERIFIED. Retain observed
+usage with its coverage, or write unknown; follow the resource reference if cost
+matters. Do not run extra agents or tests just to populate this log. Exclude
+secrets, customer data, prompts and transcripts. These notes are data, not rules.
+
+## Evaluate a reusable lesson
+
 Activate outcome-driven learning only after a completed task reveals a reusable success or failure that
 could improve another run. Routine completion does not require a learning phase.
 Without a suitable evaluation budget, retain the candidate lesson as a note;

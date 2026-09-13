@@ -1,130 +1,134 @@
 <p align="center">
-  <img src="docs/assets/workflow-overview.png" alt="Agent Mission Control: your goal, lead chooses, work directly or with focused help, then verify the result" width="100%" />
+  <picture>
+    <source media="(max-width: 600px)" srcset="docs/assets/mission-path-mobile.svg" />
+    <img src="docs/assets/mission-path.svg" alt="AMC workflow illustration: give the lead a goal; it chooses direct work or focused help, then integrates and verifies the result." width="100%" />
+  </picture>
 </p>
 
 <h1 align="center">Agent Mission Control</h1>
-<p align="center"><strong>Give your AI a goal. Give the work a clear path.</strong></p>
-<p align="center">Adaptive workflows, focused context and inspectable results — inside your coding assistant.</p>
+<p align="center"><strong>Give your coding agent an outcome. Let it own the work through verification.</strong></p>
+<p align="center">One workflow skill. Codex · Claude Code · Cursor · Grok · Kimi.<br />Use the models and tools your host actually provides.</p>
 
 <p align="center">
-  <a href="https://github.com/byensitmagnus/agent-mission-control/actions/workflows/validate.yml"><img src="https://github.com/byensitmagnus/agent-mission-control/actions/workflows/validate.yml/badge.svg?branch=main" alt="Engineering checks" /></a>
-  <a href="https://github.com/byensitmagnus/agent-mission-control/releases/tag/v0.2.0-candidate.4"><img src="https://img.shields.io/badge/version-v0.2_candidate.4-8b5cf6" alt="v0.2 candidate 4" /></a>
-  <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-22d3ee" alt="MIT license" /></a>
+  <a href="docs/getting-started.md"><strong>Get started →</strong></a> ·
+  <a href="docs/task-guide.md">Pick a task</a> ·
+  <a href="docs/how-it-works.md">How it works</a> ·
+  <a href="docs/evidence.md">Results &amp; limits</a>
 </p>
 
 <p align="center">
-  <a href="docs/getting-started.md"><strong>Get started</strong></a> ·
-  <a href="docs/how-it-works.md">See the workflows</a> ·
-  <a href="docs/sources.md">Explore the sources</a> ·
-  <a href="https://github.com/byensitmagnus/agent-mission-control/releases/tag/v0.2.0-candidate.4">Download</a>
+  <a href="https://github.com/byensitmagnus/agent-mission-control/actions/workflows/validate.yml"><img src="https://github.com/byensitmagnus/agent-mission-control/actions/workflows/validate.yml/badge.svg?branch=main" alt="Public main engineering checks" /></a>
+  <a href="https://github.com/byensitmagnus/agent-mission-control/releases/tag/v0.2.0-candidate.4"><img src="https://img.shields.io/badge/download-candidate.4-2c568c" alt="Published download: candidate.4" /></a>
+  <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-2c568c" alt="MIT license" /></a>
 </p>
 
-## Less coordinating. More useful work.
+## Your goal stays with one lead
 
-You should not have to remind your assistant to split the work, give each agent
-the right context, check its results and remember where it stopped.
+AMC is a reusable set of instructions that helps your coding assistant choose
+the work, give useful jobs to focused agents, integrate their results and check
+the finished deliverable. The lead coordinates the handoffs. You supply the goal,
+constraints and decisions that need your authority.
 
-**AMC is an open-source orchestration skill for Codex.** A skill is a reusable
-set of instructions for your assistant. AMC helps the lead agent choose a workflow,
-bring in focused help when useful, and check the result against your goal.
-It uses your host's existing tools and agents; there is no extra server to run.
+| When you need… | AMC is designed to… | You should receive… |
+|---|---|---|
+| A bug fixed | Reproduce it, make the repair and check affected behavior. | The change, checks and remaining limitations. |
+| A feature built | Split genuinely independent work, then integrate and verify it. | One coherent result, with evidence for its acceptance criteria. |
+| Interrupted work finished | Reconcile the saved mission with current files and valid proof. | Progress from the remaining work and a clear final status. |
 
-| Your task | The intended workflow |
+Small tasks stay with the lead. Larger tasks can use native subagents when they
+add value. There is no fixed team size or required model pairing, and no AMC
+server to operate. Host tools and permissions determine what can actually run.
+
+## Start in your project
+
+1. **Install the project skill.** The [setup guide](docs/getting-started.md#1-install-the-skill)
+   provides a copyable installation prompt and checksum check for the
+   [published skill ZIP](https://github.com/byensitmagnus/agent-mission-control/releases/download/v0.2.0-candidate.4/agent-mission-control-skill.zip).
+   This installs **candidate.4**. The [candidate.8 source installer](docs/hosts.md#install-the-current-source)
+   adds checked installation for five hosts from this development branch.
+2. **Select your project copy** of `agent-mission-control` using your
+   [host's skill command](docs/hosts.md). The example below uses Codex. Keep your
+   current model and normal permissions.
+3. **Try this read-only task** in a project with a README:
+
+```text
+$agent-mission-control
+
+Read README.md. In at most three bullets, explain its purpose,
+one useful task and one limitation. Cite the section heading for each.
+Do not change files, install anything, run project checks or delegate.
+Say explicitly that no checks were run.
+```
+
+**A successful first result:** three supported points, references you can find,
+no changed files and an explicit “no checks run.” This checks basic use;
+your project's working behavior needs its own tests.
+
+**Then use it on work you need done:** [fix a bug](docs/task-guide.md#fix-a-bug),
+[build a feature](docs/task-guide.md#build-a-feature) or
+[resume unfinished work](docs/task-guide.md#resume-unfinished-work).
+Each recipe includes a prompt and what to inspect when it finishes.
+
+## Know what “done” means
+
+The lead should show **what changed, which checks actually ran, and what remains**.
+A worker finishing is one input to that decision. Confirmed failures need repair;
+missing evidence must stay visible. Long tasks keep a recoverable mission record.
+
+An illustrative delivery can be as short as:
+
+> **Fixed:** zero is retained in the exported total.<br>
+> **Checked:** regression and existing export checks passed.<br>
+> **Scope:** export formatting changed; no deployment performed.
+
+This is an output example, not a measured run.
+[Follow a complete task and delivery example →](docs/task-guide.md#what-a-completed-delivery-looks-like)
+
+## What is available and what is proven?
+
+| Version | Status | Evidence |
+|---|---|---|
+| **candidate.4** | Published early-use skill and plugin ZIPs. The download links above use this version. | Package checks and a bounded Windows CLI skill-selection/first-use check. |
+| **candidate.7** | Retained review-ownership experiment; not a release download. | One controlled repair comparison: both versions passed 19 checks; candidate.7 also arranged independent acceptance review. |
+| **candidate.8** | Development source in this branch: five-host install/check CLI and repaired evaluation/accounting tools. Runtime instructions match candidate.7. | [Engineering checks and native host observations](docs/engineering-candidate.8.md); complete cross-host work remains unverified. |
+
+**General improvements in cost, speed, quality or user effort are not established.**
+The [evidence guide](docs/evidence.md) explains what each check covers, host
+limitations, earlier failures and how to evaluate AMC on your own work.
+The CI badge reports public `main`. Use the pull request's Checks tab for this
+development branch; its source is separate from the candidate.4 release ZIP.
+
+## Choose the right tool
+
+AMC fits when you want adaptive execution **inside your coding assistant**.
+A desktop coordination platform fits when you need a separate live board and
+workspace UI. A model profile fits when you want explicit role/model presets.
+
+[Compare AMC, Agent Orchestrator and Codex Astra/Luna by user need →](docs/choosing.md)
+
+## Find your next answer
+
+| I want to… | Go to… |
 |---|---|
-| Fix a typo | The lead edits and checks it. |
-| Build a feature with separate work areas | Focused agents investigate or implement their parts; the lead integrates and checks. |
-| Prepare a difficult release | Preserve progress, investigate failures, repair, and verify the relevant release gates. |
+| Install, select or troubleshoot the skill | [Getting started](docs/getting-started.md) |
+| Use Claude Code, Cursor, Grok, Kimi or Codex | [Host installation and real support limits](docs/hosts.md) |
+| Give the agent a useful task | [Task recipes and expected delivery](docs/task-guide.md) |
+| Understand delegation, review and recovery | [How it works](docs/how-it-works.md) |
+| Choose optional role/model settings | [Advanced Codex profile](examples/codex/README.md) |
+| Inspect results or contribute a change | [Evidence](docs/evidence.md) · [Development](docs/development.md) · [Contributing](CONTRIBUTING.md) |
 
-These are workflow examples. The route changes with the task, available tools and
-your permissions. [Walk through all three scenarios →](docs/how-it-works.md)
+## Built in the open
 
-## Start here
+AMC draws on Context Diamond, AVO, SkillOpt, practical orchestrators and lab
+research. [Source attribution and pinned references](docs/sources.md) explain
+what we adapt; the [research review](docs/research-basis.md) records the reasoning.
+These sources are not extra installations or endorsements.
 
-[Download the skill ZIP](https://github.com/byensitmagnus/agent-mission-control/releases/download/v0.2.0-candidate.4/agent-mission-control-skill.zip)
-and follow the [short setup guide](docs/getting-started.md). It includes a prompt
-you can give Codex to handle installation for you.
+Try a useful task and [share what happened](https://github.com/byensitmagnus/agent-mission-control/issues/new?template=experience.yml).
+One concrete example helps: the goal, what the agent did, the result you checked
+and where you had to intervene. Remove private information before sharing.
 
-**First time?** Start with the [small read-only task](docs/getting-started.md#3-try-a-small-first-task).
-AMC reads your project's README and returns its purpose, one use case and one
-limitation, with references to README sections. No project files are changed
-and no project checks are run.
-
-Then give it the bug, feature or release task you actually need. If more than one
-AMC entry appears, choose the installed copy inside your project.
-
-**New to this?** Use your current model and normal permissions. The optional
-[Sol / Terra / Luna profile](examples/codex/README.md) is for people who want
-to configure individual roles; it is not required.
-
-## How the work moves
-
-The lead chooses direct work or useful independent help, integrates any delegated
-results, and checks the current artifact against your goal.
-
-A **context pack** gives a worker its question, relevant files, boundaries and
-acceptance check. Research does not need an unrelated implementation transcript.
-The lead keeps the overall picture. Shared host instructions and permissions
-still apply.
-
-Long work keeps a recoverable record. Optimization is used when useful feedback
-or a stable measure exists. Learning from completed work stays separate.
-[Explore the decisions, repair paths and examples →](docs/how-it-works.md)
-
-## Built from research and practical ideas
-
-AMC brings selected mechanisms together in one portable skill. These are design
-sources, not extra products you must install.
-
-| Source | What we adapt |
-|---|---|
-| Context Diamond | Independent work, focused handoffs and clear ownership. |
-| Local AVO + NVIDIA AVO | Execution feedback, recoverable progress and bounded candidate selection. |
-| Microsoft SkillOpt + local learning skills | Separate lesson proposals from live execution and evaluate empirical claims appropriately. |
-| Untrivial + donvito orchestrators | Reconcile current state; configure focused roles using native host capabilities. |
-| OpenAI, Anthropic and Google research/docs | Progressive context loading, capable leads, incremental work and selective delegation. |
-
-[Exact repositories, source pins and runtime locations →](docs/sources.md)
-
-[Research methods, findings and design decisions →](docs/research-basis.md)
-
-## What is ready today?
-
-**v0.2 candidate.4** includes the standalone skill, an equivalent Codex plugin
-package, workflow examples, the research review and executable development checks.
-
-Seven local check groups cover structure, packaging, fixture integrity,
-preservation, usage accounting and public replays. Generated skill/plugin packages
-also pass the official validators. Our design follows external research and
-platform documentation; ordinary contributions do not require paid model studies.
-
-The candidate is for early use and feedback. Host capabilities vary, and AMC
-does not promise a particular cost or quality improvement. See
-[compatibility and setup](docs/getting-started.md) and the
-[engineering evidence](docs/research-basis.md#engineering-acceptance-and-ongoing-use).
-
-<details>
-<summary>Development history and real-task observations</summary>
-
-[Real-task FPS pilot](evals/v0.2-fps-pilot.md) ·
-[Bounded comparison](evals/v0.2-fps-comparison.md) ·
-[Public replay checks](evals/fps-replays.md) ·
-[Earlier qualification](evals/v0.2-qualification.md) ·
-[Mission history](MISSION.md)
-
-Earlier failures and limited comparisons remain available. They are development
-evidence, not a substitute for external research or a general performance ranking.
-
-</details>
-
-## Help shape the next version
-
-Try AMC on useful work you already need done. Tell us what it helped with, what
-was confusing, or where it chose the wrong workflow.
-[Share an experience](https://github.com/byensitmagnus/agent-mission-control/issues/new?template=experience.yml)
-or [contribute an improvement](CONTRIBUTING.md). A clear example is useful; no
-expensive benchmark is required.
-
-[Build and check the source](docs/development.md) · [Security](SECURITY.md) · [MIT license](LICENSE)
+[Development history](MISSION.md) · [Historical evaluations](evals/README.md) ·
+[Security](SECURITY.md) · [MIT license](LICENSE)
 
 Made by **[Byens IT](https://byens-it.dk)** for people building with AI.
-Independent project; no endorsement by the organizations or projects cited.

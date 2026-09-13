@@ -11,7 +11,7 @@ from current host guidance, not a benchmark-proven optimum.
 | Lead | Sol / medium | Architecture, integration, final evidence |
 | Investigation or useful scout | Terra / medium | Read-only, one bounded question |
 | Implementation | Terra / medium | One assigned workspace scope |
-| Runtime verification | Luna / medium | Narrow checks; lead can execute disposable builds |
+| Verification inspection | Luna / medium | Read-only evidence inspection; the lead runs checks that write build/test artifacts |
 | Material review | Terra / high | Read-only, separate from implementation |
 
 Use Luna for a clear mechanical question, or a stronger supported model for a

@@ -21,6 +21,8 @@ def main():
         alternate_source = root / "alternate-source"
         alternate_source.mkdir()
         (alternate_source / "SKILL.md").write_text("---\nname: agent-mission-control\n---\nalternate\n", encoding="utf-8")
+        for name in ("agents", "references", "templates", "assets"):
+            (alternate_source / name).mkdir()
         for case in cases:
             first = prepare(case["id"], root / case["id"] / "first", ROOT)
             second = prepare(case["id"], root / case["id"] / "second", ROOT)
@@ -78,7 +80,8 @@ def main():
         assert hashlib.sha256(committed).hexdigest() == result["fixture_sha256"]["README.md"]
         assert not (root / "unrelated.git").exists()
         source = root / "source"
-        (source / "assets").mkdir(parents=True)
+        for name in ("agents", "references", "templates", "assets"):
+            (source / name).mkdir(parents=True)
         (source / "SKILL.md").write_text("test skill", encoding="utf-8")
         destination = source / "assets" / "recursive-eval"
         try:
@@ -88,6 +91,17 @@ def main():
         else:
             raise AssertionError("recursive eval destination was accepted")
         assert not destination.exists()
+        incomplete_source = root / "incomplete-source"
+        incomplete_source.mkdir()
+        (incomplete_source / "SKILL.md").write_text("test skill", encoding="utf-8")
+        incomplete_destination = root / "incomplete-eval"
+        try:
+            prepare("01-small-linear", incomplete_destination, incomplete_source)
+        except ValueError as error:
+            assert "missing runtime directory" in str(error)
+        else:
+            raise AssertionError("incomplete skill source was accepted")
+        assert not incomplete_destination.exists()
         outside = root / "outside"
         linked_source = outside / "source"
         linked_source.mkdir(parents=True)
@@ -136,6 +150,8 @@ def main():
         dangling_source = root / "dangling-source"
         dangling_source.mkdir()
         (dangling_source / "SKILL.md").write_text("test skill", encoding="utf-8")
+        for name in ("agents", "templates", "assets"):
+            (dangling_source / name).mkdir()
         (dangling_source / "references").symlink_to(root / "missing-runtime", target_is_directory=True)
         try:
             prepare("01-small-linear", root / "dangling-eval", dangling_source)
