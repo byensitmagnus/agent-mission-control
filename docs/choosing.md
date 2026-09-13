@@ -65,5 +65,30 @@ necessary user intervention and total work required. AMC's
 run an equivalent end-to-end task across all three products, so comparative
 quality, completion rate, speed and cost remain unverified.
 
+## What still needs to improve
+
+Candidate.8 is worth adopting for its checked installation and repaired tooling.
+That is an improvement over AMC's previous source, not evidence of an overall
+lead over either alternative. The next useful work, in order, is:
+
+1. **Complete native first use.** On each advertised host, demonstrate selection
+   of the installed skill and one useful task through delivery and executed
+   checks. Include delegation when the task benefits from it. Five identical
+   folders and one discovery observation do not establish that journey.
+2. **Demonstrate recovery without user coordination.** On work that actually
+   needs it, show a stopped or failed worker being reconciled, unfinished work
+   resumed safely and review findings integrated. AO already implements lifecycle
+   mechanisms; AMC must demonstrate the result through its native host. Add code
+   only where an observed failure cannot be solved by the existing mechanisms.
+3. **Show repeatable user benefit.** Retain successful and failed deliveries,
+   regressions, user corrections and total elapsed work on ordinary useful tasks.
+   A fair comparative claim needs comparable scope and acceptance across the
+   products. The existing direct-versus-AMC pair achieved the same result and
+   AMC took longer; it is evidence to keep, not a win to reframe.
+
+These are evidence gaps and product priorities, not extra gates for every user
+task. A dashboard clone, more role files or a larger test count would not by
+themselves demonstrate better delivered work.
+
 [Install AMC](getting-started.md) · [Understand its workflow](how-it-works.md) ·
 [Sources and attribution](sources.md)
