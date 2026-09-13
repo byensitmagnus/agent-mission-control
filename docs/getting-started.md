@@ -181,7 +181,9 @@ per-command approval. Do not disable the sandbox or grant a permanent blanket
 permission. If reading remains unavailable, the first task is not complete.
 
 **How do I update or remove it?** Compare a new version in a separate folder,
-preserve local edits, then replace only the confirmed project installation.
+preserve local edits, then replace only the confirmed project installation. The
+development source offers an [explicit update with a retained backup](hosts.md#update-an-existing-project-installation)
+and refuses to replace files that changed after your inspection.
 Remove that same installation folder to uninstall, after saving any changes.
 Neither action requires changing your global Codex configuration.
 

@@ -86,3 +86,36 @@ daemon/worktree/recovery strengths and the other project's Codex-profile scope.
 
 [Install for your host](hosts.md) · [All evidence](evidence.md) ·
 [Development checks](development.md)
+
+## Follow-up: safe updates of existing installations
+
+The same development branch now closes a concrete first-use gap: existing
+installations previously required manual replacement. The explicit
+`--update --expected-installed-sha256` operation replaces only the reviewed
+file contents and retains the entire old directory outside skill discovery.
+`--check` supplies the differences and fingerprint without writing files.
+Stale confirmation, changing inputs and linked backup paths are refused.
+A handled activation error restores the old directory if its destination is
+free; a competing owner is preserved with a reported recovery location.
+Power-loss recovery remains manual. No daemon, dependency or host/model config
+change was added. [Use the update flow](hosts.md#update-an-existing-project-installation).
+
+The lead executed 13 installer tests and 13 package tests, with no skips, and
+structural/diff checks. A separate command-line journey installed the actual
+candidate.4 runtime plus a local customization into each of five disposable
+projects, then updated to this branch. All five retained the exact old bytes,
+matched the new runtime, preserved project instructions, refused stale
+confirmation without writes and made a repeated matching update a no-op.
+These are filesystem/CLI checks, not native host activation or productivity
+measurements. Runtime instruction bytes remain unchanged.
+
+During lead review, an incorrect preservation-test expectation was corrected
+and the competing-owner control was changed to exercise a real directory rename.
+Source review also required checking an observed destination claim before
+activation. The implementation does not claim cross-process locking against
+hostile filesystem races.
+
+A fresh Luna reviewer independently ran the installer controls and a disposable
+CLI status check; no material finding remained. The updater research observation
+in the mission record is separate read-only product work. It did not run or
+change the product and is not a cross-model benchmark.

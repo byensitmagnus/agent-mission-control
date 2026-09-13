@@ -257,3 +257,75 @@ The [engineering record](docs/engineering-candidate.8.md) and
 candidate.4. Existing candidate.7 observations stay attributable to their original
 runtime. Product benefit and comparative superiority require actual completed
 work; the code inspection alone does not supply those results.
+
+## Safe project updates — active iteration, 2026-09-13
+
+Goal / Definition of Done: complete an existing user's install → inspect →
+update journey without losing the old installation or changing host settings.
+The user authorized continued AMC improvement and PR publication, with small
+model use rather than large behavioral benchmarks. FPS and its governing
+candidate.6 remain outside this work. Parent: PR #5 head ccc234e29be34e8fbf3b05639bbd14ea083ef8ea.
+
+Frozen evaluator, before implementation: supported safe update changes from
+absent to present. An explicit `--update --expected-installed-sha256 <digest>`
+must replace only the reviewed installation; `--check` supplies that fingerprint
+and the changed file list. Stage and verify new bytes before moving old bytes.
+Retain the complete old directory outside native skill discovery, with its exact
+path returned. Refuse missing/malformed/stale confirmation, linked paths and a
+source/destination change during staging. A handled activation failure restores
+the old installation when its destination is free; if another owner occupies
+it, preserve both owners' data and report the retained backup for recovery.
+Abrupt process/power loss may require recovery from that retained directory;
+do not claim automatic restart recovery. No recursive deletion or force flag.
+
+Higher-priority gates: existing install/check preservation controls continue to
+pass; new installed bytes match source on all five destinations; actual old
+customized bytes remain recoverable; no global/model/permission/AGENTS changes;
+all historical evaluations and runtime instructions stay unchanged. Native
+activation, user productivity and cost savings are outside this code proof.
+
+Ownership: Terra owns only scripts/install_skill.py and its tests; one fresh
+Luna reviewer may inspect that implementation without edits. Root owns the
+frozen evaluator, independent execution, integration, documentation and PR.
+These implementation and user-guide jobs have independent write scopes. No
+further agent trial is budgeted; permit at most two evidence-driven repairs.
+
+| Candidate | Parent | Hypothesis | Correctness | Metric | Decision |
+|---|---|---|---|---|---|
+| Incumbent | ccc234e | Existing install/check | Existing CI PASS; CLI rejects new update flags before execution | Safe update absent | Retained base |
+| Update candidate | ccc234e | Reviewed update + retained original | 13 installer + 13 package tests PASS, no skips; independent Luna review PASS; five actual version-to-version CLI journeys PASS | Safe update present; preservation gates PASS | Accept local candidate; PR checks pending |
+
+Next action: publish the locally accepted candidate to the existing PR and
+verify its remote checks. Existing setup/model-profile advice
+already covers the scout's concern; do not add a duplicate profile installer.
+
+### User refinement: budgeted read-only FPS research
+
+The user chose FPS bug/code research as the Terra→Luna workflow observation.
+The AMC implementation owner finishes its separate code task. The research uses
+seven tracked updater/trust/test files from a pinned product snapshot retained
+in external private proof. The active FPS task
+continues independently; do not write its repository, run its tests/app, launch
+the updater, change Windows or send the owner new work orders.
+
+Terra receives the frozen scope and AMC runtime; it gives one Luna a concise
+context packet about updater completion/relaunch correctness. Terra must inspect
+the child's evidence, reject unsupported findings, and return a bounded research
+report with file/line anchors, triggers, impact, existing test coverage and
+unexecuted proof. Zero confirmed bugs is valid. Root verifies retained claims.
+One Terra and one Luna, no retries/model comparison/extra fan-out. The observed
+workflow must keep source hashes unchanged and require no user coordination.
+This establishes only this read-only research outcome; it cannot establish
+general productivity, budget savings, implementation/recovery quality or
+superiority over the competitors. No AMC runtime rule change follows by default.
+
+Completed research observation: Terra delegated one bounded question with a
+saved 133-word context packet, read Luna's result and checked production guards
+and existing tests. Root further narrowed one reporting-risk finding, retained
+an unsupported target-path hypothesis as unconfirmed, and corrected observation
+metadata that had confused brief constraints with user interventions. All seven
+source files stayed unchanged; no product execution or repair occurred. Zero
+additional user coordination prompts were observed after research dispatch.
+The workflow's packet/delegation/review/report stages were exercised; interrupted
+worker recovery, native profile activation and savings were not measured. Keep
+current runtime rules; the concrete code improvement is the separate installer.

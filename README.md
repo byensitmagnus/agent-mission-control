@@ -45,7 +45,8 @@ server to operate. Host tools and permissions determine what can actually run.
    provides a copyable installation prompt and checksum check for the
    [published skill ZIP](https://github.com/byensitmagnus/agent-mission-control/releases/download/v0.2.0-candidate.4/agent-mission-control-skill.zip).
    This installs **candidate.4**. The [candidate.8 source installer](docs/hosts.md#install-the-current-source)
-   adds checked installation for five hosts from this development branch.
+   adds checked installation for five hosts and
+   [reviewed updates with a retained backup](docs/hosts.md#update-an-existing-project-installation).
 2. **Select your project copy** of `agent-mission-control` using your
    [host's skill command](docs/hosts.md). The example below uses Codex. Keep your
    current model and normal permissions.

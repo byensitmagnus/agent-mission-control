@@ -101,6 +101,105 @@ class InstallTests(unittest.TestCase):
             with self.assertRaises(FileExistsError): self.run_install()
         self.assertEqual((destination / "SKILL.md").read_bytes(), b"other owner")
 
+    def test_update_replaces_all_hosts_and_retains_complete_customized_backup(self):
+        before = {}
+        for host, directory in HOST_DIRS.items():
+            destination = self.project / directory / "skills" / "agent-mission-control"
+            self.run_install(host)
+            (destination / "local-note.txt").write_bytes(f"keep-{host}".encode())
+            before[host] = self.run_install(host, check=True)["installed_sha256"]
+        (self.project / "AGENTS.md").write_bytes(b"project setting")
+        (self.source / "SKILL.md").write_bytes(b"updated skill\r\n")
+
+        backups = set()
+        for host, directory in HOST_DIRS.items():
+            result = self.run_install(host, update=True, expected_installed_sha256=before[host])
+            destination = self.project / directory / "skills" / "agent-mission-control"
+            backup = Path(result["backup_path"])
+            self.assertEqual(result["status"], "UPDATED")
+            self.assertEqual(result["previous_installed_sha256"], before[host])
+            self.assertTrue(backup.is_dir())
+            self.assertEqual((backup / "local-note.txt").read_bytes(), f"keep-{host}".encode())
+            assert_skill_bytes(self, self.source, destination)
+            self.assertEqual(self.run_install(host, check=True)["status"], "MATCH")
+            backups.add(result["installed_sha256"])
+        self.assertEqual(len(backups), 1)
+        self.assertEqual((self.project / "AGENTS.md").read_bytes(), b"project setting")
+
+    def test_update_rejects_invalid_or_stale_confirmation_before_writing(self):
+        installed = self.run_install()
+        destination = Path(installed["path"])
+        for digest in (None, "not-a-hash", "0" * 64):
+            with self.subTest(digest=digest), self.assertRaises(ValueError):
+                self.run_install(update=True, expected_installed_sha256=digest)
+            self.assertFalse((self.project / ".amc-skill-backups").exists())
+            self.assertTrue(destination.is_dir())
+        with self.assertRaises(ValueError):
+            self.run_install(check=True, update=True, expected_installed_sha256="0" * 64)
+        with self.assertRaises(ValueError):
+            self.run_install(expected_installed_sha256=installed["installed_sha256"])
+        self.assertEqual(self.run_install(check=True)["installed_sha256"], installed["installed_sha256"])
+
+    def test_update_refuses_source_or_destination_change_while_staging(self):
+        installed = self.run_install()
+        digest = installed["installed_sha256"]
+        destination = Path(installed["path"])
+        (self.source / "SKILL.md").write_bytes(b"candidate")
+
+        def source_changes(staged, **kwargs):
+            package(staged, **kwargs)
+            (self.source / "SKILL.md").write_bytes(b"changed after staging")
+        with patch("install_skill.package", side_effect=source_changes):
+            with self.assertRaisesRegex(ValueError, "source changed while staging"):
+                self.run_install(update=True, expected_installed_sha256=digest)
+        self.assertTrue(destination.is_dir())
+        self.assertFalse((self.project / ".amc-skill-backups").exists())
+
+        (self.source / "SKILL.md").write_bytes(b"candidate two")
+        def destination_changes(staged, **kwargs):
+            package(staged, **kwargs)
+            (destination / "race.txt").write_bytes(b"other owner")
+        with patch("install_skill.package", side_effect=destination_changes):
+            with self.assertRaisesRegex(ValueError, "installation changed while staging"):
+                self.run_install(update=True, expected_installed_sha256=digest)
+        self.assertEqual((destination / "race.txt").read_bytes(), b"other owner")
+        self.assertFalse((self.project / ".amc-skill-backups").exists())
+
+    def test_update_activation_failure_rolls_back_or_retains_both_owners(self):
+        installed = self.run_install()
+        destination = Path(installed["path"])
+        old_skill = (destination / "SKILL.md").read_bytes()
+        (destination / "local-note.txt").write_bytes(b"keep this too")
+        digest = self.run_install(check=True)["installed_sha256"]
+        (self.source / "SKILL.md").write_bytes(b"candidate")
+        original_rename = Path.rename
+
+        def fail_activation(path, target):
+            if path.name == "agent-mission-control" and path.parent.name.startswith(".amc-update-"):
+                raise OSError("activation blocked")
+            return original_rename(path, target)
+        with patch.object(Path, "rename", fail_activation):
+            result = self.run_install(update=True, expected_installed_sha256=digest)
+        self.assertEqual(result["status"], "ROLLED_BACK")
+        self.assertTrue(Path(result["backup_path"]).is_dir())
+        self.assertEqual((destination / "SKILL.md").read_bytes(), old_skill)
+        self.assertEqual((destination / "local-note.txt").read_bytes(), b"keep this too")
+
+        (self.source / "SKILL.md").write_bytes(b"candidate two")
+        def competing_owner(path, target):
+            result = original_rename(path, target)
+            if path == destination:
+                destination.mkdir()
+                (destination / "SKILL.md").write_bytes(b"new owner")
+            return result
+        with patch.object(Path, "rename", competing_owner):
+            result = self.run_install(update=True, expected_installed_sha256=digest)
+        self.assertEqual(result["status"], "RECOVERY_REQUIRED")
+        self.assertTrue(Path(result["backup_path"]).is_dir())
+        self.assertEqual((Path(result["backup_path"]) / "SKILL.md").read_bytes(), old_skill)
+        self.assertEqual((Path(result["backup_path"]) / "local-note.txt").read_bytes(), b"keep this too")
+        self.assertEqual((destination / "SKILL.md").read_bytes(), b"new owner")
+
     def test_linked_project_installation_and_extra_file_are_rejected(self):
         link = self.root / "project-link"
         try: os.symlink(self.project, link, target_is_directory=True)
@@ -111,6 +210,18 @@ class InstallTests(unittest.TestCase):
         destination = Path(self.run_install("grok")["path"])
         os.symlink(self.source / "SKILL.md", destination / "extra.md")
         with self.assertRaises(ValueError): self.run_install("grok", check=True)
+
+    def test_update_refuses_linked_backup_directory(self):
+        installed = self.run_install()
+        original_skill = Path(installed["path"]).joinpath("SKILL.md").read_bytes()
+        (self.source / "SKILL.md").write_bytes(b"candidate")
+        external = self.root / "external-backups"
+        external.mkdir()
+        try: os.symlink(external, self.project / ".amc-skill-backups", target_is_directory=True)
+        except OSError as error: self.skipTest(f"cannot create symlink: {error}")
+        with self.assertRaises(ValueError):
+            self.run_install(update=True, expected_installed_sha256=installed["installed_sha256"])
+        self.assertEqual(Path(installed["path"]).joinpath("SKILL.md").read_bytes(), original_skill)
 
 
 if __name__ == "__main__": unittest.main()

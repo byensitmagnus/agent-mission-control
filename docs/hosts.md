@@ -64,13 +64,56 @@ of an arbitrary snapshot supplied through the Python API or a signed release.
 Neither `INSTALLED` nor `MATCH` proves that your client loaded the skill:
 `host_discovery` intentionally remains `NOT VERIFIED` in these filesystem results.
 
-The installer preserves existing skills and refuses replacement, even when the
+The default install preserves existing skills and refuses replacement, even when the
 old files match. It changes no `AGENTS.md`, host configuration, model default or
 permission. Linked paths and overlapping source/output are rejected. Copying
 finishes and its bytes are checked before `SKILL.md` is published by rename.
 If a final move fails, a partial directory may remain without `SKILL.md`; inspect
 that exact directory before removing it and retrying. A second install will not
 overwrite it. `--check` is read-only and does not launch a host or make a model call.
+
+## Update an existing project installation
+
+Update from a trusted AMC source checkout after work using the old copy has
+stopped. The source installer in this branch provides a separate, explicit
+update operation. It does not change your selected model or host settings.
+
+First inspect the existing installation against the new source:
+
+```bash
+python scripts/install_skill.py --host claude-code --project "../my-app" --check
+```
+
+`DIFFERENT` and exit code 1 mean the copies differ. Inspect the reported file
+names and compare any customized files with the new source. Keep the returned
+`installed_sha256`; it identifies the installation you just inspected. `MATCH`
+means this source is already installed and no update is needed.
+
+After reviewing the differences, use that exact digest:
+
+```bash
+python scripts/install_skill.py --host claude-code --project "../my-app" --update --expected-installed-sha256 "PASTE_INSTALLED_SHA256_HERE"
+```
+
+The installer verifies the new package before replacing the old copy. It refuses
+a stale fingerprint if installed files changed after inspection. An update
+activates the source as supplied; it does not silently merge local customizations.
+The complete old directory is retained outside skill discovery, including your
+custom files. The result reports `backup_path` and `previous_installed_sha256`.
+Keep that backup until you have selected and checked the new copy in your host.
+The same commands support all five host flags above.
+
+On a handled activation failure, the installer restores the old copy when its
+destination is free. If another owner occupies that destination, it preserves
+both owners' data and reports where the backup remains. A killed process or
+power loss can also leave the old copy in the backup directory: automatic
+restart recovery is not provided.
+
+For recovery, stop work using that copy and inspect the exact reported paths.
+Preserve any current installation outside discovery before moving the retained
+backup back to its original location; never overwrite another owner's directory.
+Compare restored bytes with the old fingerprint. A byte match verifies recovery
+of the files; select that copy in the host before resuming work.
 
 ## Confirm discovery before trusting a result
 
