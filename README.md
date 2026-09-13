@@ -61,7 +61,7 @@ to configure individual roles; it is not required.
 ## How the work moves
 
 ```mermaid
-flowchart LR
+flowchart TD
   goal["Your goal"] --> lead{"Lead chooses useful work"}
   lead --> direct["Work directly"]
   lead --> focused["Focused agents + context packs"]

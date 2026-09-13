@@ -40,7 +40,7 @@ is the changed file and its build/check output.
 checks the permission boundary; integrate the result and test it.”
 
 ```mermaid
-flowchart LR
+flowchart TD
   A[Lead fixes interfaces] --> B[Format investigation]
   A --> C[Permission review]
   B --> I[Implement agreed feature]
