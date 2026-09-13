@@ -8,7 +8,8 @@ for the optional profile and package format, not a host compatibility matrix.
 - The installed OpenAI plugin-creator specification on 2026-09-11 describes
   `.codex-plugin/plugin.json`, a `skills/<name>/SKILL.md` tree and
   `"skills": "./skills/"`. The generated plugin is also checked with its
-  official local validator; host installation is a separate unverified gate.
+  official local validator during manual package acceptance; this is not a CI
+  or host-installation claim. Host installation is a separate unverified gate.
   [Specification source](https://github.com/openai/skills/blob/main/skills/.system/plugin-creator/references/plugin-json-spec.md).
 - [Project configuration](https://developers.openai.com/codex/config-reference)
   and [custom agents](https://developers.openai.com/codex/subagents) describe
@@ -44,3 +45,15 @@ not expose custom-role markers or reject the invalid project-effort control.
 Therefore project-role loading and enforcement remain NOT VERIFIED. This is not
 evidence that the profile is active. The source validator tests the example's
 shape, not execution. Keep it opt-in until a real host run verifies the settings.
+
+
+## 2026-09-13 profile guidance update
+
+[Current subagent guidance](https://learn.chatgpt.com/docs/agent-configuration/subagents)
+supports separate model/effort choices: Luna for narrow repeatable work, Terra for
+bounded exploration, and stronger models for ambiguous multi-step work; medium is
+a balanced effort, while high serves complex logic and review. The example now
+uses Sol/medium lead, Luna/medium generic children, Terra/medium research and
+implementation, Terra/high review and Luna/medium verification. The source
+validator accepts the supported model set rather than forcing Astra. This checks
+the example's structure, not host activation or comparative model quality.

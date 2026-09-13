@@ -27,9 +27,11 @@ cheapest tier. If the requested capability is unavailable, report the limit and
 choose a supported alternative; do not silently upgrade cost or invent IDs.
 
 Set child model and reasoning independently of the lead when native tools allow.
-Short context and high reasoning are compatible: prefer high practical effort
-for cheap focused work; max only when supported and worth its latency. No effort
-label guarantees quality. Use native read-only roles for research/review and
+Match effort to the unresolved work: low for straightforward mechanical tasks,
+medium for routine work, high for complex logic or material review. Short context
+does not require high effort; no effort label guarantees quality. Give cheaper
+workers explicit inputs, acceptance checks and examples when needed; a low price
+is not evidence that they can design or verify the whole workflow. Use native read-only roles for research/review and
 bounded write permissions for implementation; a prompt scope is not a sandbox.
 Host concurrency is a ceiling, not a target. With no delegation API, work serially
 and disclose any required independence that cannot be provided.
@@ -43,7 +45,11 @@ Pass only necessary outputs from dependency jobs through the lead. A researcher
 needs its question and sources; an implementer needs the agreed interfaces and
 relevant findings. The lead keeps the overall state and evidence, not every raw
 transcript. Shared host rules/tools can still be present; fresh history is not
-full prompt isolation. [Context Packet](../templates/context-packet.md) is optional
+full prompt isolation. Ask for missing task context instead of guessing. Return
+compact findings with file/source anchors, uncertainty and required dependency
+outputs; the lead must be able to reopen the evidence. Load available domain
+skills by the actual subtask, without forwarding the whole daily skill library.
+[Context Packet](../templates/context-packet.md) is optional
 formatting. Nested delegation needs its own value, scope and resource room.
 
 Require paths/diff, commands actually run, results and unresolved risks; the

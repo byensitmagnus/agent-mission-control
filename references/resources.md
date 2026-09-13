@@ -20,6 +20,15 @@ mission's spend. Query it only when useful. Dollars require actual billing or a
 verified applicable rate and measured usage; label estimates and exclusions.
 Model names or token totals alone do not prove cost or savings.
 
+When applicable rates and counters exist, estimate each model separately:
+uncached input (= input minus cached input), cached reads and output, each at its
+own rate; add cache writes, tool charges or service-tier adjustments when those
+apply and are observable. Include the lead, workers, failed attempts and repair.
+Do not equate API estimates with subscription limits or ignore missing charges.
+Compare cost alongside verified outcomes, defects and interventions, not token
+count alone. Stable useful prefixes can benefit caching; do not add irrelevant
+context to chase cache hits. Native host configuration owns caching and compaction.
+
 At a soft threshold, reduce waste internally: reuse current evidence, narrow
 worker inputs, stop low-value work, serialize, choose a suitable cheaper tier,
 or keep the incumbent instead of another optional attempt. Preserve correctness

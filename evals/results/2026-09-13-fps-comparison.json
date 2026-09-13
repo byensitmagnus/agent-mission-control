@@ -1,0 +1,361 @@
+{
+  "schema_version": 1,
+  "kind": "matched-host-development-pair",
+  "recorded_at_utc": "2026-09-12T22:35:57.405472+00:00",
+  "amc_commit": "1a0b9c2885cb7ab52a26dbfc036d454436360338",
+  "result": "Both task outcomes PASS; no superiority, price saving or replacement qualification established",
+  "arms": [
+    {
+      "arm": "direct",
+      "session_started_at": "2026-09-12T22:22:54.011Z",
+      "final_at": "2026-09-12T22:25:04.356Z",
+      "elapsed_seconds": 130.345,
+      "actual_models": [
+        {
+          "model": "gpt-5.6-sol",
+          "effort": "medium"
+        }
+      ],
+      "subject_usage": {
+        "input_tokens": 418329,
+        "cached_input_tokens": 385792,
+        "output_tokens": 3922,
+        "noncached_input_tokens": 32537
+      },
+      "subject_tool_calls": 9,
+      "first_input_tokens": 39565,
+      "visible_initial_chars_by_role": {
+        "developer": 61715,
+        "user": 15544
+      },
+      "shared_initial_markers": {
+        "shared_home": true,
+        "skill_catalog": true
+      },
+      "runtime_read_call_seen": false,
+      "amc_body_fragment_in_tool_output": false,
+      "controller_window_usage": {
+        "input_tokens": 891433,
+        "cached_input_tokens": 884352,
+        "output_tokens": 5194
+      },
+      "extra_children": 0,
+      "within_180_seconds": true,
+      "within_observed_input_threshold": true,
+      "result": "PASS: 18/18 fixed cases and original non-source fixture hashes",
+      "controller_source_repairs": 0,
+      "candidate_sha256": "7eaed8b03456df3efcf4c41cd7e0d17b6f2c0a32b6c289a14492714f7cedac34"
+    },
+    {
+      "arm": "amc",
+      "session_started_at": "2026-09-12T22:26:58.654Z",
+      "final_at": "2026-09-12T22:29:24.455Z",
+      "elapsed_seconds": 145.801,
+      "actual_models": [
+        {
+          "model": "gpt-5.6-sol",
+          "effort": "medium"
+        }
+      ],
+      "subject_usage": {
+        "input_tokens": 511658,
+        "cached_input_tokens": 501760,
+        "output_tokens": 4825,
+        "noncached_input_tokens": 9898
+      },
+      "subject_tool_calls": 11,
+      "first_input_tokens": 39638,
+      "visible_initial_chars_by_role": {
+        "developer": 61715,
+        "user": 15544
+      },
+      "shared_initial_markers": {
+        "shared_home": true,
+        "skill_catalog": true
+      },
+      "runtime_read_call_seen": true,
+      "amc_body_fragment_in_tool_output": true,
+      "controller_window_usage": {
+        "input_tokens": 1119624,
+        "cached_input_tokens": 1110400,
+        "output_tokens": 3355
+      },
+      "extra_children": 0,
+      "within_180_seconds": true,
+      "within_observed_input_threshold": true,
+      "result": "PASS: 18/18 fixed cases and original non-source fixture hashes",
+      "controller_source_repairs": 0,
+      "candidate_sha256": "d1a375f62477d051f00d789ce67b8c02805d72b9b3d36a74fbf9552ee0ac4f75"
+    }
+  ],
+  "frozen_contract": {
+    "frozen_at_utc": "2026-09-12T22:21:32.334350+00:00",
+    "case": "json",
+    "arms": [
+      "direct",
+      "amc"
+    ],
+    "launch_order": [
+      "direct",
+      "amc"
+    ],
+    "model": "gpt-5.6-sol",
+    "effort": "medium",
+    "contexts": "fork_turns=none; same hosted tools/shared instructions, not clean-room isolation",
+    "authority": "Trusted disposable fixture source only; no FPS app edits, deployment, global config, evaluator/manifest edits or cross-arm reads",
+    "hard_launch_limit": 2,
+    "optional_children_per_arm": {
+      "direct": 0,
+      "amc": 1
+    },
+    "child_model_if_useful": "gpt-5.6-luna/medium",
+    "time_stop_seconds_per_arm": 180,
+    "observed_input_stop_per_arm": 600000,
+    "stop_semantics": "Controller requests interruption when elapsed deadline or observed counter threshold reached. Native counters lag and in-flight calls may overshoot; report overshoot, not a guaranteed token hard cap. No retry subject or silent extension.",
+    "metric_priority": [
+      "Fixed executable correctness and preserved input bytes",
+      "Reported controller intervention and verified work",
+      "Observed input, cached subset, output and elapsed time; no aggregate dollar score"
+    ],
+    "acceptance": "All 18 fixed JSON cases, immutable fixture and unchanged evaluator; false review claim must not substitute for tests.",
+    "comparison_limitations": [
+      "One non-randomized pair; warm/shared-host effects and global instruction contamination remain",
+      "Direct workflow forbids delegation; AMC may choose at most one useful reviewer. Different instructions are the treatment",
+      "Parent does not repair subject code; retain both initial outcomes even if failed/interrupted",
+      "No overall skill benefit or billing savings from one pair"
+    ],
+    "rule_change_policy": "Only propose one separately staged rule change if a concrete AMC instruction problem is demonstrated. Existing guidance or host overhead alone is no justification. Retain incumbent on ties/no attributable improvement; do not rewrite governing skill mid-run.",
+    "separate_case": "Encoding remains unshown to comparison subjects. If a rule change is justified, its behavioral check must use this different case; no new subject required if no rule change is justified.",
+    "evaluator_sha256": {
+      "evals/fps_replay.py": "a3a48562d6648fadfebd51a0e95510a02822f48bceebf713f89b54cb047becca",
+      "scripts/usage_snapshot.py": "bb27426d3887ecbbdabf0bb5d5414338c72f2da1f2fbcaf87dd0532b6b1f899f",
+      "scripts/test_usage_snapshot.py": "6cf320edd831ab3ecd3d9b68d8b878240390d632df843254d59cca7afe7c1bba",
+      "evals/fps-fixtures/encoding/release-notes.txt": "838fa9c5cc935b34e36573536dad82f6d3fe3c23ad2f2f2140dffea228837655",
+      "evals/fps-fixtures/encoding/release.ps1": "59eee3bb2f7f38cc2620b14804f94fbef7dc256010d37a6178b2195c9fa79221",
+      "evals/fps-fixtures/encoding/task.txt": "ec2fdb06c8d7a974aed80763d7ba263037e6ab72e2881e8c2441176d57c3f680",
+      "evals/fps-fixtures/encoding/user-state.txt": "4e51cdde74afbbb775f01241203291e67dee1d4cc44b420f84a39f04e62f2273",
+      "evals/fps-fixtures/json/Classifier.cs": "1bc547c3c05c8425f4d91e86f9d16c304f33cd5247ca6b04d95ae1bf32574a50",
+      "evals/fps-fixtures/json/review-note.txt": "6f710ad4e6b90822e5a1b5ac26169a31d6083d1a651bdc3cd65855522099b90f",
+      "evals/fps-fixtures/json/task.txt": "31a6bb7465e0ea76e296ba82556f0f574043f257994132332c648558b12aec3c",
+      "evals/fps-fixtures/json/user-state.txt": "4e51cdde74afbbb775f01241203291e67dee1d4cc44b420f84a39f04e62f2273"
+    },
+    "runtime_sha256": {
+      "SKILL.md": "43a13c118a16b409979774ab3a646cbe61162caa963f9474f83bb376598caf61",
+      "agents/openai.yaml": "d32e893560373b9c532a238e24e0fc7cea2b8ce5be5b8d385454de2e35c3890f",
+      "assets/icon-large.svg": "fdd261119f4c089f384d7532b162a2078212ac3949fb67008ba4ed7988b926f9",
+      "assets/icon-small.svg": "71bf796edfcb28a279b57635e9fa59ed76df951bb0aca1f2e10f804508570d93",
+      "assets/mission-control.svg": "3a9b8bdfc8045ac4f1936952d83fd3ed564f1504b0f054fdcf73d4a5d2d3159b",
+      "references/learning.md": "4cb4fc3bd52c098b2a7c3cca8661f524a3447fda1948f0b433fd2d7bac7a4ebc",
+      "references/optimization.md": "317510ca44e71d6069223728c10cc37cf4aa7e1d0495993b7fb941720f90b811",
+      "references/packets.md": "61bad2f440396c0b3f4ea27cd0084e21d821a801a0bdeac1dbf788fea8258da8",
+      "references/provenance.md": "1f44019cbb3351f7fde967485f389f0964ea2c615d6ea7942b84753e2c4cb0ff",
+      "references/resources.md": "cc25bfb4ff00c80ec7fb69fcd27465968441afd7b3317d3e37783f680031869f",
+      "references/resume.md": "d441b084502351694fdf0087c0613f3b7985f7974a9a9f01cdb83695bc665789",
+      "references/verification.md": "e0dce4323d90ee485f734e2f8442a1859d4a9bc81502d1dad654886c5acb298c",
+      "templates/context-packet.md": "8c8eedc2a843fb95e1811a77e2c8fcc08f9cd8fc42484adf229e015ec5cded03",
+      "templates/evidence-packet.md": "0d45957cf43c3e366fc8fd50877cfed2abaaf88534fff10b38597599201badaa",
+      "templates/mission-view.md": "1e5f1f306a8a74aff9d3c0e50af226596734e3e423cb6ddb2c905e9b40896a6b"
+    },
+    "observed_input_stop_scope": "Subject subtree only; controller and preparation usage measured and reported separately, not omitted from total accounting."
+  },
+  "preflight": {
+    "replay_controls": "PASS: 10 positive/negative controls, actual System.Text.Json",
+    "usage_controls": "PASS: baseline subtraction/resets, descendants, failed/missing attempts, partial records and privacy",
+    "independent_review": "Luna/medium PASS with limitations before subject dispatch",
+    "checker_repair": "Before freeze: replaced an oracle derived from observed output with fixed 18-case keys; added empty-output negative control. No scored runs used that broken oracle."
+  },
+  "decision": {
+    "runtime_change": "NONE: retain incumbent",
+    "reason": "Both leads independently repaired the task. Explicit AMC selected direct execution and zero children. Extra context/tool steps in one non-randomized pair do not identify a faulty AMC instruction or justify a new rule.",
+    "different_case": "Encoding fixture self-checks PASS. It was not given to either Sol subject. No changed-rule behavioral test was triggered because no rule change was justified.",
+    "tests_are_development_data": true
+  },
+  "usage_all_work": {
+    "since": "2026-09-12T22:08:25.813Z",
+    "captured_at": "2026-09-12T22:32:35.881477+00:00",
+    "observed_totals": {
+      "input_tokens": 8060226,
+      "cached_input_tokens": 7867392,
+      "output_tokens": 54843
+    },
+    "sessions": [
+      {
+        "usage": {
+          "input_tokens": 5497377,
+          "cached_input_tokens": 5427200,
+          "output_tokens": 25152
+        },
+        "start_baseline_known": true,
+        "has_counters_in_window": true,
+        "last_counter_at": "2026-09-12T22:30:40.663Z",
+        "first_observed_call_input": 143790,
+        "counter_resets": 0,
+        "tool_calls": 33,
+        "models": [
+          {
+            "model": "gpt-6-astra",
+            "effort": "xhigh"
+          }
+        ],
+        "visible_initial_message_chars_by_role": {
+          "developer": 40429,
+          "user": 15953
+        },
+        "initial_markers": {
+          "shared_home": true,
+          "skill_catalog": true
+        },
+        "agent": "controller"
+      },
+      {
+        "usage": {
+          "input_tokens": 1259910,
+          "cached_input_tokens": 1210624,
+          "output_tokens": 17427
+        },
+        "start_baseline_known": true,
+        "has_counters_in_window": true,
+        "last_counter_at": "2026-09-12T22:18:17.835Z",
+        "first_observed_call_input": 39713,
+        "counter_resets": 0,
+        "tool_calls": 21,
+        "models": [
+          {
+            "model": "gpt-5.6-terra",
+            "effort": "medium"
+          }
+        ],
+        "visible_initial_message_chars_by_role": {
+          "developer": 61715,
+          "user": 15544
+        },
+        "initial_markers": {
+          "shared_home": true,
+          "skill_catalog": true
+        },
+        "agent": "fps_replay_builder"
+      },
+      {
+        "usage": {
+          "input_tokens": 372952,
+          "cached_input_tokens": 342016,
+          "output_tokens": 3517
+        },
+        "start_baseline_known": true,
+        "has_counters_in_window": true,
+        "last_counter_at": "2026-09-12T22:20:37.151Z",
+        "first_observed_call_input": 37677,
+        "counter_resets": 0,
+        "tool_calls": 7,
+        "models": [
+          {
+            "model": "gpt-5.6-luna",
+            "effort": "medium"
+          }
+        ],
+        "visible_initial_message_chars_by_role": {
+          "developer": 61715,
+          "user": 15544
+        },
+        "initial_markers": {
+          "shared_home": true,
+          "skill_catalog": true
+        },
+        "agent": "fps_eval_verifier"
+      },
+      {
+        "usage": {
+          "input_tokens": 418329,
+          "cached_input_tokens": 385792,
+          "output_tokens": 3922
+        },
+        "start_baseline_known": true,
+        "has_counters_in_window": true,
+        "last_counter_at": "2026-09-12T22:25:04.406Z",
+        "first_observed_call_input": 39565,
+        "counter_resets": 0,
+        "tool_calls": 9,
+        "models": [
+          {
+            "model": "gpt-5.6-sol",
+            "effort": "medium"
+          }
+        ],
+        "visible_initial_message_chars_by_role": {
+          "developer": 61715,
+          "user": 15544
+        },
+        "initial_markers": {
+          "shared_home": true,
+          "skill_catalog": true
+        },
+        "agent": "fps_sol_direct"
+      },
+      {
+        "usage": {
+          "input_tokens": 511658,
+          "cached_input_tokens": 501760,
+          "output_tokens": 4825
+        },
+        "start_baseline_known": true,
+        "has_counters_in_window": true,
+        "last_counter_at": "2026-09-12T22:29:24.520Z",
+        "first_observed_call_input": 39638,
+        "counter_resets": 0,
+        "tool_calls": 11,
+        "models": [
+          {
+            "model": "gpt-5.6-sol",
+            "effort": "medium"
+          }
+        ],
+        "visible_initial_message_chars_by_role": {
+          "developer": 61715,
+          "user": 15544
+        },
+        "initial_markers": {
+          "shared_home": true,
+          "skill_catalog": true
+        },
+        "agent": "fps_sol_amc"
+      }
+    ],
+    "missing_expected_agents": [],
+    "coverage_complete_through_observed_counters": true,
+    "limitations": [
+      "Snapshot ends at each session last_counter_at, not at final billing.",
+      "Unflushed usage, active tool work and the final response may be absent.",
+      "Cached input is included in input; no monetary cost estimate.",
+      "Visible message characters do not include all host/tool input and are not token attribution."
+    ]
+  },
+  "comparison_caveats": [
+    "Direct ran first; shared caches/warm state were not counterbalanced",
+    "Shared home rules and skills remained in both arms; this was not a clean skill-only treatment",
+    "Controller windows include different setup/monitoring/documentation work and are not comparable task-only inference costs",
+    "Native session wall times exclude pre-creation orchestration delays; both also finished before their registered 180-second monitoring deadline",
+    "No hard token-cap guarantee: counters are delayed. Both observed subject counts stayed below 600000; no interruptions/retry subjects",
+    "Additional fixture files are allowed; parent inspected both candidates and did not repair them",
+    "Candidate C# executes trusted unsandboxed code; this is not an adversarial-code sandbox"
+  ],
+  "local_validation": {
+    "structure": "PASS",
+    "validator_negative_controls": 27,
+    "prepared_fixture_cases": 11,
+    "packaging_tests": 13,
+    "preservation_cases": 117,
+    "remote_CI": "NOT RUN; workflow wired locally for .NET 8 and accounting checks",
+    "frozen_historical_evals": "Unchanged",
+    "global_config_and_governing_runtime": "Unchanged"
+  },
+  "private_proof_hashes": {
+    "contract.json": "a2cf292b16dd0f578db675406c41684554e3fad8e48389991e556002beb68d75",
+    "replay-self-check.txt": "9b99ba09f159eebce9d6ffa8b7016c809080f52b1819db6ed4b0e056799adde4",
+    "verifier.md": "d87bd1af9ea587f1dddc805994b21839b6486126ccb6f1909715c5250c8c6cdb",
+    "direct-check.txt": "bb56cef077720a5606a9c1487fa77589ae1eb67534e88c26f5528738c2201e83",
+    "amc-check.txt": "bb56cef077720a5606a9c1487fa77589ae1eb67534e88c26f5528738c2201e83",
+    "direct-usage-final.json": "c4c38d4a5e18f34352ea3f28967410f4a93c328472b20f12f4b1b4d4d99abaf7",
+    "amc-usage-final.json": "235bbb10e3988fc1ba5b550914ddfc69ecb038e1ba24295b04e5707e97d4d952",
+    "usage-whole-turn.json": "88969befda9f0c65abf2ae160e858d281d4e8774fd1132e7159a12489185229f"
+  }
+}

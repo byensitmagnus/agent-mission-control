@@ -1,7 +1,15 @@
 # Separate post-run learning
 
-Activate only after a completed task reveals a reusable success or failure that
+This reference governs learning from task outcomes. An explicitly requested
+source-backed design or compatibility update is ordinary skill maintenance:
+record its source, scope, rollback and relevant engineering checks, and label
+behavioral benefit unmeasured. It does not require an imitation research trial
+and must not be presented as a verified learned improvement.
+
+Activate outcome-driven learning only after a completed task reveals a reusable success or failure that
 could improve another run. Routine completion does not require a learning phase.
+Without a suitable evaluation budget, retain the candidate lesson as a note;
+do not launch training or silently promote it into a rule.
 Record a compact candidate lesson with the observed behavior, evidence, scope and
 counterexample risk; strip secrets, customer data and raw transcripts.
 

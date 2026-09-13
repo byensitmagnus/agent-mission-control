@@ -1,3 +1,27 @@
+# Current engineering validation
+
+The [whole-project research review](../docs/research-basis.md) is the basis for
+the current local candidate. Routine acceptance uses deterministic tooling,
+source review and observed real-task defects. No new behavioral benchmark is
+required or reported for that update. Historical scores and their frozen cases
+below remain unchanged and do not score the current candidate. Performance,
+cost advantage and automatic host activation remain unverified.
+
+[Completed Sol comparison and measurements](v0.2-fps-comparison.md): both task outcomes pass; incumbent retained.
+
+# Public executable development cases
+
+[Run the FPS-derived replays and accounting controls](fps-replays.md). These
+checks are reproducible locally and included in the validation workflow. They
+verify the test tooling, not a claim of agent superiority.
+
+# Latest real-task evidence
+
+[The FPS Booster pilot](v0.2-fps-pilot.md) records two real application tasks,
+including an initial false reviewer PASS, exact-byte repair, model/context
+observations and incomplete cost attribution. Final bounded repairs pass;
+comparative AMC benefit remains NOT VERIFIED. Historical sections follow.
+
 # Current standalone experiment
 
 [Iteration 3](v0.2-standalone-candidate.md) implements the standalone candidate and

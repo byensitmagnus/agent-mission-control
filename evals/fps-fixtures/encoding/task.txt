@@ -1,0 +1,1 @@
+Add exactly the UTF-8 BOM bytes EF BB BF to release.ps1. Preserve its remaining bytes and every other fixture file. Do not execute PowerShell.

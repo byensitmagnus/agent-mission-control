@@ -131,3 +131,98 @@ Current verdict: NOT VERIFIED. A small source change and green local checks do
 not establish native activation or replacement readiness. Next: resolve the
 native launcher/permission attribution blocker, then one attributable canary.
 See [iteration 4 evidence and decisions](evals/v0.2-runtime-validation.md).
+
+
+## Real-task FPS pilot: observational development evidence
+
+Two controller-assisted FPS Booster tasks exercised explicit-source AMC at
+1a0b9c2885cb7ab52a26dbfc036d454436360338 through native collaboration.
+Terra/Luna repaired classification; Sol/Astra/Luna repaired nine encoding files.
+Initial false Luna PASS and interrupted Sol resource usage are preserved.
+Current task results pass their bounded checks; replacement, automatic activation,
+Astra-free completion and cost advantage remain NOT VERIFIED.
+No frozen v2/v3 score or active governing skill changed. Reports are local only.
+See [real-task results and replay contracts](evals/v0.2-fps-pilot.md).
+The old CLI attribution blocker remains historical to that launcher; these
+explicit-source host runs do not establish its resolution or equivalent isolation.
+
+
+## Public FPS replays and one matched-host Sol pair
+
+Current task: build two anonymous executable replay cases and native usage controls,
+then one direct-versus-explicit-AMC Sol/medium pair. Preserve both initial outcomes.
+Evaluator and runtime frozen externally in proof/fps-comparison-1/contract.json
+before dispatch. Two subject launches maximum; 180-second monitored stop and
+600000 observed-input stop per arm, lag/overshoot reported. No broad model matrix.
+Primary gate: fixed outcome and preservation. Resource counters include controller
+and observed descendants; no billing or clean-room causal claim. Governing runtime
+and frozen historical evaluations stay unchanged. A rule proposal requires an
+attributable defect and separate-case verification; retain incumbent otherwise.
+
+Completed pair: Sol direct and explicit-source AMC both 18/18, zero child agents,
+zero controller source repairs. Native 130.345s versus 145.801s; both within stop
+thresholds. Evaluator/runtime stayed frozen. No attributable rule defect: retain
+incumbent; separate encoding controls pass, no rule-adoption run triggered.
+All expected participants are included in observed whole-request accounting.
+See [completed comparison](evals/v0.2-fps-comparison.md). Reports/code remain local;
+remote CI and publication have not run.
+
+
+## Whole-project research and engineering review
+
+Current mandate (2026-09-13): inspect the complete AMC project against primary
+research and current lab/host documentation; implement justified changes with
+local engineering checks. NVIDIA AVO is one source, not the scope boundary.
+No paid behavioral benchmark, model matrix or statistical superiority claim.
+Current base: 1a0b9c2885cb7ab52a26dbfc036d454436360338 plus the pre-existing local
+changes; all 117 source files preserved in external research-project-20260913
+proof before this iteration. The installed governing skills remain separate.
+
+Acceptance fixed before changes: a cited research artifact with methods/limits
+and whole-project coverage; traceable runtime/profile/documentation changes;
+existing structural, packaging, fixture and accounting checks; targeted runnable
+regressions for any executable bug found; source review and exact preservation
+of frozen historical evaluations. Behavior/cost superiority is outside this
+engineering acceptance and remains unmeasured, not a blocker requiring trials.
+
+Ownership: lead researches lab guidance and owns integration; a scoped Terra
+researcher reads NVIDIA primary sources; a scoped Terra explorer audits scripts,
+profiles, packaging and test coverage. Review findings need inspectable evidence.
+No runtime service, external dependency, global installation, config mutation,
+remote publication or benchmark reproduction is required by this mandate.
+
+Completed: whole-project research and engineering acceptance PASS. The cited
+[research basis](docs/research-basis.md) distinguishes published results, platform
+guidance, local decisions and unmeasured outcomes. Updated runtime/profile is
+0.2.0-candidate.4. Two reproduced executable faults were repaired: timestamp
+boundary comparison and linked replay output paths.
+
+All seven local check groups PASS, including 28 structural negative controls,
+13 package tests and 12 replay self-check controls with .NET 8. Official skill
+and plugin validators PASS on generated artifacts; 16 runtime files are identical
+across source and both packages. Independent fresh-context Luna review found no
+material issue; the lead executed the acceptance checks independently.
+
+All 117 pre-task files remain present; 74 historical evaluation/fixture/result
+files are byte-identical to the saved baseline. The final source and package
+hashes, command outputs and review scope are recorded in the external
+research-project-20260913 proof directory. HEAD remains unchanged; no commit,
+push, global installation or active Codex configuration change was performed.
+Behavioral superiority, cost savings and automatic host activation remain
+NOT VERIFIED. No additional model benchmark is needed to complete this scoped
+engineering update.
+
+
+## Public candidate presentation and distribution (2026-09-13)
+
+Current user mandate: publish the updated project on GitHub with clear onboarding,
+source attribution, visual workflow examples and approachable community feedback.
+The accepted research candidate remains 0.2.0-candidate.4. Public presentation
+uses the existing cover and adds setup, source and scenario guides. Release ZIPs
+will carry the current skill/plugin bytes and SHA-256 checksums. Historical
+evaluations remain available. No paid behavioral benchmark, global installation
+or active model/permission change is part of this publication.
+
+Acceptance: source/doc review, local structural checks, secret scan, generated
+package checks, GitHub CI, merge without rewriting history, downloadable candidate
+assets and inspection of the rendered public README.

@@ -1,36 +1,35 @@
 # Optional Codex profile
 
-The portable skill needs no particular model, provider or companion skill.
-This optional profile uses Astra/medium as lead, Luna/high for focused research
-and review, and Terra/high for the named implementation worker. The lead owns architecture and
-integration; the lead chooses a supported stronger specialist only when unresolved
-architecture, security, integration or repeated failure justifies it. One available agent can work serially, with
-required independent proof left NOT VERIFIED until it is actually available.
+The portable skill keeps the selected lead and needs no particular provider or
+model. This opt-in example uses Sol/medium for scope, architecture, integration
+and final evidence. Generic children use Luna/medium for narrow, repeatable jobs;
+named roles use the capability and effort shown below. These are starting points
+from current host guidance, not a benchmark-proven optimum.
 
-The TOML files here are one optional example, not runtime policy:
-
-| Responsibility | Example model | Write scope |
+| Responsibility | Example model | Scope |
 |---|---|---|
-| Lead | Astra / medium | Architecture, integration, final evidence |
-| Investigation or useful scout | Luna / high | Read-only |
-| Implementation | Terra / high | One assigned workspace scope |
-| Runtime verification | Luna / high | Read-only; may ask the lead to run authorized disposable tests |
-| Review | Luna / high | Read-only, separate from implementation |
+| Lead | Sol / medium | Architecture, integration, final evidence |
+| Investigation or useful scout | Terra / medium | Read-only, one bounded question |
+| Implementation | Terra / medium | One assigned workspace scope |
+| Runtime verification | Luna / medium | Narrow checks; lead can execute disposable builds |
+| Material review | Terra / high | Read-only, separate from implementation |
 
-The example configuration keeps the client's validated ceiling of three
-spawned threads excluding the lead; actual useful child count may be zero.
-It does not require four roles or any fan-out. Generic spawns default to Luna/high. Named roles override those defaults;
-changing the default does not change pinned roles. There is no automatic stronger
-child escalation. Available model names, effort levels and client support vary;
-substitute available models after checking the actual client. Measure actual
-usage when cost matters; no savings are established here.
+Use Luna for a clear mechanical question, or a stronger supported model for a
+specific unresolved risk. High effort is for difficult reasoning, not a blanket
+setting on every cheap worker. Preserve a user's explicit model selection.
+A single agent can work serially; required independent proof stays NOT VERIFIED
+until supplied. The profile does not require all roles or an initial scout.
 
-Apply only the settings explicitly wanted in a trusted project. Inspect diffs
-against existing `.codex/config.toml` and `.codex/agents/*.toml`; preserve
-unrelated settings and existing roles. Installing the plugin does not apply
-this example or modify `AGENTS.md`. This development task has not installed
-it on a host. Native tool-level model/effort overrides have been exercised;
-project-role loading and permission enforcement remain NOT VERIFIED here.
+The example ceiling is three spawned threads excluding the lead; actual useful
+child count may be zero. Named roles override generic defaults, so changing a
+default does not change those pins. Check actual client/model/effort support
+before applying the [TOML examples](compatibility.md). Model names and prices are
+not stable portable interfaces. No cost savings are established by this profile.
 
-[Compatibility and format sources](compatibility.md) explain what the example
-assumes. The core remains usable when these provider-specific files are absent.
+Apply only wanted settings in a trusted project after comparing with existing
+`.codex/config.toml` and `.codex/agents/*.toml`. Preserve unrelated settings and
+roles. Installing the plugin does not apply this example or modify `AGENTS.md`.
+No active/global configuration is changed by the builder. Native tool-level
+model/effort overrides were exercised previously; automatic project-role loading
+and permission enforcement remain NOT VERIFIED. Inspect the actual selected
+model and permissions on a necessary real task before claiming activation.

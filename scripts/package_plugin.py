@@ -15,7 +15,7 @@ from pathlib import Path
 
 
 PLUGIN_NAME = "agent-mission-control"
-VERSION = "0.2.0-candidate.3"
+VERSION = "0.2.0-candidate.4"
 EXPECTED_ORIGIN = "https://github.com/byensitmagnus/agent-mission-control.git"
 SOURCE_ROOT = Path(os.path.abspath(__file__)).parent.parent
 COPY_DIRS = ("agents", "references", "templates", "assets")

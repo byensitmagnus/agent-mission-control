@@ -19,6 +19,13 @@ If both failure and missing evidence exist, report both; never collapse them to
 PASS. `Last verified` names the commit plus dirty-tree/artifact digest when
 needed and a UTC timestamp. A commit alone cannot identify uncommitted changes.
 
+Before a long-task handoff or context loss, refresh the current milestone,
+working artifact, important decisions, failed approaches and next hypothesis in
+the existing record. Keep durable evidence paths and brief diagnoses instead of
+copying raw conversations. A clean checkpoint means recoverable scoped work;
+never discard another owner's uncommitted changes to manufacture a clean tree.
+No extra progress file is needed when the project already has one.
+
 ## Reconciliation
 
 1. Read the durable record and inspect `git status --short`, `git rev-parse HEAD`

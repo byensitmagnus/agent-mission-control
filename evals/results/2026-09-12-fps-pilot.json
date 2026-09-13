@@ -1,0 +1,233 @@
+{
+  "schema_version": 1,
+  "kind": "observational-real-task-pilot",
+  "recorded_at_utc": "2026-09-12T21:59:37.677498+00:00",
+  "amc_commit": "1a0b9c2885cb7ab52a26dbfc036d454436360338",
+  "application_base_commit": "fa29ec9033e9604b4f81f3c6311da2f33e11b122",
+  "overall_verdict": "NOT VERIFIED for comparative benefit, cost savings or replacement qualification",
+  "attribution": {
+    "source_loading": "Implementation/audit leads explicitly read local AMC source; automatic skill discovery not established.",
+    "host": "Native Codex collaboration, shared home rules and skills; not isolated AMC-only treatment.",
+    "controller": "Astra coordinated, challenged a false review, executed checks and made the second repair. Controller usage excluded from child counters.",
+    "contexts": "Fresh fork_turns=none packets requested; model/effort verified in native sessions. Shared instructions/tools/filesystem remain.",
+    "model_comparison": "Different tasks and controller interventions prevent model ranking or causal attribution to AMC."
+  },
+  "cases": [
+    {
+      "id": "fps-01-json-classification",
+      "graph": "Terra/medium implementation -> Luna/low review -> Astra challenge -> Terra repair -> Luna re-review -> Astra verification",
+      "outcome": "Bounded final repair PASS; first independent review FAIL",
+      "observed_defects": [
+        "status ok with failed runtime checks incorrectly marked applied",
+        "First repair called JsonElement.TryGetInt32 on non-number kinds; string/null/bool threw InvalidOperationException",
+        "Initial Luna review incorrectly claimed those kinds were safe; runtime probe disproved it"
+      ],
+      "evidence": {
+        "original_source_replay": "1 failed / 5 passed, retrospective replay after editing; not TDD-before-edit",
+        "malformed_red": "3 failed / 10 passed",
+        "final_classifier": "13 passed",
+        "parent_related_contracts": "22 passed",
+        "sdk": "Initially 8.0.425; exact pinned 8.0.424 confirmed in fps-02"
+      },
+      "source_sha256": {
+        "src/FPSBooster.App/Diagnostics/TestResultClassifier.cs": "7f989127601929cd2c074d4a0182cb660bbdd5eb925b6d872249fb55b29d9f74",
+        "tests/FPSBooster.Tests/TestResultClassifierTests.cs": "3b58718c7575db692dd3e66d7a50a5439aff2acf1968af0681e13a459a89a6e4"
+      },
+      "private_summary_sha256": "cd063e0e1b909339c58cf06667a9070ca94fb2c0c2d6f8c526f969cafd22042f"
+    },
+    {
+      "id": "fps-02-release-encoding",
+      "graph": "Sol/medium gate audit -> Astra encoding repair and SDK checks -> Luna/medium executed preservation review -> Astra verification",
+      "outcome": "Bounded final repair PASS",
+      "observed_defects": [
+        "Nine non-ASCII PowerShell scripts lacked UTF-8 BOM",
+        "One script produced five Windows PowerShell 5.1 parser errors",
+        "Exact pinned SDK absent; isolated official SDK and Release dependency restore resolved local build prerequisites"
+      ],
+      "evidence": {
+        "encoding": "9 offenders -> 0",
+        "change_size": "27 added bytes; nine exact BOM prefixes; all original bytes preserved",
+        "parsers": "9/9 parse in Windows PowerShell 5.1 and PowerShell 7.6.5 after repair",
+        "gate_contracts": "48 passed",
+        "dotnet_contracts": "22 passed with SDK 8.0.424",
+        "release_build": "0 errors, 4 warnings",
+        "negative_candidate": "Beta rejects malformed candidate with MISSING_CANDIDATE_BINDING after independent encoding blocker was removed; synthetic fixture only"
+      },
+      "source_sha256": {
+        "scripts/FpsClosedBetaTestRun.ps1": "689d2d4626fd142212440306fd6cbfef8d557ffe4d3f157ff767273a98e0839c",
+        "scripts/Invoke-ClosedBetaElevatedHost.ps1": "2b7d6b6d91792bf31df6889258faf1953eeb554f7dddfbb18927fd14b29e40b3",
+        "scripts/Invoke-GameModeLiveProof.ps1": "7567eb298eaf008a6310a8d00cc6208d68b2e727de99609048bda49fffa7aa7c",
+        "scripts/Invoke-NvidiaPhysicalVerification.ps1": "1237a91977e4910ee62d9e3c9e8a1b0b3f1e0453b6ba488dcc484269233a6e8d",
+        "scripts/Start-ClosedBetaElevated.ps1": "5f147bbf2eb93eba41414092d91dbf1d3b42e7c10585a02e5349ee203a86709d",
+        "scripts/Start-GameModeLiveProof.ps1": "1702b38ded47b4c359b01d57a166d6d052a5f200bd21c385443d0af9b0b7e81e",
+        "scripts/Test-ClosedBetaHarness.ps1": "c037f9ed247bee915dbc8ff3cd9717f5f307685df7ea01558666260f4fd88394",
+        "scripts/Test-GameProfilePhysicalVerifiedMaturity.ps1": "470e3cce6ae020849ad8023fed329136742b329fb44abf270b81f67509464ad7",
+        "scripts/Test-NvidiaPhysicalVerificationContract.ps1": "c129a06b03464b23e44e071b95369b58fac8effdac6ae0a462ae6b86728dbbbe"
+      },
+      "private_summary_sha256": "4aebccbfeeb7180f7255c99f569248a43e6e6b4cfa0924f571fdc35b97f616f7"
+    }
+  ],
+  "accounting": {
+    "sessions": [
+      {
+        "role": "fps_release_scope",
+        "model_effort": [
+          {
+            "model": "gpt-5.6-sol",
+            "effort": "medium"
+          }
+        ],
+        "tool_calls": 17,
+        "completed_final_messages": 0,
+        "first_call_input_tokens": 39579,
+        "latest_usage": {
+          "input_tokens": 1613044,
+          "cached_input_tokens": 1518336,
+          "cache_write_input_tokens": 0,
+          "output_tokens": 7137,
+          "reasoning_output_tokens": 2254,
+          "total_tokens": 1620181
+        },
+        "as_of_utc": "2026-09-12T21:16:34.770Z"
+      },
+      {
+        "role": "fps_terra_repair",
+        "model_effort": [
+          {
+            "model": "gpt-5.6-terra",
+            "effort": "medium"
+          }
+        ],
+        "tool_calls": 29,
+        "completed_final_messages": 2,
+        "first_call_input_tokens": 39714,
+        "latest_usage": {
+          "input_tokens": 2446242,
+          "cached_input_tokens": 2364672,
+          "cache_write_input_tokens": 0,
+          "output_tokens": 16295,
+          "reasoning_output_tokens": 4985,
+          "total_tokens": 2462537
+        },
+        "as_of_utc": "2026-09-12T21:34:06.260Z"
+      },
+      {
+        "role": "fps_luna_review",
+        "model_effort": [
+          {
+            "model": "gpt-5.6-luna",
+            "effort": "low"
+          }
+        ],
+        "tool_calls": 10,
+        "completed_final_messages": 3,
+        "first_call_input_tokens": 37620,
+        "latest_usage": {
+          "input_tokens": 697879,
+          "cached_input_tokens": 662272,
+          "cache_write_input_tokens": 0,
+          "output_tokens": 3124,
+          "reasoning_output_tokens": 359,
+          "total_tokens": 701003
+        },
+        "as_of_utc": "2026-09-12T21:34:49.160Z"
+      },
+      {
+        "role": "fps_sol_gate",
+        "model_effort": [
+          {
+            "model": "gpt-5.6-sol",
+            "effort": "medium"
+          }
+        ],
+        "tool_calls": 12,
+        "completed_final_messages": 1,
+        "first_call_input_tokens": 39630,
+        "latest_usage": {
+          "input_tokens": 756125,
+          "cached_input_tokens": 721536,
+          "cache_write_input_tokens": 0,
+          "output_tokens": 5757,
+          "reasoning_output_tokens": 2313,
+          "total_tokens": 761882
+        },
+        "as_of_utc": "2026-09-12T21:44:23.449Z"
+      },
+      {
+        "role": "fps_luna_encoding_review",
+        "model_effort": [
+          {
+            "model": "gpt-5.6-luna",
+            "effort": "medium"
+          }
+        ],
+        "tool_calls": 10,
+        "completed_final_messages": 1,
+        "first_call_input_tokens": 37641,
+        "latest_usage": {
+          "input_tokens": 552983,
+          "cached_input_tokens": 505088,
+          "cache_write_input_tokens": 0,
+          "output_tokens": 4947,
+          "reasoning_output_tokens": 499,
+          "total_tokens": 557930
+        },
+        "as_of_utc": "2026-09-12T21:50:07.056Z"
+      }
+    ],
+    "totals": {
+      "input_tokens": 6066273,
+      "cached_input_tokens": 5771904,
+      "output_tokens": 37260
+    },
+    "noncached_input_tokens": 294369,
+    "coverage": "Five child sessions, including interrupted attempt. Latest native counters; controller, later unflushed usage and billing excluded. Cached input is a subset of input.",
+    "correction": "The interrupted initial Sol attempt was previously described as not initialized. Native metadata shows 17 tool calls and nonzero usage, with no final result. Preserve it as an interrupted, incurred-cost attempt, not a successful run or zero-cost startup."
+  },
+  "development_replay_contracts": [
+    {
+      "id": "dev-json-review-boundary",
+      "status": "Contract derived from observed task; new matched replay NOT RUN",
+      "input": "Frozen pre-fix JSON classifier, valid zero/nonzero cases, malformed-kind cases, and a review claim that TryGetInt32 cannot throw.",
+      "acceptance": [
+        "Execute a counterexample rather than accept the claim",
+        "Retain initial false PASS separately from repaired PASS",
+        "No applied result for missing/non-numeric/nonzero count",
+        "Preserve existing valid behavior"
+      ],
+      "reuse": "Private source snapshots and regression tests exist. A public runnable fixture has not been extracted; do not label this held-out or portable benchmark."
+    },
+    {
+      "id": "dev-encoding-preservation",
+      "status": "Contract derived from observed task; new matched replay NOT RUN",
+      "input": "Frozen UTF-8/no-BOM PowerShell files, preexisting dirty user files, encoding gate and before hashes.",
+      "acceptance": [
+        "Only add required three-byte BOM prefixes",
+        "Execute byte preservation plus corrupted negative control",
+        "Parse in target 5.1 and 7 runtimes without running physical scripts",
+        "Do not claim full app readiness from parser/build success"
+      ],
+      "reuse": "Private before snapshots exist; this is a development case, not held-out evaluation."
+    },
+    {
+      "id": "dev-cost-and-attribution-control",
+      "status": "NOT RUN",
+      "comparison": "One matched small task: Sol direct versus Sol with AMC and only justified delegation. Pin same source/model/effort/tools/permissions and acceptance checks; fresh equivalent contexts.",
+      "acceptance": [
+        "Capture controller and all descendants, including failed attempts",
+        "Record initial context size, cached and uncached input, output, time and repairs",
+        "Make correctness and preservation hard gates",
+        "No dollar or savings claim without comparable measured coverage"
+      ],
+      "limits": "A single pair would be diagnostic only. Do not launch a broad model matrix or change live rules from these observations."
+    }
+  ],
+  "unchanged_qualification": [
+    "No new frozen v2/v3 score",
+    "No automatic plugin discovery/custom-role enforcement proof",
+    "No Astra-free autonomous completion proof",
+    "No skill-only causal benefit",
+    "No full app release certification"
+  ],
+  "privacy": "Sanitized aggregates and hashes only. Raw logs, usernames, absolute local paths, session IDs and application source stay outside the public report."
+}

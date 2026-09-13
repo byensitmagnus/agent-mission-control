@@ -10,7 +10,7 @@ benchmark gains or guaranteed AMC improvements.
 | Source | Problem, mechanism and use in AMC | Cost, failure mode and boundary |
 |---|---|---|
 | Local Context Diamond | Dependency test, minimal context, exclusive ownership, fresh review and owner feedback; adapted in work routing | Useful independent work only; contexts/review add cost. Reject fixed fan-out and mandatory companion ownership. Native agents execute. |
-| Local AVO and [NVIDIA AVO](https://arxiv.org/abs/2603.24517) | Execution feedback, recoverable incumbent, frozen evaluator, lineage and stagnation diagnosis; adapted in measured improvement | Candidate attempts consume resources. No evaluator means no optimization loop. Published system results do not isolate the mechanism. No supervisor daemon. |
+| Local AVO and [NVIDIA AVO](https://arxiv.org/abs/2603.24517) | Execution feedback, recoverable incumbent, frozen evaluator, lineage and stagnation diagnosis; adapted in execution feedback and measured improvement | Candidate search requires an evaluator; long work can use observable milestones. Published system results do not isolate the mechanism. No supervisor daemon. |
 | [Microsoft SkillOpt](https://github.com/microsoft/SkillOpt/tree/79124b37e9a6371e13b753f8bcd7adb1e493ade1) and local Sleep | `evaluation/gate.py`, `skillopt_sleep/cycle.py`, `staging.py`: score selection, train/selection/test separation, source pins and recoverable adoption; adapted in separate learning | Replay and held-out evaluation cost real work. Reject live adoption and instruction-density scoring. Source tests were inspected; execution unavailable here without pytest. No learner installed. |
 | Local Sleep-Learned and continuous-learning-v2 | Scoped observations subordinate to evidence/current instructions; candidate lessons with activation and contradiction risk | No automatic promotion of memory to policy, global hooks or transcript collection. Domain-specific learned rules remain conditional. |
 | [Untrivial Agent Orchestrator](https://github.com/Untrivial-ai/agent-orchestrator/tree/15e9ea971f1711ec8b50e157d6eb300db6cbe0d6) | `SessionRecord.ControllerOwner`, fact-derived status, bounded workspace observation and retained ambiguity; adapted as current identity/evidence reconciliation and no overlapping replacement writer | Its launch generations, recovery database and worktree lifecycle serve its own runtime. AMC uses native lifecycle and Git; no copied daemon, scheduler, database or handoff saga. |
@@ -25,3 +25,16 @@ skills were not imported. Other process skills were inventoried for overlap,
 not activated automatically. Exact inspected anchors and evidence levels are
 retained in the iteration's external mining reports. Historical source comparisons belong to repository development, not the
 installed runtime.
+
+
+## Research-guided maintenance (2026-09-13)
+
+[OpenAI long-work guidance](https://developers.openai.com/cookbook/articles/codex_exec_plans)
+and [Anthropic harness guidance](https://www.anthropic.com/engineering/effective-harnesses-for-long-running-agents)
+support recoverable incremental progress. [Context engineering](https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents)
+supports focused work and distilled returns. [Google's scaling study](https://research.google/blog/towards-a-science-of-scaling-agent-systems-when-and-why-agent-systems-work/)
+limits the case for unconditional delegation. [OEO](https://arxiv.org/abs/2608.09629)
+provides qualified evidence for adapting procedure to optimizer capability, not
+removing external constraints. These inform AMC's design; no benchmark gains or
+universal model ranking transfer to this skill. The whole-project research report
+is repository development material, deliberately outside the installed runtime.

@@ -1,0 +1,1 @@
+Repair Classifier.cs. Return APPLIED only for status "ok" and integer failedCount 0; otherwise FAIL without exceptions. Preserve every other fixture file.

@@ -101,7 +101,7 @@ def validate_codex(root: Path) -> None:
     path = root / "examples/codex/.codex/config.toml"
     data = load_toml(path); agents = data.get("agents")
     need(set(data) == {"model", "model_reasoning_effort", "agents"}, f"{path}: unsupported top-level key")
-    need(data["model"] == "gpt-6-astra" and data["model_reasoning_effort"] in {"low", "medium", "high", "xhigh"}, f"{path}: root model must be gpt-6-astra with supported reasoning")
+    need(data["model"] in MODELS and data["model_reasoning_effort"] in {"low", "medium", "high", "xhigh"}, f"{path}: root model must be supported with supported reasoning")
     need(isinstance(agents, dict) and set(agents) == {"enabled", "max_concurrent_threads_per_session", "default_subagent_model", "default_subagent_reasoning_effort"}, f"{path}: unsupported [agents] key")
     need(agents["default_subagent_model"] in MODELS, f"{path}: unsupported default subagent model")
     need(agents["default_subagent_reasoning_effort"] in {"low", "medium", "high", "xhigh"}, f"{path}: bad default subagent reasoning effort")

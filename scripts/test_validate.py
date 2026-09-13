@@ -38,8 +38,10 @@ def empty_authority(root): empty_section(root, "Authority")
 def ready_job(root): replace(root / "templates/mission-view.md", "| Deadline investigation | Unassigned | queued |", "| Deadline investigation | Unassigned | ready |")
 def complete_job(root): replace(root / "templates/mission-view.md", "| Deadline investigation | Unassigned | queued |", "| Deadline investigation | Unassigned | complete |")
 def unsafe_profile(root): replace(root / "examples/codex/.codex/agents/mission_reviewer.toml", 'sandbox_mode = "read-only"', 'sandbox_mode = "workspace-write"')
+def bad_lead_model(root): replace(root / "examples/codex/.codex/config.toml", 'model = "gpt-5.6-sol"', 'model = "invented-model"')
+
 def bad_child_model(root): replace(root / "examples/codex/.codex/config.toml", 'default_subagent_model = "gpt-5.6-luna"', 'default_subagent_model = "invented-model"')
-def bad_child_effort(root): replace(root / "examples/codex/.codex/config.toml", 'default_subagent_reasoning_effort = "high"', 'default_subagent_reasoning_effort = "invented-effort"')
+def bad_child_effort(root): replace(root / "examples/codex/.codex/config.toml", 'default_subagent_reasoning_effort = "medium"', 'default_subagent_reasoning_effort = "invented-effort"')
 def missing_role(root): (root / "examples/codex/.codex/agents/mission_verifier.toml").unlink()
 def invalid_eval_path(root):
     path = root / "evals/cases.json"; data = json.loads(path.read_text(encoding="utf-8")); data["cases"][0]["fixture"] = {"../escape.txt": "x"}; path.write_text(json.dumps(data), encoding="utf-8")
@@ -68,7 +70,7 @@ def main() -> int:
         false_pass: "overall PASS requires every hard gate PASS", empty_jobs: "empty section Jobs", empty_authority: "empty section Authority",
         ready_job: "invalid job lifecycle status", complete_job: "invalid job lifecycle status",
         unsafe_profile: "unsafe sandbox mode", missing_role: "must be exactly",
-        bad_child_model: "unsupported default subagent model", bad_child_effort: "bad default subagent reasoning effort",
+        bad_lead_model: "root model must be supported", bad_child_model: "unsupported default subagent model", bad_child_effort: "bad default subagent reasoning effort",
         invalid_eval_path: "unsafe fixture path", invalid_activation: "invalid activation", drive_eval_path: "unsafe fixture path", eval_ancestor_collision: "conflicting fixture file and directory",
         broken_link: "broken local link", malformed_svg: "malformed SVG", svg_event: "event handler forbidden",
         svg_style_import: "unsafe SVG element style", placeholder: "unfinished placeholder",

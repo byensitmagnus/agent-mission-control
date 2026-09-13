@@ -23,7 +23,10 @@ least costly capable reviewer; escalate unresolved high-value uncertainty using
 [capability routing](packets.md). A trivial edit needs no review team. Reuse review
 when it covers the gates and current candidate; collect only missing proof.
 A verifier executes the required checks against the identified candidate;
-reviewer agreement is not runtime evidence. The lead inspects those artifacts
+reviewer agreement is not runtime evidence. Fresh history reduces inherited
+argumentation; it does not guarantee independent errors or reviewer competence.
+Require a relevant source, reproducible counterexample or executed check for a
+material claim; treat an unconfirmed finding as uncertainty rather than a defect. The lead inspects those artifacts
 and runs the relevant checks itself. Read-only verifiers can use disposable
 write scopes for test outputs when authorized; inability to execute a required
 check remains NOT VERIFIED, never an inferred PASS.
