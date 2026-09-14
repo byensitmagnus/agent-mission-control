@@ -1,8 +1,9 @@
 #!/usr/bin/env python3
 """Standard-library structural validation for the skill package.
 
-A passing run proves packaging and schema contracts. It is not runtime PASS,
-product PASS, or proof that an agent followed AMC.
+A passing run proves packaging and Markdown schema contracts. It cannot prove
+that natural-language evidence is true, that an agent followed AMC, or that the
+named artifact equals git HEAD.
 """
 from __future__ import annotations
 import argparse, json, re, sys, tomllib
@@ -20,7 +21,15 @@ JOB_LIFECYCLE = {"queued", "running", "completed", "superseded"}
 JOB_REQUIRED = {"yes", "no"}
 JOB_COLUMNS = ["Job", "Agent", "Required", "Lifecycle", "Verdict", "Owned scope"]
 PLACEHOLDERS = re.compile(r"Named owned paths|Copy and fill|Copying this template makes no live claims|State the objective|State the bounded job|Fill the objective", re.I)
-UNVERIFIED_EVIDENCE = re.compile(r"(?is)\b(?:none|n/?a|unknown|unverified|not(?:[ -]| yet )?verified|no executed|not run|no subject runs?)\b")
+UNVERIFIED_EVIDENCE = re.compile(
+    r"(?is)\b(?:none|n/?a|unknown|unverified|not(?:[ -]| yet )?verified|"
+    r"no executed|not executed|not run|no (?:completed )?subject runs?|"
+    r"zero subject runs|no completed subject)\b"
+)
+PASS_UNFINISHED_TEXT = re.compile(
+    r"(?is)\b(?:still queued|still running|unfinished work|work remains queued|"
+    r"remains queued|optional queued|dummy required|not executed)\b"
+)
 EFFORTS = {"low", "medium", "high", "xhigh"}
 SANDBOXES = {"read-only", "workspace-write"}
 READ_ONLY_HINTS = ("researcher", "reviewer", "verifier")
@@ -280,12 +289,12 @@ def check_mission(text: str, path: Path, instance: bool = False) -> None:
         need(MISSING_VALUE.match(evidence.split("\n", 1)[0]) is None, f"{path}: overall PASS requires reopenable evidence")
         need(ident in evidence and ident in sections["Last verified"], f"{path}: overall PASS requires reopenable evidence")
         need(re.search(r"(?i)not[ -]?verified", sections["Last verified"]) is None, f"{path}: overall PASS requires current last-verified identity")
+        for heading in ("Goal / Definition of Done", "Authority", "Decisions and evidence", "Next action"):
+            need(PASS_UNFINISHED_TEXT.search(sections[heading]) is None, f"{path}: overall PASS forbids unfinished work in narrative fields")
         for job in jobs:
+            need(job["Lifecycle"] not in {"queued", "running"}, f"{path}: overall PASS forbids unfinished jobs")
             if job["Required"] == "yes":
                 need(job["Lifecycle"] == "completed" and job["Verdict"] == "PASS", f"{path}: overall PASS requires required jobs completed with PASS")
-            need(job["Lifecycle"] != "running", f"{path}: overall PASS forbids in-flight jobs")
-            if job["Lifecycle"] == "queued":
-                need(job["Required"] == "no", f"{path}: overall PASS forbids unfinished required jobs")
             if job["Lifecycle"] == "completed":
                 need(job["Verdict"] == "PASS", f"{path}: overall PASS forbids completed jobs with a negative verdict")
     if status.group(1) == "BLOCKED":

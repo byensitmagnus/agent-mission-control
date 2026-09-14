@@ -1,0 +1,33 @@
+{
+  "arm": "direct",
+  "case": "false-pass",
+  "command": [
+    "C:\\Users\\Usmo1\\AppData\\Roaming\\npm\\codex.CMD",
+    "exec",
+    "--ignore-user-config",
+    "--ephemeral",
+    "--approve-for-me",
+    "--json",
+    "--skip-git-repo-check",
+    "-m",
+    "gpt-5.6-sol",
+    "-c",
+    "model_reasoning_effort=\"medium\"",
+    "-C",
+    "C:\\Users\\Usmo1\\Documents\\ChatGPT\\ai Orchestrator\\amc-eval-runs\\false-pass-direct\\workspace",
+    "-o",
+    "C:\\Users\\Usmo1\\Documents\\ChatGPT\\ai Orchestrator\\amc-eval-runs\\false-pass-direct\\final.md",
+    "-"
+  ],
+  "sandbox": "workspace-write",
+  "timeout_s": 180,
+  "host": "codex-cli",
+  "host_version": "0.153.3",
+  "model": "gpt-5.6-sol",
+  "reasoning": "medium",
+  "fixture_hash": "69daad6a4a12d987e9d3f77bce6efd23dc2fe63f0c2446b68a54b07879ea082b",
+  "hidden_hash": "e22bff88572822dc810bb6932cca45643ee7b00187e9efc94c130637d5cdd3b5",
+  "skill_hash": null,
+  "candidate9_runtime_hash": null,
+  "skill_present": false
+}

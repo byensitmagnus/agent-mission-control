@@ -5,31 +5,33 @@ overall: NOT VERIFIED
 
 ## Goal / Definition of Done
 
-Ship Agent Mission Control as one workflow skill/plugin on a PR against `main`.
-Engineering checks must pass. Improved agent behavior, cost and speed versus
-direct work remain NOT VERIFIED.
+Keep PR https://github.com/byensitmagnus/agent-mission-control/pull/6 consistent.
+Engineering checks must pass. Behavior, price and speed remain NOT VERIFIED.
+Do not merge or release.
 
 ## Base and candidate
 
-Current artifact: branch `codex/unified-amc-kernel` on base `c49dc1be2e334091f6c841047ff2ad778b7bde84`
+Current artifact: PR #6 `codex/unified-amc-kernel` on base `c49dc1be2e334091f6c841047ff2ad778b7bde84`
 Base: GitHub `main` / published `v0.2.0-candidate.8`.
-Candidate: `0.2.0-candidate.9`; one decision kernel; no companion runtime.
+Candidate: `0.2.0-candidate.9`, PR source, not merged, no release ZIP.
 
 ## Hard gates
 
 | Gate | Status | Evidence |
 |---|---|---|
-| False overall PASS rejected | PASS | `scripts/test_validate.py` negative controls, including superseded and live placeholders |
+| False overall PASS rejected | PASS | `scripts/test_validate.py`; queued/running jobs forbidden under overall PASS |
 | Plugin copy is one AMC workflow | PASS | `scripts/package_plugin.py`; `agents/openai.yaml`; `SKILL.md` |
-| Blank templates vs examples | PASS | `templates/`; demonstrations in `examples/packets/` |
-| Optional profiles not frozen to named models | PASS | `scripts/validate.py` Codex rules; other-model positive control |
-| Compact live mission | PASS | this file; history in `docs/history/through-candidate.8.md` |
-| Behavioral superiority vs direct work | NOT VERIFIED | `evals/v3` has no subject runs on this SHA; `c9-01` both arms fail the hidden False case |
+| Blank templates vs examples | PASS | `templates/`; `examples/packets/` |
+| Optional profiles not frozen to named models | PASS | `scripts/validate.py` Codex rules |
+| Compact live mission | PASS | this file; `docs/history/through-candidate.8.md` |
+| Public review record | PASS | `docs/reviews/candidate.9-falsification.md`; `docs/reviews/candidate.9-working-tree.md` |
+| Holdout correctness vs direct | PASS | all three arms hidden PASS; [results](evals/candidate.9/comparison/results/README.md) |
+| Behavioral superiority vs direct work | NOT VERIFIED | nine Codex runs; candidate.9 had no unique win and used more holdout time/tokens |
 
 ## Authority
 
-Authorized: local edits, tests, offline packages, one read-only review, push and
-PR against `main`.
+Authorized: local edits, tests, offline packages, one read-only review, push to
+PR #6.
 Forbidden: merge, release, installation, publication, global skills, host
 configuration, daemons and new services.
 
@@ -37,20 +39,20 @@ configuration, daemons and new services.
 
 | Job | Agent | Required | Lifecycle | Verdict | Owned scope |
 |---|---|---|---|---|---|
-| Validator, plugin and PASS rules | Lead | yes | completed | PASS | `scripts/validate.py`, `package_plugin.py`, tests |
-| Runtime kernel and templates | Lead | yes | completed | PASS | `SKILL.md`, `references/`, `templates/`, `MISSION.md` |
-| Docs, history and research claims | Lead | yes | completed | PASS | `docs/`, `README.md`, `docs/history/` |
-| Independent falsification review | Reviewer | yes | completed | PASS | PASS rules; reviewer 2d743209 holes closed in `scripts/validate.py` |
-| Open PR against main | Lead | yes | queued | NOT VERIFIED | branch `codex/unified-amc-kernel` |
-| Bounded behavioral comparison | Lead | no | queued | NOT VERIFIED | `evals/candidate.9/`; `evals/v3/` |
+| Validator, plugin and PASS rules | Lead | yes | completed | PASS | `scripts/validate.py`, tests |
+| Runtime kernel and templates | Lead | yes | completed | PASS | `SKILL.md`, `references/`, `templates/` |
+| Docs and public review record | Lead | yes | completed | PASS | `docs/`, `README.md` |
+| Open PR against main | Lead | yes | completed | PASS | https://github.com/byensitmagnus/agent-mission-control/pull/6 |
+| Three-arm comparison | Lead | yes | completed | PASS | `evals/candidate.9/comparison/`; nine subject runs |
 
 ## Decisions and evidence
 
-Engineering integrity is checked by local tests, not by agent quality. Skill and
-plugin runtime bytes must match. Historical qualification FAIL and the Sol 18/18
-pair are unchanged. Structural validator PASS is not product PASS. Candidate.9 is
-not claimed better than direct work. Residual: a dummy required PASS job can still
-hide unfinished work as optional queued; that remains a false record.
+Engineering integrity is separate from agent quality. The 16 common AMC runtime
+files are byte-identical in skill and plugin packages; ZIP archives are not.
+Nine Codex 0.153.3 / Sol / medium runs are bound in
+`evals/candidate.9/comparison/results/`. Superpowers plugin contamination was
+present on every arm. Candidate.9 is not claimed better than direct work.
+Historical `c9-01` remains a failed hidden False pair from another commit.
 
 ## Blockers
 
@@ -58,9 +60,8 @@ None.
 
 ## Next action
 
-After checks and review, push this branch and open a PR against `main`. Do not
-merge or release.
+Do not merge or release. Keep overall NOT VERIFIED for product behavior.
 
 ## Last verified
 
-Commit/snapshot: branch `codex/unified-amc-kernel` on base `c49dc1be2e334091f6c841047ff2ad778b7bde84`. UTC timestamp: 2026-09-14T11:52:51Z.
+Commit/snapshot: PR #6 `codex/unified-amc-kernel` on base `c49dc1be2e334091f6c841047ff2ad778b7bde84`. UTC timestamp: 2026-09-14T16:10:00Z.

@@ -1,8 +1,11 @@
 # Current engineering validation
 
-[Candidate.9](../docs/engineering-candidate.9.md) adds deterministic
-decision-kernel and mission-PASS contracts. Those checks are engineering
-integrity, not agent superiority. Historical results below are unchanged.
+[Candidate.9](../docs/engineering-candidate.9.md) is open PR source
+([#6](https://github.com/byensitmagnus/agent-mission-control/pull/6)), not a
+release. Its [three-arm comparison protocol](candidate.9/comparison/README.md)
+is the reproducible behavior contract. `evals/decision_kernel.py` is a
+deterministic regression test; it does not launch agents.
+Historical results below are unchanged.
 
 [Candidate.7 acceptance-review case](acceptance-review/README.md) records a
 bounded comparison with candidate.6 and supplies a runnable 19-case controller.

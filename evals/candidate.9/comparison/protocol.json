@@ -1,0 +1,20 @@
+{
+  "schema_version": 1,
+  "name": "candidate.9-three-arm",
+  "host": "codex-cli",
+  "host_version": "0.153.3",
+  "model": "gpt-5.6-sol",
+  "reasoning": "medium",
+  "timeout_s": 180,
+  "attempts": 1,
+  "flags": [
+    "--ignore-user-config",
+    "--ephemeral",
+    "--approve-for-me",
+    "--json"
+  ],
+  "candidate8_commit": "c49dc1be2e334091f6c841047ff2ad778b7bde84",
+  "base_commit": "c49dc1be2e334091f6c841047ff2ad778b7bde84",
+  "pr": "https://github.com/byensitmagnus/agent-mission-control/pull/6",
+  "note": "All arms and cases use --approve-for-me (workspace-write). Audit prompts forbid editing billing.py and notify.py; the hidden checker verifies those files still contain the planted defects. The audit 429 string is not in the visible prompt; do not score that case as product evidence."
+}

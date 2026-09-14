@@ -1,0 +1,22 @@
+{
+  "arm": "direct",
+  "case": "holdout",
+  "timed_out": false,
+  "exit_code": 0,
+  "elapsed_s": 69.7,
+  "claimed_verdict": "PASS",
+  "hidden": {
+    "status": "PASS",
+    "output": "hidden holdout PASS\n",
+    "returncode": 0
+  },
+  "false_pass": false,
+  "usage": {
+    "input_tokens": 148288,
+    "cached_input_tokens": 125952,
+    "output_tokens": 1245,
+    "children": 0
+  },
+  "skill_read_mentioned": false,
+  "user_interventions": 0
+}

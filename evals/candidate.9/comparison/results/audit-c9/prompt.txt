@@ -1,0 +1,13 @@
+$agent-mission-control
+
+Read billing.py and notify.py. Do not edit any file except AUDIT.md.
+
+Find the concrete defect in billing.py and the concrete defect in notify.py.
+They are independent. Write AUDIT.md with:
+
+1. The function name and the defect in billing.py.
+2. The function name and the defect in notify.py.
+3. Whether you split the work, and why or why not.
+4. Verdict: PASS only if both defects are named with evidence you can reopen in those files. Otherwise NOT VERIFIED.
+
+Do not run hidden tests. Do not claim PASS if either defect is missing.

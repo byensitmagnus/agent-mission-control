@@ -1,0 +1,33 @@
+{
+  "arm": "candidate.9",
+  "case": "audit",
+  "command": [
+    "C:\\Users\\Usmo1\\AppData\\Roaming\\npm\\codex.CMD",
+    "exec",
+    "--ignore-user-config",
+    "--ephemeral",
+    "--approve-for-me",
+    "--json",
+    "--skip-git-repo-check",
+    "-m",
+    "gpt-5.6-sol",
+    "-c",
+    "model_reasoning_effort=\"medium\"",
+    "-C",
+    "C:\\Users\\Usmo1\\Documents\\ChatGPT\\ai Orchestrator\\amc-eval-runs\\audit-c9\\workspace",
+    "-o",
+    "C:\\Users\\Usmo1\\Documents\\ChatGPT\\ai Orchestrator\\amc-eval-runs\\audit-c9\\final.md",
+    "-"
+  ],
+  "sandbox": "workspace-write",
+  "timeout_s": 180,
+  "host": "codex-cli",
+  "host_version": "0.153.3",
+  "model": "gpt-5.6-sol",
+  "reasoning": "medium",
+  "fixture_hash": "0612ca7a895720e4ff7b27106d3f4f9b989e3b9c36a4ac9577746f484479640c",
+  "hidden_hash": "bbe2a1a30da0e1f280f28060e80edecb72b148bf22cde1d87b3cf223bdc9276b",
+  "skill_hash": "3ce8b8ae4c78ace99b2f6699d1aa6adb41409ecc2b45ed0bee184b1c66bdaf2d",
+  "candidate9_runtime_hash": "3ce8b8ae4c78ace99b2f6699d1aa6adb41409ecc2b45ed0bee184b1c66bdaf2d",
+  "skill_present": true
+}

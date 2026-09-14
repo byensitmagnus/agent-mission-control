@@ -120,6 +120,14 @@ def pass_optional_running(root):
         "| Required work | Lead | yes | completed | PASS | Named owned paths |\n| Optional scout | Unassigned | no | running | NOT VERIFIED | Read-only notes |",
     )
 
+def pass_optional_queued(root):
+    make_pass_ready(root)
+    replace(
+        root / TEMPLATE,
+        "| Required work | Lead | yes | completed | PASS | Named owned paths |",
+        "| Required work | Lead | yes | completed | PASS | Named owned paths |\n| Real remaining work | Unassigned | no | queued | NOT VERIFIED | the actual unfinished audit |",
+    )
+
 def pass_optional_completed_fail(root):
     make_pass_ready(root)
     replace(
@@ -195,6 +203,38 @@ def pass_next_blocked(root):
     make_pass_ready(root)
     replace(root / TEMPLATE, "Fill the objective, freeze the current artifact identity, then do the next authorized check.", "Blocked: signing credential is unavailable.")
 
+def pass_unfinished_narrative(root):
+    make_pass_ready(root)
+    replace(
+        root / TEMPLATE,
+        "Lead ran python check.py on artifact abcdef0123456789deadbeef; the gate matched.",
+        "Lead ran python check.py on artifact abcdef0123456789deadbeef; unfinished work remains queued in notes.",
+    )
+
+def pass_authority_unfinished(root):
+    make_pass_ready(root)
+    replace(root / TEMPLATE, "Forbidden: credentials, push, deploy, destructive work and new authority.", "Forbidden: none. Unfinished work remains queued.")
+
+def pass_gate_not_executed(root):
+    make_pass_ready(root)
+    replace(root / TEMPLATE, "| Required acceptance check | PASS | python check.py on abcdef0123456789deadbeef |", "| Required acceptance check | PASS | check not executed on abcdef0123456789deadbeef |")
+
+def pass_gate_zero_subject_runs(root):
+    make_pass_ready(root)
+    replace(root / TEMPLATE, "| Required acceptance check | PASS | python check.py on abcdef0123456789deadbeef |", "| Required acceptance check | PASS | zero subject runs on abcdef0123456789deadbeef |")
+
+def pass_gate_no_completed_subject(root):
+    make_pass_ready(root)
+    replace(root / TEMPLATE, "| Required acceptance check | PASS | python check.py on abcdef0123456789deadbeef |", "| Required acceptance check | PASS | evals/v3 has no completed subject results on abcdef0123456789deadbeef |")
+
+def pass_optional_completed_not_verified(root):
+    make_pass_ready(root)
+    replace(
+        root / TEMPLATE,
+        "| Required work | Lead | yes | completed | PASS | Named owned paths |",
+        "| Required work | Lead | yes | completed | PASS | Named owned paths |\n| Optional scout | Unassigned | no | completed | NOT VERIFIED | Read-only notes |",
+    )
+
 def main() -> int:
     from validate import srcset_urls
     assert list(srcset_urls('a.svg 1x,b.svg 2x')) == ['a.svg', 'b.svg']
@@ -214,12 +254,13 @@ def main() -> int:
         zero_threads: "max_concurrent_threads_per_session must be 1..32",
         fiction_template: "blank templates must not contain case fiction",
         plugin_push: "plugin copy must not push multi-agent defaults",
-        pass_required_queued: "overall PASS requires required jobs completed with PASS",
-        pass_required_running: "overall PASS requires required jobs completed with PASS",
+        pass_required_queued: "overall PASS forbids unfinished jobs",
+        pass_required_running: "overall PASS forbids unfinished jobs",
         pass_required_fail: "overall PASS requires required jobs completed with PASS",
         pass_required_blocked: "overall PASS requires required jobs completed with PASS",
         pass_required_not_verified: "overall PASS requires required jobs completed with PASS",
-        pass_optional_running: "overall PASS forbids in-flight jobs",
+        pass_optional_queued: "overall PASS forbids unfinished jobs",
+        pass_optional_running: "overall PASS forbids unfinished jobs",
         pass_optional_completed_fail: "overall PASS forbids completed jobs with a negative verdict",
         pass_missing_artifact: "overall PASS requires a current artifact identity",
         pass_no_required_job: "at least one required job",
@@ -236,6 +277,12 @@ def main() -> int:
         pass_gate_without_artifact: "overall PASS requires current artifact identity in hard-gate evidence",
         pass_short_artifact: "overall PASS requires a current artifact identity",
         pass_next_blocked: "overall PASS forbids a blocker in Next action",
+        pass_unfinished_narrative: "overall PASS forbids unfinished work in narrative fields",
+        pass_authority_unfinished: "overall PASS forbids unfinished work in narrative fields",
+        pass_gate_not_executed: "overall PASS forbids missing hard-gate evidence",
+        pass_gate_zero_subject_runs: "overall PASS forbids missing hard-gate evidence",
+        pass_gate_no_completed_subject: "overall PASS forbids missing hard-gate evidence",
+        pass_optional_completed_not_verified: "overall PASS forbids completed jobs with a negative verdict",
         invalid_eval_path: "unsafe fixture path", invalid_activation: "invalid activation", drive_eval_path: "unsafe fixture path", eval_ancestor_collision: "conflicting fixture file and directory",
         broken_link: "broken local link", broken_srcset: "broken local link", malformed_svg: "malformed SVG", svg_event: "event handler forbidden",
         svg_style_import: "unsafe SVG element style", placeholder: "unfinished placeholder",
@@ -250,17 +297,6 @@ def main() -> int:
         replace(copy / TEMPLATE, "overall: NOT VERIFIED", "overall: BLOCKED")
         replace(copy / TEMPLATE, "None.", "Required signing credential is unavailable.")
         if run(copy).returncode: print("FAIL: legitimate BLOCKED mission rejected", file=sys.stderr); return 1
-    with tempfile.TemporaryDirectory() as directory:
-        copy = Path(directory) / "repo"; shutil.copytree(ROOT, copy, ignore=shutil.ignore_patterns(".git", "__pycache__"))
-        make_pass_ready(copy)
-        replace(
-            copy / TEMPLATE,
-            "| Required work | Lead | yes | completed | PASS | Named owned paths |",
-            "| Required work | Lead | yes | completed | PASS | Named owned paths |\n| Optional scout | Unassigned | no | queued | NOT VERIFIED | Read-only notes |",
-        )
-        if run(copy).returncode:
-            print((run(copy).stdout + run(copy).stderr), end="", file=sys.stderr)
-            print("FAIL: legitimate PASS with optional queued job rejected", file=sys.stderr); return 1
     with tempfile.TemporaryDirectory() as directory:
         copy = Path(directory) / "repo"; shutil.copytree(ROOT, copy, ignore=shutil.ignore_patterns(".git", "__pycache__"))
         make_pass_ready(copy)

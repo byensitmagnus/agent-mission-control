@@ -12,18 +12,19 @@ that mission's record; it does not update the parent mission's tracker.
 
 Job **lifecycle** is queued, running, completed or superseded. Job **verdict** is PASS, FAIL,
 BLOCKED or NOT VERIFIED. **Required** is yes or no. Lifecycle completion is not
-acceptance. Unfinished jobs stay `NOT VERIFIED`. Optional jobs may remain queued
-during overall PASS; required jobs may not. A dropped job is `superseded` with
-Required `no` and `superseded:` plus a reason in owned scope.
+acceptance. Unfinished jobs stay `NOT VERIFIED`. Overall PASS forbids queued or running
+jobs. A dropped job is `superseded` with Required `no` and `superseded:` plus a
+reason in owned scope. Optional work that is not finished must be removed or
+superseded; it may not remain queued to obtain PASS.
 
 Overall PASS requires all of: every hard gate PASS with current evidence that is
 not an unverified placeholder; the current artifact identity in hard-gate
 evidence, decisions and last verified; every required job completed with verdict
-PASS; at least one required job; no running jobs; no completed job with a
-negative verdict; Blockers exactly `None`; Next action not itself blocked.
-Optional jobs may remain queued; unfinished required work marked optional to
-obtain PASS is a false record. The checker tests internal consistency of the
-named identity, not that it equals git HEAD. Use FAIL for an observed gate failure, BLOCKED for an
+PASS; at least one required job; no queued or running jobs; no completed job
+with a negative verdict; Blockers exactly `None`; Next action not itself blocked.
+Narrative fields must not hide unfinished work as still queued. The checker tests
+Markdown contract consistency; it cannot prove that natural-language evidence is
+true or that the named identity equals git HEAD. Use FAIL for an observed gate failure, BLOCKED for an
 external prerequisite, NOT VERIFIED for missing, stale or conflicting proof.
 A stale mission PASS cannot accept a new artifact. If both failure and missing
 evidence exist, report both; never collapse them to PASS. `Last verified` names

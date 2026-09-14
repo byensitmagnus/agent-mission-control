@@ -1,0 +1,33 @@
+{
+  "arm": "candidate.8",
+  "case": "holdout",
+  "command": [
+    "C:\\Users\\Usmo1\\AppData\\Roaming\\npm\\codex.CMD",
+    "exec",
+    "--ignore-user-config",
+    "--ephemeral",
+    "--approve-for-me",
+    "--json",
+    "--skip-git-repo-check",
+    "-m",
+    "gpt-5.6-sol",
+    "-c",
+    "model_reasoning_effort=\"medium\"",
+    "-C",
+    "C:\\Users\\Usmo1\\Documents\\ChatGPT\\ai Orchestrator\\amc-eval-runs\\holdout-c8\\workspace",
+    "-o",
+    "C:\\Users\\Usmo1\\Documents\\ChatGPT\\ai Orchestrator\\amc-eval-runs\\holdout-c8\\final.md",
+    "-"
+  ],
+  "sandbox": "workspace-write",
+  "timeout_s": 180,
+  "host": "codex-cli",
+  "host_version": "0.153.3",
+  "model": "gpt-5.6-sol",
+  "reasoning": "medium",
+  "fixture_hash": "49bee745afd7c17bb28269234967148892a8a94cd11ec9821aaec37217a4461d",
+  "hidden_hash": "ccf67e8e34027b8bb404243d4f29c28341f8b79f596ba0d28b4c1d554ddfb068",
+  "skill_hash": "43a65cc9bc862e3aead45e146ee53e310fbf8672be7153232085068ce17bdf2c",
+  "candidate9_runtime_hash": null,
+  "skill_present": true
+}

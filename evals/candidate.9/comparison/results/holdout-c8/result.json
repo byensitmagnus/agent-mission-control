@@ -1,0 +1,22 @@
+{
+  "arm": "candidate.8",
+  "case": "holdout",
+  "timed_out": false,
+  "exit_code": 0,
+  "elapsed_s": 60.4,
+  "claimed_verdict": "PASS",
+  "hidden": {
+    "status": "PASS",
+    "output": "hidden holdout PASS\n",
+    "returncode": 0
+  },
+  "false_pass": false,
+  "usage": {
+    "input_tokens": 126722,
+    "cached_input_tokens": 103680,
+    "output_tokens": 1064,
+    "children": 0
+  },
+  "skill_read_mentioned": true,
+  "user_interventions": 0
+}

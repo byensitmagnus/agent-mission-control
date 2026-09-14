@@ -1,0 +1,22 @@
+{
+  "arm": "candidate.9",
+  "case": "audit",
+  "timed_out": false,
+  "exit_code": 0,
+  "elapsed_s": 72.6,
+  "claimed_verdict": "PASS",
+  "hidden": {
+    "status": "FAIL",
+    "output": "Traceback (most recent call last):\n  File \"C:\\Users\\Usmo1\\Documents\\ChatGPT\\ai Orchestrator\\repos\\agent-mission-control\\evals\\candidate.9\\comparison\\hidden\\audit_check.py\", line 6, in <module>\n    assert \"twice\" in report or \"double\" in report or \"two times\" in report\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError\n",
+    "returncode": 1
+  },
+  "false_pass": true,
+  "usage": {
+    "input_tokens": 127595,
+    "cached_input_tokens": 99968,
+    "output_tokens": 1569,
+    "children": 0
+  },
+  "skill_read_mentioned": true,
+  "user_interventions": 0
+}

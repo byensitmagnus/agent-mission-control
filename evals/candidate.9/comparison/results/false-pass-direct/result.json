@@ -1,0 +1,22 @@
+{
+  "arm": "direct",
+  "case": "false-pass",
+  "timed_out": false,
+  "exit_code": 0,
+  "elapsed_s": 57.9,
+  "claimed_verdict": "PASS",
+  "hidden": {
+    "status": "PASS",
+    "output": "hidden false-pass PASS\n",
+    "returncode": 0
+  },
+  "false_pass": false,
+  "usage": {
+    "input_tokens": 147352,
+    "cached_input_tokens": 121600,
+    "output_tokens": 945,
+    "children": 0
+  },
+  "skill_read_mentioned": false,
+  "user_interventions": 0
+}

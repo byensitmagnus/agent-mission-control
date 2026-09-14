@@ -271,7 +271,8 @@ established by this update. Prior failed or limited experiments remain intact.
 
 Local acceptance on 2026-09-13 passed all seven check groups above, both official
 package validators and a fresh independent source/engineering review. The 16
-runtime files match byte-for-byte between source and generated skill/plugin.
+common AMC runtime files are byte-identical in the generated skill and plugin
+packages. The ZIP archives have different structure and hashes.
 All 74 historical evaluation, fixture and result files covered by the preservation
 check remain identical to the pre-task snapshot. These are engineering outcomes,
 not comparative model results. The candidate remains local and uninstalled.
