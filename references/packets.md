@@ -17,24 +17,43 @@ uncertainties, appropriate capability and necessary proof. Include optimization,
 recovery or learning only if the facts justify them. It does not execute the whole
 mission or recruit a team. Skip scouting when the lead already knows the route.
 
-Choose among models and tools the host actually exposes. Keep the selected lead;
-use a fast capable tier for focused discovery, mechanical edits and bounded
-review; a general tier for routine implementation; a stronger specialist for
-hard domain work. Escalate for unresolved architecture, conflicting evidence,
-critical data/security risk or repeated cheaper failure, with a concrete reason.
+Choose among models and tools the host actually exposes. AMC names capability
+classes, not product models:
+
+| Class | Use for |
+|---|---|
+| Lead-capable | Scope, architecture, integration, budget and final acceptance |
+| Focused general worker | Routine bounded implementation |
+| Cheap bounded worker | Narrow discovery, mechanical edits, or a predeclared check |
+| Material reviewer | Independent falsification of a risky claim |
+| Narrow verifier | Executing a declared check against an identified artifact |
+
+Host profiles may map these classes to concrete models. Keep the selected lead.
 Do not default every child to the lead model or force difficult work onto the
-cheapest tier. If the requested capability is unavailable, report the limit and
+cheapest class. If the requested capability is unavailable, report the limit and
 choose a supported alternative; do not silently upgrade cost or invent IDs.
+
+A cheap bounded worker may receive a job only when all of the following hold:
+
+1. The job is bounded.
+2. Inputs and write-scope are known.
+3. A falsifiable acceptance check is declared before spawn.
+4. The lead can check the result without repeating the whole job.
+5. Expected gain exceeds coordination cost.
+
+For code writes, that check should be executable when behavior can be tested.
+Research may use source anchors, counterevidence and the lead reopening sources.
+UI work may need rendering or visual inspection. Allow at most one retry with a
+tighter contract; then escalate only the unresolved slice. Do not loop retries.
 
 Set child model and reasoning independently of the lead when native tools allow.
 Match effort to the unresolved work: low for straightforward mechanical tasks,
 medium for routine work, high for complex logic or material review. Short context
-does not require high effort; no effort label guarantees quality. Give cheaper
-workers explicit inputs, acceptance checks and examples when needed; a low price
-is not evidence that they can design or verify the whole workflow. Use native read-only roles for research/review and
-bounded write permissions for implementation; a prompt scope is not a sandbox.
-Host concurrency is a ceiling, not a target. With no delegation API, work serially
-and disclose any required independence that cannot be provided.
+does not require high effort; no effort label guarantees quality. Use native
+read-only roles for research/review and bounded write permissions for
+implementation; a prompt scope is not a sandbox. Host concurrency is a ceiling,
+not a target. With no delegation API, work serially and disclose any required
+independence that cannot be provided.
 
 ## Handoff and integration
 

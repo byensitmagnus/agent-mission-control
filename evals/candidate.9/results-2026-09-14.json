@@ -1,0 +1,43 @@
+{
+  "schema_version": 1,
+  "candidate": "0.2.0-candidate.9",
+  "source_commit": "84a0fcbb48d12a96bf7f4911b81fc0958f6961f6",
+  "recorded_at": "2026-09-14T08:35:00Z",
+  "host": "codex-cli 0.153.3",
+  "model": "gpt-5.6-sol",
+  "reasoning": "medium",
+  "flags": ["--ignore-user-config", "--ephemeral", "--approve-for-me"],
+  "comparative_verdict": "NOT VERIFIED as an improvement",
+  "note": "One matched pair on c9-01. Both arms passed the public check and failed the hidden False hyphen. AMC read SKILL.md, stayed direct, used more input tokens and time. Cases 2-4 were not run. This cannot support a general quality, time or price claim.",
+  "cases": [
+    {
+      "id": "c9-01-simple-fix",
+      "control": {
+        "public_check": "PASS",
+        "hidden_false_hyphen": "FAIL",
+        "format_value_False": "False",
+        "children": 0,
+        "input_tokens": 99814,
+        "cached_input_tokens": 72576,
+        "output_tokens": 917,
+        "elapsed_s": 52.6,
+        "user_interventions": 0
+      },
+      "amc": {
+        "public_check": "PASS",
+        "hidden_false_hyphen": "FAIL",
+        "format_value_False": "False",
+        "children": 0,
+        "amc_body_read": true,
+        "input_tokens": 188346,
+        "cached_input_tokens": 161408,
+        "output_tokens": 1579,
+        "elapsed_s": 75.0,
+        "user_interventions": 0
+      }
+    },
+    {"id": "c9-02-two-audits", "status": "NOT RUN"},
+    {"id": "c9-03-checked-write", "status": "NOT RUN"},
+    {"id": "c9-04-false-pass", "status": "NOT RUN"}
+  ]
+}

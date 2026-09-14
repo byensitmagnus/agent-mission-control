@@ -1,7 +1,7 @@
 interface:
   display_name: "Agent Mission Control"
-  short_description: "Choose the workflow and verify completion"
+  short_description: "Smallest useful execution graph; verified completion"
   icon_small: "./assets/icon-small.svg"
   icon_large: "./assets/icon-large.svg"
   brand_color: "#8b5cf6"
-  default_prompt: "Use $agent-mission-control to complete this software objective with the smallest useful workflow and verified evidence."
+  default_prompt: "Use $agent-mission-control as one workflow. Choose the smallest useful execution graph and finish with verified evidence."

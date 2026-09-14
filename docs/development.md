@@ -36,6 +36,7 @@ results are separate from host installation/discovery proof.
 python scripts/validate.py
 python scripts/test_validate.py
 python scripts/test_prepare_eval.py
+python evals/decision_kernel.py --self-check
 python scripts/test_package_plugin.py
 python scripts/test_install_skill.py
 python scripts/test_usage_snapshot.py
@@ -45,7 +46,15 @@ python evals/fps_replay.py --self-check
 
 The JSON replay requires .NET 8; see [replay setup](../evals/fps-replays.md) for
 an explicit SDK path. These commands do not launch agents. CI runs the local
-checks on Python 3.11 and 3.14 with .NET 8.
+checks on Python 3.11 and 3.14 with .NET 8. Passing them is not product PASS.
+
+The current local engineering record is
+[candidate.9](engineering-candidate.9.md). Historical candidate.8 evidence stays
+in [its record](engineering-candidate.8.md).
+
+Root `MISSION.md` and `docs/` are repository status. Packaging copies only
+`SKILL.md`, `LICENSE`, `agents/`, `references/`, `templates/` and `assets/`.
+The live mission record is not part of the runtime skill or plugin.
 
 The fixtures intentionally contain broken examples for regression controls.
 They are not production implementations. Replay C# executes as trusted local

@@ -1,5 +1,9 @@
 # Current engineering validation
 
+[Candidate.9](../docs/engineering-candidate.9.md) adds deterministic
+decision-kernel and mission-PASS contracts. Those checks are engineering
+integrity, not agent superiority. Historical results below are unchanged.
+
 [Candidate.7 acceptance-review case](acceptance-review/README.md) records a
 bounded comparison with candidate.6 and supplies a runnable 19-case controller.
 Both repairs passed; only candidate.7 obtained independent acceptance review.

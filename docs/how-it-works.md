@@ -1,7 +1,7 @@
 # How Agent Mission Control works
 
-AMC helps one lead agent choose the smallest workflow that can finish and prove a
-software task. It starts with the objective, constraints, and acceptance checks.
+AMC helps one lead agent choose the smallest useful execution graph that can finish
+and prove a software task. It starts with the objective, constraints, and acceptance checks.
 For an understood change, the lead works directly. For separate questions or
 surfaces, it gives native subagents only the relevant task, inputs, authority,
 owned files, and proof needed. The lead remains responsible for integration and
@@ -13,10 +13,14 @@ permissions can still apply. See the reusable [packet](../templates/context-pack
 and [routing rules](../references/packets.md).
 
 Routing is dynamic. A task may gain an investigation, a candidate loop, a fresh
-review, or a repair only when that work can answer a real question. The lead may
-choose an available model and effort suitable for a bounded job, but AMC makes no
-promise about price, speed, or quality. Current files and executed checks—not a
-worker saying “done”—decide the result.
+review, or a repair only when that work can answer a real question. The lead
+chooses the graph from six questions: sequential vs decomposable work, evaluator
+strength, error risk, required capability, information value vs coordination
+cost, and budget/authority. Direct, review, optimization and fan-out are
+combinable mechanisms, not exclusive modes. The lead may choose an available
+model and effort suitable for a bounded job, but AMC makes no promise about
+price, speed, or quality. Current files and executed checks—not a worker saying
+“done”—decide the result.
 
 ![Three AMC examples: edit-check-done; focused feature help with integration and verification; release investigation, improvement and gate verification.](assets/workflow-scenarios.png)
 

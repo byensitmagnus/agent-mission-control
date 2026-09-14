@@ -11,6 +11,7 @@ another orchestration tool or an assistant working directly.
 | **v0.2.0-candidate.4** | [Earlier release](https://github.com/byensitmagnus/agent-mission-control/releases/tag/v0.2.0-candidate.4), with skill/plugin ZIPs and checksums. | Historical first-use evidence concerns this prerelease. |
 | **0.2.0-candidate.7** | Retained local experiment and runtime snapshot; no published release ZIP. | It adds verification guidance with a bounded review-ownership experiment. |
 | **v0.2.0-candidate.8** | [Current prerelease](https://github.com/byensitmagnus/agent-mission-control/releases/tag/v0.2.0-candidate.8), with skill/plugin ZIPs and checksums. | Same runtime as candidate.7. Tagged source adds five-host installation/checking/updating and repaired evaluation/accounting utilities; these scripts are separate from the runtime ZIPs. [Engineering evidence](engineering-candidate.8.md). |
+| **0.2.0-candidate.9** | Local engineering branch only; no published ZIP. | One decision kernel, stricter mission PASS, blank templates, conditional plugin copy. Improved agent behavior, cost and speed remain NOT VERIFIED. [Engineering record](engineering-candidate.9.md). |
 
 The repository's CI badge describes current `main`, not every earlier release.
 Keep the release tag's source identity and archive checksum together.

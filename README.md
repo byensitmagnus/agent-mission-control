@@ -94,6 +94,7 @@ This is an output example, not a measured run.
 | **candidate.4** | Earlier published skill and plugin ZIPs. | Package checks and a bounded Windows CLI skill-selection/first-use check for that version. |
 | **candidate.7** | Retained review-ownership experiment; not a release download. | One controlled repair comparison: both versions passed 19 checks; candidate.7 also arranged independent acceptance review. |
 | **candidate.8** | Current prerelease skill/plugin ZIPs; tagged source adds five-host install/check/update CLI and repaired evaluation/accounting tools. Runtime instructions match candidate.7. | [Engineering checks and native host observations](docs/engineering-candidate.8.md); complete cross-host work remains unverified. |
+| **candidate.9** | Local unpublished engineering candidate. One decision kernel; no companion runtime. | Structural/packaging checks only. Quality, time and price vs a competent agent without AMC remain NOT VERIFIED. |
 
 **General improvements in cost, speed, quality or user effort are not established.**
 The [evidence guide](docs/evidence.md) explains what each check covers, host
@@ -132,7 +133,7 @@ Try a useful task and [share what happened](https://github.com/byensitmagnus/age
 One concrete example helps: the goal, what the agent did, the result you checked
 and where you had to intervene. Remove private information before sharing.
 
-[Development history](MISSION.md) · [Historical evaluations](evals/README.md) ·
+[Development history](docs/history/through-candidate.8.md) · [Historical evaluations](evals/README.md) ·
 [Security](SECURITY.md) · [MIT license](LICENSE)
 
 Made by **[Byens IT](https://byens-it.dk)** for people building with AI.

@@ -24,8 +24,10 @@ reference files below. The detailed, dated evidence and source pins are in the
 
 AMC has no always-on supervisor, fixed team shape, mandatory optimizer loop,
 learning daemon, custom context database, transcript collection, billing system,
-or automatic adoption. These systems add coordination, privacy, maintenance, or
-evaluation cost without helping routine work. Context packs are an information
+automatic adoption, or four exclusive modes. Companion skills must not take turns
+owning the task. Named host models are optional profile examples, not the core
+definition. These systems add coordination, privacy, maintenance, or evaluation
+cost without helping routine work. Context packs are an information
 boundary, **not** a security sandbox; the host's permissions still matter.
 
 This is a design synthesis, not an endorsement or a claim that source benchmarks,

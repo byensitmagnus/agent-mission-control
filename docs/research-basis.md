@@ -16,8 +16,12 @@ competent development or saves money across tasks.
 ## Evidence and its limits
 
 Primary publications and current platform documentation were checked on
-2026-09-13. A paper's measured outcome, a vendor's engineering recommendation and
-AMC's implementation choice are different kinds of evidence. None is silently
+2026-09-13. A later independent review on 2026-09-14 noted that the Google
+[HTML paper](https://arxiv.org/html/2512.08296) v3 reports 260 configs and 6
+benchmarks, including a 20-instance SWE-bench Verified subset where every MAS
+topology was negative versus SAS. AMC still does not treat those numbers as a
+coding-host guarantee. A paper's measured outcome, a vendor's engineering
+recommendation and AMC's implementation choice are different kinds of evidence. None is silently
 promoted to another. Historical local cases are useful regressions, not a random
 sample or an untouched test set. No new paid behavioral experiment accompanies
 this update.
@@ -91,11 +95,19 @@ information boundary; host permissions enforce execution boundaries.
 
 ### Team shape and model choice
 
-[Google Research's 2026 scaling study](https://research.google/blog/towards-a-science-of-scaling-agent-systems-when-and-why-agent-systems-work/)
-compares 180 configurations across financial reasoning, browsing, planning and
-tool-use tasks. Coordination helps suitable decomposable tasks but can hurt
-sequential tasks. Its task-specific thresholds are not universal AMC triggers or
-measurements on the FPS app. [Anthropic's research-system report](https://www.anthropic.com/engineering/multi-agent-research-system)
+[Google Research's 2026 blog](https://research.google/blog/towards-a-science-of-scaling-agent-systems-when-and-why-agent-systems-work/)
+reports 180 configurations across four benchmarks: Finance-Agent, BrowseComp-Plus,
+PlanCraft and Workbench. The later [arXiv HTML v3](https://arxiv.org/html/2512.08296)
+reports 260 configurations and six benchmarks, adding SWE-bench Verified and
+Terminal-Bench subsets. Workbench is a workplace function-calling / tool-use
+suite, not a software-engineering coding benchmark. The paper's coding-adjacent
+evidence is the SWE-bench Verified subset, where every tested multi-agent
+topology was negative versus the single-agent baseline. Coordination can help
+decomposable parallelizable work and can hurt sequential or tool-dense work.
+The blog/paper capability-saturation observation (about 45% single-agent
+baseline in the evaluated configurations) is not a universal AMC routing rule,
+not a claim that multi-agent systems are generally better or worse, and not a
+measurement on this repository's tasks. [Anthropic's research-system report](https://www.anthropic.com/engineering/multi-agent-research-system)
 also finds value in parallel exploration while reporting substantial token
 overhead; research results do not automatically transfer to tightly coupled coding.
 
@@ -115,11 +127,12 @@ to be explicit; a concurrency ceiling is not a desired team size.
 **AMC decision:** the selected competent lead owns architecture and final
 acceptance. Use a scout for valuable uncertainty, not every task or subtask.
 Give weaker workers narrower contracts and clearer checks. Parallelize ready,
-independent work; serialize shared writes and real dependencies. The opt-in
-profile now illustrates Sol/medium lead, Luna/medium generic workers,
-Terra/medium investigation/implementation, Terra/high material review and
-Luna/medium narrow verification. These are editable starting points, not a
-research-proven ranking or an automatic change to installed settings.
+independent work; serialize shared writes and real dependencies. AMC's core
+names capability classes (lead-capable, focused general worker, cheap bounded
+worker, material reviewer, narrow verifier). The opt-in Codex example maps those
+classes to current host model names. That mapping is an editable starting point,
+not a research-proven ranking of Luna, Terra, Sol, Astra, Grok or Opus, and not
+an automatic change to installed settings.
 
 ### Verification, learning and adaptive procedure
 

@@ -58,12 +58,38 @@ class PackagePluginTests(unittest.TestCase):
             self.assertTrue((destination / "skills" / PLUGIN_NAME / "SKILL.md").is_file())
             self.assertTrue((destination / "assets" / "icon-small.svg").is_file())
             self.assertFalse((destination / ".codex").exists())
+            self.assertNotRegex(json.dumps(manifest), r"coordinated agents|multi-agent software missions")
+            self.assertIn("smallest useful execution graph", manifest["description"])
+            self.assertIn("verified evidence", manifest["interface"]["defaultPrompt"][0])
+            self.assertIn("one workflow", manifest["interface"]["defaultPrompt"][0])
+            self.assertNotIn("MISSION.md", {p.relative_to(destination / "skills" / PLUGIN_NAME).as_posix() for p in (destination / "skills" / PLUGIN_NAME).rglob("*") if p.is_file()})
 
             sentinel = destination / "sentinel.txt"
             sentinel.write_text("keep", encoding="utf-8")
             with self.assertRaises(FileExistsError):
                 package(destination)
             self.assertEqual(sentinel.read_text(encoding="utf-8"), "keep")
+
+    def test_skill_and_plugin_runtime_bytes_match(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            skill = Path(temporary) / "skill" / PLUGIN_NAME
+            plugin = Path(temporary) / "plugin" / PLUGIN_NAME
+            package(skill, package_format="skill")
+            package(plugin, package_format="plugin")
+            plugin_skill = plugin / "skills" / PLUGIN_NAME
+            skill_files = {
+                path.relative_to(skill).as_posix()
+                for path in skill.rglob("*")
+                if path.is_file()
+            }
+            plugin_files = {
+                path.relative_to(plugin_skill).as_posix()
+                for path in plugin_skill.rglob("*")
+                if path.is_file()
+            }
+            self.assertEqual(skill_files, plugin_files)
+            for name in sorted(skill_files):
+                self.assertEqual((skill / name).read_bytes(), (plugin_skill / name).read_bytes(), name)
 
     def test_explicit_trusted_snapshot_preserves_source_and_fixture_bytes(self) -> None:
         with tempfile.TemporaryDirectory() as temporary:
