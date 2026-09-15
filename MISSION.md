@@ -5,8 +5,9 @@ overall: NOT VERIFIED
 
 ## Goal / Definition of Done
 
-Keep PR https://github.com/byensitmagnus/agent-mission-control/pull/6 consistent.
-Engineering checks must pass. Do not start homemade subject-run farms.
+Keep PR https://github.com/byensitmagnus/agent-mission-control/pull/6 consistent
+with the north star in `.claude/GOAL.md`: the best portable-skill repo in its
+class. Engineering checks must pass. Do not start homemade subject-run farms.
 Behavior, price and speed remain NOT VERIFIED. Do not merge or release.
 
 ## Base and candidate
@@ -44,6 +45,7 @@ configuration, daemons, new services and new AMC subject-run batches.
 | Runtime kernel and templates | Lead | yes | completed | PASS | `SKILL.md`, `references/`, `templates/` |
 | Docs, field state and postmortem | Lead | yes | completed | PASS | `docs/`, `README.md`, `evals/candidate.9/README.md` |
 | Cost-aware delegation, profiles and D-grade field table | Lead | yes | completed | PASS | `references/resources.md`, `examples/profiles.md`, `evals/decision_kernel.py` |
+| Repo front door, docs map and agent instructions | Lead | yes | completed | PASS | `README.md`, `docs/README.md`, `AGENTS.md`, `.claude/GOAL.md` |
 | Open PR against main | Lead | yes | completed | PASS | https://github.com/byensitmagnus/agent-mission-control/pull/6 |
 | Three-arm comparison | Lead | no | superseded | NOT VERIFIED | superseded: farm closed; conclusion in postmortem |
 
@@ -69,4 +71,4 @@ delegation layer for this PR is in; stop the orchestrator-research round.
 
 ## Last verified
 
-Commit/snapshot: PR #6 `codex/unified-amc-kernel` on base `c49dc1be2e334091f6c841047ff2ad778b7bde84`. UTC timestamp: 2026-09-15T08:25:15Z.
+Commit/snapshot: PR #6 `codex/unified-amc-kernel` on base `c49dc1be2e334091f6c841047ff2ad778b7bde84`. UTC timestamp: 2026-09-15T08:30:23Z.

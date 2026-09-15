@@ -1,6 +1,7 @@
 # Build and check AMC
 
 For using the skill, start with [the setup guide](getting-started.md).
+The folder map is [README.md](README.md).
 The repository root is the canonical skill source. The Python utilities below
 are development tools; users of a ready-made skill ZIP do not need Python.
 

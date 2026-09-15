@@ -2,7 +2,7 @@
 
 ## Reporting a vulnerability
 
-GitHub private vulnerability reporting is currently unavailable for this repository (observed 2026-09-11). Do not open a public issue containing credentials, private prompts, customer data, or details that would make an active vulnerability easier to exploit.
+GitHub private vulnerability reporting is currently unavailable for this repository (rechecked 2026-09-15; API `enabled: false`). Do not open a public issue containing credentials, private prompts, customer data, or details that would make an active vulnerability easier to exploit.
 
 If you find a vulnerability, open a public issue only to request a private contact channel and include zero vulnerability details. Wait for the maintainer to provide a private channel before sharing the affected instruction or workflow, realistic impact, or smallest safe reproduction. Do not infer a response-time commitment.
 

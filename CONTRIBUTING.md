@@ -3,10 +3,8 @@
 Tie changes to a concrete bug, documented compatibility requirement, explicit
 product requirement or identified primary-source design principle. Record the
 relevant evidence and its limits. Do not copy an upstream benchmark percentage
-into an AMC performance claim. The [research basis](docs/research-basis.md) maps
-current decisions to sources and distinguishes experiments from recommendations.
-[Field state](docs/field-state.md) grades those sources A–E and compares
-mechanisms across product classes.
+into an AMC performance claim. Start from [field state](docs/field-state.md);
+the [research basis](docs/research-basis.md) is the longer archived review.
 
 ## Normal engineering acceptance
 

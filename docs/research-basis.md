@@ -1,5 +1,9 @@
 # Research basis for Agent Mission Control
 
+Start with the current map: [field state](field-state.md) (grades A–E,
+mechanism comparison, corrected claims). This file is the longer 2026-09-13
+whole-repo review. It is not a second source of truth.
+
 Agent Mission Control should remain a small, adaptive orchestration skill that
 uses native host tools. Its useful responsibilities are choosing work, assigning
 sufficient context and capability, preserving progress, and requiring evidence
