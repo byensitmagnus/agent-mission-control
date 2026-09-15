@@ -44,4 +44,5 @@ Candidate.9 had **no holdout correctness regression** and **no unique
 correctness or safety win**. On holdout it used more wall time and more total
 input tokens than direct and candidate.8; uncached input was similar. General
 price/speed superiority remains NOT VERIFIED. These nine runs are not a
-statistical comparison. Audit notify-429 is not a valid hidden contract.
+statistical comparison and are **not a program to extend**. Audit notify-429
+is not a valid hidden contract.

@@ -6,8 +6,8 @@ overall: NOT VERIFIED
 ## Goal / Definition of Done
 
 Keep PR https://github.com/byensitmagnus/agent-mission-control/pull/6 consistent.
-Engineering checks must pass. Behavior, price and speed remain NOT VERIFIED.
-Do not merge or release.
+Engineering checks must pass. Do not start homemade subject-run farms.
+Behavior, price and speed remain NOT VERIFIED. Do not merge or release.
 
 ## Base and candidate
 
@@ -25,15 +25,15 @@ Candidate: `0.2.0-candidate.9`, PR source, not merged, no release ZIP.
 | Optional profiles not frozen to named models | PASS | `scripts/validate.py` Codex rules |
 | Compact live mission | PASS | this file; `docs/history/through-candidate.8.md` |
 | Public review record | PASS | `docs/reviews/candidate.9-falsification.md`; `docs/reviews/candidate.9-working-tree.md` |
-| Holdout correctness vs direct | PASS | all three arms hidden PASS; [results](evals/candidate.9/comparison/results/README.md) |
-| Behavioral superiority vs direct work | NOT VERIFIED | nine Codex runs; candidate.9 had no unique win and used more holdout time/tokens |
+| Homemade subject-farm closed | PASS | [CONTRIBUTING](CONTRIBUTING.md); comparison marked closed |
+| Behavioral superiority vs direct work | NOT VERIFIED | in-house farms rejected; nine Codex runs are a closed record, not a program |
 
 ## Authority
 
-Authorized: local edits, tests, offline packages, one read-only review, push to
+Authorized: local docs/policy edits, engineering tests, offline packages, push to
 PR #6.
 Forbidden: merge, release, installation, publication, global skills, host
-configuration, daemons and new services.
+configuration, daemons, new services and new AMC subject-run batches.
 
 ## Jobs
 
@@ -43,16 +43,16 @@ configuration, daemons and new services.
 | Runtime kernel and templates | Lead | yes | completed | PASS | `SKILL.md`, `references/`, `templates/` |
 | Docs and public review record | Lead | yes | completed | PASS | `docs/`, `README.md` |
 | Open PR against main | Lead | yes | completed | PASS | https://github.com/byensitmagnus/agent-mission-control/pull/6 |
-| Three-arm comparison | Lead | yes | completed | PASS | `evals/candidate.9/comparison/`; nine subject runs |
+| Three-arm comparison | Lead | no | superseded | NOT VERIFIED | superseded: homemade farm closed; nine runs kept as a record only |
 
 ## Decisions and evidence
 
 Engineering integrity is separate from agent quality. The 16 common AMC runtime
 files are byte-identical in skill and plugin packages; ZIP archives are not.
-Nine Codex 0.153.3 / Sol / medium runs are bound in
-`evals/candidate.9/comparison/results/`. Superpowers plugin contamination was
-present on every arm. Candidate.9 is not claimed better than direct work.
-Historical `c9-01` remains a failed hidden False pair from another commit.
+Nine Codex runs remain in `evals/candidate.9/comparison/results/` as a closed
+record. They are not a research program to extend. Further kernel changes cite
+host docs, published research, other public repos or known practitioner
+guidance. Historical `c9-01` remains a failed hidden False pair.
 
 ## Blockers
 
@@ -60,8 +60,8 @@ None.
 
 ## Next action
 
-Do not merge or release. Keep overall NOT VERIFIED for product behavior.
+Do not add subject-run batches. Do not merge or release.
 
 ## Last verified
 
-Commit/snapshot: PR #6 `codex/unified-amc-kernel` on base `c49dc1be2e334091f6c841047ff2ad778b7bde84`. UTC timestamp: 2026-09-14T16:10:00Z.
+Commit/snapshot: PR #6 `codex/unified-amc-kernel` on base `c49dc1be2e334091f6c841047ff2ad778b7bde84`. UTC timestamp: 2026-09-15T06:50:00Z.

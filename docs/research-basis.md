@@ -197,10 +197,12 @@ portable skill or implement a billing system from incomplete local counters.
 
 **AMC decision:** routine progress comes from necessary real work and executable
 acceptance checks. Record confirmed defects, false alarms, regressions, repair
-and resource observations when useful. Do not create repeat runs merely to fill
-a model matrix. A future comparison needs a specific decision, frozen conditions,
-authorization and budget; a general superiority claim needs substantially more
-than these development examples.
+and resource observations when useful. Do not create an AMC-owned behavioral
+research program or repeat runs to fill a model matrix. A general superiority
+claim would need many runs across many issues; that budget is not available.
+Further kernel changes cite host docs, published research, other public
+repositories or known practitioner guidance. The nine Codex comparison runs
+remain a closed record, not a method to extend.
 
 ## Whole-project review and implemented changes
 

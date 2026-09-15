@@ -64,8 +64,10 @@ code; the runner is not a sandbox for untrusted submissions.
 
 Follow [CONTRIBUTING](../CONTRIBUTING.md). Justify a change with a reproducible bug,
 a product/compatibility need or a documented source principle. Review it and run
-the affected engineering checks. External research informs design; expensive
-model comparisons are not a routine contribution requirement.
+the affected engineering checks. Design from host docs, published research,
+other public repositories and known practitioner guidance. Do not add homemade
+subject-run farms. Expensive model comparisons are not a contribution
+requirement.
 
 [Research review](research-basis.md) · [Historical evaluations](../evals/README.md) ·
 [Security](../SECURITY.md)

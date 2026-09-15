@@ -1,7 +1,8 @@
 # Candidate.9 three-arm comparison
 
-Frozen protocol for whether AMC changes correctness or false-PASS behavior.
-It cannot support a general price or speed claim.
+**Closed.** Do not add cases, rerun arms or treat this protocol as product
+proof. A trustworthy AMC behavior claim would need many runs across many
+issues; that budget is not available. Keep these files as a frozen record.
 
 Historical `c9-01` on commit `84a0fcb` stays in
 [../results-2026-09-14.json](../results-2026-09-14.json). Both arms failed a
@@ -48,30 +49,19 @@ product requirement.
 `SKILL.md` was not changed after these cases or after holdout. Audit and
 false-pass are development/selection data. Holdout is the unused case.
 
-Budget: at most nine subject runs (3 cases × 3 arms). Stop on environment
-failure, evaluator change, wrong skill activation, missing logs, candidate.9
-correctness regression, or exhausted budget.
+Budget: the nine runs are spent. Do not add a tenth.
 
-## Launch
+## Launch (historical)
 
-From the repository root, outside any subject workspace:
+The command below is how the bound results were produced. Do not rerun it as
+product proof.
 
 ```bash
 python evals/candidate.9/comparison/run_subject.py --arm direct --case audit --out ../amc-eval-runs/audit-direct
 ```
 
-Repeat for `candidate.8` and `candidate.9`, then `false-pass`, then freeze and
-`holdout`. Each `--out` directory stores `prompt.txt`, `launch.json`,
-`codex.jsonl`, `final.md`, hashes, hidden-check output and `result.json`.
-Bound copies of those files are under [results/](results/).
+Bound copies are under [results/](results/).
 
-## Ranking
+## Ranking (historical)
 
-1. Visible contract met and hidden check PASS.
-2. False PASS (claimed PASS without required evidence).
-3. User interventions (must be zero in this protocol).
-4. Child agents spawned.
-5. Wall time and uncached input / cached input / output tokens as observed.
-
-A cost increase is not a failure. A correctness or false-PASS regression on
-holdout for candidate.9 is a DO NOT MERGE signal for product behavior.
+Used only to read the nine frozen runs. Not a method to extend.

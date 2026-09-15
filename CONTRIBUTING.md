@@ -24,9 +24,15 @@ without the corresponding authorization.
 Routine work uses task-specific tests and lightweight observations from necessary
 real tasks. Separate setup/research expense from task execution, but include both
 when describing total cost. Known cases remain regression data. Existing
-[behavioral evaluations](evals/README.md) remain historical evidence; run a new
-comparison only for an explicitly justified question and budget. No model runs
-are required by the ordinary contribution checks.
+[behavioral evaluations](evals/README.md) remain historical evidence.
+
+Do not start an AMC-owned behavioral research program. A trustworthy answer
+would need many runs across many issues; that budget is not available. Kernel
+changes must cite host documentation, published research, other public
+repositories or known practitioner guidance. Engineering checks and defects
+found on real commissioned work are allowed. Homemade subject-run farms, issue
+matrices and extra holdouts are not a product method. No model runs are
+required by the ordinary contribution checks.
 
 ## Outcome-driven skill learning
 
@@ -35,13 +41,9 @@ controlling skill during the mission it governs. Record useful failures without
 secrets, personal data or raw transcripts. With no replay budget, retain a scoped
 lesson proposal rather than calling it proven or launching training.
 
-For an empirical improvement claim, freeze the source, evaluation contract and
-comparable contexts. Separate development/selection data from final tests; a
-validation set repeatedly used to select edits is not an untouched final test.
-Inspect outputs and tool events, retain failed attempts, and reject material
-correctness, safety or routing regressions. Reuse a final test for selection and
-it becomes development data. Ties retain the incumbent. A fixed rubric supports
-inspection but is not a substitute for reliable ground truth or sufficient data.
+Do not claim empirical AMC superiority from in-house subject runs. Ties retain
+the incumbent. A fixed rubric supports inspection but is not a substitute for
+reliable ground truth or sufficient data.
 
 Adopt a reviewed candidate only within the current explicit authority and after
 checking its base identity. Preserve local customizations and a rollback source.

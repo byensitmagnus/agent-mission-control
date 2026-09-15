@@ -1,10 +1,10 @@
 # Candidate.9 bounded comparison protocol
 
-The product comparison is
-[comparison/README.md](comparison/README.md). Run subjects with
-`comparison/run_subject.py`. Hidden checks for `false-pass` and `holdout` are
-stated in the visible prompts. The audit notify `429` check is not; treat that
-case as development data, not product proof.
+The nine-run comparison is
+[comparison/README.md](comparison/README.md). **Closed.** Do not launch
+`run_subject.py` as product proof. Hidden checks for `false-pass` and `holdout`
+were stated in the visible prompts. The audit notify `429` check was not; that
+case is development data.
 
 ## Historical c9-01 (not product evidence)
 

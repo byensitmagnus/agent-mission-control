@@ -1,8 +1,9 @@
 # Code research priorities
 
-Reviewed 2026-09-13. These are research conclusions and proposed next checks,
-not implementation instructions, new AMC rules or claims of overall superiority.
-Recheck the source and obtain task authority before implementing a proposal.
+Reviewed 2026-09-13. These are research conclusions from inspected public
+sources, not an AMC-owned eval farm and not claims of overall superiority.
+Do not turn the “next check” notes into subject-run batches. Recheck the source
+and obtain task authority before implementing a proposal.
 Use this alongside the broader [implementation comparison](choosing.md).
 
 Two independent Luna researchers inspected AMC tooling and competitor mechanisms.

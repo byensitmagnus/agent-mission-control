@@ -28,10 +28,12 @@ packages. The ZIP archives have different structure and SHA256 hashes.
 ## Limits
 
 CI and local checks prove engineering integrity, not better agent behavior.
-The [comparison protocol](../evals/candidate.9/comparison/README.md) is the
-reproducible subject contract. Historical `c9-01` on `84a0fcb` remains
-development evidence: both arms failed a hidden False hyphen that the visible
-prompt did not state. Do not treat that pair as product proof.
+The [nine Codex runs](../evals/candidate.9/comparison/results/README.md) are a
+closed record. Do not extend that protocol. Historical `c9-01` on `84a0fcb`
+remains development evidence: both arms failed a hidden False hyphen that the
+visible prompt did not state. Do not treat that pair as product proof.
+Further kernel changes cite host docs, published research, other public
+repositories or known practitioner guidance.
 
 The validator tests Markdown contract consistency. It cannot prove that
 natural-language evidence is true or that the named artifact equals git HEAD.
@@ -45,4 +47,4 @@ Nine Codex comparison runs are bound in
 [comparison results](../evals/candidate.9/comparison/results/README.md).
 Candidate.9 had no holdout correctness regression and no unique win. The audit
 notify-429 hidden check was not named in the visible prompt; it is development
-data, not product proof.
+data, not product proof. The method is closed: no new subject-run batches.

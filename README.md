@@ -94,7 +94,7 @@ This is an output example, not a measured run.
 | **candidate.4** | Earlier published skill and plugin ZIPs. | Package checks and a bounded Windows CLI skill-selection/first-use check for that version. |
 | **candidate.7** | Retained review-ownership experiment; not a release download. | One controlled repair comparison: both versions passed 19 checks; candidate.7 also arranged independent acceptance review. |
 | **candidate.8** | Current prerelease skill/plugin ZIPs; tagged source adds five-host install/check/update CLI and repaired evaluation/accounting tools. Runtime instructions match candidate.7. | [Engineering checks and native host observations](docs/engineering-candidate.8.md); complete cross-host work remains unverified. |
-| **candidate.9** | Open PR source ([#6](https://github.com/byensitmagnus/agent-mission-control/pull/6)); not merged; no release ZIP. | Engineering checks PASS. Nine matched Codex runs: no unique correctness win; holdout slower/heavier. Audit notify-429 is not product evidence. Quality, time and price remain NOT VERIFIED. [Comparison results](evals/candidate.9/comparison/results/README.md). |
+| **candidate.9** | Open PR source ([#6](https://github.com/byensitmagnus/agent-mission-control/pull/6)); not merged; no release ZIP. | Engineering checks PASS. Nine Codex runs are a [closed record](evals/candidate.9/comparison/results/README.md), not a farm to extend. Quality, time and price remain NOT VERIFIED. |
 
 **General improvements in cost, speed, quality or user effort are not established.**
 The [evidence guide](docs/evidence.md) explains what each check covers, host
