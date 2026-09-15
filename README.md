@@ -18,7 +18,6 @@
 
 <p align="center">
   <a href="https://github.com/byensitmagnus/agent-mission-control/actions/workflows/validate.yml"><img src="https://github.com/byensitmagnus/agent-mission-control/actions/workflows/validate.yml/badge.svg?branch=main" alt="Public main engineering checks" /></a>
-  <a href="https://github.com/byensitmagnus/agent-mission-control/releases/tag/v0.2.0-candidate.8"><img src="https://img.shields.io/badge/download-candidate.8-2c568c" alt="Published download: candidate.8" /></a>
   <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-2c568c" alt="MIT license" /></a>
 </p>
 
@@ -44,10 +43,9 @@ actually run.
 
 ## Start in your project
 
-1. **Install the project skill** from the
-   [published ZIP](https://github.com/byensitmagnus/agent-mission-control/releases/download/v0.2.0-candidate.8/agent-mission-control-skill.zip)
-   using the [setup guide](docs/getting-started.md#1-install-the-skill). That is
-   **candidate.8**. Five-host checked install and update live in
+1. **Install the project skill** from
+   [current `main`](docs/getting-started.md#1-install-the-skill). Five-host
+   checked install and update live in
    [hosts.md](docs/hosts.md#install-the-current-source).
 2. **Select the project copy** with your
    [host command](docs/getting-started.md#2-select-the-installed-copy). Keep your
@@ -90,10 +88,9 @@ This is an output example, not a measured run.
 
 ## Versions
 
-**Use now:** [candidate.8](https://github.com/byensitmagnus/agent-mission-control/releases/tag/v0.2.0-candidate.8)
-skill and plugin ZIPs, with checksums.
-**Next source:** [PR #6](https://github.com/byensitmagnus/agent-mission-control/pull/6)
-unified kernel — not merged, not a quality or price claim.
+**Use now:** GitHub `main` — current kernel, no tagged ZIP yet.
+**Last tagged package:** [candidate.8](https://github.com/byensitmagnus/agent-mission-control/releases/tag/v0.2.0-candidate.8)
+skill and plugin ZIPs (older runtime).
 
 What each check actually covers is in the [evidence guide](docs/evidence.md).
 General gains in cost, speed or quality are **not established**. The CI badge

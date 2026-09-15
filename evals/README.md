@@ -1,8 +1,8 @@
 # Current engineering validation
 
-[Candidate.9](../docs/engineering-candidate.9.md) is open PR source
-([#6](https://github.com/byensitmagnus/agent-mission-control/pull/6)), not a
-release. Its [nine Codex runs](candidate.9/README.md) are a
+[Candidate.9](../docs/engineering-candidate.9.md) is current `main` source
+(PR [#6](https://github.com/byensitmagnus/agent-mission-control/pull/6) merged).
+It is not a tagged release. Its [nine Codex runs](candidate.9/README.md) are a
 **closed postmortem**. Do not add cases or rerun them as product proof. AMC does
 not run an owned behavioral research program; design cites host docs, published
 research, other public repos and known practitioner guidance.

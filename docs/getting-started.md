@@ -10,14 +10,26 @@ No extra API key or server.
 
 ## 1. Install the skill
 
-Download
-[agent-mission-control-skill.zip](https://github.com/byensitmagnus/agent-mission-control/releases/download/v0.2.0-candidate.8/agent-mission-control-skill.zip)
-from [candidate.8](https://github.com/byensitmagnus/agent-mission-control/releases/tag/v0.2.0-candidate.8).
-Use that asset, not GitHub’s automatic “Source code” download. Check it against
-`SHA256SUMS.txt` on the same release.
+Install the **current `main` source**. That is the kernel this site describes.
+The last tagged ZIP is [candidate.8](https://github.com/byensitmagnus/agent-mission-control/releases/tag/v0.2.0-candidate.8); it is an older runtime.
 
-Unzip and move the `agent-mission-control` folder into the skill directory for
-your host:
+**Checked path** (Git and Python 3.11+). Clone this repository, then install
+into an existing project:
+
+```bash
+git clone https://github.com/byensitmagnus/agent-mission-control.git
+cd agent-mission-control
+python scripts/install_skill.py --host claude-code --project "../my-app"
+```
+
+Replace `claude-code` with `codex`, `cursor`, `grok` or `kimi`. Details:
+[hosts.md](hosts.md#install-the-current-source).
+
+**Copy path** (no Python). Clone or download the default branch. Copy these
+runtime files into the skill directory for your host, keeping the folder name
+`agent-mission-control`:
+
+`SKILL.md`, `LICENSE`, `references/`, `templates/`, `agents/`, `assets/`
 
 | Host | Project directory |
 |---|---|
@@ -33,32 +45,23 @@ The file that must exist:
 your-project/<host-skills-dir>/agent-mission-control/SKILL.md
 ```
 
-Keep `references/`, `templates/`, `agents/`, `assets/` and `LICENSE` beside
-`SKILL.md`. Copying only `SKILL.md` breaks the skill. The `.agents` (or similar)
-folder may be hidden in the file manager.
+Copying only `SKILL.md` breaks the skill. Dot-folders may be hidden.
 
-**Codex can do the files.** Open the project and paste:
+**Codex can do the files.** Open the target project and paste:
 
 ```text
-Install Agent Mission Control v0.2.0-candidate.8 in this project only.
+Install Agent Mission Control from
+https://github.com/byensitmagnus/agent-mission-control
+into this project only. Use the default branch, not a tagged ZIP.
 
-Use the skill ZIP and SHA256SUMS.txt from:
-https://github.com/byensitmagnus/agent-mission-control/releases/tag/v0.2.0-candidate.8
-
-Check the ZIP against the listed SHA-256 checksum. Extract the
-agent-mission-control folder into .agents/skills/ in this project.
-Inspect the package first. Preserve any existing installation or customizations;
-if one exists, show the difference before replacing it.
-Do not change global settings, model defaults or permissions.
+Copy SKILL.md, LICENSE, references, templates, agents and assets into
+.agents/skills/agent-mission-control/. Inspect first. Preserve any existing
+installation or customizations; if one exists, show the difference before
+replacing it. Do not change global settings, model defaults or permissions.
 Confirm the installed SKILL.md path. Help me select that project copy,
 especially if another skill has the same name.
 ```
 
-Need a byte-checked install, update or backup? Use the
-[five-host installer](hosts.md#install-the-current-source). That CLI lives in
-the source repo, not in the ZIP.
-This ZIP is **candidate.8**. [PR #6](https://github.com/byensitmagnus/agent-mission-control/pull/6)
-is the next kernel, not a published package.
 [Version details](evidence.md#choose-a-version-deliberately).
 
 ## 2. Select the installed copy
@@ -121,7 +124,7 @@ That does not change global model settings.
 
 **Astra or extra models?** No. Keep your selected lead.
 **Always spawn agents?** No. Delegate only for independent work.
-**Plugin ZIP?** Same skill, marketplace-dependent. Prefer the skill ZIP.
+**Tagged plugin ZIP?** Last tag is candidate.8, an older runtime. Prefer current source.
 **Update?** [Checked update with a retained backup](hosts.md#update-an-existing-project-installation).
 
 [How it works](how-it-works.md) · [Hosts](hosts.md) ·

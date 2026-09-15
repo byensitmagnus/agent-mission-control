@@ -10,7 +10,7 @@ packaging or checks.
 Hard rules for agents working here:
 
 1. Keep the smallest honest workflow. Do not add a second orchestrator.
-2. Do not merge, release, globally install or change host config without an
+2. Do not release, globally install or change host config without an
    explicit mandate in the current session.
 3. Do not start homemade subject-run farms. Engineering checks and defects on
    real commissioned work are allowed.

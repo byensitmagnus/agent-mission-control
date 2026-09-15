@@ -5,16 +5,15 @@ overall: NOT VERIFIED
 
 ## Goal / Definition of Done
 
-Keep PR https://github.com/byensitmagnus/agent-mission-control/pull/6 consistent
-with the north star in `.claude/GOAL.md`: the best portable-skill repo in its
-class. Engineering checks must pass. Do not start homemade subject-run farms.
-Behavior, price and speed remain NOT VERIFIED. Do not merge or release.
+North star: `.claude/GOAL.md`. Public `main` holds the current kernel. Install
+matches that kernel. Engineering checks pass. No homemade subject-run farms.
+Behavior, price and speed remain NOT VERIFIED. No new GitHub release in this round.
 
 ## Base and candidate
 
-Current artifact: PR #6 `codex/unified-amc-kernel` on base `c49dc1be2e334091f6c841047ff2ad778b7bde84`
-Base: GitHub `main` / published `v0.2.0-candidate.8`.
-Candidate: `0.2.0-candidate.9`, PR source, not merged, no release ZIP.
+Current artifact: GitHub `main` after PR https://github.com/byensitmagnus/agent-mission-control/pull/6
+Previous published ZIP: `v0.2.0-candidate.8` (older runtime).
+Candidate.9: `main` source, no tagged ZIP.
 
 ## Hard gates
 
@@ -28,14 +27,14 @@ Candidate: `0.2.0-candidate.9`, PR source, not merged, no release ZIP.
 | Same-lead engineering notes | PASS | `docs/reviews/`; not independent public review |
 | Homemade subject-farm closed | PASS | [postmortem](evals/candidate.9/README.md); raw JSONL removed |
 | Field-state evidence model | PASS | [field-state.md](docs/field-state.md) grades A–E |
+| Install matches current source | PASS | `docs/getting-started.md` installs `main`, not the candidate.8 ZIP |
 | Behavioral superiority vs direct work | NOT VERIFIED | nine Codex runs: no unique win; contaminated Superpowers plugin |
 
 ## Authority
 
-Authorized: local docs/policy edits, engineering tests, offline packages, push to
-PR #6.
-Forbidden: merge, release, installation, publication, global skills, host
-configuration, daemons, new services and new AMC subject-run batches.
+Authorized this session: merge PR #6 to `main`.
+Forbidden: new GitHub release, global install, host-config change, daemons,
+new services and new AMC subject-run batches.
 
 ## Jobs
 
@@ -48,6 +47,7 @@ configuration, daemons, new services and new AMC subject-run batches.
 | Repo front door, docs map and agent instructions | Lead | yes | completed | PASS | `README.md`, `docs/README.md`, `AGENTS.md`, `.claude/GOAL.md` |
 | User path install → first task | Lead | yes | completed | PASS | `docs/getting-started.md` |
 | Open PR against main | Lead | yes | completed | PASS | https://github.com/byensitmagnus/agent-mission-control/pull/6 |
+| Merge PR #6 | Lead | yes | running | NOT VERIFIED | `main` |
 | Three-arm comparison | Lead | no | superseded | NOT VERIFIED | superseded: farm closed; conclusion in postmortem |
 
 ## Decisions and evidence
@@ -60,6 +60,7 @@ graded sources in `docs/field-state.md`. Historical `c9-01` remains a failed
 hidden False pair. Direct-first is a cautious sequential default, not a natural
 law. Skills and MCP are complementary. Strong-lead plus cheaper-worker is an
 optional graph under the cost-aware preflight, not AMC's identity.
+Install from `main`. The candidate.8 ZIP remains the last tagged package.
 
 ## Blockers
 
@@ -67,8 +68,8 @@ None.
 
 ## Next action
 
-Do not add subject-run batches. Do not merge or release.
+Merge PR #6. Do not cut a GitHub release.
 
 ## Last verified
 
-Commit/snapshot: PR #6 `codex/unified-amc-kernel` on base `c49dc1be2e334091f6c841047ff2ad778b7bde84`. UTC timestamp: 2026-09-15T08:59:23Z.
+Commit/snapshot: PR #6 `codex/unified-amc-kernel` on base `c49dc1be2e334091f6c841047ff2ad778b7bde84`. UTC timestamp: 2026-09-15T13:27:09Z.

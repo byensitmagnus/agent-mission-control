@@ -10,8 +10,8 @@ another orchestration tool or an assistant working directly.
 |---|---|---|
 | **v0.2.0-candidate.4** | [Earlier release](https://github.com/byensitmagnus/agent-mission-control/releases/tag/v0.2.0-candidate.4), with skill/plugin ZIPs and checksums. | Historical first-use evidence concerns this prerelease. |
 | **0.2.0-candidate.7** | Retained local experiment and runtime snapshot; no published release ZIP. | It adds verification guidance with a bounded review-ownership experiment. |
-| **v0.2.0-candidate.8** | [Current prerelease](https://github.com/byensitmagnus/agent-mission-control/releases/tag/v0.2.0-candidate.8), with skill/plugin ZIPs and checksums. | Same runtime as candidate.7. Tagged source adds five-host installation/checking/updating and repaired evaluation/accounting utilities; these scripts are separate from the runtime ZIPs. [Engineering evidence](engineering-candidate.8.md). |
-| **0.2.0-candidate.9** | Open PR source ([#6](https://github.com/byensitmagnus/agent-mission-control/pull/6)); not merged; no published ZIP. | Engineering PASS. Nine Codex runs kept as a [closed postmortem](../evals/candidate.9/README.md), not a research program. No unique correctness win. Behavior, cost and speed remain NOT VERIFIED. [Field state](field-state.md) grades sources A–E. |
+| **v0.2.0-candidate.8** | [Last tagged ZIP](https://github.com/byensitmagnus/agent-mission-control/releases/tag/v0.2.0-candidate.8), with skill/plugin checksums. | Older runtime. Tagged source added five-host installation/checking/updating. [Engineering evidence](engineering-candidate.8.md). |
+| **0.2.0-candidate.9** | Current GitHub `main` ([#6](https://github.com/byensitmagnus/agent-mission-control/pull/6) merged). No new tagged ZIP. | Unified kernel, cost-aware delegation, graded field state. Engineering PASS. Nine Codex runs kept as a [closed postmortem](../evals/candidate.9/README.md). Behavior, cost and speed remain NOT VERIFIED. [Field state](field-state.md). |
 
 The repository's CI badge describes current `main`, not every earlier release.
 Keep the release tag's source identity and archive checksum together.

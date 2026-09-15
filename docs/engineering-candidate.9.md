@@ -2,9 +2,8 @@
 
 Local engineering from GitHub `main`
 `c49dc1be2e334091f6c841047ff2ad778b7bde84` (`v0.2.0-candidate.8`).
-Branch `codex/unified-amc-kernel`. Open PR
-https://github.com/byensitmagnus/agent-mission-control/pull/6
-Candidate.9 is PR source, not merged, not released, not installed.
+Merged through PR https://github.com/byensitmagnus/agent-mission-control/pull/6.
+Candidate.9 is `main` source. No new GitHub release ZIP in this round.
 
 AMC remains one skill/plugin. Companion projects are design sources only.
 `evals/decision_kernel.py` is a regression test. It does not launch agents.
