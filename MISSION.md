@@ -32,7 +32,7 @@ Candidate.9: `main` source, no tagged ZIP.
 
 ## Authority
 
-Authorized this session: merge PR #6 to `main`.
+Authorized: local engineering and docs on `main`.
 Forbidden: new GitHub release, global install, host-config change, daemons,
 new services and new AMC subject-run batches.
 
@@ -47,7 +47,7 @@ new services and new AMC subject-run batches.
 | Repo front door, docs map and agent instructions | Lead | yes | completed | PASS | `README.md`, `docs/README.md`, `AGENTS.md`, `.claude/GOAL.md` |
 | User path install → first task | Lead | yes | completed | PASS | `docs/getting-started.md` |
 | Open PR against main | Lead | yes | completed | PASS | https://github.com/byensitmagnus/agent-mission-control/pull/6 |
-| Merge PR #6 | Lead | yes | running | NOT VERIFIED | `main` |
+| Merge PR #6 | Lead | yes | completed | PASS | `main` `1f4b676` |
 | Three-arm comparison | Lead | no | superseded | NOT VERIFIED | superseded: farm closed; conclusion in postmortem |
 
 ## Decisions and evidence
@@ -68,8 +68,8 @@ None.
 
 ## Next action
 
-Merge PR #6. Do not cut a GitHub release.
+Do not cut a GitHub release. Use AMC on commissioned work.
 
 ## Last verified
 
-Commit/snapshot: PR #6 `codex/unified-amc-kernel` on base `c49dc1be2e334091f6c841047ff2ad778b7bde84`. UTC timestamp: 2026-09-15T13:27:09Z.
+Commit/snapshot: `main` `1f4b676423608af44bf14c0b13f8e8c5ba776baa`. UTC timestamp: 2026-09-15T13:30:22Z.
