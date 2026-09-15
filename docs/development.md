@@ -69,6 +69,6 @@ other public repositories and known practitioner guidance. Do not add homemade
 subject-run farms. Expensive model comparisons are not a contribution
 requirement.
 
-[Research review](research-basis.md) · [Source audit](source-audit-2026-09-15.md) ·
+[Research review](research-basis.md) · [Field state](field-state.md) ·
 [Historical evaluations](../evals/README.md) ·
 [Security](../SECURITY.md)

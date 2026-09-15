@@ -32,11 +32,11 @@ Lead-executed after the table above was repaired. Same agent, not independent.
 
 - Validator contract-consistency only. Natural-language lies and omitted jobs
   can still produce overall PASS.
-- Superpowers plugin loaded on every comparison arm.
-- `user_interventions` is recorded as 0 by protocol, not by a host event parser.
-- Audit `hidden_hash` in launch files is the checker at run time
-  (`bbe2a1a3…`). Current `audit_check.py` is `a88545fa…` after adding Danish
-  `to gange` following the audit runs. Frozen launch hashes stay authoritative
-  for those runs.
-- Audit-direct `result.json` originally stored `children: 7` from an older
-  parser that counted Superpowers docs. Reparsed `children: 0` from `codex.jsonl`.
+- Superpowers plugin loaded on every comparison arm (see
+  [postmortem](../../evals/candidate.9/README.md)).
+- `user_interventions` was recorded as 0 by protocol, not by a host event parser.
+- Audit hidden originally required `429`, which the visible prompt did not name.
+  Frozen launch `hidden_hash` was `bbe2a1a3…`. The checker was later edited for
+  Danish `to gange`. Raw launch files were removed with the rest of the farm.
+- Audit-direct originally stored `children: 7` from an older parser that counted
+  Superpowers docs. Reparsed spawn items to `0`.

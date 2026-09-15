@@ -45,6 +45,6 @@ natural-language evidence is true or that the named artifact equals git HEAD.
   is not a schema property.
 - `evals/decision_kernel.py` is a JSON regression fixture, not runtime
   enforcement of agent behavior.
-- Bound comparison results are in
-  [comparison results](../../evals/candidate.9/comparison/results/README.md).
-  They are not a general quality, cost or speed claim.
+- Bound comparison results are summarized in
+  [candidate.9 postmortem](../../evals/candidate.9/README.md).
+  They are not a general quality, cost or speed claim. Raw JSONL was removed.

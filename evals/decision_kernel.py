@@ -64,6 +64,14 @@ def check(plan: dict[str, Any]) -> list[str]:
         if len(failures) > 2:
             _err(errors, f"{job['id']}: more than one retry is forbidden")
 
+    parallel_writers = [
+        job["id"]
+        for job in jobs
+        if job.get("parallel") and job.get("write_scope")
+    ]
+    if len(parallel_writers) >= 2 and not plan.get("host_isolation"):
+        _err(errors, "parallel writers need host isolation")
+
     optimization = plan.get("optimization")
     if optimization:
         if optimization.get("tie") and optimization.get("keep") != "incumbent":
@@ -271,6 +279,47 @@ CASES = [
             "wrote_observation": False,
         },
         "expect": ["must not auto-adopt"],
+    },
+    {
+        "id": "12-parallel-writers-no-isolation-fail",
+        "jobs": [
+            {
+                "id": "a",
+                "parallel": True,
+                "write_scope": "a.py",
+                "capability": "focused-general-worker",
+                "accept_check": {"declared": True, "kind": "executable"},
+            },
+            {
+                "id": "b",
+                "parallel": True,
+                "write_scope": "b.py",
+                "capability": "focused-general-worker",
+                "accept_check": {"declared": True, "kind": "executable"},
+            },
+        ],
+        "expect": ["parallel writers need host isolation"],
+    },
+    {
+        "id": "12-parallel-writers-with-isolation",
+        "host_isolation": "worktree",
+        "jobs": [
+            {
+                "id": "a",
+                "parallel": True,
+                "write_scope": "a.py",
+                "capability": "focused-general-worker",
+                "accept_check": {"declared": True, "kind": "executable"},
+            },
+            {
+                "id": "b",
+                "parallel": True,
+                "write_scope": "b.py",
+                "capability": "focused-general-worker",
+                "accept_check": {"declared": True, "kind": "executable"},
+            },
+        ],
+        "expect": [],
     },
 ]
 

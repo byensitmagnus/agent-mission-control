@@ -36,9 +36,9 @@ supports focused work and distilled returns. [Google's scaling study](https://re
 and the peer-reviewed [Kim et al. Nature Machine Intelligence paper](https://www.nature.com/articles/s42256-026-01268-y)
 limit the case for unconditional delegation. [OEO](https://arxiv.org/abs/2608.09629)
 provides qualified evidence for adapting procedure to optimizer capability, not
-removing external constraints. The 15 September 2026
-[source audit](../docs/source-audit-2026-09-15.md) records extra harness,
-collaboration-tax, METR, Superpowers, Spec Kit and host-doc checks. These inform
+removing external constraints. [Field state](../docs/field-state.md) grades
+those sources A–E and records extra harness, collaboration-tax, METR,
+Superpowers, Spec Kit, ADK, Agent Framework, LangGraph and host-doc checks. These inform
 AMC's design; no benchmark gains or universal model ranking transfer to this
 skill. The whole-project research report is repository development material,
 deliberately outside the installed runtime.

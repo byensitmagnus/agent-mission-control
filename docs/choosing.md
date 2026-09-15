@@ -76,14 +76,17 @@ must cite host docs, published research, other public repositories or known
 practitioner guidance. Engineering checks and defects on real commissioned work
 remain allowed. Do not add subject-run farms to close the gaps below.
 
-The source-aligned product priority is to keep coding work direct-first, and
-only add coordination where a source actually supports it (independent
-decomposable jobs, centralized verification of material claims, durable
-progress). A dashboard clone, more role files or a larger homemade test count
-would not by themselves demonstrate better delivered work. The
-[15 September 2026 source audit](source-audit-2026-09-15.md) maps every cited
-source, extra 2026 papers, host docs, Superpowers/Spec Kit/AO/CALO claims and
-harness trends onto that priority.
+The source-aligned product priority is a cautious sequential default for
+ordinary coding, plus coordination where a source actually supports it
+(independent decomposable jobs, centralized verification of material claims,
+durable progress, host isolation for parallel writers). A dashboard clone, more
+role files or a larger homemade test count would not by themselves demonstrate
+better delivered work. [Field state](field-state.md) maps those rules to graded
+sources and compares AMC with hosts, SDKs, frameworks, AO, CALO, Superpowers and
+Spec Kit by mechanism, not by brand.
+
+ADK, Microsoft Agent Framework and LangGraph are **frameworks**. They are not
+the same product class as this skill.
 
 [Reviewed code research priorities](research-priorities.md) add exact source
 anchors, counterevidence and the smallest next investigations. They distinguish

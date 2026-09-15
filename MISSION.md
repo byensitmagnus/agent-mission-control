@@ -24,9 +24,10 @@ Candidate: `0.2.0-candidate.9`, PR source, not merged, no release ZIP.
 | Blank templates vs examples | PASS | `templates/`; `examples/packets/` |
 | Optional profiles not frozen to named models | PASS | `scripts/validate.py` Codex rules |
 | Compact live mission | PASS | this file; `docs/history/through-candidate.8.md` |
-| Public review record | PASS | `docs/reviews/candidate.9-falsification.md`; `docs/reviews/candidate.9-working-tree.md`; `docs/source-audit-2026-09-15.md` |
-| Homemade subject-farm closed | PASS | [CONTRIBUTING](CONTRIBUTING.md); comparison marked closed |
-| Behavioral superiority vs direct work | NOT VERIFIED | in-house farms rejected; nine Codex runs are a closed record, not a program |
+| Same-lead engineering notes | PASS | `docs/reviews/`; not independent public review |
+| Homemade subject-farm closed | PASS | [postmortem](evals/candidate.9/README.md); raw JSONL removed |
+| Field-state evidence model | PASS | [field-state.md](docs/field-state.md) grades A–E |
+| Behavioral superiority vs direct work | NOT VERIFIED | nine Codex runs: no unique win; contaminated Superpowers plugin |
 
 ## Authority
 
@@ -41,18 +42,19 @@ configuration, daemons, new services and new AMC subject-run batches.
 |---|---|---|---|---|---|
 | Validator, plugin and PASS rules | Lead | yes | completed | PASS | `scripts/validate.py`, tests |
 | Runtime kernel and templates | Lead | yes | completed | PASS | `SKILL.md`, `references/`, `templates/` |
-| Docs and public review record | Lead | yes | completed | PASS | `docs/`, `README.md`, `docs/source-audit-2026-09-15.md` |
+| Docs, field state and postmortem | Lead | yes | completed | PASS | `docs/`, `README.md`, `evals/candidate.9/README.md` |
 | Open PR against main | Lead | yes | completed | PASS | https://github.com/byensitmagnus/agent-mission-control/pull/6 |
-| Three-arm comparison | Lead | no | superseded | NOT VERIFIED | superseded: homemade farm closed; nine runs kept as a record only |
+| Three-arm comparison | Lead | no | superseded | NOT VERIFIED | superseded: farm closed; conclusion in postmortem |
 
 ## Decisions and evidence
 
 Engineering integrity is separate from agent quality. The 16 common AMC runtime
 files are byte-identical in skill and plugin packages; ZIP archives are not.
-Nine Codex runs remain in `evals/candidate.9/comparison/results/` as a closed
-record. They are not a research program to extend. Further kernel changes cite
-host docs, published research, other public repos or known practitioner
-guidance. Historical `c9-01` remains a failed hidden False pair.
+The nine Codex runs are summarized in `evals/candidate.9/README.md`. Raw
+transcripts were removed; the negative conclusion is kept. Kernel changes cite
+graded sources in `docs/field-state.md`. Historical `c9-01` remains a failed
+hidden False pair. Direct-first is a cautious sequential default, not a natural
+law. Skills and MCP are complementary.
 
 ## Blockers
 
@@ -60,9 +62,8 @@ None.
 
 ## Next action
 
-Do not add subject-run batches. Do not merge or release. Source audit is in
-`docs/source-audit-2026-09-15.md`.
+Do not add subject-run batches. Do not merge or release.
 
 ## Last verified
 
-Commit/snapshot: PR #6 `codex/unified-amc-kernel` on base `c49dc1be2e334091f6c841047ff2ad778b7bde84`. UTC timestamp: 2026-09-15T07:20:00Z.
+Commit/snapshot: PR #6 `codex/unified-amc-kernel` on base `c49dc1be2e334091f6c841047ff2ad778b7bde84`. UTC timestamp: 2026-09-15T07:39:35Z.

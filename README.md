@@ -94,7 +94,7 @@ This is an output example, not a measured run.
 | **candidate.4** | Earlier published skill and plugin ZIPs. | Package checks and a bounded Windows CLI skill-selection/first-use check for that version. |
 | **candidate.7** | Retained review-ownership experiment; not a release download. | One controlled repair comparison: both versions passed 19 checks; candidate.7 also arranged independent acceptance review. |
 | **candidate.8** | Current prerelease skill/plugin ZIPs; tagged source adds five-host install/check/update CLI and repaired evaluation/accounting tools. Runtime instructions match candidate.7. | [Engineering checks and native host observations](docs/engineering-candidate.8.md); complete cross-host work remains unverified. |
-| **candidate.9** | Open PR source ([#6](https://github.com/byensitmagnus/agent-mission-control/pull/6)); not merged; no release ZIP. | Engineering checks PASS. Nine Codex runs are a [closed record](evals/candidate.9/comparison/results/README.md), not a farm to extend. Quality, time and price remain NOT VERIFIED. |
+| **candidate.9** | Open PR source ([#6](https://github.com/byensitmagnus/agent-mission-control/pull/6)); not merged; no release ZIP. | Engineering checks PASS. Nine Codex runs are a [closed postmortem](evals/candidate.9/README.md), not a farm to extend. Quality, time and price remain NOT VERIFIED. |
 
 **General improvements in cost, speed, quality or user effort are not established.**
 The [evidence guide](docs/evidence.md) explains what each check covers, host
@@ -119,7 +119,8 @@ workspace UI. A model profile fits when you want explicit role/model presets.
 | Give the agent a useful task | [Task recipes and expected delivery](docs/task-guide.md) |
 | Understand delegation, review and recovery | [How it works](docs/how-it-works.md) |
 | Choose optional role/model settings | [Advanced Codex profile](examples/codex/README.md) |
-| Inspect results or contribute a change | [Evidence](docs/evidence.md) · [Development](docs/development.md) · [Contributing](CONTRIBUTING.md) |
+| Inspect sources, grades and other systems | [Field state](docs/field-state.md) · [Sources](docs/sources.md) · [Evidence](docs/evidence.md) |
+| Inspect results or contribute a change | [Development](docs/development.md) · [Contributing](CONTRIBUTING.md) |
 | Continue evidence-led improvement work | [Reviewed code research and next checks](docs/research-priorities.md) |
 
 ## Built in the open
@@ -127,8 +128,8 @@ workspace UI. A model profile fits when you want explicit role/model presets.
 AMC draws on Context Diamond, AVO, SkillOpt, practical orchestrators and lab
 research. [Source attribution and pinned references](docs/sources.md) explain
 what we adapt; the [research review](docs/research-basis.md) records the reasoning;
-the [15 September 2026 source audit](docs/source-audit-2026-09-15.md) checks those
-citations against extra papers, other repos and current trends.
+the [field-state review](docs/field-state.md) grades sources and compares
+mechanisms across product classes.
 These sources are not extra installations or endorsements.
 
 Try a useful task and [share what happened](https://github.com/byensitmagnus/agent-mission-control/issues/new?template=experience.yml).

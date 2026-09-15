@@ -16,12 +16,12 @@ competent development or saves money across tasks.
 ## Evidence and its limits
 
 Primary publications and current platform documentation were checked on
-2026-09-13. A later independent review on 2026-09-14 noted that the Google
+2026-09-13. A later same-lead note on 2026-09-14 recorded that the Google
 [HTML paper](https://arxiv.org/html/2512.08296) v3 reports 260 configs and 6
 benchmarks, including a 20-instance SWE-bench Verified subset where every MAS
-topology was negative versus SAS. On 2026-09-15 a [source audit](source-audit-2026-09-15.md)
-re-read those citations, added the peer-reviewed Nature paper, extra 2026
-harness/collaboration sources, host docs, other repos and trends. AMC still does
+topology was negative versus SAS. On 2026-09-15 [field state](field-state.md)
+re-graded those citations A–E, added ADK, Agent Framework, LangGraph, Agents
+SDKs, the peer-reviewed Nature paper, and corrected overclaims. AMC still does
 not treat those numbers as a coding-host guarantee. A paper's measured outcome, a vendor's engineering
 recommendation and AMC's implementation choice are different kinds of evidence. None is silently
 promoted to another. Historical local cases are useful regressions, not a random
@@ -141,8 +141,10 @@ an automatic change to installed settings.
 ### Verification, learning and adaptive procedure
 
 [Anthropic's evaluator-optimizer guidance](https://www.anthropic.com/engineering/building-effective-agents)
-conditions refinement on useful evaluation criteria and feedback. Its patterns
-are composable, not a compulsory sequence. An [ACL 2024 error-localization study](https://aclanthology.org/2024.findings-acl.826/)
+conditions refinement on useful evaluation criteria and feedback. The same
+article documents **orchestrator-workers** for complex tasks whose subtasks
+cannot be predicted in advance, including multi-file coding. Those patterns
+are composable, not a compulsory sequence, and not a default AMC team. An [ACL 2024 error-localization study](https://aclanthology.org/2024.findings-acl.826/)
 distinguishes locating a reasoning error from repairing one when its location
 is supplied. The older tasks/models do not establish current model limits, but
 reinforce why a confident critique is weaker evidence than a reproducible failure.
@@ -285,8 +287,8 @@ not comparative model results. The candidate remains local and uninstalled.
 
 ## Source record
 
-Sources were accessed on 2026-09-13, with a follow-up audit on 2026-09-15
-([source audit](source-audit-2026-09-15.md)). Primary empirical work above is identified by
+Sources were accessed on 2026-09-13, with a follow-up field-state pass on 2026-09-15
+([field state](field-state.md)). Primary empirical work above is identified by
 version/date where available: NVIDIA AVO v1 (2026-03-25), NVIDIA ARC blog
 (2026-08-21), SkillOpt v2 (2026-05-25), OEO v1 (2026-08-10), Google scaling report
 (2026-01-28) and its Nature Machine Intelligence version (2026), RouteLLM (2024), ACL error-localization paper (2024), and AI Agents
