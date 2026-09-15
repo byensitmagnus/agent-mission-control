@@ -1,9 +1,15 @@
 # Code research priorities
 
-Reviewed 2026-09-13. These are research conclusions and proposed next checks,
-not implementation instructions, new AMC rules or claims of overall superiority.
-Recheck the source and obtain task authority before implementing a proposal.
-Use this alongside the broader [implementation comparison](choosing.md).
+Reviewed 2026-09-13. The 2026-09-15 cost-aware delegation pass is closed; do
+not start another orchestrator-repo research round without a new mandate.
+These are research conclusions from inspected public
+sources, not an AMC-owned eval farm and not claims of overall superiority.
+Do not turn the “next check” notes into subject-run batches. Recheck the source
+and obtain task authority before implementing a proposal.
+Use this alongside the broader [implementation comparison](choosing.md)
+and the [field-state review](field-state.md).
+Superpowers, Spec Kit, mini-SWE-agent and host worktrees/VMs are contrast
+sources in that review, not AMC dependencies.
 
 Two independent Luna researchers inspected AMC tooling and competitor mechanisms.
 The controller checked retained anchors, counterevidence and priorities. No

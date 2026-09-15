@@ -1,10 +1,13 @@
 # Optional Codex profile
 
 The portable skill keeps the selected lead and needs no particular provider or
-model. This opt-in example uses Sol/medium for scope, architecture, integration
-and final evidence. Generic children use Luna/medium for narrow, repeatable jobs;
-named roles use the capability and effort shown below. These are starting points
-from current host guidance, not a benchmark-proven optimum.
+model. Validator checks for this example are format, sandbox limits and internal
+consistency. They do not require Astra, Sol, Luna, Terra, four roles or three
+threads. This opt-in example is one possible `balanced` mapping from the
+[intent profiles](../profiles.md). It uses Sol/medium for scope, architecture,
+integration and final evidence. Generic children use Luna/medium for narrow,
+repeatable jobs; named roles use the capability and effort shown below. These
+are starting points from current host guidance, not a benchmark-proven optimum.
 
 | Responsibility | Example model | Scope |
 |---|---|---|

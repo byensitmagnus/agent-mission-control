@@ -1,55 +1,51 @@
 schema_version: 1
 overall: NOT VERIFIED
 
-# Mission View — populated example, copy and adapt before a real run
+# Mission View — blank template. Copy and fill. No live claims.
 
 ## Goal / Definition of Done
 
-Fix the disposable transport deadline check; preserve retry semantics. Done
-means before/equal/after boundary checks pass with independent review.
+State the objective and the checks that would make it done. This file starts as
+NOT VERIFIED and contains no case facts.
 
 ## Base and candidate
 
-Base: NOT VERIFIED; root must capture HEAD and workspace snapshot before edits.
-Candidate: 1, parent is the captured baseline; hypothesis: strict deadline
-comparison rejects expired work without changing retry behavior. Maximum: 2.
+Current artifact: NOT VERIFIED
+Base: NOT VERIFIED until a recoverable snapshot exists.
+Candidate: none.
 
 ## Hard gates
 
 | Gate | Status | Evidence |
 |---|---|---|
-| Deadline behavior | NOT VERIFIED | No executed boundary check |
-| Retry behavior preserved | NOT VERIFIED | No executed regression check |
-| Independent review | NOT VERIFIED | No packet received |
-| Root runtime verification | NOT VERIFIED | No current artifact |
+| Required acceptance check | NOT VERIFIED | No executed check yet |
 
 ## Authority
 
-Authorized: read and edit disposable fixture files; run local checks.
-Forbidden: external mutations, credentials, push, deploy and destructive work.
-Evaluator and authority belong to root; workers cannot change them.
+Authorized: only the user's current task scope.
+Forbidden: credentials, push, deploy, destructive work and new authority.
 
 ## Jobs
 
-| Job | Agent | Status | Owned scope |
-|---|---|---|---|
-| Deadline investigation | Unassigned | queued | Read-only transport.py |
-| Retry investigation | Unassigned | queued | Read-only retry.py |
-| Implementation and integration | Root | queued | transport.py and local checks, after architecture decision |
-| Independent review | Unassigned | queued | Read-only candidate |
+| Job | Agent | Required | Lifecycle | Verdict | Owned scope |
+|---|---|---|---|---|---|
+| Required work | Lead | yes | queued | NOT VERIFIED | Named owned paths |
+
+Lifecycle is queued, running, completed or superseded. Verdict is PASS, FAIL,
+BLOCKED or NOT VERIFIED. Required is yes or no. Completion is not acceptance.
+A dropped job is superseded, optional, NOT VERIFIED, and names a superseded: reason.
 
 ## Decisions and evidence
 
-No implementation decision yet. Root must inspect the source and freeze the
-baseline before starting jobs. This populated example makes no live claims.
+NOT VERIFIED. Copying this template makes no live claims.
 
 ## Blockers
 
-None established. Missing evidence must be gathered; it is not a user blocker.
+None.
 
 ## Next action
 
-Root captures git status, HEAD and fixture digest, then reads the deadline rule.
+Fill the objective, freeze the current artifact identity, then do the next authorized check.
 
 ## Last verified
 

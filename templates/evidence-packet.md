@@ -1,9 +1,9 @@
-# Evidence Packet — populated missing-evidence example
+# Evidence Packet — blank template. Copy and fill. No live claims.
 
 Verdict: NOT VERIFIED
-Claims: The required deadline boundary check has not been executed.
-Files and symbols inspected or changed: None; this template has not been used for a live investigation.
-Commands run and observed results: None. Base/snapshot has not been independently inspected.
-Acceptance-check result: NOT VERIFIED; no before/equality/after execution evidence is available.
-Risks and uncertainties: A source-level assertion would not prove runtime behavior.
-Blocking decision, if any: None; the assigned worker must execute the authorized check.
+Claims: No live claims until sources are inspected.
+Files and symbols inspected or changed: None yet.
+Commands run and observed results: None yet.
+Acceptance-check result: NOT VERIFIED
+Risks and uncertainties: Missing evidence is NOT VERIFIED, not PASS.
+Blocking decision, if any: None.

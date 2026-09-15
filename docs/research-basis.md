@@ -1,5 +1,9 @@
 # Research basis for Agent Mission Control
 
+Start with the current map: [field state](field-state.md) (grades A–E,
+mechanism comparison, corrected claims). This file is the longer 2026-09-13
+whole-repo review. It is not a second source of truth.
+
 Agent Mission Control should remain a small, adaptive orchestration skill that
 uses native host tools. Its useful responsibilities are choosing work, assigning
 sufficient context and capability, preserving progress, and requiring evidence
@@ -16,8 +20,14 @@ competent development or saves money across tasks.
 ## Evidence and its limits
 
 Primary publications and current platform documentation were checked on
-2026-09-13. A paper's measured outcome, a vendor's engineering recommendation and
-AMC's implementation choice are different kinds of evidence. None is silently
+2026-09-13. A later same-lead note on 2026-09-14 recorded that the Google
+[HTML paper](https://arxiv.org/html/2512.08296) v3 reports 260 configs and 6
+benchmarks, including a 20-instance SWE-bench Verified subset where every MAS
+topology was negative versus SAS. On 2026-09-15 [field state](field-state.md)
+re-graded those citations A–E, added ADK, Agent Framework, LangGraph, Agents
+SDKs, the peer-reviewed Nature paper, and corrected overclaims. AMC still does
+not treat those numbers as a coding-host guarantee. A paper's measured outcome, a vendor's engineering
+recommendation and AMC's implementation choice are different kinds of evidence. None is silently
 promoted to another. Historical local cases are useful regressions, not a random
 sample or an untouched test set. No new paid behavioral experiment accompanies
 this update.
@@ -91,11 +101,21 @@ information boundary; host permissions enforce execution boundaries.
 
 ### Team shape and model choice
 
-[Google Research's 2026 scaling study](https://research.google/blog/towards-a-science-of-scaling-agent-systems-when-and-why-agent-systems-work/)
-compares 180 configurations across financial reasoning, browsing, planning and
-tool-use tasks. Coordination helps suitable decomposable tasks but can hurt
-sequential tasks. Its task-specific thresholds are not universal AMC triggers or
-measurements on the FPS app. [Anthropic's research-system report](https://www.anthropic.com/engineering/multi-agent-research-system)
+[Google Research's 2026 blog](https://research.google/blog/towards-a-science-of-scaling-agent-systems-when-and-why-agent-systems-work/)
+reports 180 configurations across four benchmarks: Finance-Agent, BrowseComp-Plus,
+PlanCraft and Workbench. The later [arXiv HTML v3](https://arxiv.org/html/2512.08296)
+reports 260 configurations and six benchmarks, adding SWE-bench Verified and
+Terminal-Bench subsets. The peer-reviewed version is Kim et al.,
+[Nature Machine Intelligence](https://www.nature.com/articles/s42256-026-01268-y)
+(2026), DOI 10.1038/s42256-026-01268-y. Workbench is a workplace function-calling / tool-use
+suite, not a software-engineering coding benchmark. The paper's coding-adjacent
+evidence is the SWE-bench Verified subset, where every tested multi-agent
+topology was negative versus the single-agent baseline. Coordination can help
+decomposable parallelizable work and can hurt sequential or tool-dense work.
+Nature reports the ~45% capability-saturation figure as a validated selection
+rule, not a coefficient that survived cluster-robust correction. It is not a
+universal AMC routing rule, not a claim that multi-agent systems are generally
+better or worse, and not a measurement on this repository's tasks. [Anthropic's research-system report](https://www.anthropic.com/engineering/multi-agent-research-system)
 also finds value in parallel exploration while reporting substantial token
 overhead; research results do not automatically transfer to tightly coupled coding.
 
@@ -115,17 +135,20 @@ to be explicit; a concurrency ceiling is not a desired team size.
 **AMC decision:** the selected competent lead owns architecture and final
 acceptance. Use a scout for valuable uncertainty, not every task or subtask.
 Give weaker workers narrower contracts and clearer checks. Parallelize ready,
-independent work; serialize shared writes and real dependencies. The opt-in
-profile now illustrates Sol/medium lead, Luna/medium generic workers,
-Terra/medium investigation/implementation, Terra/high material review and
-Luna/medium narrow verification. These are editable starting points, not a
-research-proven ranking or an automatic change to installed settings.
+independent work; serialize shared writes and real dependencies. AMC's core
+names capability classes (lead-capable, focused general worker, cheap bounded
+worker, material reviewer, narrow verifier). The opt-in Codex example maps those
+classes to current host model names. That mapping is an editable starting point,
+not a research-proven ranking of Luna, Terra, Sol, Astra, Grok or Opus, and not
+an automatic change to installed settings.
 
 ### Verification, learning and adaptive procedure
 
 [Anthropic's evaluator-optimizer guidance](https://www.anthropic.com/engineering/building-effective-agents)
-conditions refinement on useful evaluation criteria and feedback. Its patterns
-are composable, not a compulsory sequence. An [ACL 2024 error-localization study](https://aclanthology.org/2024.findings-acl.826/)
+conditions refinement on useful evaluation criteria and feedback. The same
+article documents **orchestrator-workers** for complex tasks whose subtasks
+cannot be predicted in advance, including multi-file coding. Those patterns
+are composable, not a compulsory sequence, and not a default AMC team. An [ACL 2024 error-localization study](https://aclanthology.org/2024.findings-acl.826/)
 distinguishes locating a reasoning error from repairing one when its location
 is supplied. The older tasks/models do not establish current model limits, but
 reinforce why a confident critique is weaker evidence than a reproducible failure.
@@ -184,10 +207,12 @@ portable skill or implement a billing system from incomplete local counters.
 
 **AMC decision:** routine progress comes from necessary real work and executable
 acceptance checks. Record confirmed defects, false alarms, regressions, repair
-and resource observations when useful. Do not create repeat runs merely to fill
-a model matrix. A future comparison needs a specific decision, frozen conditions,
-authorization and budget; a general superiority claim needs substantially more
-than these development examples.
+and resource observations when useful. Do not create an AMC-owned behavioral
+research program or repeat runs to fill a model matrix. A general superiority
+claim would need many runs across many issues; that budget is not available.
+Further kernel changes cite host docs, published research, other public
+repositories or known practitioner guidance. The nine Codex comparison runs
+remain a closed record, not a method to extend.
 
 ## Whole-project review and implemented changes
 
@@ -258,18 +283,22 @@ established by this update. Prior failed or limited experiments remain intact.
 
 Local acceptance on 2026-09-13 passed all seven check groups above, both official
 package validators and a fresh independent source/engineering review. The 16
-runtime files match byte-for-byte between source and generated skill/plugin.
+common AMC runtime files are byte-identical in the generated skill and plugin
+packages. The ZIP archives have different structure and hashes.
 All 74 historical evaluation, fixture and result files covered by the preservation
 check remain identical to the pre-task snapshot. These are engineering outcomes,
 not comparative model results. The candidate remains local and uninstalled.
 
 ## Source record
 
-Sources were accessed on 2026-09-13. Primary empirical work above is identified by
+Sources were accessed on 2026-09-13, with a follow-up field-state pass on 2026-09-15
+([field state](field-state.md)). Primary empirical work above is identified by
 version/date where available: NVIDIA AVO v1 (2026-03-25), NVIDIA ARC blog
 (2026-08-21), SkillOpt v2 (2026-05-25), OEO v1 (2026-08-10), Google scaling report
-(2026-01-28), RouteLLM (2024), ACL error-localization paper (2024), and AI Agents
-That Matter (2024). The arXiv preprints are not described as peer-reviewed results.
+(2026-01-28) and its Nature Machine Intelligence version (2026), RouteLLM (2024), ACL error-localization paper (2024), and AI Agents
+That Matter (2024). Extra 2026 sources in the audit include harness engineering
+and collaboration-tax preprints. Unmarked arXiv preprints are not described as
+peer-reviewed results. The Nature paper is.
 
 OpenAI skills, subagents, pricing, caching, evaluation and execution-plan pages
 are live platform guidance, not a pinned client compatibility specification.

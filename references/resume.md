@@ -5,26 +5,41 @@ record, not a scheduler or dashboard. Its first two lines declare
 `schema_version: 1` and `overall: PASS|FAIL|BLOCKED|NOT VERIFIED`. The required
 sections are Goal / Definition of Done, Base and candidate, Hard gates,
 Authority, Jobs, Decisions and evidence, Blockers, Next action, Last verified.
-Every gate has a status and evidence reference; every job has an agent, status
-and owned scope. Only the lead responsible for this mission updates its aggregate record.
-A delegated agent explicitly assigned a separate mission owns that mission's
-record; it does not update the parent mission's tracker.
+`Base and candidate` includes `Current artifact:`. Every gate has a status and
+evidence reference. Only the lead responsible for this mission updates its
+aggregate record. A delegated agent explicitly assigned a separate mission owns
+that mission's record; it does not update the parent mission's tracker.
 
-Allowed gate/job verdicts are PASS, FAIL, BLOCKED and NOT VERIFIED; job lifecycle
-may additionally be queued, running or completed. Lifecycle completion is not
-acceptance. Overall PASS requires all hard gates PASS on current evidence and
-no unresolved material blocker. Use FAIL for an observed gate failure, BLOCKED
-for an external prerequisite, NOT VERIFIED for missing/stale/conflicting proof.
-If both failure and missing evidence exist, report both; never collapse them to
-PASS. `Last verified` names the commit plus dirty-tree/artifact digest when
-needed and a UTC timestamp. A commit alone cannot identify uncommitted changes.
+Job **lifecycle** is queued, running, completed or superseded. Job **verdict** is PASS, FAIL,
+BLOCKED or NOT VERIFIED. **Required** is yes or no. Lifecycle completion is not
+acceptance. Unfinished jobs stay `NOT VERIFIED`. Overall PASS forbids queued or running
+jobs. A dropped job is `superseded` with Required `no` and `superseded:` plus a
+reason in owned scope. Optional work that is not finished must be removed or
+superseded; it may not remain queued to obtain PASS.
+
+Overall PASS requires all of: every hard gate PASS with current evidence that is
+not an unverified placeholder; the current artifact identity in hard-gate
+evidence, decisions and last verified; every required job completed with verdict
+PASS; at least one required job; no queued or running jobs; no completed job
+with a negative verdict; Blockers exactly `None`; Next action not itself blocked.
+Narrative fields must not hide unfinished work as still queued. The checker tests
+Markdown contract consistency; it cannot prove that natural-language evidence is
+true or that the named identity equals git HEAD. Use FAIL for an observed gate failure, BLOCKED for an
+external prerequisite, NOT VERIFIED for missing, stale or conflicting proof.
+A stale mission PASS cannot accept a new artifact. If both failure and missing
+evidence exist, report both; never collapse them to PASS. `Last verified` names
+the commit plus dirty-tree/artifact digest when needed and a UTC timestamp.
+
+Keep the live mission compact: current artifact, open gates, blockers and next
+authorized action. Move finished iteration narrative to a dated history file.
+A resuming agent must not need old iterations to learn current status.
 
 Before a long-task handoff or context loss, refresh the current milestone,
 working artifact, important decisions, failed approaches and next hypothesis in
 the existing record. Keep durable evidence paths and brief diagnoses instead of
-copying raw conversations. A clean checkpoint means recoverable scoped work;
-never discard another owner's uncommitted changes to manufacture a clean tree.
-No extra progress file is needed when the project already has one.
+copying raw conversations. Compression must not drop facts later gates need.
+A clean checkpoint means recoverable scoped work; never discard another owner's
+uncommitted changes to manufacture a clean tree.
 
 ## Reconciliation
 

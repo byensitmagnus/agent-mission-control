@@ -1,12 +1,23 @@
 # Current engineering validation
 
+[Candidate.9](../docs/engineering-candidate.9.md) is current `main` source
+(PR [#6](https://github.com/byensitmagnus/agent-mission-control/pull/6) merged).
+It is not a tagged release. Its [nine Codex runs](candidate.9/README.md) are a
+**closed postmortem**. Do not add cases or rerun them as product proof. AMC does
+not run an owned behavioral research program; design cites host docs, published
+research, other public repos and known practitioner guidance.
+`evals/decision_kernel.py` is a deterministic regression test; it does not
+launch agents. New kernel cases only falsify local contracts (break-even,
+artifact handoff, budget ceilings). They do not prove AMC is the best workflow.
+
 [Candidate.7 acceptance-review case](acceptance-review/README.md) records a
 bounded comparison with candidate.6 and supplies a runnable 19-case controller.
 Both repairs passed; only candidate.7 obtained independent acceptance review.
 This is narrow behavior evidence with shared-host limitations, not general
 quality, autonomy or cost qualification. Historical results below are unchanged.
 
-The [whole-project research review](../docs/research-basis.md) is the basis for
+The [whole-project research review](../docs/research-basis.md) and
+[field state](../docs/field-state.md) are the basis for
 the current local candidate. Routine acceptance uses deterministic tooling,
 source review and observed real-task defects. No new behavioral benchmark is
 required or reported for that update. Historical scores and their frozen cases

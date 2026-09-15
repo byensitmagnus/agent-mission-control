@@ -1,10 +1,15 @@
 # How Agent Mission Control works
 
-AMC helps one lead agent choose the smallest workflow that can finish and prove a
-software task. It starts with the objective, constraints, and acceptance checks.
-For an understood change, the lead works directly. For separate questions or
-surfaces, it gives native subagents only the relevant task, inputs, authority,
-owned files, and proof needed. The lead remains responsible for integration and
+AMC helps one lead agent choose the smallest execution graph that can raise
+verifiable capacity within the user's budget and still prove the result. It
+starts with the objective, constraints, and acceptance checks.
+For an understood sequential change, the lead works directly. That is a cautious
+default, not a ban on extra agents. A stronger lead may delegate to cheaper
+workers only when jobs are independent, isolated and cheap to verify. For
+separate independent jobs, it gives native subagents only the relevant task,
+inputs, authority, owned files, and proof.
+Parallel writers need host isolation (worktree, sandbox, VM or permissions);
+otherwise the lead serializes. The lead remains responsible for integration and
 the final verdict.
 
 A context pack is a focused handoff, not amnesia or a sandbox. A worker need not
@@ -13,14 +18,20 @@ permissions can still apply. See the reusable [packet](../templates/context-pack
 and [routing rules](../references/packets.md).
 
 Routing is dynamic. A task may gain an investigation, a candidate loop, a fresh
-review, or a repair only when that work can answer a real question. The lead may
-choose an available model and effort suitable for a bounded job, but AMC makes no
-promise about price, speed, or quality. Current files and executed checks—not a
-worker saying “done”—decide the result.
+review, or a repair only when that work can answer a real question. The lead
+chooses the graph from six questions: sequential vs decomposable work, evaluator
+strength, error risk, required capability, information value vs coordination
+cost, and budget/authority. Direct, review, optimization and fan-out are
+combinable mechanisms, not exclusive modes. The lead may choose an available
+model and effort suitable for a bounded job, but AMC makes no promise about
+price, speed, or quality. Current files and executed checks—not a worker saying
+“done”—decide the result.
 
 ![Three AMC examples: edit-check-done; focused feature help with integration and verification; release investigation, improvement and gate verification.](assets/workflow-scenarios.png)
 
 These are illustrative routes, not recorded executions or mandatory pipelines.
+AMC is a portable **skill**, not a runtime SDK or graph framework. Hosts own
+the loop, sandbox and traces. See [field state](field-state.md).
 
 ## 1. A tiny edit stays tiny
 

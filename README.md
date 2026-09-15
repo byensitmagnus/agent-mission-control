@@ -6,8 +6,8 @@
 </p>
 
 <h1 align="center">Agent Mission Control</h1>
-<p align="center"><strong>Give your coding agent an outcome. Let it own the work through verification.</strong></p>
-<p align="center">One workflow skill. Codex · Claude Code · Cursor · Grok · Kimi.<br />Use the models and tools your host actually provides.</p>
+<p align="center"><strong>Give your coding agent an outcome. It chooses the smallest graph that can finish and prove the work.</strong></p>
+<p align="center">One portable skill. Codex · Claude Code · Cursor · Grok · Kimi.<br />No extra server. Delegate only when a job earns its cost.</p>
 
 <p align="center">
   <a href="docs/getting-started.md"><strong>Get started →</strong></a> ·
@@ -18,7 +18,6 @@
 
 <p align="center">
   <a href="https://github.com/byensitmagnus/agent-mission-control/actions/workflows/validate.yml"><img src="https://github.com/byensitmagnus/agent-mission-control/actions/workflows/validate.yml/badge.svg?branch=main" alt="Public main engineering checks" /></a>
-  <a href="https://github.com/byensitmagnus/agent-mission-control/releases/tag/v0.2.0-candidate.8"><img src="https://img.shields.io/badge/download-candidate.8-2c568c" alt="Published download: candidate.8" /></a>
   <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-2c568c" alt="MIT license" /></a>
 </p>
 
@@ -37,19 +36,19 @@ constraints and decisions that need your authority.
 | Code investigated before a change | Trace callers and guards in a read-only snapshot, then challenge findings. | Supported findings or reasoned refutations, with untested behavior clearly identified. |
 
 Small tasks stay with the lead. Larger tasks can use native subagents when they
-add value. There is no fixed team size or required model pairing, and no AMC
-server to operate. Host tools and permissions determine what can actually run.
+add value. A stronger lead may delegate bounded jobs to cheaper workers only
+when the work is independent, isolated and cheap to verify. That pairing is
+optional, not AMC's identity. Host tools and permissions determine what can
+actually run.
 
 ## Start in your project
 
-1. **Install the project skill.** The [setup guide](docs/getting-started.md#1-install-the-skill)
-   provides a copyable installation prompt and checksum check for the
-   [published skill ZIP](https://github.com/byensitmagnus/agent-mission-control/releases/download/v0.2.0-candidate.8/agent-mission-control-skill.zip).
-   This installs **candidate.8**. The [source installer](docs/hosts.md#install-the-current-source)
-   adds checked installation for five hosts and
-   [reviewed updates with a retained backup](docs/hosts.md#update-an-existing-project-installation).
-2. **Select your project copy** of `agent-mission-control` using your
-   [host's skill command](docs/hosts.md). The example below uses Codex. Keep your
+1. **Install the project skill** from
+   [current `main`](docs/getting-started.md#1-install-the-skill). Five-host
+   checked install and update live in
+   [hosts.md](docs/hosts.md#install-the-current-source).
+2. **Select the project copy** with your
+   [host command](docs/getting-started.md#2-select-the-installed-copy). Keep your
    current model and normal permissions.
 3. **Try this read-only task** in a project with a README:
 
@@ -87,19 +86,15 @@ An illustrative delivery can be as short as:
 This is an output example, not a measured run.
 [Follow a complete task and delivery example →](docs/task-guide.md#what-a-completed-delivery-looks-like)
 
-## What is available and what is proven?
+## Versions
 
-| Version | Status | Evidence |
-|---|---|---|
-| **candidate.4** | Earlier published skill and plugin ZIPs. | Package checks and a bounded Windows CLI skill-selection/first-use check for that version. |
-| **candidate.7** | Retained review-ownership experiment; not a release download. | One controlled repair comparison: both versions passed 19 checks; candidate.7 also arranged independent acceptance review. |
-| **candidate.8** | Current prerelease skill/plugin ZIPs; tagged source adds five-host install/check/update CLI and repaired evaluation/accounting tools. Runtime instructions match candidate.7. | [Engineering checks and native host observations](docs/engineering-candidate.8.md); complete cross-host work remains unverified. |
+**Use now:** GitHub `main` — current kernel, no tagged ZIP yet.
+**Last tagged package:** [candidate.8](https://github.com/byensitmagnus/agent-mission-control/releases/tag/v0.2.0-candidate.8)
+skill and plugin ZIPs (older runtime).
 
-**General improvements in cost, speed, quality or user effort are not established.**
-The [evidence guide](docs/evidence.md) explains what each check covers, host
-limitations, earlier failures and how to evaluate AMC on your own work.
-The CI badge reports public `main`. The release tag identifies the packaged
-source; its `SHA256SUMS.txt` identifies the download bytes.
+What each check actually covers is in the [evidence guide](docs/evidence.md).
+General gains in cost, speed or quality are **not established**. The CI badge
+reports public `main`.
 
 ## Choose the right tool
 
@@ -113,26 +108,28 @@ workspace UI. A model profile fits when you want explicit role/model presets.
 
 | I want to… | Go to… |
 |---|---|
-| Install, select or troubleshoot the skill | [Getting started](docs/getting-started.md) |
-| Use Claude Code, Cursor, Grok, Kimi or Codex | [Host installation and real support limits](docs/hosts.md) |
-| Give the agent a useful task | [Task recipes and expected delivery](docs/task-guide.md) |
-| Understand delegation, review and recovery | [How it works](docs/how-it-works.md) |
-| Choose optional role/model settings | [Advanced Codex profile](examples/codex/README.md) |
-| Inspect results or contribute a change | [Evidence](docs/evidence.md) · [Development](docs/development.md) · [Contributing](CONTRIBUTING.md) |
-| Continue evidence-led improvement work | [Reviewed code research and next checks](docs/research-priorities.md) |
+| Install, select or troubleshoot | [Getting started](docs/getting-started.md) · [Hosts](docs/hosts.md) |
+| Do useful work | [Task recipes](docs/task-guide.md) |
+| Understand the workflow | [How it works](docs/how-it-works.md) |
+| Compare tools or inspect evidence | [Choosing](docs/choosing.md) · [Evidence](docs/evidence.md) · [Field state](docs/field-state.md) |
+| Contribute | [Development](docs/development.md) · [Contributing](CONTRIBUTING.md) |
+
+The full folder map is [docs/README.md](docs/README.md). Optional host mappings:
+[intent profiles](examples/profiles.md) · [Codex example](examples/codex/README.md).
 
 ## Built in the open
 
 AMC draws on Context Diamond, AVO, SkillOpt, practical orchestrators and lab
-research. [Source attribution and pinned references](docs/sources.md) explain
-what we adapt; the [research review](docs/research-basis.md) records the reasoning.
+research. The current map is [field state](docs/field-state.md).
+[Sources](docs/sources.md) list what we adapt;
+[research-basis](docs/research-basis.md) is the longer archived review.
 These sources are not extra installations or endorsements.
 
 Try a useful task and [share what happened](https://github.com/byensitmagnus/agent-mission-control/issues/new?template=experience.yml).
 One concrete example helps: the goal, what the agent did, the result you checked
 and where you had to intervene. Remove private information before sharing.
 
-[Development history](MISSION.md) · [Historical evaluations](evals/README.md) ·
+[Development history](docs/history/through-candidate.8.md) · [Historical evaluations](evals/README.md) ·
 [Security](SECURITY.md) · [MIT license](LICENSE)
 
 Made by **[Byens IT](https://byens-it.dk)** for people building with AI.

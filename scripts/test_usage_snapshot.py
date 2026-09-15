@@ -30,6 +30,11 @@ def main():
         session(root,'unrelated',rows=[count(999,900,99)],started=AFTER)
         result=snapshot(root,'lead',SINCE,['failed-child','grandchild'])
         assert result['observed_totals']==dict(input_tokens=85,cached_input_tokens=52,output_tokens=9)
+        assert result['observed_totals_by_agent']=={
+            'controller': dict(input_tokens=55,cached_input_tokens=42,output_tokens=6),
+            'failed-child': dict(input_tokens=20,cached_input_tokens=10,output_tokens=2),
+            'grandchild': dict(input_tokens=10,cached_input_tokens=0,output_tokens=1),
+        }
         assert result['coverage_complete_through_observed_counters']
         assert next(r for r in result['sessions'] if r['id']=='lead')['counter_resets']==1
         session(root,'missing','lead',[],AFTER)

@@ -15,7 +15,7 @@ from pathlib import Path
 
 
 PLUGIN_NAME = "agent-mission-control"
-VERSION = "0.2.0-candidate.8"
+VERSION = "0.2.0-candidate.9"
 EXPECTED_ORIGIN = "https://github.com/byensitmagnus/agent-mission-control.git"
 SOURCE_ROOT = Path(os.path.abspath(__file__)).parent.parent
 COPY_DIRS = ("agents", "references", "templates", "assets")
@@ -112,19 +112,19 @@ def _write_manifest(destination: Path) -> None:
     manifest = {
         "name": PLUGIN_NAME,
         "version": VERSION,
-        "description": "Coordinate bounded multi-agent software missions with evidence-backed completion.",
+        "description": "Use Agent Mission Control as one workflow. Choose the smallest useful execution graph and finish with verified evidence.",
         "author": {"name": "Byens IT"},
         "license": "MIT",
         "repository": "https://github.com/byensitmagnus/agent-mission-control",
         "skills": "./skills/",
         "interface": {
             "displayName": "Agent Mission Control",
-            "shortDescription": "Coordinate bounded software missions",
-            "longDescription": "Plan, delegate, verify, and consolidate bounded software missions.",
+            "shortDescription": "Smallest useful execution graph with verified completion",
+            "longDescription": "Use Agent Mission Control as one workflow. Choose the smallest useful execution graph and finish with verified evidence. Delegate only when a bounded job earns its coordination cost.",
             "developerName": "Byens IT",
             "category": "Developer Tools",
             "capabilities": ["Interactive", "Read", "Write"],
-            "defaultPrompt": ["Run this software mission with coordinated agents."],
+            "defaultPrompt": ["Use Agent Mission Control as one workflow. Choose the smallest useful execution graph and finish with verified evidence."],
             "brandColor": "#8b5cf6",
             "composerIcon": "./assets/icon-small.svg",
             "logo": "./assets/icon-large.svg",

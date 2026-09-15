@@ -58,8 +58,9 @@ bounded exploration, and stronger models for ambiguous multi-step work; medium i
 a balanced effort, while high serves complex logic and review. The example now
 uses Sol/medium lead, Luna/medium generic children, Terra/medium research and
 implementation, Terra/high review and Luna/medium verification. The source
-validator accepts the supported model set rather than forcing Astra. This checks
-the example's structure, not host activation or comparative model quality.
+validator checks model-reference format, sandbox limits and thread bounds
+1..32. It does not require those names, four roles or three threads. This
+checks the example's structure, not host activation or comparative model quality.
 
 
 ## 2026-09-13 standalone skill first-use check

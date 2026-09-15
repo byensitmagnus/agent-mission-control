@@ -1,5 +1,10 @@
 #!/usr/bin/env python3
-"""Standard-library structural validation for the skill package."""
+"""Standard-library structural validation for the skill package.
+
+A passing run proves packaging and Markdown schema contracts. It cannot prove
+that natural-language evidence is true, that an agent followed AMC, or that the
+named artifact equals git HEAD.
+"""
 from __future__ import annotations
 import argparse, json, re, sys, tomllib
 from pathlib import Path, PurePosixPath
@@ -12,7 +17,28 @@ EVIDENCE = ("Verdict", "Claims", "Files and symbols inspected or changed", "Comm
 MISSION = ("Goal / Definition of Done", "Base and candidate", "Hard gates", "Authority", "Jobs", "Decisions and evidence", "Blockers", "Next action", "Last verified")
 AGENT_KEYS = {"name", "description", "developer_instructions", "model", "model_reasoning_effort", "sandbox_mode"}
 STATUSES = {"PASS", "FAIL", "BLOCKED", "NOT VERIFIED"}
-MODELS = {"gpt-6-astra", "gpt-5.6-luna", "gpt-5.6-sol", "gpt-5.6-terra"}
+JOB_LIFECYCLE = {"queued", "running", "completed", "superseded"}
+JOB_REQUIRED = {"yes", "no"}
+JOB_COLUMNS = ["Job", "Agent", "Required", "Lifecycle", "Verdict", "Owned scope"]
+PLACEHOLDERS = re.compile(r"Named owned paths|Copy and fill|Copying this template makes no live claims|State the objective|State the bounded job|Fill the objective", re.I)
+UNVERIFIED_EVIDENCE = re.compile(
+    r"(?is)\b(?:none|n/?a|unknown|unverified|not(?:[ -]| yet )?verified|"
+    r"no executed|not executed|not run|no (?:completed )?subject runs?|"
+    r"zero subject runs|no completed subject)\b"
+)
+PASS_UNFINISHED_TEXT = re.compile(
+    r"(?is)\b(?:still queued|still running|unfinished work|work remains queued|"
+    r"remains queued|optional queued|dummy required|not executed)\b"
+)
+EFFORTS = {"low", "medium", "high", "xhigh"}
+SANDBOXES = {"read-only", "workspace-write"}
+READ_ONLY_HINTS = ("researcher", "reviewer", "verifier")
+MODEL_REF = re.compile(r"^[A-Za-z0-9][A-Za-z0-9._:+/-]{0,127}$")
+TEMPLATE_FICTION = re.compile(r"\b(?:transport\.py|retry\.py|should_send)\b", re.I)
+PLUGIN_PUSH = re.compile(r"coordinated agents?|multi-agent software missions", re.I)
+PLUGIN_SMALLEST = re.compile(r"smallest useful (?:workflow|execution graph)", re.I)
+PLUGIN_EVIDENCE = re.compile(r"verified (?:evidence|completion)", re.I)
+MISSING_VALUE = re.compile(r"(?is)(?:none|not[ -]?verified|n/?a|unknown|-)\.?\s*")
 
 def need(ok: bool, message: str) -> None:
     if not ok: raise ValueError(message)
@@ -76,37 +102,55 @@ def validate_openai(root: Path) -> None:
     need(re.fullmatch(r"#[0-9a-fA-F]{6}", values["brand_color"]) is not None, "agents/openai.yaml: brand_color must be #RRGGBB")
     for key in ("icon_small", "icon_large"):
         need(resolve(root, values[key].removeprefix("./"), key).is_file(), f"agents/openai.yaml: missing {key}")
-    need(f"${NAME}" in values["default_prompt"], "agents/openai.yaml: default_prompt must name $agent-mission-control")
+    prompt = values["default_prompt"]
+    need(f"${NAME}" in prompt, "agents/openai.yaml: default_prompt must name $agent-mission-control")
+    need(PLUGIN_PUSH.search(prompt) is None, "agents/openai.yaml: default_prompt must not push multi-agent defaults")
+    need(PLUGIN_SMALLEST.search(prompt) is not None and PLUGIN_EVIDENCE.search(prompt) is not None, "agents/openai.yaml: default_prompt must describe the smallest useful workflow and verified evidence")
 
 def load_toml(path: Path) -> dict:
     try: return tomllib.loads(read(path))
     except tomllib.TOMLDecodeError as exc: raise ValueError(f"{path}: invalid or duplicate TOML key: {exc}") from exc
 
+def require_model(value: object, label: str) -> None:
+    need(isinstance(value, str) and bool(value.strip()), f"{label}: model reference required")
+    need(MODEL_REF.fullmatch(value.strip()) is not None, f"{label}: invalid model reference")
+
+def sandbox_for(name: str) -> set[str]:
+    lowered = name.lower()
+    if any(hint in lowered for hint in READ_ONLY_HINTS):
+        return {"read-only"}
+    return SANDBOXES
+
 def validate_codex(root: Path) -> None:
     directory = root / "examples/codex/.codex/agents"
+    config = root / "examples/codex/.codex/config.toml"
+    if not directory.is_dir() and not config.is_file():
+        return
     files = sorted(directory.glob("*.toml")) if directory.is_dir() else []
-    expected_roles = {"mission_researcher", "mission_reviewer", "mission_verifier", "mission_worker"}
-    need({path.stem for path in files} == expected_roles, f"custom agent examples must be exactly {sorted(expected_roles)}")
     names = set()
-    expected_modes = {"mission_researcher": "read-only", "mission_reviewer": "read-only", "mission_verifier": "read-only", "mission_worker": "workspace-write"}
     for path in files:
         data = load_toml(path)
         need(set(data) == AGENT_KEYS, f"{path}: expected exactly {sorted(AGENT_KEYS)}")
         need(all(isinstance(data[k], str) and data[k].strip() for k in AGENT_KEYS), f"{path}: fields must be non-empty strings")
         need(data["name"] not in names, f"{path}: duplicate agent name {data['name']}"); names.add(data["name"])
-        need(data["name"] == path.stem and data["name"] in expected_modes, f"{path}: unsupported role name")
-        need(data["model"] in MODELS, f"{path}: unsupported model")
-        need(data["model_reasoning_effort"] in {"low", "medium", "high", "xhigh"}, f"{path}: bad reasoning effort")
-        need(data["sandbox_mode"] == expected_modes[data["name"]], f"{path}: unsafe sandbox mode for role")
-    path = root / "examples/codex/.codex/config.toml"
-    data = load_toml(path); agents = data.get("agents")
-    need(set(data) == {"model", "model_reasoning_effort", "agents"}, f"{path}: unsupported top-level key")
-    need(data["model"] in MODELS and data["model_reasoning_effort"] in {"low", "medium", "high", "xhigh"}, f"{path}: root model must be supported with supported reasoning")
-    need(isinstance(agents, dict) and set(agents) == {"enabled", "max_concurrent_threads_per_session", "default_subagent_model", "default_subagent_reasoning_effort"}, f"{path}: unsupported [agents] key")
-    need(agents["default_subagent_model"] in MODELS, f"{path}: unsupported default subagent model")
-    need(agents["default_subagent_reasoning_effort"] in {"low", "medium", "high", "xhigh"}, f"{path}: bad default subagent reasoning effort")
-    need(isinstance(data.get("model"), str) and data["model"].strip(), f"{path}: root model required")
-    need(isinstance(agents, dict) and agents.get("enabled") is True and agents.get("max_concurrent_threads_per_session") == 3, f"{path}: [agents] must enable 3 concurrent threads")
+        need(data["name"] == path.stem, f"{path}: name must match filename")
+        require_model(data["model"], f"{path} model")
+        need(data["model_reasoning_effort"] in EFFORTS, f"{path}: bad reasoning effort")
+        need(data["sandbox_mode"] in SANDBOXES, f"{path}: unknown sandbox mode")
+        allowed = sandbox_for(data["name"])
+        need(data["sandbox_mode"] in allowed, f"{path}: unsafe sandbox mode for role")
+    if not config.is_file():
+        return
+    data = load_toml(config); agents = data.get("agents")
+    need(set(data) == {"model", "model_reasoning_effort", "agents"}, f"{config}: unsupported top-level key")
+    require_model(data["model"], f"{config} root model")
+    need(data["model_reasoning_effort"] in EFFORTS, f"{config}: root model must be supported with supported reasoning")
+    need(isinstance(agents, dict) and set(agents) == {"enabled", "max_concurrent_threads_per_session", "default_subagent_model", "default_subagent_reasoning_effort"}, f"{config}: unsupported [agents] key")
+    need(isinstance(agents.get("enabled"), bool), f"{config}: [agents].enabled must be boolean")
+    threads = agents.get("max_concurrent_threads_per_session")
+    need(isinstance(threads, int) and 1 <= threads <= 32, f"{config}: max_concurrent_threads_per_session must be 1..32")
+    require_model(agents["default_subagent_model"], f"{config} default subagent model")
+    need(agents["default_subagent_reasoning_effort"] in EFFORTS, f"{config}: bad default subagent reasoning effort")
 
 def srcset_urls(value: str):
     while value.strip(" ,"):
@@ -164,8 +208,40 @@ def validate_packets(root: Path) -> None:
             verdict = re.search(r"^Verdict:\s*(.+?)\s*$", text, re.M)
             need(verdict is not None and verdict.group(1) in STATUSES, f"{path}: invalid Verdict")
 
-def validate_mission(root: Path) -> None:
-    path = root / "templates/mission-view.md"; text = read(path)
+def validate_blank_templates(root: Path) -> None:
+    directory = root / "templates"
+    need(directory.is_dir(), "missing templates directory")
+    for path in sorted(directory.glob("*.md")):
+        text = read(path)
+        need(TEMPLATE_FICTION.search(text) is None, f"{path}: blank templates must not contain case fiction")
+        need("populated" not in text.lower(), f"{path}: blank templates must not look like populated demonstrations")
+
+def parse_jobs(section: str, path: Path) -> list[dict[str, str]]:
+    job_lines = [line for line in section.splitlines() if line.strip().startswith("|")]
+    need(len(job_lines) >= 3, f"{path}: Jobs table needs header and a job")
+    headers = [cell.strip() for cell in job_lines[0].strip().strip("|").split("|")]
+    need(headers == JOB_COLUMNS, f"{path}: Jobs header must be {' | '.join(JOB_COLUMNS)}")
+    jobs = []
+    for row in job_lines[2:]:
+        cells = [cell.strip() for cell in row.strip().strip("|").split("|")]
+        need(len(cells) == len(headers), f"{path}: malformed Jobs row")
+        job = dict(zip(headers, cells))
+        need(job["Job"] and job["Agent"] and job["Owned scope"], f"{path}: Jobs row needs job, agent, and owned scope")
+        need(job["Required"] in JOB_REQUIRED, f"{path}: invalid job required flag")
+        need(job["Lifecycle"] in JOB_LIFECYCLE, f"{path}: invalid job lifecycle status")
+        need(job["Verdict"] in STATUSES, f"{path}: invalid job verdict")
+        if job["Lifecycle"] in {"queued", "running"}:
+            need(job["Verdict"] == "NOT VERIFIED", f"{path}: unfinished jobs must have verdict NOT VERIFIED")
+        if job["Lifecycle"] == "superseded":
+            need(job["Required"] == "no", f"{path}: superseded jobs must be optional")
+            need(job["Verdict"] == "NOT VERIFIED", f"{path}: superseded jobs must have verdict NOT VERIFIED")
+            need(re.search(r"(?i)superseded:", job["Owned scope"]) is not None, f"{path}: superseded jobs need a superseded: reason")
+        jobs.append(job)
+    need(bool(jobs), f"{path}: Jobs table needs a job")
+    need(any(job["Required"] == "yes" for job in jobs), f"{path}: at least one required job")
+    return jobs
+
+def check_mission(text: str, path: Path, instance: bool = False) -> None:
     need(re.search(r"^schema_version:\s*1\s*$", text, re.M) is not None, f"{path}: schema_version must be 1")
     status = re.search(r"^overall:\s*(.+?)\s*$", text, re.M)
     need(status is not None and status.group(1) in STATUSES, f"{path}: invalid overall")
@@ -177,6 +253,8 @@ def validate_mission(root: Path) -> None:
         match = re.search(rf"^## {re.escape(heading)}\s*$\n(.*?)(?=^## |\Z)", text, re.M | re.S)
         need(match is not None and match.group(1).strip(), f"{path}: empty section {heading}")
         sections[heading] = match.group(1).strip()
+    artifact = re.search(r"^Current artifact:\s*(\S.*)$", sections["Base and candidate"], re.M)
+    need(artifact is not None and artifact.group(1).strip(), f"{path}: Current artifact identity required")
     hard_gates = re.search(r"^## Hard gates\s*$\n(.*?)(?=^## |\Z)", text, re.M | re.S)
     need(hard_gates is not None, f"{path}: Hard gates table required")
     rows = [line for line in hard_gates.group(1).splitlines() if line.strip().startswith("|")][2:]
@@ -190,24 +268,47 @@ def validate_mission(root: Path) -> None:
         need(len(cells) >= 3 and cells[1] in STATUSES, f"{path}: invalid hard-gate status")
         need(bool(cells[0]) and bool(cells[2]), f"{path}: hard gates require name and evidence")
         gate_statuses.append(cells[1])
-    job_lines = [line for line in sections["Jobs"].splitlines() if line.strip().startswith("|")]
-    need(len(job_lines) >= 3, f"{path}: Jobs table needs header and a job")
-    headers = [cell.strip() for cell in job_lines[0].strip().strip("|").split("|")]
-    required_columns = {"Job", "Agent", "Status", "Owned scope"}
-    need(required_columns <= set(headers), f"{path}: Jobs missing required columns")
-    indices = {name: headers.index(name) for name in required_columns}
-    lifecycle = STATUSES | {"queued", "running", "completed"}
-    for row in job_lines[2:]:
-        cells = [cell.strip() for cell in row.strip().strip("|").split("|")]
-        need(len(cells) == len(headers), f"{path}: malformed Jobs row")
-        need(cells[indices["Status"]] in lifecycle, f"{path}: invalid job lifecycle status")
-        need(bool(cells[indices["Job"]]) and bool(cells[indices["Agent"]]) and bool(cells[indices["Owned scope"]]), f"{path}: Jobs row needs job, agent, and owned scope")
+    jobs = parse_jobs(sections["Jobs"], path)
+    ident = artifact.group(1).strip()
+    if instance:
+        need(PLACEHOLDERS.search(text) is None, f"{path}: unresolved template placeholders")
     if status.group(1) == "PASS":
         need(all(item == "PASS" for item in gate_statuses), f"{path}: overall PASS requires every hard gate PASS")
-        need(re.fullmatch(r"(?is)(?:none|none[.;].*)", sections["Blockers"]) is not None, f"{path}: overall PASS requires no blockers")
-        need(sections["Decisions and evidence"].lower() not in {"none", "not verified"}, f"{path}: overall PASS requires evidence")
+        need(
+            len(ident) >= 16 and re.search(r"[A-Za-z]", ident) is not None and re.search(r"[0-9]", ident) is not None and re.match(r"\d{4}-\d{2}-\d{2}", ident) is None,
+            f"{path}: overall PASS requires a current artifact identity",
+        )
+        need(MISSING_VALUE.fullmatch(ident) is None, f"{path}: overall PASS requires a current artifact identity")
+        for row in rows:
+            cells = [cell.strip() for cell in row.strip().strip("|").split("|")]
+            need(UNVERIFIED_EVIDENCE.search(cells[2]) is None, f"{path}: overall PASS forbids missing hard-gate evidence")
+        need(any(ident in [cell.strip() for cell in row.strip().strip("|").split("|")][2] for row in rows), f"{path}: overall PASS requires current artifact identity in hard-gate evidence")
+        need(re.fullmatch(r"(?is)none\.?\s*", sections["Blockers"]) is not None, f"{path}: overall PASS requires no blockers")
+        need(re.search(r"(?i)\bblocked\b", sections["Next action"]) is None, f"{path}: overall PASS forbids a blocker in Next action")
+        evidence = sections["Decisions and evidence"]
+        need(MISSING_VALUE.match(evidence.split("\n", 1)[0]) is None, f"{path}: overall PASS requires reopenable evidence")
+        need(ident in evidence and ident in sections["Last verified"], f"{path}: overall PASS requires reopenable evidence")
+        need(re.search(r"(?i)not[ -]?verified", sections["Last verified"]) is None, f"{path}: overall PASS requires current last-verified identity")
+        for heading in ("Goal / Definition of Done", "Authority", "Decisions and evidence", "Next action"):
+            need(PASS_UNFINISHED_TEXT.search(sections[heading]) is None, f"{path}: overall PASS forbids unfinished work in narrative fields")
+        for job in jobs:
+            need(job["Lifecycle"] not in {"queued", "running"}, f"{path}: overall PASS forbids unfinished jobs")
+            if job["Required"] == "yes":
+                need(job["Lifecycle"] == "completed" and job["Verdict"] == "PASS", f"{path}: overall PASS requires required jobs completed with PASS")
+            if job["Lifecycle"] == "completed":
+                need(job["Verdict"] == "PASS", f"{path}: overall PASS forbids completed jobs with a negative verdict")
     if status.group(1) == "BLOCKED":
         need(not re.match(r"(?is)^none\b", sections["Blockers"]), f"{path}: overall BLOCKED requires a concrete blocker")
+
+def validate_mission(root: Path) -> None:
+    path = root / "templates/mission-view.md"
+    check_mission(read(path), path, instance=False)
+    live = root / "MISSION.md"
+    if live.is_file():
+        check_mission(read(live), live, instance=True)
+    demo = root / "examples/packets/mission-view.populated.md"
+    if demo.is_file():
+        check_mission(read(demo), demo, instance=True)
 
 def validate_evals(root: Path) -> None:
     path = root / "evals/cases.json"
@@ -225,19 +326,35 @@ def validate_evals(root: Path) -> None:
         need(isinstance(case["checks"], list) and case["checks"] and all(isinstance(x, str) and x for x in case["checks"]), f"{path}: checks required")
     rubric = read(root / "evals/rubric.md").lower(); need("behavioral" in rubric and "structural" in rubric, "evals/rubric.md: proof types missing")
 
+def validate_plugin_copy(text: str, path: Path) -> None:
+    blob = json.dumps(text) if not isinstance(text, str) else text
+    need(PLUGIN_PUSH.search(blob) is None, f"{path}: plugin copy must not push multi-agent defaults")
+
 def validate_plugin(root: Path) -> None:
+    packager = root / "scripts/package_plugin.py"
+    if packager.is_file():
+        text = read(packager)
+        validate_plugin_copy(text, packager)
+        need(PLUGIN_SMALLEST.search(text) is not None and PLUGIN_EVIDENCE.search(text) is not None, f"{packager}: plugin copy must describe the smallest useful workflow and verified evidence")
     path = root / ".codex-plugin/plugin.json"
     if not path.exists(): return
     try: data = json.loads(read(path))
     except json.JSONDecodeError as exc: raise ValueError(f"{path}: invalid JSON: {exc}") from exc
     need(isinstance(data, dict), f"{path}: root must be object")
     for key in ("name", "version", "description"): need(isinstance(data.get(key), str) and data[key].strip(), f"{path}: {key} required")
+    validate_plugin_copy(json.dumps(data), path)
+    interface = data.get("interface")
+    if isinstance(interface, dict):
+        prompts = interface.get("defaultPrompt")
+        if isinstance(prompts, list):
+            joined = " ".join(str(item) for item in prompts)
+            need(PLUGIN_SMALLEST.search(joined) is not None, f"{path}: defaultPrompt must describe the smallest useful workflow")
     for key, value in data.items():
         if key.endswith(("path", "_path")): need(isinstance(value, str) and resolve(root, value, f"{path} {key}").exists(), f"{path}: invalid {key}")
 
 def validate(root: Path) -> None:
     root = root.resolve(); need(root.is_dir(), f"bad root: {root}")
-    validate_skill(root); validate_openai(root); validate_codex(root); validate_links(root); validate_svgs(root); validate_packets(root); validate_mission(root); validate_evals(root); validate_plugin(root)
+    validate_skill(root); validate_openai(root); validate_codex(root); validate_links(root); validate_svgs(root); validate_packets(root); validate_blank_templates(root); validate_mission(root); validate_evals(root); validate_plugin(root)
     for path in sorted(root.rglob("*")):
         if path.is_file() and path.suffix.lower() in {".md", ".toml", ".yaml", ".yml", ".svg", ".json"} and ".git" not in path.parts:
             need(re.search(r"\b(?:TBD|TODO|FIXME)\b", read(path)) is None, f"{path}: unfinished placeholder")
@@ -246,6 +363,6 @@ def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(); parser.add_argument("--root", type=Path, default=Path(__file__).resolve().parents[1]); args = parser.parse_args(argv)
     try: validate(args.root)
     except (OSError, ValueError) as exc: print(f"FAIL: {exc}", file=sys.stderr); return 1
-    print("PASS: package structural contracts are valid"); return 0
+    print("PASS: package structural contracts are valid; this is not runtime or product PASS"); return 0
 
 if __name__ == "__main__": raise SystemExit(main())

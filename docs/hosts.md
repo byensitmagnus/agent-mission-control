@@ -1,5 +1,8 @@
 # Use AMC in your coding assistant
 
+First install: [getting started](getting-started.md). This page is the five-host
+installer, update CLI, discovery limits and invocation notes.
+
 AMC's workflow is an Agent Skill. Codex, Claude Code, Cursor, Grok and Kimi
 have native skill loaders; the same AMC runtime files can be placed in their
 project skill directories. This does not add a subagent API or process manager
@@ -8,19 +11,20 @@ installation, native discovery and completed work.
 
 ## Install the current source
 
-The commands in this section require **candidate.8 source**, Git and Python
-3.11+. The runtime ZIPs contain the skill; the installer is in the source
-repository. Clone the release tag explicitly:
+The commands in this section require the **current default branch**, Git and
+Python 3.11+. Clone this repository; do not pin the old candidate.8 tag if you
+want the kernel described in these docs.
 
 ```bash
-git clone --branch v0.2.0-candidate.8 --single-branch https://github.com/byensitmagnus/agent-mission-control.git
+git clone https://github.com/byensitmagnus/agent-mission-control.git
 cd agent-mission-control
 ```
 
-Alternatively, use the [published ZIP instructions](getting-started.md#1-install-the-skill)
+Alternatively, use the [copy instructions](getting-started.md#1-install-the-skill)
 with the directory for your host below. That route requires neither Git nor
-Python. The source installer checks Git provenance, so use a clone rather than
-GitHub's automatic source ZIP when following the commands here.
+Python if you already have the files. The source installer checks Git provenance,
+so use a clone rather than GitHub's automatic source ZIP when following the
+commands here.
 
 From the AMC source checkout, choose one host and an existing target project:
 
@@ -76,8 +80,8 @@ overwrite it. `--check` is read-only and does not launch a host or make a model 
 ## Update an existing project installation
 
 Update from a trusted AMC source checkout after work using the old copy has
-stopped. The candidate.8 source installer provides a separate, explicit
-update operation. It does not change your selected model or host settings.
+stopped. The source installer provides a separate, explicit update operation.
+It does not change your selected model or host settings.
 
 First inspect the existing installation against the new source:
 

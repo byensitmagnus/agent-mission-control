@@ -13,7 +13,7 @@ body:
     attributes:
       label: Your setup
       description: AMC version, host, and models if you know them.
-      placeholder: "candidate.4, Codex, Sol lead"
+      placeholder: "main source, Codex, Sol lead"
     validations:
       required: true
   - type: textarea

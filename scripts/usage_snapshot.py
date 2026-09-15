@@ -114,13 +114,22 @@ def snapshot(directory, root_id, since, expected=()):
         rows.append(row)
     missing = sorted(set(expected) - {row['agent'] for row in rows})
     totals = {key: sum(row['usage'][key] for row in rows if row['usage'] is not None) for key in KEYS}
+    by_agent = {}
+    for row in rows:
+        if row['usage'] is None:
+            continue
+        bucket = by_agent.setdefault(row['agent'], dict.fromkeys(KEYS, 0))
+        for key in KEYS:
+            bucket[key] += row['usage'][key]
     return {'since': since, 'captured_at': datetime.now(timezone.utc).isoformat(),
             'sessions': rows, 'observed_totals': totals,
+            'observed_totals_by_agent': by_agent,
             'missing_expected_agents': missing,
             'coverage_complete_through_observed_counters': root_id in index and not missing and all(row['usage'] is not None for row in rows),
             'limitations': ['Snapshot ends at each session last_counter_at, not at final billing.',
               'Unflushed usage, active tool work and the final response may be absent.',
               'Cached input is included in input; no monetary cost estimate.',
+              'Agent names come from native spawn metadata; missing names are not inferred.',
               'Visible message characters do not include all host/tool input and are not token attribution.']}
 
 def main():
