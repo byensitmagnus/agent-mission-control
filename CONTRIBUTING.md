@@ -5,6 +5,8 @@ product requirement or identified primary-source design principle. Record the
 relevant evidence and its limits. Do not copy an upstream benchmark percentage
 into an AMC performance claim. The [research basis](docs/research-basis.md) maps
 current decisions to sources and distinguishes experiments from recommendations.
+The [source audit](docs/source-audit-2026-09-15.md) inventories those citations
+against extra papers, other repos and 2025–2026 trends.
 
 ## Normal engineering acceptance
 

@@ -80,7 +80,10 @@ The source-aligned product priority is to keep coding work direct-first, and
 only add coordination where a source actually supports it (independent
 decomposable jobs, centralized verification of material claims, durable
 progress). A dashboard clone, more role files or a larger homemade test count
-would not by themselves demonstrate better delivered work.
+would not by themselves demonstrate better delivered work. The
+[15 September 2026 source audit](source-audit-2026-09-15.md) maps every cited
+source, extra 2026 papers, host docs, Superpowers/Spec Kit/AO/CALO claims and
+harness trends onto that priority.
 
 [Reviewed code research priorities](research-priorities.md) add exact source
 anchors, counterevidence and the smallest next investigations. They distinguish

@@ -11,7 +11,7 @@ another orchestration tool or an assistant working directly.
 | **v0.2.0-candidate.4** | [Earlier release](https://github.com/byensitmagnus/agent-mission-control/releases/tag/v0.2.0-candidate.4), with skill/plugin ZIPs and checksums. | Historical first-use evidence concerns this prerelease. |
 | **0.2.0-candidate.7** | Retained local experiment and runtime snapshot; no published release ZIP. | It adds verification guidance with a bounded review-ownership experiment. |
 | **v0.2.0-candidate.8** | [Current prerelease](https://github.com/byensitmagnus/agent-mission-control/releases/tag/v0.2.0-candidate.8), with skill/plugin ZIPs and checksums. | Same runtime as candidate.7. Tagged source adds five-host installation/checking/updating and repaired evaluation/accounting utilities; these scripts are separate from the runtime ZIPs. [Engineering evidence](engineering-candidate.8.md). |
-| **0.2.0-candidate.9** | Open PR source ([#6](https://github.com/byensitmagnus/agent-mission-control/pull/6)); not merged; no published ZIP. | Engineering PASS. Nine Codex runs kept as a [closed record](../evals/candidate.9/comparison/results/README.md), not a research program. No unique correctness win. Behavior, cost and speed remain NOT VERIFIED. Further changes cite host docs, published research or other public sources. |
+| **0.2.0-candidate.9** | Open PR source ([#6](https://github.com/byensitmagnus/agent-mission-control/pull/6)); not merged; no published ZIP. | Engineering PASS. Nine Codex runs kept as a [closed record](../evals/candidate.9/comparison/results/README.md), not a research program. No unique correctness win. Behavior, cost and speed remain NOT VERIFIED. Further changes cite host docs, published research or other public sources. [Source audit](source-audit-2026-09-15.md). |
 
 The repository's CI badge describes current `main`, not every earlier release.
 Keep the release tag's source identity and archive checksum together.
@@ -32,7 +32,9 @@ normal use needs neither Python nor a custom model profile.
 [Earlier qualification failures](../evals/v0.2-qualification.md) and
 [real product observations](../evals/v0.2-fps-pilot.md) remain available.
 The [research basis](research-basis.md) separates external findings from AMC's
-own design decisions. The workflow diagrams and sample deliveries are illustrations.
+own design decisions. The [source audit](source-audit-2026-09-15.md) checks those
+citations against extra papers, other repos and 2025–2026 trends. The workflow
+diagrams and sample deliveries are illustrations.
 
 ## Judge the result on your own work
 

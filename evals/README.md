@@ -15,7 +15,8 @@ Both repairs passed; only candidate.7 obtained independent acceptance review.
 This is narrow behavior evidence with shared-host limitations, not general
 quality, autonomy or cost qualification. Historical results below are unchanged.
 
-The [whole-project research review](../docs/research-basis.md) is the basis for
+The [whole-project research review](../docs/research-basis.md) and
+[source audit](../docs/source-audit-2026-09-15.md) are the basis for
 the current local candidate. Routine acceptance uses deterministic tooling,
 source review and observed real-task defects. No new behavioral benchmark is
 required or reported for that update. Historical scores and their frozen cases

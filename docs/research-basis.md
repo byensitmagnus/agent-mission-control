@@ -19,8 +19,10 @@ Primary publications and current platform documentation were checked on
 2026-09-13. A later independent review on 2026-09-14 noted that the Google
 [HTML paper](https://arxiv.org/html/2512.08296) v3 reports 260 configs and 6
 benchmarks, including a 20-instance SWE-bench Verified subset where every MAS
-topology was negative versus SAS. AMC still does not treat those numbers as a
-coding-host guarantee. A paper's measured outcome, a vendor's engineering
+topology was negative versus SAS. On 2026-09-15 a [source audit](source-audit-2026-09-15.md)
+re-read those citations, added the peer-reviewed Nature paper, extra 2026
+harness/collaboration sources, host docs, other repos and trends. AMC still does
+not treat those numbers as a coding-host guarantee. A paper's measured outcome, a vendor's engineering
 recommendation and AMC's implementation choice are different kinds of evidence. None is silently
 promoted to another. Historical local cases are useful regressions, not a random
 sample or an untouched test set. No new paid behavioral experiment accompanies
@@ -99,15 +101,17 @@ information boundary; host permissions enforce execution boundaries.
 reports 180 configurations across four benchmarks: Finance-Agent, BrowseComp-Plus,
 PlanCraft and Workbench. The later [arXiv HTML v3](https://arxiv.org/html/2512.08296)
 reports 260 configurations and six benchmarks, adding SWE-bench Verified and
-Terminal-Bench subsets. Workbench is a workplace function-calling / tool-use
+Terminal-Bench subsets. The peer-reviewed version is Kim et al.,
+[Nature Machine Intelligence](https://www.nature.com/articles/s42256-026-01268-y)
+(2026), DOI 10.1038/s42256-026-01268-y. Workbench is a workplace function-calling / tool-use
 suite, not a software-engineering coding benchmark. The paper's coding-adjacent
 evidence is the SWE-bench Verified subset, where every tested multi-agent
 topology was negative versus the single-agent baseline. Coordination can help
 decomposable parallelizable work and can hurt sequential or tool-dense work.
-The blog/paper capability-saturation observation (about 45% single-agent
-baseline in the evaluated configurations) is not a universal AMC routing rule,
-not a claim that multi-agent systems are generally better or worse, and not a
-measurement on this repository's tasks. [Anthropic's research-system report](https://www.anthropic.com/engineering/multi-agent-research-system)
+Nature reports the ~45% capability-saturation figure as a validated selection
+rule, not a coefficient that survived cluster-robust correction. It is not a
+universal AMC routing rule, not a claim that multi-agent systems are generally
+better or worse, and not a measurement on this repository's tasks. [Anthropic's research-system report](https://www.anthropic.com/engineering/multi-agent-research-system)
 also finds value in parallel exploration while reporting substantial token
 overhead; research results do not automatically transfer to tightly coupled coding.
 
@@ -281,11 +285,14 @@ not comparative model results. The candidate remains local and uninstalled.
 
 ## Source record
 
-Sources were accessed on 2026-09-13. Primary empirical work above is identified by
+Sources were accessed on 2026-09-13, with a follow-up audit on 2026-09-15
+([source audit](source-audit-2026-09-15.md)). Primary empirical work above is identified by
 version/date where available: NVIDIA AVO v1 (2026-03-25), NVIDIA ARC blog
 (2026-08-21), SkillOpt v2 (2026-05-25), OEO v1 (2026-08-10), Google scaling report
-(2026-01-28), RouteLLM (2024), ACL error-localization paper (2024), and AI Agents
-That Matter (2024). The arXiv preprints are not described as peer-reviewed results.
+(2026-01-28) and its Nature Machine Intelligence version (2026), RouteLLM (2024), ACL error-localization paper (2024), and AI Agents
+That Matter (2024). Extra 2026 sources in the audit include harness engineering
+and collaboration-tax preprints. Unmarked arXiv preprints are not described as
+peer-reviewed results. The Nature paper is.
 
 OpenAI skills, subagents, pricing, caching, evaluation and execution-plan pages
 are live platform guidance, not a pinned client compatibility specification.

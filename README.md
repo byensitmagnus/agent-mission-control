@@ -126,7 +126,9 @@ workspace UI. A model profile fits when you want explicit role/model presets.
 
 AMC draws on Context Diamond, AVO, SkillOpt, practical orchestrators and lab
 research. [Source attribution and pinned references](docs/sources.md) explain
-what we adapt; the [research review](docs/research-basis.md) records the reasoning.
+what we adapt; the [research review](docs/research-basis.md) records the reasoning;
+the [15 September 2026 source audit](docs/source-audit-2026-09-15.md) checks those
+citations against extra papers, other repos and current trends.
 These sources are not extra installations or endorsements.
 
 Try a useful task and [share what happened](https://github.com/byensitmagnus/agent-mission-control/issues/new?template=experience.yml).

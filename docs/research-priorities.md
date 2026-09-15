@@ -4,7 +4,10 @@ Reviewed 2026-09-13. These are research conclusions from inspected public
 sources, not an AMC-owned eval farm and not claims of overall superiority.
 Do not turn the “next check” notes into subject-run batches. Recheck the source
 and obtain task authority before implementing a proposal.
-Use this alongside the broader [implementation comparison](choosing.md).
+Use this alongside the broader [implementation comparison](choosing.md)
+and the [15 September 2026 source audit](source-audit-2026-09-15.md).
+Superpowers, Spec Kit, mini-SWE-agent and host worktrees/VMs are contrast
+sources in that audit, not AMC dependencies.
 
 Two independent Luna researchers inspected AMC tooling and competitor mechanisms.
 The controller checked retained anchors, counterevidence and priorities. No

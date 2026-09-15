@@ -33,8 +33,12 @@ installed runtime.
 and [Anthropic harness guidance](https://www.anthropic.com/engineering/effective-harnesses-for-long-running-agents)
 support recoverable incremental progress. [Context engineering](https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents)
 supports focused work and distilled returns. [Google's scaling study](https://research.google/blog/towards-a-science-of-scaling-agent-systems-when-and-why-agent-systems-work/)
-limits the case for unconditional delegation. [OEO](https://arxiv.org/abs/2608.09629)
+and the peer-reviewed [Kim et al. Nature Machine Intelligence paper](https://www.nature.com/articles/s42256-026-01268-y)
+limit the case for unconditional delegation. [OEO](https://arxiv.org/abs/2608.09629)
 provides qualified evidence for adapting procedure to optimizer capability, not
-removing external constraints. These inform AMC's design; no benchmark gains or
-universal model ranking transfer to this skill. The whole-project research report
-is repository development material, deliberately outside the installed runtime.
+removing external constraints. The 15 September 2026
+[source audit](../docs/source-audit-2026-09-15.md) records extra harness,
+collaboration-tax, METR, Superpowers, Spec Kit and host-doc checks. These inform
+AMC's design; no benchmark gains or universal model ranking transfer to this
+skill. The whole-project research report is repository development material,
+deliberately outside the installed runtime.
