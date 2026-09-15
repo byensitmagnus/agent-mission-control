@@ -43,6 +43,7 @@ configuration, daemons, new services and new AMC subject-run batches.
 | Validator, plugin and PASS rules | Lead | yes | completed | PASS | `scripts/validate.py`, tests |
 | Runtime kernel and templates | Lead | yes | completed | PASS | `SKILL.md`, `references/`, `templates/` |
 | Docs, field state and postmortem | Lead | yes | completed | PASS | `docs/`, `README.md`, `evals/candidate.9/README.md` |
+| Cost-aware delegation, profiles and D-grade field table | Lead | yes | completed | PASS | `references/resources.md`, `examples/profiles.md`, `evals/decision_kernel.py` |
 | Open PR against main | Lead | yes | completed | PASS | https://github.com/byensitmagnus/agent-mission-control/pull/6 |
 | Three-arm comparison | Lead | no | superseded | NOT VERIFIED | superseded: farm closed; conclusion in postmortem |
 
@@ -54,7 +55,8 @@ The nine Codex runs are summarized in `evals/candidate.9/README.md`. Raw
 transcripts were removed; the negative conclusion is kept. Kernel changes cite
 graded sources in `docs/field-state.md`. Historical `c9-01` remains a failed
 hidden False pair. Direct-first is a cautious sequential default, not a natural
-law. Skills and MCP are complementary.
+law. Skills and MCP are complementary. Strong-lead plus cheaper-worker is an
+optional graph under the cost-aware preflight, not AMC's identity.
 
 ## Blockers
 
@@ -62,8 +64,9 @@ None.
 
 ## Next action
 
-Do not add subject-run batches. Do not merge or release.
+Do not add subject-run batches. Do not merge or release. The cost-aware
+delegation layer for this PR is in; stop the orchestrator-research round.
 
 ## Last verified
 
-Commit/snapshot: PR #6 `codex/unified-amc-kernel` on base `c49dc1be2e334091f6c841047ff2ad778b7bde84`. UTC timestamp: 2026-09-15T07:39:35Z.
+Commit/snapshot: PR #6 `codex/unified-amc-kernel` on base `c49dc1be2e334091f6c841047ff2ad778b7bde84`. UTC timestamp: 2026-09-15T08:25:15Z.

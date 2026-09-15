@@ -24,6 +24,7 @@ docs · **D** repo/practitioner · **E** AMC decision. Grades are not quality sc
 | [OpenAI skills](https://developers.openai.com/codex/skills), [subagents](https://developers.openai.com/codex/subagents), [config](https://developers.openai.com/codex/config-reference) | C | Use the host; do not recreate it. | [SKILL.md](../SKILL.md) |
 | [Anthropic long-running](https://www.anthropic.com/engineering/effective-harnesses-for-long-running-agents), [context engineering](https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents), [effective agents](https://www.anthropic.com/engineering/building-effective-agents) | C | Recoverable progress, selective context, complexity only when earned. Orchestrator-worker is allowed for unpredictable complex subtasks, not as the default. | [routing](../references/packets.md), [resume](../references/resume.md) |
 | [Kim et al., Nature MMI 2026](https://www.nature.com/articles/s42256-026-01268-y) | A | Cautious sequential default for coding-like work; fan-out when independent; centralize material review. n=20 SWE/Terminal subsets; fixed topologies. | [routing](../references/packets.md) |
+| AMC cost-aware delegation policy | E | Break-even preflight, worker/retry/reviewer ceilings, compact artifacts, optional intent profiles. Not a claim that AMC is cheaper. | [resources](../references/resources.md#cost-aware-delegation), [profiles](../examples/profiles.md) |
 
 ## What is deliberately absent
 
@@ -57,4 +58,8 @@ a skill. They are not competitors in the same product class.
 | [METR time horizons](https://metr.org/time-horizons/) | A/lab | Scaffolding rots as horizons grow. |
 | [mini-SWE-agent](https://github.com/SWE-agent/mini-swe-agent) | D | A tiny loop remains competitive on SWE-bench Verified. |
 | [Cursor worktrees](https://cursor.com/docs/configuration/worktrees) / [Cloud Agents](https://cursor.com/docs/cloud-agent) | C | Writer isolation is a checkout or a VM. |
-| [obra/superpowers](https://github.com/obra/superpowers), [github/spec-kit](https://github.com/github/spec-kit) | D | Popular procedures; not SWE-bench evidence for always-on MAS. |
+| [obra/superpowers](https://github.com/obra/superpowers/tree/b36e0829c6d0140e93cfef2ca599b1b07d4a7797), [github/spec-kit](https://github.com/github/spec-kit) | D | Popular procedures; not SWE-bench evidence for always-on MAS. |
+| [Yeachan-Heo/oh-my-claudecode](https://github.com/Yeachan-Heo/oh-my-claudecode/tree/5281b19e0d64f8e6dc6767f2130299a88af2dc71) | D | Host adapters and limited concurrency; not “team mode” as a universal default. |
+| [bytedance/deer-flow](https://github.com/bytedance/deer-flow/tree/14c9d44440780e63563e935046db8708e121a5b1) | D | Resource limits and compact handoffs; not their runtime. |
+| [wshobson/agents](https://github.com/wshobson/agents/tree/4236bb91f8395b0435f1d8b8baf9e8e4c69a8620) | D | Capability routing idea; not their model hierarchy as a benchmark. |
+| [mikeyobrien/ralph-orchestrator](https://github.com/mikeyobrien/ralph-orchestrator/tree/edc2b3268c9bd0c08a12c8193a7ace7ab2789261) | D | Stop conditions and fail-closed checks; not an autonomous loop without an end. |

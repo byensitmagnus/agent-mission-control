@@ -76,6 +76,7 @@ A harness source-audit that counted skills in 9/11 systems and MCP in 8/11 is an
 | Capability routing | RouteLLM (**B**); OpenAI subagent effort notes (**C**); CALO (**D**) | Classes, not frozen model names | Obligatory Astra/Luna pairing | medium |
 | Delete stale scaffolding | Managed Agents 2026-04-08 (**C**); Astra skills blog 2026-09-11 (**C**); METR horizons (**A**/lab) | Prefer fewer rules over time | Last year's ceremony as a team | medium |
 | Cost with accuracy | AI Agents That Matter (**B**); OpenAI eval guidance (**C**) | Unknown prices stay unknown | Homemade superiority farms | high |
+| Cost-aware delegation | Nature finance vs sequential (**A**); Anthropic research-system tokens (**C**); OpenAI subagent guidance (**C**); AMC policy (**E**) | Break-even preflight, artifact handoff, worker/retry/reviewer ceilings, optional intent profiles | Strong-lead/cheap-worker as identity; star counts as quality or price proof | medium |
 
 ## Actors checked this pass
 
@@ -96,6 +97,11 @@ Codex spawns subagents when asked; extra tokens; default depth 1; caution parall
 - [Context engineering](https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents), [long-running harness](https://www.anthropic.com/engineering/effective-harnesses-for-long-running-agents), [Managed Agents](https://www.anthropic.com/engineering/managed-agents) 2026-04-08, [multi-agent research](https://www.anthropic.com/engineering/multi-agent-research-system)
 - [Claude Code subagents](https://code.claude.com/docs/en/sub-agents): overflow context, not a default team
 - [Claude Agent SDK](https://code.claude.com/docs/en/agent-sdk/overview): loop in your process; Managed Agents is hosted
+
+The multi-agent research system reported a higher internal research score with
+an Opus lead and Sonnet workers, at about 15× the tokens of ordinary chat, and
+notes that most coding tasks have fewer truly parallel subtasks. That is cost
+structure, not a claim that AMC is cheaper.
 
 Do not quote Anthropic as “never orchestrate”. They document both the cost of complexity and a legitimate orchestrator-worker pattern.
 
@@ -130,6 +136,27 @@ Do not quote Anthropic as “never orchestrate”. They document both the cost o
 - Agent Orchestrator pin [15e9ea97](https://github.com/Untrivial-ai/agent-orchestrator/tree/15e9ea971f1711ec8b50e157d6eb300db6cbe0d6); comparison fork [63a04f0](https://github.com/byensitmagnus/agent-orchestrator/tree/63a04f08fc5a5804a2306e96d1c59fc4a7f68c03) (**D**)
 - donvito CALO pin [575e74eb](https://github.com/donvito/codex-astra-luna-orchestrator/tree/575e74ebcf9b199513151a8996665a71cf64ce50); fork [014b1d7](https://github.com/byensitmagnus/codex-astra-luna-orchestrator/tree/014b1d7c48c39087beec8aa4f1ca022053ac17b3) (**D**)
 
+### Popular orchestrator repositories (**D**, snapshot 2026-09-15)
+
+Star counts measure demand for coordination, not better code. Treat these as
+practice examples. They are not research proof that AMC, or their workflows,
+improve quality, price or speed.
+
+The shared trend is isolated workspaces, fresh context per job, provider/model
+routing, limited concurrency, persistent mission state, artifact handoffs,
+risk-based or async review, and visible token/cost use. AMC should collect those
+mechanisms. It should not take the products as dependencies.
+
+| Project | Stars (popularity) | Pin | AMC takes | AMC does not copy |
+|---|---|---|---|---|
+| [Agent Orchestrator](https://github.com/Untrivial-ai/agent-orchestrator/tree/15e9ea971f1711ec8b50e157d6eb300db6cbe0d6) | 12,056 | [15e9ea97](https://github.com/Untrivial-ai/agent-orchestrator/tree/15e9ea971f1711ec8b50e157d6eb300db6cbe0d6) | Fact-based status, exclusive workspaces, isolation | Desktop app, daemon, always-on workers |
+| [oh-my-claudecode](https://github.com/Yeachan-Heo/oh-my-claudecode/tree/5281b19e0d64f8e6dc6767f2130299a88af2dc71) | 39,172 | [5281b19](https://github.com/Yeachan-Heo/oh-my-claudecode/tree/5281b19e0d64f8e6dc6767f2130299a88af2dc71) | Host adapters, role routing, limited concurrency | “Team mode recommended” as a universal default |
+| [DeerFlow](https://github.com/bytedance/deer-flow/tree/14c9d44440780e63563e935046db8708e121a5b1) | 82,462 | [14c9d44](https://github.com/bytedance/deer-flow/tree/14c9d44440780e63563e935046db8708e121a5b1) | Resource limits, compact artifact handoffs | Gateway, database and runtime architecture |
+| [Superpowers](https://github.com/obra/superpowers/tree/b36e0829c6d0140e93cfef2ca599b1b07d4a7797) | 286,856 | [b36e082](https://github.com/obra/superpowers/tree/b36e0829c6d0140e93cfef2ca599b1b07d4a7797) | Progressive disclosure, specialized workflows | Mandatory implementer/reviewer chain on small tasks |
+| [wshobson/agents](https://github.com/wshobson/agents/tree/4236bb91f8395b0435f1d8b8baf9e8e4c69a8620) | 39,667 | [4236bb9](https://github.com/wshobson/agents/tree/4236bb91f8395b0435f1d8b8baf9e8e4c69a8620) | Capability routing, host profiles | Their model hierarchy as a documented benchmark |
+| [Ralph Orchestrator](https://github.com/mikeyobrien/ralph-orchestrator/tree/edc2b3268c9bd0c08a12c8193a7ace7ab2789261) | 3,138 | [edc2b32](https://github.com/mikeyobrien/ralph-orchestrator/tree/edc2b3268c9bd0c08a12c8193a7ace7ab2789261) | Stop conditions, fail-closed checks | Autonomous loops without a clear end |
+| [Astra–Luna Orchestrator](https://github.com/donvito/codex-astra-luna-orchestrator/tree/575e74ebcf9b199513151a8996665a71cf64ce50) | 1,336 | [575e74eb](https://github.com/donvito/codex-astra-luna-orchestrator/tree/575e74ebcf9b199513151a8996665a71cf64ce50) | Optional host mapping | Proof of better quality or lower price |
+
 ### Other papers
 
 - RouteLLM [arXiv:2406.18665](https://arxiv.org/abs/2406.18665) (**B**)
@@ -148,6 +175,7 @@ These statements were too strong in earlier AMC docs and are withdrawn:
 4. **Vendor blogs and preprints as established universal research.** Grade them **B** or **C**.
 5. **External sources as proof that AMC is better.** They can justify design. AMC quality, price and speed stay **NOT VERIFIED**.
 6. **Agent-authored `docs/reviews/` as independent public review.** Same-lead engineering notes only.
+7. **Popular orchestrator repos as research evidence.** Grade **D**. Stars show demand for coordination, not output quality.
 
 ## AMC kernel mapping
 
@@ -164,6 +192,7 @@ file, history, evals.
 | Mission reconcile | Long-running harness (**C**); AO fact-derived status (**D**) | Schema PASS can still lie in prose |
 | AVO only with evaluator | NVIDIA (**B**) | No score → milestones, not search |
 | Learning offline | SkillOpt (**B**) | No Sleep from ordinary success |
+| Cost-aware delegation | Nature/Anthropic/OpenAI (**A**/**C**) + local policy (**E**) | Not a claim that AMC is cheaper |
 
 Local Context Diamond, AVO, SkillOpt/Sleep, verification-loop, security-review,
 deployment-patterns and strategic-compact remain design sources. They are not

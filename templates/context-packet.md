@@ -8,5 +8,5 @@ Relevant paths, symbols and inputs: Only what this job needs.
 Dependencies already satisfied: Outputs this job may assume, or none.
 Constraints and invariants: Authority, forbidden consequences, and files to preserve.
 Authorized actions: Allowed tools and mutations. A prompt scope is not a sandbox.
-Required deliverable: Compact findings with source or artifact anchors.
+Required deliverable: Compact artifact (paths, diff or file identity, results, risks). Not the worker transcript.
 Acceptance check: Falsifiable check declared before spawn. For code writes, prefer an executable check.

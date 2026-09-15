@@ -23,6 +23,7 @@ AMC remains one skill/plugin. Companion projects are design sources only.
 | Codex example required named models, four roles, 3 threads | Format, sandbox limits, threads 1..32 | other-model positive control |
 | Raw nine-run JSONL in the PR | Historical postmortem only | `evals/candidate.9/README.md` |
 | Ungraded source claims | Evidence grades A–E and mechanism comparison | `docs/field-state.md` |
+| Strong-lead/cheap-worker as identity | Cost-aware preflight, ceilings, optional intent profiles | `references/resources.md`; `examples/profiles.md`; kernel cases 13-* |
 
 The 16 common AMC runtime files are byte-identical in the skill and plugin
 packages. The ZIP archives have different structure and SHA256 hashes.

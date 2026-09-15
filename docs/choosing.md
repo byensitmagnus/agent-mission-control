@@ -17,7 +17,8 @@ inspected implementation as well as documentation; it is not an execution benchm
 AMC brings adaptive routing, focused handoffs, integration, verification and
 recoverable progress into a skill. Its standard installation adds a project
 skill folder. It does not install a daemon or replace your model settings.
-The [optional profile](../examples/codex/README.md) is separate and opt-in.
+The [optional intent profiles](../examples/profiles.md) and the
+[optional Codex mapping](../examples/codex/README.md) are separate and opt-in.
 
 Choose AMC when you want the lead to own the execution route and produce a
 deliverable with inspectable checks. Begin with [one useful task](task-guide.md).

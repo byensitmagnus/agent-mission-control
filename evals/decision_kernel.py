@@ -63,6 +63,25 @@ def check(plan: dict[str, Any]) -> list[str]:
                 _err(errors, f"{job['id']}: after one failed attempt, change the contract or escalate")
         if len(failures) > 2:
             _err(errors, f"{job['id']}: more than one retry is forbidden")
+        if job.get("capability") in {"cheap-bounded-worker", "focused-general-worker"} and job.get("return") == "transcript":
+            _err(errors, f"{job['id']}: workers return artifacts, not transcripts")
+
+    workers = [job for job in jobs if job.get("capability") in {"cheap-bounded-worker", "focused-general-worker"}]
+    reviewers = [job for job in jobs if job.get("capability") == "material-reviewer"]
+    if workers and plan.get("break_even") is False:
+        _err(errors, "failed break-even must not delegate")
+    if plan.get("lead_repeats_worker"):
+        _err(errors, "lead must not redo the worker job")
+    if plan.get("concurrency_as_goal"):
+        _err(errors, "concurrency is a ceiling, not a target")
+    worker_budget = plan.get("worker_budget")
+    if worker_budget is not None and len(workers) > worker_budget:
+        _err(errors, "worker budget exceeded")
+    review_budget = plan.get("review_budget")
+    if review_budget is not None and len(reviewers) > review_budget:
+        _err(errors, "reviewer budget exceeded")
+    if plan.get("trivial") and reviewers:
+        _err(errors, "trivial work must not spawn a reviewer")
 
     parallel_writers = [
         job["id"]
@@ -318,6 +337,95 @@ CASES = [
                 "capability": "focused-general-worker",
                 "accept_check": {"declared": True, "kind": "executable"},
             },
+        ],
+        "expect": [],
+    },
+    {
+        "id": "13-failed-breakeven-must-not-delegate",
+        "break_even": False,
+        "jobs": [
+            {
+                "id": "patch",
+                "capability": "cheap-bounded-worker",
+                "write_scope": "mod.py",
+                "accept_check": {"declared": True, "kind": "executable"},
+            }
+        ],
+        "expect": ["failed break-even must not delegate"],
+    },
+    {
+        "id": "13-transcript-handoff-fail",
+        "jobs": [
+            {
+                "id": "patch",
+                "capability": "focused-general-worker",
+                "write_scope": "mod.py",
+                "accept_check": {"declared": True, "kind": "executable"},
+                "return": "transcript",
+            }
+        ],
+        "expect": ["workers return artifacts, not transcripts"],
+    },
+    {
+        "id": "13-lead-repeats-worker-fail",
+        "lead_repeats_worker": True,
+        "jobs": [
+            {
+                "id": "patch",
+                "capability": "cheap-bounded-worker",
+                "write_scope": "mod.py",
+                "accept_check": {"declared": True, "kind": "executable"},
+                "return": "artifact",
+            }
+        ],
+        "expect": ["lead must not redo the worker job"],
+    },
+    {
+        "id": "13-concurrency-as-goal-fail",
+        "concurrency_as_goal": True,
+        "jobs": [],
+        "expect": ["concurrency is a ceiling, not a target"],
+    },
+    {
+        "id": "13-worker-budget-exceeded",
+        "worker_budget": 1,
+        "host_isolation": "worktree",
+        "jobs": [
+            {
+                "id": "a",
+                "capability": "focused-general-worker",
+                "write_scope": "a.py",
+                "accept_check": {"declared": True, "kind": "executable"},
+            },
+            {
+                "id": "b",
+                "capability": "focused-general-worker",
+                "write_scope": "b.py",
+                "accept_check": {"declared": True, "kind": "executable"},
+            },
+        ],
+        "expect": ["worker budget exceeded"],
+    },
+    {
+        "id": "13-trivial-reviewer-fail",
+        "trivial": True,
+        "review_budget": 0,
+        "jobs": [{"id": "review", "capability": "material-reviewer"}],
+        "expect": ["trivial work must not spawn a reviewer", "reviewer budget exceeded"],
+    },
+    {
+        "id": "13-compact-artifact-within-budget",
+        "break_even": True,
+        "worker_budget": 1,
+        "review_budget": 0,
+        "jobs": [
+            {
+                "id": "patch",
+                "capability": "cheap-bounded-worker",
+                "write_scope": "mod.py",
+                "accept_check": {"declared": True, "kind": "executable"},
+                "return": "artifact",
+            }
         ],
         "expect": [],
     },

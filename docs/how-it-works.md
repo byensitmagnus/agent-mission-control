@@ -1,10 +1,13 @@
 # How Agent Mission Control works
 
-AMC helps one lead agent choose the smallest useful execution graph that can finish
-and prove a software task. It starts with the objective, constraints, and acceptance checks.
+AMC helps one lead agent choose the smallest execution graph that can raise
+verifiable capacity within the user's budget and still prove the result. It
+starts with the objective, constraints, and acceptance checks.
 For an understood sequential change, the lead works directly. That is a cautious
-default, not a ban on extra agents. For separate independent jobs, it gives native
-subagents only the relevant task, inputs, authority, owned files, and proof.
+default, not a ban on extra agents. A stronger lead may delegate to cheaper
+workers only when jobs are independent, isolated and cheap to verify. For
+separate independent jobs, it gives native subagents only the relevant task,
+inputs, authority, owned files, and proof.
 Parallel writers need host isolation (worktree, sandbox, VM or permissions);
 otherwise the lead serializes. The lead remains responsible for integration and
 the final verdict.

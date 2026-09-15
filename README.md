@@ -37,8 +37,12 @@ constraints and decisions that need your authority.
 | Code investigated before a change | Trace callers and guards in a read-only snapshot, then challenge findings. | Supported findings or reasoned refutations, with untested behavior clearly identified. |
 
 Small tasks stay with the lead. Larger tasks can use native subagents when they
-add value. There is no fixed team size or required model pairing, and no AMC
-server to operate. Host tools and permissions determine what can actually run.
+add value. AMC chooses the smallest execution graph that can raise verifiable
+capacity within the user's budget. A stronger lead may delegate bounded jobs to
+cheaper workers only when the work is independent, isolated and cheap to
+verify. That pairing is optional, not AMC's identity. There is no fixed team
+size or required model pairing, and no AMC server to operate. Host tools and
+permissions determine what can actually run.
 
 ## Start in your project
 
@@ -118,7 +122,7 @@ workspace UI. A model profile fits when you want explicit role/model presets.
 | Use Claude Code, Cursor, Grok, Kimi or Codex | [Host installation and real support limits](docs/hosts.md) |
 | Give the agent a useful task | [Task recipes and expected delivery](docs/task-guide.md) |
 | Understand delegation, review and recovery | [How it works](docs/how-it-works.md) |
-| Choose optional role/model settings | [Advanced Codex profile](examples/codex/README.md) |
+| Choose optional role/model settings | [Intent profiles](examples/profiles.md) · [Advanced Codex profile](examples/codex/README.md) |
 | Inspect sources, grades and other systems | [Field state](docs/field-state.md) · [Sources](docs/sources.md) · [Evidence](docs/evidence.md) |
 | Inspect results or contribute a change | [Development](docs/development.md) · [Contributing](CONTRIBUTING.md) |
 | Continue evidence-led improvement work | [Reviewed code research and next checks](docs/research-priorities.md) |

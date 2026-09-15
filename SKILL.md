@@ -18,10 +18,10 @@ authority.
 
 ## Choose the smallest useful graph
 
-For ordinary sequential coding, stay with the lead: implement, check, finish.
-That is a cautious default for understood, dependent work — not a law that
-extra agents never help. Add a node only when expected value exceeds
-coordination cost.
+AMC chooses the smallest graph that can raise verifiable capacity within the
+user's budget. For ordinary sequential coding, stay with the lead: implement,
+check, finish. Stronger-lead plus cheaper-worker is optional, not identity:
+delegate only when work is independent, isolated and cheap to verify.
 
 | When | Do |
 |---|---|

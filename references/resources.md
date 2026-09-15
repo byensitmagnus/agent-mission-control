@@ -52,3 +52,49 @@ Optimization has both correctness and attempt/resource limits. Before another
 candidate consider expected improvement, chance it changes the decision, remaining
 budget and a cheaper way to learn the same thing. Stop low-value search with the
 best verified incumbent; report unresolved gates without calling them complete.
+
+## Cost-aware delegation
+
+Fan-out is a capacity mechanism, not a discount and not AMC's identity. Do not
+mix four different outcomes: shorter calendar time, more artifacts, fewer
+dollars, and a better accepted result. Parallel workers often help the first two
+and can worsen the last two.
+
+Delegation is cheaper than doing the work on the lead only when saved lead
+tokens are worth more than worker time, review, retries and coordination. That
+usually needs independent jobs, a small packet, a declared accept check before
+spawn, an artifact return the lead can judge without repeating the job, and
+review only when risk warrants it. It usually fails on unclear architecture,
+tightly coupled files, missing tests, shared mutable state, or overlapping
+scouts.
+
+Before a costly spawn, answer the preflight. Any "no" keeps the work with the
+lead or serializes it:
+
+1. Are the jobs genuinely independent?
+2. Can each worker receive a small, precise packet?
+3. Is the accept check declared before spawn?
+4. Will the lead receive paths, diff, result and evidence — not a transcript?
+5. Can the lead accept without redoing the work?
+6. Is review risk-based, not automatic?
+7. Are saved lead tokens likely worth more than worker, review, retry and
+   coordination cost?
+
+Ceilings, not targets:
+
+| Resource | Default ceiling |
+|---|---|
+| Workers | `min(host concurrency, remaining budget, independent ready jobs)` |
+| Retries | At most one cheaper retry with a tighter contract, then escalate the slice |
+| Reviewer | Zero unless material risk or a changed acceptance rule; then one independent review unless the user authorized more |
+
+Concurrency is a ceiling. Filling it is not a goal. A host profile
+([quality / balanced / throughput](../examples/profiles.md)) may bias how eagerly
+the lead spends the ceiling; it does not waive isolation, artifacts or this
+preflight.
+
+When the host exposes usage, record lead, worker and review consumption
+separately, by actual model or agent identity. Unknown is not zero. Do not merge
+those buckets into one total and call it cheaper. Native snapshot tools may
+group counters by agent name when spawn metadata exists; they still do not
+estimate dollars unless a verified rate is supplied.

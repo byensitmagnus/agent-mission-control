@@ -33,7 +33,8 @@ classes, not product models:
 | Material reviewer | Independent falsification of a risky claim |
 | Narrow verifier | Executing a declared check against an identified artifact |
 
-Host profiles may map these classes to concrete models. Keep the selected lead.
+Host profiles ([quality / balanced / throughput](../examples/profiles.md)) may
+map these classes to concrete models. Keep the selected lead.
 Do not default every child to the lead model or force difficult work onto the
 cheapest class. If the requested capability is unavailable, report the limit and
 choose a supported alternative; do not silently upgrade cost or invent IDs.
@@ -50,6 +51,8 @@ For code writes, that check should be executable when behavior can be tested.
 Research may use source anchors, counterevidence and the lead reopening sources.
 UI work may need rendering or visual inspection. Allow at most one retry with a
 tighter contract; then escalate only the unresolved slice. Do not loop retries.
+Run the break-even preflight in [resources](resources.md#cost-aware-delegation)
+before spawn. If it fails, keep the work with the lead.
 
 Set child model and reasoning independently of the lead when native tools allow.
 Match effort to the unresolved work: low for straightforward mechanical tasks,
@@ -69,16 +72,18 @@ Pass only necessary outputs from dependency jobs through the lead. A researcher
 needs its question and sources; an implementer needs the agreed interfaces and
 relevant findings. The lead keeps the overall state and evidence, not every raw
 transcript. Shared host rules/tools can still be present; fresh history is not
-full prompt isolation. Ask for missing task context instead of guessing. Return
-compact findings with file/source anchors, uncertainty and required dependency
-outputs; the lead must be able to reopen the evidence. Load available domain
+full prompt isolation. Ask for missing task context instead of guessing. Load
+available domain
 skills by the actual subtask, without forwarding the whole daily skill library.
 [Context Packet](../templates/context-packet.md) is optional
 formatting. Nested delegation needs its own value, scope and resource room.
 
-Require paths/diff, commands actually run, results and unresolved risks; the
-[Evidence Packet](../templates/evidence-packet.md) is optional formatting. Reconcile
-expected against received results, inspect artifacts and execute acceptance checks.
+Workers return a compact artifact: owned paths, diff or file identity, commands
+actually run, results and unresolved risks — not the worker conversation. The
+lead must be able to accept or reject from that artifact without repeating the
+job. The [Evidence Packet](../templates/evidence-packet.md) is optional
+formatting. Reconcile expected against received results, inspect artifacts and
+execute acceptance checks.
 Route a finding to its responsible owner with a reproducible failure; integrate
 its repair after prerequisites, then refresh only affected evidence. Missing or
 failed workers stay visible. Independent review follows

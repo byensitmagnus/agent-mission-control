@@ -1,6 +1,8 @@
 # Code research priorities
 
-Reviewed 2026-09-13. These are research conclusions from inspected public
+Reviewed 2026-09-13. The 2026-09-15 cost-aware delegation pass is closed; do
+not start another orchestrator-repo research round without a new mandate.
+These are research conclusions from inspected public
 sources, not an AMC-owned eval farm and not claims of overall superiority.
 Do not turn the “next check” notes into subject-run batches. Recheck the source
 and obtain task authority before implementing a proposal.
