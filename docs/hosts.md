@@ -1,5 +1,8 @@
 # Use AMC in your coding assistant
 
+First install: [getting started](getting-started.md). This page is the five-host
+installer, update CLI, discovery limits and invocation notes.
+
 AMC's workflow is an Agent Skill. Codex, Claude Code, Cursor, Grok and Kimi
 have native skill loaders; the same AMC runtime files can be placed in their
 project skill directories. This does not add a subagent API or process manager

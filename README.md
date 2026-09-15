@@ -44,14 +44,13 @@ actually run.
 
 ## Start in your project
 
-1. **Install the project skill.** The [setup guide](docs/getting-started.md#1-install-the-skill)
-   provides a copyable installation prompt and checksum check for the
-   [published skill ZIP](https://github.com/byensitmagnus/agent-mission-control/releases/download/v0.2.0-candidate.8/agent-mission-control-skill.zip).
-   This installs **candidate.8**. The [source installer](docs/hosts.md#install-the-current-source)
-   adds checked installation for five hosts and
-   [reviewed updates with a retained backup](docs/hosts.md#update-an-existing-project-installation).
-2. **Select your project copy** of `agent-mission-control` using your
-   [host's skill command](docs/hosts.md). The example below uses Codex. Keep your
+1. **Install the project skill** from the
+   [published ZIP](https://github.com/byensitmagnus/agent-mission-control/releases/download/v0.2.0-candidate.8/agent-mission-control-skill.zip)
+   using the [setup guide](docs/getting-started.md#1-install-the-skill). That is
+   **candidate.8**. Five-host checked install and update live in
+   [hosts.md](docs/hosts.md#install-the-current-source).
+2. **Select the project copy** with your
+   [host command](docs/getting-started.md#2-select-the-installed-copy). Keep your
    current model and normal permissions.
 3. **Try this read-only task** in a project with a README:
 

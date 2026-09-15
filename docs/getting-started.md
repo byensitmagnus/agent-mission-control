@@ -4,27 +4,40 @@
 [First task](#3-try-a-small-first-task) · [Real work](task-guide.md) ·
 [Troubleshooting](#troubleshooting)
 
-You need a coding assistant with native Agent Skills and access to your project.
-AMC supplies workflow instructions; your existing account supplies models and tools.
-The skill does not need its own API key or a separate server.
-
-The published ZIP example below uses Codex. For **Claude Code, Cursor, Grok or
-Kimi**, use the [host directory and invocation table](hosts.md#install-the-current-source).
-The same guide covers candidate.8's new project installer and byte check.
+You need a coding assistant with native Agent Skills and a project folder.
+AMC is workflow instructions. Your existing account supplies models and tools.
+No extra API key or server.
 
 ## 1. Install the skill
 
-The simplest package is
+Download
 [agent-mission-control-skill.zip](https://github.com/byensitmagnus/agent-mission-control/releases/download/v0.2.0-candidate.8/agent-mission-control-skill.zip)
-from the [candidate release](https://github.com/byensitmagnus/agent-mission-control/releases/tag/v0.2.0-candidate.8).
-Choose that asset rather than GitHub's automatic “Source code” download.
+from [candidate.8](https://github.com/byensitmagnus/agent-mission-control/releases/tag/v0.2.0-candidate.8).
+Use that asset, not GitHub’s automatic “Source code” download. Check it against
+`SHA256SUMS.txt` on the same release.
 
-This guide installs the **candidate.8** prerelease runtime. The optional
-[install/check/update CLI](hosts.md#install-the-current-source) is in the tagged
-source repository, not the runtime ZIP.
-[Compare version status and evidence](evidence.md#choose-a-version-deliberately).
+Unzip and move the `agent-mission-control` folder into the skill directory for
+your host:
 
-**Let Codex handle the files.** Open your intended project and paste:
+| Host | Project directory |
+|---|---|
+| Codex | `.agents/skills/` |
+| Claude Code | `.claude/skills/` |
+| Cursor | `.cursor/skills/` |
+| Grok | `.grok/skills/` |
+| Kimi | `.kimi/skills/` |
+
+The file that must exist:
+
+```text
+your-project/<host-skills-dir>/agent-mission-control/SKILL.md
+```
+
+Keep `references/`, `templates/`, `agents/`, `assets/` and `LICENSE` beside
+`SKILL.md`. Copying only `SKILL.md` breaks the skill. The `.agents` (or similar)
+folder may be hidden in the file manager.
+
+**Codex can do the files.** Open the project and paste:
 
 ```text
 Install Agent Mission Control v0.2.0-candidate.8 in this project only.
@@ -41,53 +54,33 @@ Confirm the installed SKILL.md path. Help me select that project copy,
 especially if another skill has the same name.
 ```
 
-Alternatively, download and unzip the asset yourself. Move its
-`agent-mission-control` folder into `.agents/skills/` inside your project.
-The final path must be:
-
-```text
-your-project/
-  .agents/
-    skills/
-      agent-mission-control/
-        SKILL.md
-        references/
-        templates/
-        agents/
-        assets/
-        LICENSE
-```
-
-The dot-prefixed `.agents` folder may be hidden in your file manager. Keep all
-the packaged folders together; copying only `SKILL.md` breaks its references.
-[OpenAI documents this project-scoped skill location](https://learn.chatgpt.com/docs/build-skills).
+Need a byte-checked install, update or backup? Use the
+[five-host installer](hosts.md#install-the-current-source). That CLI lives in
+the source repo, not in the ZIP.
+This ZIP is **candidate.8**. [PR #6](https://github.com/byensitmagnus/agent-mission-control/pull/6)
+is the next kernel, not a published package.
+[Version details](evidence.md#choose-a-version-deliberately).
 
 ## 2. Select the installed copy
 
-Open the intended project in Codex. In the CLI or IDE extension, use
-`/skills` or type `$` to find `agent-mission-control`. In the desktop
-client, use its skill picker. Select the copy whose path is inside **this
-project**, ending in `.agents/skills/agent-mission-control/SKILL.md`.
+Open the same project. Select `agent-mission-control` by path, not only by name:
 
-**Already have AMC installed elsewhere?** Two skills can have the same name.
-Codex does not merge them. Check the path before selecting: a global or older
-copy is not proof that this project's package was loaded.
+- **Codex:** `/skills`, `$`, or the desktop picker
+- **Claude Code:** `/agent-mission-control`
+- **Cursor:** Customize → Skills, or `/` in chat
+- **Grok:** `/agent-mission-control` after `grok inspect --json` from the project
+- **Kimi:** `/skill:agent-mission-control` from the Git root
 
-If the project copy does not appear, check for a doubled folder such as
-`agent-mission-control/agent-mission-control/SKILL.md`, then restart Codex.
-A file existing on disk is only the installation check; finding and selecting
-it in the client is the discovery check.
-If the skill loads but Codex cannot read a file, that is a separate permissions
-problem. Keep the task unfinished until reading works; do not treat a completed
-agent response as a successful check.
-[OpenAI's current skill guide](https://learn.chatgpt.com/docs/build-skills)
-explains discovery and invocation.
+The path must end in `agent-mission-control/SKILL.md` **inside this project**.
+A global or older copy with the same name is a different install. Restart the
+client if a new folder does not appear. A file on disk is not proof the client
+loaded it. If the skill loads but cannot read a file, fix that permission
+before treating the first task as done.
 
 ## 3. Try a small first task
 
-Start in a project that has a `README.md`. Use your current model and normal
-permissions; this first task only reads a file. With the project copy of AMC
-selected, paste:
+Start in a project that has `README.md`. Keep your current model and normal
+permissions. Paste, using your host’s invocation if it is not `$agent-mission-control`:
 
 ```text
 $agent-mission-control
@@ -102,91 +95,34 @@ Do not change files, install anything, run project checks, or delegate.
 Say explicitly that no checks were run.
 ```
 
-You should receive a short answer with references you can open. Compare it
-with the README: are the purpose, example and limitation actually supported?
-The answer should say that project checks were **not run**. Reading a README
-does not establish that an application works or is ready to release.
-
-For example, in AMC's own repository the answer can explain that AMC is a
-portable orchestration skill, name feature work as an example, and note that
-host capabilities vary. This is an illustration of the expected content,
-not a prescribed answer for your project.
-
-**Finished:** the project skill was selected, the answer matches the README,
-and no project files changed. No extra agent or paid model comparison is needed.
-[See the dated installation check and its host limits](../examples/codex/compatibility.md#2026-09-13-standalone-skill-first-use-check).
+**Done when:** the project copy was selected, each bullet is supported by the
+README, no project files changed, and the answer says checks were not run.
+Reading a README does not prove the application works.
 
 ## 4. Move on to your actual task
 
-Choose a [bug, feature or resume recipe](task-guide.md). Each includes an outcome,
-scope and delivery check; the lead handles worker coordination and integration.
-
-Once the small task works, give AMC a bug, feature or investigation you already
-need. For a larger release task, you can use:
-
-```text
-$agent-mission-control
-
-Prepare this app for release.
-Preserve user data and existing features.
-Use independent help where useful, fix confirmed problems,
-and show the checks and any remaining blockers. Stop before deployment.
-```
-
-Expect a clear objective, a useful route, relevant changes or findings, and
-checks you can inspect. On longer work, expect a progress record that can be
-resumed. You do not need to ask for AVO, Context Diamond and learning separately.
+Use a [bug, feature, resume or research recipe](task-guide.md). Give the outcome
+and what must stay working. The lead owns coordination. You do not assign a
+team.
 
 ## Troubleshooting
 
 | What you see | What to check |
 |---|---|
-| AMC is missing from the picker | Check `.agents/skills/agent-mission-control/SKILL.md` inside the intended project, then restart Codex. Avoid a doubled `agent-mission-control` folder. |
-| Two AMC entries appear | Select the exact project path. The global and project copies remain separate. |
-| The agent cannot read the README | Resolve the normal host file-access approval or permission error. A completed reply is not a successful read. |
-| No subagents appear | A small task may correctly stay direct. Confirm host support if the work requires independent help; skill installation does not add that capability. |
-| The output claims tests passed without evidence | Inspect the actual command output and affected artifact. Ask the lead to resolve the missing proof before accepting completion. |
+| AMC is missing from the picker | Confirm `SKILL.md` is in this project’s host directory, not a doubled `agent-mission-control/agent-mission-control/` folder, then restart the client. |
+| Two AMC entries appear | Select the project path. Global and project copies stay separate. |
+| The agent cannot read the README | Resolve the host’s file-access prompt. A finished reply is not a successful read. Do not disable the sandbox. |
+| No subagents appear | A small task may stay with the lead. Installation does not add a subagent API. |
+| Output claims tests passed without evidence | Inspect the command output and the artifact. Missing proof is not PASS. |
 
-To stop using this project copy, deselect it and move just its
-`.agents/skills/agent-mission-control/` folder outside the discovery directory.
-Keep it as a backup if customized, then restart Codex. This does not require
-editing global model settings or removing another skill with the same name.
+To stop using this copy, deselect it and move
+`<host-skills-dir>/agent-mission-control/` out of the discovery folder.
+That does not change global model settings.
 
-## Common questions
+**Astra or extra models?** No. Keep your selected lead.
+**Always spawn agents?** No. Delegate only for independent work.
+**Plugin ZIP?** Same skill, marketplace-dependent. Prefer the skill ZIP.
+**Update?** [Checked update with a retained backup](hosts.md#update-an-existing-project-installation).
 
-**Do I need Astra or several models?** No. Keep your selected lead. AMC uses
-available capabilities; additional agents and models are optional. The
-[Sol/Terra/Luna example](../examples/codex/README.md) is an editable advanced
-profile, not something installed with the skill.
-
-**Will it always create agents?** No. Delegation must add useful independent work.
-If native subagents are unavailable, work can stay with the lead; required
-independent review must be reported as unavailable.
-
-**Will it deploy, buy services or rewrite its own rules?** Installing the skill
-does not grant permissions. Your request and the host's permission controls
-remain authoritative. Learning proposals are separate from the active run.
-
-**Can I use the plugin instead?** The release includes
-`agent-mission-control-plugin.zip` with the same skill. Plugin distribution
-requires a marketplace/install route supported by your client; this repository
-is not a published universal-directory listing. See
-[OpenAI's current plugin build guide](https://learn.chatgpt.com/docs/build-plugins)
-and [plugin examples](https://github.com/openai/plugins).
-Use the skill package if you want the simpler project-local route.
-
-**What if Windows blocks the README reader?** If Codex reports
-`apply deny-read ACLs`, the local sandbox could not start the reader. Inspect
-and approve only the requested read of your README if your client offers normal
-per-command approval. Do not disable the sandbox or grant a permanent blanket
-permission. If reading remains unavailable, the first task is not complete.
-
-**How do I update or remove it?** Compare a new version in a separate folder,
-preserve local edits, then replace only the confirmed project installation. The
-candidate.8 source offers an [explicit update with a retained backup](hosts.md#update-an-existing-project-installation)
-and refuses to replace files that changed after your inspection.
-Remove that same installation folder to uninstall, after saving any changes.
-Neither action requires changing your global Codex configuration.
-
-[See the workflow scenarios](how-it-works.md) · [Explore the sources](sources.md) ·
+[How it works](how-it-works.md) · [Hosts](hosts.md) ·
 [Report an experience](https://github.com/byensitmagnus/agent-mission-control/issues/new?template=experience.yml)
