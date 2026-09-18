@@ -93,8 +93,10 @@ This is an output example, not a measured run.
 skill and plugin ZIPs (older runtime).
 
 What each check actually covers is in the [evidence guide](docs/evidence.md).
+Engineering, behavioral and release status are separate
+([status.json](docs/status.json); [control contract](docs/control-contract.md)).
 General gains in cost, speed or quality are **not established**. The CI badge
-reports public `main`.
+reports public `main` engineering checks, not behavioral PASS and not a release.
 
 ## Choose the right tool
 

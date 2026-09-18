@@ -1,0 +1,51 @@
+{
+  "schema_version": 1,
+  "engineering": "PASS",
+  "behavioral": "NOT VERIFIED",
+  "release": "NO-GO",
+  "independent_behavioral_evidence": false,
+  "release_decision": false,
+  "evidence_run": [
+    "python scripts/validate.py",
+    "python scripts/test_validate.py",
+    "python scripts/test_prepare_eval.py",
+    "python evals/decision_kernel.py --self-check",
+    "python evals/control_contract.py --self-check",
+    "python evals/preservation_check.py --self-check",
+    "python scripts/test_package_plugin.py",
+    "python scripts/test_install_skill.py",
+    "python scripts/test_usage_snapshot.py",
+    "python evals/fps_replay.py --self-check",
+    "py -3.14 scripts/validate.py",
+    "py -3.14 evals/decision_kernel.py --self-check",
+    "py -3.14 evals/control_contract.py --self-check",
+    "py -3.14 remaining Validate workflow commands",
+    "python scripts/package_plugin.py (temporary skill+plugin)",
+    "python scripts/install_skill.py --host cursor (temporary project)"
+  ],
+  "evidence_not_run": [
+    "host behavioral comparison",
+    "signed-commit policy verification",
+    "branch protection enablement"
+  ],
+  "artifact_identity": {
+    "identity_method": "dirty-manifest",
+    "base_commit": "df184ad03da0f333f9525a7706f7aa664e09de47",
+    "base_tree": "9a347734ba8e2e4974160a8e1a3f77c1b0b8dc28",
+    "dirty": true,
+    "note": "Identifies this dirty branch against main. Do not store a self-hash of the candidate commit."
+  },
+  "external_actions_not_performed": [
+    "push",
+    "merge",
+    "tag",
+    "release",
+    "GitHub settings change",
+    "global install"
+  ],
+  "limitations": [
+    "A green engineering validator does not change behavioral status.",
+    "A merged change does not imply a release recommendation.",
+    "Behavioral superiority remains NOT VERIFIED."
+  ]
+}

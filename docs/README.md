@@ -25,6 +25,8 @@ Start here, then open one file. Do not read this folder in order.
 | Need | File |
 |---|---|
 | Package, checks, contributor path | [development.md](development.md) |
+| Control contract and status split | [control-contract.md](control-contract.md) · [status.json](status.json) |
+| GitHub protection checklist (not claimed active) | [github-settings-checklist.md](github-settings-checklist.md) |
 | Current main engineering record | [engineering-candidate.9.md](engineering-candidate.9.md) |
 | Last tagged candidate.8 record | [engineering-candidate.8.md](engineering-candidate.8.md) |
 

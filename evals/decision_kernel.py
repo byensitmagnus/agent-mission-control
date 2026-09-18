@@ -1,133 +1,16 @@
 #!/usr/bin/env python3
-"""Deterministic decision-kernel contracts. No agent is launched."""
+"""Compatibility wrapper around the canonical Truth Layer contract."""
 from __future__ import annotations
 
 import json
 import sys
 from typing import Any
 
-CAPABILITIES = {
-    "lead-capable",
-    "focused-general-worker",
-    "cheap-bounded-worker",
-    "material-reviewer",
-    "narrow-verifier",
-}
-SLEEP_MARKERS = ("skillopt-sleep", "nightly sleep", "auto-adopt", "transcript harvest")
-
-
-def _err(errors: list[str], message: str) -> None:
-    errors.append(message)
+from control_contract import validate
 
 
 def check(plan: dict[str, Any]) -> list[str]:
-    errors: list[str] = []
-    jobs = list(plan.get("jobs") or [])
-    if plan.get("simple_sequential") and jobs:
-        _err(errors, "simple sequential work must not delegate")
-
-    scopes: dict[str, str] = {}
-    ids = {job["id"] for job in jobs}
-    for job in jobs:
-        depends = list(job.get("depends_on") or [])
-        if job.get("parallel") and depends:
-            _err(errors, f"{job['id']}: dependent jobs must not run in parallel")
-        missing = [name for name in depends if name not in ids]
-        if missing:
-            _err(errors, f"{job['id']}: unknown dependency {missing}")
-        scope = job.get("write_scope")
-        if scope:
-            owner = scopes.get(scope)
-            if owner and owner != job["id"]:
-                _err(errors, f"shared write-scope {scope} owned by {owner} and {job['id']}")
-            scopes[scope] = job["id"]
-        capability = job.get("capability")
-        if capability and capability not in CAPABILITIES:
-            _err(errors, f"{job['id']}: unknown capability {capability}")
-        accept = job.get("accept_check") or {}
-        writing = bool(scope) and capability in {"cheap-bounded-worker", "focused-general-worker"}
-        if capability == "cheap-bounded-worker":
-            if writing and not accept.get("declared"):
-                _err(errors, f"{job['id']}: cheap writing worker needs a predeclared accept check")
-            if writing and accept.get("kind") != "executable" and plan.get("work_kind") == "code":
-                _err(errors, f"{job['id']}: code writes need an executable accept check")
-        if plan.get("work_kind") == "research" and capability in {"cheap-bounded-worker", "material-reviewer", "narrow-verifier"}:
-            if accept.get("kind") not in {"source-anchors", None} and accept.get("declared"):
-                if accept.get("kind") not in {"source-anchors", "counterevidence"}:
-                    _err(errors, f"{job['id']}: research accept check must be source anchors or counterevidence")
-        attempts = list(job.get("attempts") or [])
-        failures = [item for item in attempts if item.get("failed")]
-        if len(failures) > 1:
-            last = failures[-1]
-            if not last.get("contract_changed") and not last.get("escalated"):
-                _err(errors, f"{job['id']}: after one failed attempt, change the contract or escalate")
-        if len(failures) > 2:
-            _err(errors, f"{job['id']}: more than one retry is forbidden")
-        if job.get("capability") in {"cheap-bounded-worker", "focused-general-worker"} and job.get("return") == "transcript":
-            _err(errors, f"{job['id']}: workers return artifacts, not transcripts")
-
-    workers = [job for job in jobs if job.get("capability") in {"cheap-bounded-worker", "focused-general-worker"}]
-    reviewers = [job for job in jobs if job.get("capability") == "material-reviewer"]
-    if workers and plan.get("break_even") is False:
-        _err(errors, "failed break-even must not delegate")
-    if plan.get("lead_repeats_worker"):
-        _err(errors, "lead must not redo the worker job")
-    if plan.get("concurrency_as_goal"):
-        _err(errors, "concurrency is a ceiling, not a target")
-    worker_budget = plan.get("worker_budget")
-    if worker_budget is not None and len(workers) > worker_budget:
-        _err(errors, "worker budget exceeded")
-    review_budget = plan.get("review_budget")
-    if review_budget is not None and len(reviewers) > review_budget:
-        _err(errors, "reviewer budget exceeded")
-    if plan.get("trivial") and reviewers:
-        _err(errors, "trivial work must not spawn a reviewer")
-
-    parallel_writers = [
-        job["id"]
-        for job in jobs
-        if job.get("parallel") and job.get("write_scope")
-    ]
-    if len(parallel_writers) >= 2 and not plan.get("host_isolation"):
-        _err(errors, "parallel writers need host isolation")
-
-    optimization = plan.get("optimization")
-    if optimization:
-        if optimization.get("tie") and optimization.get("keep") != "incumbent":
-            _err(errors, "measurable optimization ties keep the incumbent")
-        if optimization.get("evaluator_changed") and not optimization.get("new_baseline"):
-            _err(errors, "a changed evaluator starts a new baseline")
-
-    mission = plan.get("mission") or {}
-    overall = str(mission.get("overall") or "").upper()
-    if overall == "PASS":
-        artifact = str(mission.get("artifact") or "").strip()
-        if not artifact or artifact.casefold() in {"none", "not verified", "n/a", "unknown", "-"}:
-            _err(errors, "overall PASS requires a current artifact identity")
-        stale = mission.get("stale_pass_artifact")
-        if stale and artifact and str(stale) != artifact:
-            _err(errors, "stale mission PASS cannot accept a new artifact")
-        required = list(mission.get("required_jobs") or [])
-        if not required:
-            _err(errors, "overall PASS requires required jobs")
-        for job in required:
-            lifecycle = str(job.get("lifecycle") or "").lower()
-            verdict = str(job.get("verdict") or "").upper()
-            if lifecycle in {"queued", "running", "complete"} or verdict in {"FAIL", "BLOCKED", "NOT VERIFIED", ""}:
-                _err(errors, "overall PASS rejected: required job unfinished or negative")
-
-    learning = plan.get("learning") or {}
-    ordinary = bool(learning.get("ordinary_success"))
-    if ordinary and learning.get("started_sleep"):
-        _err(errors, "normal completion must not start Sleep")
-    if ordinary and learning.get("auto_adopted"):
-        _err(errors, "normal completion must not auto-adopt a skill")
-    if ordinary and learning.get("wrote_observation") and not learning.get("reusable_signal"):
-        _err(errors, "ordinary success must not write a learning observation")
-    blob = json.dumps(plan).lower()
-    if ordinary and any(marker in blob for marker in SLEEP_MARKERS):
-        _err(errors, "normal completion must not invoke Sleep or harvest")
-    return errors
+    return [issue.message for issue in validate(plan)]
 
 
 CASES = [
@@ -140,19 +23,22 @@ CASES = [
     {
         "id": "01-simple-delegation-fail",
         "simple_sequential": True,
+        "break_even": True,
         "jobs": [{"id": "scout", "depends_on": [], "capability": "cheap-bounded-worker"}],
         "expect": ["simple sequential work must not delegate"],
     },
     {
         "id": "02-dependent-parallel-fail",
+        "break_even": True,
         "jobs": [
-            {"id": "a", "depends_on": [], "write_scope": "a.py"},
-            {"id": "b", "depends_on": ["a"], "parallel": True, "write_scope": "b.py"},
+            {"id": "a", "depends_on": [], "write_scope": "a.py", "capability": "focused-general-worker", "accept_check": {"declared": True, "kind": "executable"}},
+            {"id": "b", "depends_on": ["a"], "parallel": True, "write_scope": "b.py", "capability": "focused-general-worker", "accept_check": {"declared": True, "kind": "executable"}},
         ],
         "expect": ["dependent jobs must not run in parallel"],
     },
     {
         "id": "03-shared-write-fail",
+        "break_even": True,
         "jobs": [
             {"id": "a", "write_scope": "app.py", "capability": "focused-general-worker", "accept_check": {"declared": True, "kind": "executable"}},
             {"id": "b", "write_scope": "app.py", "capability": "focused-general-worker", "accept_check": {"declared": True, "kind": "executable"}},
@@ -161,6 +47,7 @@ CASES = [
     },
     {
         "id": "04-cheap-writer-no-check-fail",
+        "break_even": True,
         "work_kind": "code",
         "jobs": [
             {
@@ -174,6 +61,7 @@ CASES = [
     },
     {
         "id": "05-research-source-anchors",
+        "break_even": True,
         "work_kind": "research",
         "jobs": [
             {
@@ -186,6 +74,7 @@ CASES = [
     },
     {
         "id": "06-one-retry-then-escalate",
+        "break_even": True,
         "jobs": [
             {
                 "id": "patch",
@@ -202,6 +91,7 @@ CASES = [
     },
     {
         "id": "06-endless-retry-fail",
+        "break_even": True,
         "jobs": [
             {
                 "id": "patch",
@@ -219,22 +109,22 @@ CASES = [
     },
     {
         "id": "07-optimization-tie-keeps-incumbent",
-        "optimization": {"tie": True, "keep": "incumbent", "evaluator_changed": False, "new_baseline": False},
+        "optimization": {"evaluator_frozen": True, "tie": True, "keep": "incumbent", "evaluator_changed": False, "new_baseline": False},
         "expect": [],
     },
     {
         "id": "07-optimization-tie-fail",
-        "optimization": {"tie": True, "keep": "candidate", "evaluator_changed": False, "new_baseline": False},
+        "optimization": {"evaluator_frozen": True, "tie": True, "keep": "candidate", "evaluator_changed": False, "new_baseline": False},
         "expect": ["ties keep the incumbent"],
     },
     {
         "id": "08-changed-evaluator-new-baseline",
-        "optimization": {"tie": False, "keep": "incumbent", "evaluator_changed": True, "new_baseline": True},
+        "optimization": {"evaluator_frozen": True, "tie": False, "keep": "incumbent", "evaluator_changed": True, "new_baseline": True},
         "expect": [],
     },
     {
         "id": "08-changed-evaluator-fail",
-        "optimization": {"tie": False, "keep": "candidate", "evaluator_changed": True, "new_baseline": False},
+        "optimization": {"evaluator_frozen": True, "tie": False, "keep": "candidate", "evaluator_changed": True, "new_baseline": False},
         "expect": ["changed evaluator starts a new baseline"],
     },
     {
@@ -244,6 +134,8 @@ CASES = [
             "artifact": "bbb",
             "stale_pass_artifact": "aaa",
             "required_jobs": [{"lifecycle": "completed", "verdict": "PASS"}],
+            "required_gates": [{"id": "g1", "status": "PASS"}],
+            "blockers": [],
         },
         "expect": ["stale mission PASS cannot accept a new artifact"],
     },
@@ -253,17 +145,19 @@ CASES = [
             "overall": "PASS",
             "artifact": "aaa",
             "required_jobs": [{"lifecycle": "queued", "verdict": "NOT VERIFIED"}],
+            "required_gates": [{"id": "g1", "status": "PASS"}],
+            "blockers": [],
         },
         "expect": ["required job unfinished or negative"],
     },
     {
         "id": "10-overall-pass-missing-artifact",
-        "mission": {"overall": "PASS", "artifact": "", "required_jobs": [{"lifecycle": "completed", "verdict": "PASS"}]},
+        "mission": {"overall": "PASS", "artifact": "", "required_jobs": [{"lifecycle": "completed", "verdict": "PASS"}], "required_gates": [{"id": "g1", "status": "PASS"}], "blockers": []},
         "expect": ["current artifact identity"],
     },
     {
         "id": "10-overall-pass-no-required-jobs",
-        "mission": {"overall": "PASS", "artifact": "aaa", "required_jobs": []},
+        "mission": {"overall": "PASS", "artifact": "aaa", "required_jobs": [], "required_gates": [{"id": "g1", "status": "PASS"}], "blockers": []},
         "expect": ["overall PASS requires required jobs"],
     },
     {
@@ -301,6 +195,7 @@ CASES = [
     },
     {
         "id": "12-parallel-writers-no-isolation-fail",
+        "break_even": True,
         "jobs": [
             {
                 "id": "a",
@@ -321,7 +216,10 @@ CASES = [
     },
     {
         "id": "12-parallel-writers-with-isolation",
+        "break_even": True,
         "host_isolation": "worktree",
+        "isolation_evidence": "git worktree list: /tmp/wt-a /tmp/wt-b",
+        "isolation_workspace": "worktree",
         "jobs": [
             {
                 "id": "a",
@@ -355,6 +253,7 @@ CASES = [
     },
     {
         "id": "13-transcript-handoff-fail",
+        "break_even": True,
         "jobs": [
             {
                 "id": "patch",
@@ -368,6 +267,7 @@ CASES = [
     },
     {
         "id": "13-lead-repeats-worker-fail",
+        "break_even": True,
         "lead_repeats_worker": True,
         "jobs": [
             {
@@ -388,6 +288,7 @@ CASES = [
     },
     {
         "id": "13-worker-budget-exceeded",
+        "break_even": True,
         "worker_budget": 1,
         "host_isolation": "worktree",
         "jobs": [
@@ -438,9 +339,11 @@ def self_check() -> dict[str, Any]:
         expected = list(case["expect"])
         found = check({key: value for key, value in case.items() if key not in {"id", "expect"}})
         missing = [item for item in expected if not any(item in message for message in found)]
-        extra = [] if expected else found
+        extra = [message for message in found if expected and not any(item in message for item in expected)]
+        if not expected:
+            extra = found
         if missing or extra:
-            failures.append({"id": case["id"], "missing": missing, "found": found})
+            failures.append({"id": case["id"], "missing": missing, "extra": extra, "found": found})
     return {
         "status": "PASS" if not failures else "FAIL",
         "cases": len(CASES),

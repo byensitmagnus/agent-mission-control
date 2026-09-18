@@ -6,7 +6,7 @@ that natural-language evidence is true, that an agent followed AMC, or that the
 named artifact equals git HEAD.
 """
 from __future__ import annotations
-import argparse, json, re, sys, tomllib
+import argparse, importlib.util, json, re, sys, tomllib
 from pathlib import Path, PurePosixPath
 import xml.etree.ElementTree as ET
 from prepare_eval import fixture_paths
@@ -238,10 +238,13 @@ def parse_jobs(section: str, path: Path) -> list[dict[str, str]]:
             need(re.search(r"(?i)superseded:", job["Owned scope"]) is not None, f"{path}: superseded jobs need a superseded: reason")
         jobs.append(job)
     need(bool(jobs), f"{path}: Jobs table needs a job")
+    names = [job["Job"] for job in jobs]
+    need(len(names) == len(set(names)), f"{path}: duplicate job id")
     need(any(job["Required"] == "yes" for job in jobs), f"{path}: at least one required job")
     return jobs
 
 def check_mission(text: str, path: Path, instance: bool = False) -> None:
+    # ponytail: Markdown PASS stays a presentation check. Machine PASS is evals/control_contract.py.
     need(re.search(r"^schema_version:\s*1\s*$", text, re.M) is not None, f"{path}: schema_version must be 1")
     status = re.search(r"^overall:\s*(.+?)\s*$", text, re.M)
     need(status is not None and status.group(1) in STATUSES, f"{path}: invalid overall")
@@ -352,9 +355,39 @@ def validate_plugin(root: Path) -> None:
     for key, value in data.items():
         if key.endswith(("path", "_path")): need(isinstance(value, str) and resolve(root, value, f"{path} {key}").exists(), f"{path}: invalid {key}")
 
+def load_control_contract():
+    path = Path(__file__).resolve().parents[1] / "evals" / "control_contract.py"
+    spec = importlib.util.spec_from_file_location("amc_control_contract", path)
+    need(spec is not None and spec.loader is not None, "missing evals/control_contract.py")
+    module = importlib.util.module_from_spec(spec)
+    sys.modules[spec.name] = module
+    spec.loader.exec_module(module)
+    return module
+
+def validate_truth_layer(root: Path) -> None:
+    module = load_control_contract()
+    template = root / "templates" / "control-contract.json"
+    need(template.is_file(), "missing templates/control-contract.json")
+    try:
+        data = json.loads(read(template))
+    except json.JSONDecodeError as exc:
+        raise ValueError(f"{template}: invalid JSON: {exc}") from exc
+    issues = module.validate(data)
+    if issues:
+        raise ValueError(f"{template}: {issues[0].code}: {issues[0].message}")
+    status_path = root / "docs" / "status.json"
+    need(status_path.is_file(), "missing docs/status.json")
+    try:
+        status = json.loads(read(status_path))
+    except json.JSONDecodeError as exc:
+        raise ValueError(f"{status_path}: invalid JSON: {exc}") from exc
+    issues = module.validate_product_status(status)
+    if issues:
+        raise ValueError(f"{status_path}: {issues[0].code}: {issues[0].message}")
+
 def validate(root: Path) -> None:
     root = root.resolve(); need(root.is_dir(), f"bad root: {root}")
-    validate_skill(root); validate_openai(root); validate_codex(root); validate_links(root); validate_svgs(root); validate_packets(root); validate_blank_templates(root); validate_mission(root); validate_evals(root); validate_plugin(root)
+    validate_skill(root); validate_openai(root); validate_codex(root); validate_links(root); validate_svgs(root); validate_packets(root); validate_blank_templates(root); validate_mission(root); validate_evals(root); validate_plugin(root); validate_truth_layer(root)
     for path in sorted(root.rglob("*")):
         if path.is_file() and path.suffix.lower() in {".md", ".toml", ".yaml", ".yml", ".svg", ".json"} and ".git" not in path.parts:
             need(re.search(r"\b(?:TBD|TODO|FIXME)\b", read(path)) is None, f"{path}: unfinished placeholder")

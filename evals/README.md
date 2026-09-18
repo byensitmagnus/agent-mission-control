@@ -1,3 +1,10 @@
+# Historical evaluation archaeology
+
+Files under `evals/` except the deterministic tooling (`decision_kernel.py`,
+`control_contract.py`, `preservation_check.py`, `fps_replay.py` and their
+fixtures) are **historical**. They are not current product proof that AMC is
+better, cheaper or faster. Do not add subject-run farms.
+
 # Current engineering validation
 
 [Candidate.9](../docs/engineering-candidate.9.md) is current `main` source
@@ -6,9 +13,9 @@ It is not a tagged release. Its [nine Codex runs](candidate.9/README.md) are a
 **closed postmortem**. Do not add cases or rerun them as product proof. AMC does
 not run an owned behavioral research program; design cites host docs, published
 research, other public repos and known practitioner guidance.
-`evals/decision_kernel.py` is a deterministic regression test; it does not
-launch agents. New kernel cases only falsify local contracts (break-even,
-artifact handoff, budget ceilings). They do not prove AMC is the best workflow.
+`evals/decision_kernel.py` and `evals/control_contract.py` are deterministic
+regression tests; they do not launch agents. New kernel cases only falsify local
+contracts. They do not prove AMC is the best workflow.
 
 [Candidate.7 acceptance-review case](acceptance-review/README.md) records a
 bounded comparison with candidate.6 and supplies a runnable 19-case controller.

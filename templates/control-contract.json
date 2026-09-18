@@ -1,0 +1,87 @@
+{
+  "schema_version": 1,
+  "task_id": "template-unspecified",
+  "objective": "Copy and fill. No live claims.",
+  "non_goals": ["Do not treat this blank contract as evidence."],
+  "authority": "only the user's current task scope",
+  "prohibited_actions": ["credentials", "push", "deploy", "destructive work", "new authority"],
+  "base_artifact": {
+    "type": "none",
+    "identity_method": "none",
+    "digest_algorithm": "none",
+    "digest": "unknown",
+    "dirty": true,
+    "verification": "NOT VERIFIED"
+  },
+  "candidate_artifact": {
+    "type": "none",
+    "identity_method": "none",
+    "digest_algorithm": "none",
+    "digest": "unknown",
+    "dirty": true,
+    "verification": "NOT VERIFIED"
+  },
+  "planned_route": "direct",
+  "observed_route": "direct",
+  "route_reason": "unknown until filled",
+  "expected_information_value": "unknown",
+  "coordination_cost_assumption": "unknown",
+  "break_even": false,
+  "break_even_evidence": "none",
+  "host_capabilities": "unknown",
+  "host_capability_confidence": "unknown",
+  "observed_child_ids": [],
+  "observed_agent_roles": [],
+  "fallback_route": "direct",
+  "deviations": [],
+  "jobs": [
+    {
+      "id": "required-work",
+      "depends_on": [],
+      "capability": "lead-capable",
+      "lifecycle": "queued",
+      "verdict": "NOT VERIFIED",
+      "required": true
+    }
+  ],
+  "gates": [
+    {
+      "id": "required-acceptance-check",
+      "status": "NOT VERIFIED",
+      "evidence": "none"
+    }
+  ],
+  "blockers": [],
+  "reviewer_requirement": "unknown",
+  "reviewer_independence": "unknown",
+  "overall": "NOT VERIFIED",
+  "limitations": ["Blank template. Copying it makes no live claims."],
+  "product_status": {
+    "engineering": "NOT VERIFIED",
+    "behavioral": "NOT VERIFIED",
+    "release": "NO-GO",
+    "independent_behavioral_evidence": false,
+    "release_decision": false
+  },
+  "route_receipt": {
+    "schema_version": 1,
+    "planned_route": "direct",
+    "observed_route": "direct",
+    "reason": "unknown until filled",
+    "expected_information_value": "unknown",
+    "coordination_cost_assumption": "unknown",
+    "worker_ceiling": 0,
+    "reviewer_ceiling": 0,
+    "expected_host_capabilities": ["unknown"],
+    "observed_child_session_ids": [],
+    "observed_agent_roles": [],
+    "observed_isolation": {
+      "mechanism": "none",
+      "workspace": "unknown",
+      "evidence": "none"
+    },
+    "deviations": [],
+    "fallback_route": "direct",
+    "result_status": "NOT VERIFIED"
+  }
+}

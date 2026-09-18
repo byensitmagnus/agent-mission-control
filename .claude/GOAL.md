@@ -1,29 +1,22 @@
 # Mål
 
-Gør Agent Mission Control til den bedste måde Magnus' coding-agenter leverer
-verificerbart arbejde på: offentlig kilde, install der matcher kernen, ét
-ærligt workflow, og læring fra rigtige opgaver.
+Lever Truth Layer v1: én kanonisk, fail-closed kontrolkontrakt for intent →
+route → observation → artifact → acceptance, med adskilt engineering-,
+adfærds- og release-status.
 
 ## Succeskriterier
 
-- Offentlig `main` er den aktuelle kerne. Det folk læser, er det de kan installere.
-- En ny bruger kan installere, vælge og køre første opgave på Codex, Claude Code, Cursor, Grok eller Kimi.
-- Kernen forbliver ét adaptivt workflow: mindste graf, cost-aware delegation, evidens før PASS.
-- Forbedringer kommer fra bestilt arbejde og engineering-kontrakter, ikke homemade subject-farms.
-- Påstande om kvalitet, pris og hastighed forbliver NOT VERIFIED indtil ekstern evidens eller brugstelemetri.
+- Maskinel kontrakt i `evals/control_contract.py` (schema_version 1) med stabile fejlkoder.
+- Negative tests for identitet, graf, writerscope, delegation, isolation, PASS og budget.
+- Planned-versus-observed route receipt; ingen delegationspåstand uden observeret child.
+- Artifact-identitet uden self-refererende HEAD-SHA i tracked filer.
+- Engineering / behavioral / release holdes adskilt; behavioral forbliver NOT VERIFIED.
+- Ingen push, merge, tag, release eller GitHub-indstillinger.
 
 ## Begrænsninger
 
-- Portable Markdown-skill. Ikke runtime, daemon, framework eller desktop-OS.
-- Ingen ny GitHub-release, global install eller host-config uden nyt mandat.
-- Stærk lead + billigere workers er valgfri og cost-aware, ikke identitet.
-- Sandhed → Proof → UX → Beta.
+- Ingen runtime, daemon, database, model-gateway eller subject-run farm.
+- `SKILL.md` ændres ikke i denne kørsel.
+- AVO/optimizer implementeres ikke; kun eligibility-gate dokumenteres.
 
-## Uden for scope
-
-- Stjerneantal eller at slå Superpowers på popularitet.
-- SWE-bench eller prissammenligning som produktbevis.
-- At kopiere andre orchestrator-produkter som afhængigheder.
-- Ny tagged ZIP i denne runde.
-
-_Opdateret: 2026-09-15_
+_Opdateret: 2026-09-18_

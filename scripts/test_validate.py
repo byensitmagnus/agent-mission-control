@@ -74,6 +74,15 @@ def bad_child_effort(root): replace(root / "examples/codex/.codex/config.toml", 
 def zero_threads(root): replace(root / "examples/codex/.codex/config.toml", "max_concurrent_threads_per_session = 3", "max_concurrent_threads_per_session = 0")
 def fiction_template(root): replace(root / "templates/context-packet.md", "State the bounded job. Start as NOT VERIFIED.", "Inspect transport.py::should_send.")
 def plugin_push(root): replace(root / "scripts/package_plugin.py", "smallest useful execution graph and finish with verified evidence", "coordinated agents in multi-agent software missions")
+def duplicate_job(root): replace(root / TEMPLATE, REQUIRED_JOB, REQUIRED_JOB + "\n" + REQUIRED_JOB)
+def bad_contract_json(root): (root / "templates/control-contract.json").write_text("{", encoding="utf-8")
+def behavioral_from_engineering(root):
+    path = root / "docs/status.json"
+    data = json.loads(path.read_text(encoding="utf-8"))
+    data["engineering"] = "PASS"
+    data["behavioral"] = "PASS"
+    data["independent_behavioral_evidence"] = False
+    path.write_text(json.dumps(data), encoding="utf-8")
 def invalid_eval_path(root):
     path = root / "evals/cases.json"; data = json.loads(path.read_text(encoding="utf-8")); data["cases"][0]["fixture"] = {"../escape.txt": "x"}; path.write_text(json.dumps(data), encoding="utf-8")
 def invalid_activation(root):
@@ -254,6 +263,9 @@ def main() -> int:
         zero_threads: "max_concurrent_threads_per_session must be 1..32",
         fiction_template: "blank templates must not contain case fiction",
         plugin_push: "plugin copy must not push multi-agent defaults",
+        duplicate_job: "duplicate job id",
+        bad_contract_json: "invalid JSON",
+        behavioral_from_engineering: "behavioral PASS cannot be derived from engineering validation alone",
         pass_required_queued: "overall PASS forbids unfinished jobs",
         pass_required_running: "overall PASS forbids unfinished jobs",
         pass_required_fail: "overall PASS requires required jobs completed with PASS",
