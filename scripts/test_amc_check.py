@@ -17,7 +17,7 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "scripts"))
 
 import amc_guard  # noqa: E402
-from package_plugin import PLUGIN_NAME, VERSION, package  # noqa: E402
+from package_plugin import COPY_FILES, PLUGIN_NAME, VERSION, package  # noqa: E402
 
 
 def run(*args: str, cwd: Path | None = None) -> subprocess.CompletedProcess[str]:
@@ -142,6 +142,19 @@ class PackageAndClaimsTests(unittest.TestCase):
         sources = {item["source_id"]: item for item in data["sources"]}
         self.assertEqual(sources["SUPERPOWERS-LOCAL"]["audited_ref"], "v6.1.1")
         self.assertEqual(sources["SUPERPOWERS-641"]["audited_ref"], "v6.4.1")
+
+    def test_user_copy_docs_list_bundled_checker(self) -> None:
+        paths = (
+            ROOT / "docs" / "getting-started.md",
+            ROOT / "docs" / "development.md",
+            ROOT / "CLAUDE.md",
+            ROOT / "AGENTS.md",
+        )
+        for path in paths:
+            text = path.read_text(encoding="utf-8")
+            self.assertIn("VERSION", text, path)
+            for relative in COPY_FILES:
+                self.assertIn(relative.replace("\\", "/"), text, path)
 
     def test_no_superiority_claim_in_docs_or_tests(self) -> None:
         banned = ("generally better", "generally cheaper", "generally faster", "behavioral superiority PASS")

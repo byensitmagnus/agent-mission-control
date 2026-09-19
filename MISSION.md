@@ -1,21 +1,19 @@
 schema_version: 1
 overall: NOT VERIFIED
 
-# Product contract v1
+# Host observations
 
 ## Goal / Definition of Done
 
-Portable skill with a bundled optional checker, role-safe receipts, one
-canonical claim file, and honest package identity. Behavioral superiority
-remains NOT VERIFIED. No push, merge, tag or release.
+Copy-path matches installer. Scoped host observations only where a native
+command actually ran. Behavioral superiority remains NOT VERIFIED.
+Branch push is authorized for machine handoff; merge, tag and release are not.
 
 ## Base and candidate
 
 Current artifact: dirty working tree on `codex/product-contract-v1` over
-`3cc23250383f4178d1f4d3e55ee5acbc4ec98771`. Candidate commit SHA is not stored
-in this file.
-Previous published ZIP: `v0.2.0-candidate.8`.
-Package identity for this slice: `0.2.0-candidate.10` (not a release).
+`6516f1165658c53d4b70809a391897a67ac8b75a`.
+Package identity: `0.2.0-candidate.10` (not a release).
 
 ## Route
 
@@ -29,41 +27,44 @@ Observed isolation: none
 
 | Gate | Status | Evidence |
 |---|---|---|
-| False overall PASS rejected | PASS | `scripts/test_validate.py` |
-| Bundled checker ships | NOT VERIFIED | `scripts/amc-check.py` until package tests run |
-| Claims SkillOpt vs harmful-skills split | NOT VERIFIED | `research/claims.json` until renderer check runs |
-| Superpowers local vs upstream distinct | NOT VERIFIED | v6.1.1 vs v6.4.1 in `research/claims.json` |
+| Copy-path lists checker scripts | PASS | `docs/getting-started.md`; `scripts/test_amc_check.py` 18/18 |
+| Cursor bundled checker from installed folder | observed | Cursor 3.21.13; checker PASS, behavioral NOT VERIFIED |
+| Grok project skill discovery | observed | Grok 1.0.3 `inspect --json`; `source.type=project`; exact SKILL.md path |
+| Cursor / Codex / Claude / Kimi skill_discovery | NOT VERIFIED | no native loader listing in this slice |
 | Behavioral superiority vs direct work | NOT VERIFIED | no production outcome study |
 
 ## Authority
 
-Authorized: local engineering and docs on `codex/product-contract-v1`.
-Forbidden: push, merge, GitHub release, global install, host-config change, daemons,
+Authorized: local engineering and docs on `codex/product-contract-v1`, plus
+publishing this branch to GitHub for machine handoff.
+Forbidden: merge, GitHub release, global install, host-config change, daemons,
 new services, new AMC subject-run batches and GitHub settings changes.
 
 ## Jobs
 
 | Job | Role | Agent | Required | Lifecycle | Verdict | Owned scope |
 |---|---|---|---|---|---|---|
-| Product contract v1 | lead | Lead | yes | running | NOT VERIFIED | `scripts/amc_guard.py`, packaging, claims, docs |
-| Farm comparison | worker | Lead | no | superseded | NOT VERIFIED | superseded: farm closed; conclusion in postmortem |
+| Copy-path + host observations | lead | Lead | yes | completed | NOT VERIFIED | getting-started, hosts.md |
+| Farm comparison | worker | Lead | no | superseded | NOT VERIFIED | farm closed |
 
 ## Decisions and evidence
 
-Engineering integrity is separate from agent quality. Canonical checker:
-`scripts/amc_guard.py`. Installed CLI: `scripts/amc-check.py`. Claims:
-`research/claims.json`. Markdown ledgers are generated views.
+Grok inspect is discovery, not a completed task. Cursor checker execution is
+Python from an installer-placed folder, not skill-picker discovery. Codex,
+Claude Code and Kimi have no equivalent no-model inspect used here.
 
 ## Blockers
 
-None.
+None that block remaining local docs. Native discovery on Codex/Claude/Kimi
+needs those clients' own listing path without a model run.
 
 ## Next action
 
-Finish local tests. Do not push, merge or cut a GitHub release.
+Continue on `codex/product-contract-v1` from GitHub. Leave other host cells
+NOT VERIFIED until similarly scoped. Do not merge, tag or release.
 
 ## Last verified
 
-Commit/snapshot: parent `3cc23250383f4178d1f4d3e55ee5acbc4ec98771`. UTC timestamp: 2026-09-19T10:00:00Z.
-This file does not pin the candidate commit SHA.
-External actions not performed: push, merge, tag, release.
+Parent commit `6516f1165658c53d4b70809a391897a67ac8b75a`. Date: 2026-09-19.
+External actions authorized: push this branch for machine handoff.
+Not performed: merge, tag, release, GitHub settings change, global install.

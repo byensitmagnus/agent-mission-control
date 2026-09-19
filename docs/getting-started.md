@@ -29,7 +29,7 @@ Replace `claude-code` with `codex`, `cursor`, `grok` or `kimi`. Details:
 runtime files into the skill directory for your host, keeping the folder name
 `agent-mission-control`:
 
-`SKILL.md`, `LICENSE`, `references/`, `templates/`, `agents/`, `assets/`
+`SKILL.md`, `LICENSE`, `VERSION`, `references/`, `templates/`, `agents/`, `assets/`, `scripts/amc-check.py`, `scripts/amc_guard.py`
 
 | Host | Project directory |
 |---|---|
@@ -45,7 +45,8 @@ The file that must exist:
 your-project/<host-skills-dir>/agent-mission-control/SKILL.md
 ```
 
-Copying only `SKILL.md` breaks the skill. Dot-folders may be hidden.
+Copying only `SKILL.md` breaks the skill. Omitting the two checker scripts
+leaves enforcement instruction-only. Dot-folders may be hidden.
 
 **Codex can do the files.** Open the target project and paste:
 
@@ -54,7 +55,8 @@ Install Agent Mission Control from
 https://github.com/byensitmagnus/agent-mission-control
 into this project only. Use the default branch, not a tagged ZIP.
 
-Copy SKILL.md, LICENSE, references, templates, agents and assets into
+Copy SKILL.md, LICENSE, VERSION, references, templates, agents, assets,
+scripts/amc-check.py and scripts/amc_guard.py into
 .agents/skills/agent-mission-control/. Inspect first. Preserve any existing
 installation or customizations; if one exists, show the difference before
 replacing it. Do not change global settings, model defaults or permissions.
@@ -106,7 +108,9 @@ Reading a README does not prove the application works.
 
 Use a [bug, feature, resume or research recipe](task-guide.md). Give the outcome
 and what must stay working. The lead owns coordination. You do not assign a
-team.
+team. For delegated, interrupted, multi-writer or high-cost-of-false-PASS work,
+run `python scripts/amc-check.py CONTRACT.json` from the installed skill folder
+when the host can. If it cannot, keep the result instruction-only / NOT VERIFIED.
 
 ## Troubleshooting
 
@@ -117,6 +121,7 @@ team.
 | The agent cannot read the README | Resolve the host’s file-access prompt. A finished reply is not a successful read. Do not disable the sandbox. |
 | No subagents appear | A small task may stay with the lead. Installation does not add a subagent API. |
 | Output claims tests passed without evidence | Inspect the command output and the artifact. Missing proof is not PASS. |
+| `amc-check.py` is missing | Copy the two checker scripts or use the installer. Continue without pretending the checker ran. |
 
 To stop using this copy, deselect it and move
 `<host-skills-dir>/agent-mission-control/` out of the discovery folder.

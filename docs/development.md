@@ -58,9 +58,10 @@ in [its record](engineering-candidate.8.md). The Truth Layer contract is
 [control-contract.md](control-contract.md). Passing these checks is engineering
 evidence only.
 
-Root `MISSION.md` and `docs/` are repository status. Packaging copies only
-`SKILL.md`, `LICENSE`, `agents/`, `references/`, `templates/` and `assets/`.
-The live mission record is not part of the runtime skill or plugin.
+Root `MISSION.md` and `docs/` are repository status. Packaging copies
+`SKILL.md`, `LICENSE`, `VERSION`, `agents/`, `references/`, `templates/`,
+`assets/`, `scripts/amc-check.py` and `scripts/amc_guard.py`. The live mission
+record is not part of the runtime skill or plugin.
 
 The fixtures intentionally contain broken examples for regression controls.
 They are not production implementations. Replay C# executes as trusted local

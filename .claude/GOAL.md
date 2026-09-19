@@ -1,21 +1,28 @@
-# GOAL — product contract v1
+# Mål
 
-**Date:** 2026-09-19
-**Repo:** https://github.com/byensitmagnus/agent-mission-control
-**Branch:** `codex/product-contract-v1`
+AMC er en bærbar, progressivt håndhævet control-skill: mindste nyttige rute, rolle-sikker delegation og evidensbundne claims — checker når hosten kan, ellers instruction-only.
 
-## Product
+## Succeskriterier
 
-PORTABLE BY DEFAULT
-PROGRESSIVELY ENFORCED
-ROLE-SAFE
-EVIDENCE-BOUND
-SMALL ENOUGH NOT TO BECOME THE PROBLEM
+- Copy-path, Codex-paste og runtime-lister matcher installeren: `VERSION`, `scripts/amc-check.py` og `scripts/amc_guard.py` er med.
+- Ét scoped observation: bundled checker kørt fra en installeret Cursor-skill-mappe; `docs/hosts.md` opdaterer kun den celle og dens begrænsning.
+- Trivielt direct work kræver stadig ikke mission-JSON eller checker.
+- Claims og host-matrix forbliver scoped. General behavioral superiority forbliver NOT VERIFIED.
+- Berørte tests består. Ingen merge, tag eller GitHub-release.
 
-General behavioral superiority remains NOT VERIFIED.
+## Begrænsninger
 
-## This run
+- Portable Markdown-skill. Ingen daemon, farm, runtime eller andet orkestrator-lag.
+- Sandhed → Proof → UX → Beta. Ingen kvalitets-, pris- eller hastighedspåstande uden evidens.
+- Rolle-sikker: worker default `delegation_authority: false`.
+- Observation ≠ discovery: installer `MATCH` er ikke `skill_discovery`.
+- Autorisation: `codex/product-contract-v1`. Branch-push til GitHub er givet 2026-09-19 til maskine-handoff. Merge, tag og release kræver nyt mandat.
 
-Correct Superpowers local v6.1.1 vs upstream v6.4.1, split SkillOpt from
-harmful-skills, ship bundled `amc-check.py`, role authority, canonical
-`research/claims.json`, honest VERSION `0.2.0-candidate.10`. No push.
+## Uden for scope
+
+- Merge, GitHub-release, global install, host-config
+- Farm, benchmark-teater, Claude Code Projects-klon
+- Ny arkitektur, nye hosts, cheap-model override
+- WPF/XAML (gælder FPS-booster, ikke dette repo)
+
+_Opdateret: 2026-09-19_

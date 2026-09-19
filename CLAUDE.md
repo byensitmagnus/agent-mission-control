@@ -3,9 +3,10 @@
 Agent Mission Control is a **portable Markdown skill**. It is not a runtime,
 framework, daemon or extra server.
 
-Runtime copied into user projects: `SKILL.md`, `LICENSE`, `references/`,
-`templates/`, `agents/`, `assets/`. Everything else is repo documentation,
-packaging or checks.
+Runtime copied into user projects: `SKILL.md`, `LICENSE`, `VERSION`,
+`references/`, `templates/`, `agents/`, `assets/`, `scripts/amc-check.py`,
+`scripts/amc_guard.py`. Everything else is repo documentation, packaging or
+checks.
 
 Hard rules for agents working here:
 

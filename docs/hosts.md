@@ -169,7 +169,8 @@ Directory and invocation mappings were checked on 2026-09-13 against
 [Cursor's skills guide](https://cursor.com/docs/skills), and
 [Kimi CLI's skills guide](https://moonshotai.github.io/kimi-cli/en/customization/skills.html).
 Grok's mapping was checked against the installed Grok **1.0.3 (1a29d5bc12)**
-`docs/user-guide/08-skills.md` and its `inspect --help` command. This is evidence
+`docs/user-guide/08-skills.md` and its `inspect --help` command, then re-checked
+with `grok inspect --json` on 2026-09-19 against this source. This is evidence
 for that CLI build; the Grok model name alone does not identify a compatible host.
 
 See [the candidate.8 engineering record](engineering-candidate.8.md) for exact
@@ -184,15 +185,31 @@ is not host discovery.
 | Capability | Codex | Claude Code | Cursor | Grok | Kimi |
 |---|---|---|---|---|---|
 | filesystem_install | observed in installer tests | observed in installer tests | observed in installer tests | observed in installer tests | observed in installer tests |
-| skill_discovery | NOT VERIFIED | NOT VERIFIED | NOT VERIFIED | NOT VERIFIED | NOT VERIFIED |
-| bundled_checker_execution | NOT VERIFIED | NOT VERIFIED | NOT VERIFIED | NOT VERIFIED | NOT VERIFIED |
+| skill_discovery | NOT VERIFIED | NOT VERIFIED | NOT VERIFIED | observed | NOT VERIFIED |
+| bundled_checker_execution | NOT VERIFIED | NOT VERIFIED | observed | NOT VERIFIED | NOT VERIFIED |
 | child_spawn | NOT VERIFIED | NOT VERIFIED | NOT VERIFIED | NOT VERIFIED | NOT VERIFIED |
 | write_isolation | NOT VERIFIED | NOT VERIFIED | NOT VERIFIED | NOT VERIFIED | NOT VERIFIED |
 | model_override | NOT VERIFIED | NOT VERIFIED | NOT VERIFIED | NOT VERIFIED | NOT VERIFIED |
-| last_observed_host_version | unknown | unknown | unknown | unknown | unknown |
+| last_observed_host_version | unknown | unknown | 3.21.13 | 1.0.3 (1a29d5bc12) | unknown |
 
 Last matrix review: 2026-09-19. Operating system for installer tests: Windows
 and Ubuntu CI for packaging, not a host-activation study.
+
+Cursor `bundled_checker_execution` is a scoped 2026-09-19 observation: a Cursor
+agent on Windows (3.21.13) installed this source into a temporary project's
+`.cursor/skills/agent-mission-control/` and ran
+`python scripts/amc-check.py` from that folder on a sequential_delegated
+mission file (Python 3.11.9). The checker returned status PASS,
+`enforcement_scope: bundled_checker_enforced`, `behavioral: NOT VERIFIED`.
+That does not prove the Cursor skill picker loaded AMC.
+
+Grok `skill_discovery` is a scoped 2026-09-19 observation: Grok CLI 1.0.3
+(`1a29d5bc12`) `inspect --json` on a temporary project returned
+`skills[0].name=agent-mission-control`, `source.type=project`,
+`userInvocable=true`, and `source.path` equal to the installer-placed
+`.grok/skills/agent-mission-control/SKILL.md`. No model request and no
+delegated task were run. This does not transfer to Codex, Claude Code,
+Cursor, Kimi, macOS or Linux, and it is not `bundled_checker_execution`.
 
 [Get started](getting-started.md) · [Task recipes](task-guide.md) ·
 [Compare implementations](choosing.md)
