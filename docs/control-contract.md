@@ -3,6 +3,7 @@
 Canonical machine semantics: [`evals/control_contract.py`](../evals/control_contract.py), schema_version `1`.
 The blank form is [`templates/control-contract.json`](../templates/control-contract.json).
 Product statuses live in [`status.json`](status.json).
+Canonical claims: [`claim-ledger.md`](claim-ledger.md).
 
 This is an engineering contract for planning, observation and acceptance. It is
 not a runtime, scheduler, database or proof that AMC is better, cheaper or faster.
@@ -65,6 +66,7 @@ clean-commit evidence.
 |---|---|
 | Unique job IDs, cycles, overlapping writers, unknown enums | Validator-enforced in this repo |
 | Delegation needs explicit positive break-even | Validator-enforced on the contract document |
+| Sequential specialist isolation | Instruction-only in live chats; validator-enforced route name `sequential_delegated` when a contract file is checked. Independence is not required |
 | Parallel writers need host isolation | Validator-enforced claim; isolation itself is host-enforced |
 | Observed child/session IDs | Directly observed when the host reports them |
 | Skill text telling the lead not to fake PASS | Instruction-only at runtime |
@@ -93,7 +95,7 @@ Cached and uncached tokens must not be priced the same.
 
 ## Sources for this slice
 
-Field pins were last graded in [`field-state.md`](field-state.md) on 2026-09-15.
-They were **not freshly revalidated** on 2026-09-18. Star counts remain popularity
-data, not quality. Homemade subject-run farms stay closed
+Field pins were last graded in [`field-state.md`](field-state.md). Claude Code
+Projects was fetched 2026-09-19. Star counts remain popularity data, not quality.
+Homemade subject-run farms stay closed
 ([candidate.9 postmortem](../evals/candidate.9/README.md)).

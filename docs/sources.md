@@ -5,7 +5,8 @@ borrows **ideas**, then implements them as its own short rules. It does not bund
 copy, install, or depend on the source projects' code, services, agents, databases,
 schedulers, or model APIs. The runtime is [SKILL.md](../SKILL.md) plus the linked
 reference files below. Evidence grades, mechanism comparison and actor notes are in
-[field state](field-state.md). Pins and limits also live in the
+[field state](field-state.md). Canonical claims:
+[claim-ledger.md](claim-ledger.md). Pins and limits also live in the
 [research basis](research-basis.md) and [provenance record](../references/provenance.md).
 
 Grade: **A** peer-reviewed or controlled study · **B** preprint/lab · **C** official
@@ -22,7 +23,9 @@ docs · **D** repo/practitioner · **E** AMC decision. Grades are not quality sc
 | Local verification-loop, security-review and deployment-patterns | D | Task-specific checks and risk-driven independent review. | [verification](../references/verification.md) |
 | Local strategic-compact | D | Preserve milestone, artifact, failed approach, next action. | [resume](../references/resume.md) |
 | [OpenAI skills](https://developers.openai.com/codex/skills), [subagents](https://developers.openai.com/codex/subagents), [config](https://developers.openai.com/codex/config-reference) | C | Use the host; do not recreate it. | [SKILL.md](../SKILL.md) |
-| [Anthropic long-running](https://www.anthropic.com/engineering/effective-harnesses-for-long-running-agents), [context engineering](https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents), [effective agents](https://www.anthropic.com/engineering/building-effective-agents) | C | Recoverable progress, selective context, complexity only when earned. Orchestrator-worker is allowed for unpredictable complex subtasks, not as the default. | [routing](../references/packets.md), [resume](../references/resume.md) |
+| [Anthropic long-running](https://www.anthropic.com/engineering/effective-harnesses-for-long-running-agents), [context engineering](https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents), [effective agents](https://www.anthropic.com/engineering/building-effective-agents) | C | Recoverable progress, selective context, complexity only when earned. Orchestrator-worker is allowed for unpredictable complex subtasks, not as the default. Sequential specialist isolation is allowed; independence is required for parallel jobs. | [routing](../references/packets.md), [resume](../references/resume.md) |
+| [Claude Code Projects](https://code.claude.com/docs/en/claude-projects) | C | Comparison only. Hosted coordinator + cloud threads. Out of AMC's product class. | [claim-ledger.md](claim-ledger.md) AMC-PROJ-001 |
+| [Karpathy autoresearch](https://github.com/karpathy/autoresearch) | D | Frozen evaluator, bounded surface, keep/discard. Not a swarm. | [optimization](../references/optimization.md) |
 | [Kim et al., Nature MMI 2026](https://www.nature.com/articles/s42256-026-01268-y) | A | Cautious sequential default for coding-like work; fan-out when independent; centralize material review. n=20 SWE/Terminal subsets; fixed topologies. | [routing](../references/packets.md) |
 | AMC cost-aware delegation policy | E | Break-even preflight, worker/retry/reviewer ceilings, compact artifacts, optional intent profiles. Not a claim that AMC is cheaper. | [resources](../references/resources.md#cost-aware-delegation), [profiles](../examples/profiles.md) |
 

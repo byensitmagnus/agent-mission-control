@@ -123,7 +123,7 @@ To stop using this copy, deselect it and move
 That does not change global model settings.
 
 **Astra or extra models?** No. Keep your selected lead.
-**Always spawn agents?** No. Delegate only for independent work.
+**Always spawn agents?** No. Direct work is the default. Sequential specialists are optional. Parallel fan-out needs independent jobs.
 **Tagged plugin ZIP?** Last tag is candidate.8, an older runtime. Prefer current source.
 **Update?** [Checked update with a retained backup](hosts.md#update-an-existing-project-installation).
 

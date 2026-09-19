@@ -4,9 +4,9 @@ AMC helps one lead agent choose the smallest execution graph that can raise
 verifiable capacity within the user's budget and still prove the result. It
 starts with the objective, constraints, and acceptance checks.
 For an understood sequential change, the lead works directly. That is a cautious
-default, not a ban on extra agents. A stronger lead may delegate to cheaper
-workers only when jobs are independent, isolated and cheap to verify. For
-separate independent jobs, it gives native subagents only the relevant task,
+default, not a ban on extra agents. Sequential delegation is allowed for bounded
+specialization or context isolation. Independence is required for parallel ready
+jobs. For those jobs, the lead gives native subagents only the relevant task,
 inputs, authority, owned files, and proof.
 Parallel writers need host isolation (worktree, sandbox, VM or permissions);
 otherwise the lead serializes. The lead remains responsible for integration and
@@ -17,12 +17,14 @@ receive unrelated history, but shared host instructions, available skills, and
 permissions can still apply. See the reusable [packet](../templates/context-packet.md)
 and [routing rules](../references/packets.md).
 
-Routing is dynamic. A task may gain an investigation, a candidate loop, a fresh
-review, or a repair only when that work can answer a real question. The lead
-chooses the graph from six questions: sequential vs decomposable work, evaluator
-strength, error risk, required capability, information value vs coordination
-cost, and budget/authority. Direct, review, optimization and fan-out are
-combinable mechanisms, not exclusive modes. The lead may choose an available
+Routing is dynamic. A task may gain an investigation, a sequential specialist, a
+candidate loop, a fresh review, or a repair only when that work can answer a
+real question. The lead chooses the graph from six questions: direct vs
+sequential specialist vs independent parallel jobs, evaluator strength, error
+risk, required capability, information value vs coordination cost, and
+budget/authority. Direct, sequential, review, optimization and fan-out are
+combinable mechanisms, not exclusive modes. Claims live in
+[claim-ledger.md](claim-ledger.md). The lead may choose an available
 model and effort suitable for a bounded job, but AMC makes no promise about
 price, speed, or quality. Current files and executed checks—not a worker saying
 “done”—decide the result.

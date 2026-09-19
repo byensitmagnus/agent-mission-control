@@ -10,6 +10,7 @@ inspected implementation as well as documentation; it is not an execution benchm
 |---|---|---|
 | Give a coding agent a goal and let it choose, coordinate and verify the work. | **Agent Mission Control** | A portable workflow skill using your current host, selected lead and available tools. |
 | Follow many worker sessions, branches, pull requests and reviews in a separate live desktop interface. | **Agent Orchestrator** | A desktop platform with a local daemon, Kanban and worker workspaces. |
+| Let a hosted coordinator spawn cloud Claude Code threads with shared repos, instructions and memory. | **Claude Code Projects** | Anthropic product (public beta). Not an AMC skill and not a competitor in the same class. |
 | Install explicit Codex model/effort assignments for named agent roles. | **Codex Astra/Luna Orchestrator** | Project installers, Pro/Plus profiles, role files and tuning guides. |
 
 ## What you get with AMC
@@ -40,6 +41,14 @@ documents overwrite handling, role overrides, example tasks and token accounting
 If you want those specific presets, evaluate that setup. AMC's core skill keeps
 your selected lead and routes work to available capabilities; it does not require
 Astra/Luna or promise that another model pairing will be cheaper.
+
+**Claude Code Projects** is Anthropic's hosted coordinator: one conversation
+routes work to cloud Claude Code threads that share repositories, project
+instructions and project memory. Official docs:
+[Claude Code Projects](https://code.claude.com/docs/en/claude-projects)
+(fetched 2026-09-19, public beta). AMC does not copy that runtime, UI, VM
+isolation or thread cap. Use Projects when you want Anthropic's hosted
+coordinator. Use AMC when you want a portable skill on a local or existing host.
 
 The linked comparison repositories are forks of
 [Untrivial-ai/agent-orchestrator](https://github.com/Untrivial-ai/agent-orchestrator)

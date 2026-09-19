@@ -36,10 +36,10 @@ constraints and decisions that need your authority.
 | Code investigated before a change | Trace callers and guards in a read-only snapshot, then challenge findings. | Supported findings or reasoned refutations, with untested behavior clearly identified. |
 
 Small tasks stay with the lead. Larger tasks can use native subagents when they
-add value. A stronger lead may delegate bounded jobs to cheaper workers only
-when the work is independent, isolated and cheap to verify. That pairing is
-optional, not AMC's identity. Host tools and permissions determine what can
-actually run.
+add value. Sequential delegation is allowed for bounded specialization or
+context isolation. Independence is required for parallel ready jobs. Stronger-lead
+plus cheaper-worker is optional, not AMC's identity. Host tools and permissions
+determine what can actually run. Claims: [docs/claim-ledger.md](docs/claim-ledger.md).
 
 ## Start in your project
 
