@@ -1,17 +1,18 @@
 # Control contract
 
-Canonical machine semantics: [`evals/control_contract.py`](../evals/control_contract.py), schema_version `1`.
+Canonical machine semantics: [`scripts/amc_guard.py`](../scripts/amc_guard.py), schema_version `1`.
+The installed CLI is [`scripts/amc-check.py`](../scripts/amc-check.py).
 The blank form is [`templates/control-contract.json`](../templates/control-contract.json).
 Product statuses live in [`status.json`](status.json).
-Canonical claims: [`claim-ledger.md`](claim-ledger.md).
+Canonical claims: [`research/claims.json`](../research/claims.json).
 
 This is an engineering contract for planning, observation and acceptance. It is
 not a runtime, scheduler, database or proof that AMC is better, cheaper or faster.
 
 Markdown [`MISSION.md`](../MISSION.md) and [`templates/mission-view.md`](../templates/mission-view.md)
 remain human views. If the two disagree, the Python contract wins for machine
-checks. The installed skill package does not execute this Python; host behavior
-is still instruction-only unless this repository's checks are run.
+checks. Live chats stay instruction-only until the host runs the bundled checker
+on a mission file. Trivial direct tasks do not need a mission file.
 
 ## Status split
 
@@ -64,14 +65,14 @@ clean-commit evidence.
 
 | Rule | Class |
 |---|---|
-| Unique job IDs, cycles, overlapping writers, unknown enums | Validator-enforced in this repo |
-| Delegation needs explicit positive break-even | Validator-enforced on the contract document |
-| Sequential specialist isolation | Instruction-only in live chats; validator-enforced route name `sequential_delegated` when a contract file is checked. Independence is not required |
-| Parallel writers need host isolation | Validator-enforced claim; isolation itself is host-enforced |
-| Observed child/session IDs | Directly observed when the host reports them |
-| Skill text telling the lead not to fake PASS | Instruction-only at runtime |
-| CI green on `main` | Externally attested engineering, not behavioral PASS |
-| Package bytes and install rollback | Validator-enforced in packaging/install tests |
+| Unique job IDs, cycles, overlapping writers, unknown enums | repository_ci_enforced |
+| Installed `amc-check.py` on a mission file | bundled_checker_enforced |
+| Live routing in a host chat | instruction_only |
+| Parallel writers need host isolation | Validator claim when checked; isolation itself is host_enforced |
+| Observed child/session IDs | host_enforced when the host reports them |
+| Skill text telling the lead not to fake PASS | instruction_only |
+| CI green on `main` | externally_attested engineering, not behavioral PASS |
+| Package bytes and install rollback | repository_ci_enforced |
 
 ## AVO / offline learning eligibility
 

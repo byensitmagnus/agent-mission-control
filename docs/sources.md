@@ -16,7 +16,8 @@ docs · **D** repo/practitioner · **E** AMC decision. Grades are not quality sc
 | --- | --- | --- | --- |
 | Local Context Diamond | D | Only split genuinely independent work; exclusive files; lead integrates. | [routing](../references/packets.md) |
 | Local AVO and [NVIDIA AVO](https://arxiv.org/abs/2603.24517) | D / B | Frozen evaluator, recoverable baseline, failed-attempt notes. Ordinary long work uses milestones. | [optimization](../references/optimization.md) |
-| [Microsoft SkillOpt](https://github.com/microsoft/SkillOpt/tree/79124b37e9a6371e13b753f8bcd7adb1e493ade1), local Sleep | B / D | Train/selection/holdout; no live adoption. | [learning](../references/learning.md) |
+| [Microsoft SkillOpt](https://github.com/microsoft/SkillOpt/tree/79124b37e9a6371e13b753f8bcd7adb1e493ade1), local Sleep | B / D | Frozen target, bounded edits, held-out accept. Offline only. | [learning](../references/learning.md) |
+| [Agent Skills Can Be Harmful](https://arxiv.org/abs/2608.11888) | B | Optional procedure must not become mandatory ceremony. | [SKILL.md](../SKILL.md) |
 | Local Sleep-Learned and continuous-learning-v2 | D | Observations are data, never automatic policy. | [learning](../references/learning.md) |
 | [Untrivial](https://github.com/Untrivial-ai/agent-orchestrator/tree/15e9ea971f1711ec8b50e157d6eb300db6cbe0d6) | D | Reconcile mission record with files; no overlapping replacement writers. | [resume](../references/resume.md) |
 | [donvito](https://github.com/donvito/codex-astra-luna-orchestrator/tree/575e74ebcf9b199513151a8996665a71cf64ce50) | D | Choose available model/effort for a bounded job; keep lead ownership. | [routing](../references/packets.md) |

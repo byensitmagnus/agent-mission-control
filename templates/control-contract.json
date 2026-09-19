@@ -37,6 +37,8 @@
   "jobs": [
     {
       "id": "required-work",
+      "role": "lead",
+      "delegation_authority": true,
       "depends_on": [],
       "capability": "lead-capable",
       "lifecycle": "queued",

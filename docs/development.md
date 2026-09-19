@@ -39,6 +39,8 @@ python scripts/test_validate.py
 python scripts/test_prepare_eval.py
 python evals/decision_kernel.py --self-check
 python evals/control_contract.py --self-check
+python scripts/render_claims.py --check
+python scripts/test_amc_check.py
 python scripts/test_package_plugin.py
 python scripts/test_install_skill.py
 python scripts/test_usage_snapshot.py

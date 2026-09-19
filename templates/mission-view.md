@@ -14,6 +14,14 @@ Current artifact: NOT VERIFIED
 Base: NOT VERIFIED until a recoverable snapshot exists.
 Candidate: none.
 
+## Route
+
+Planned route: direct
+Observed route: direct
+Deviation: none
+Observed agents/threads: none
+Observed isolation: none
+
 ## Hard gates
 
 | Gate | Status | Evidence |
@@ -27,13 +35,14 @@ Forbidden: credentials, push, deploy, destructive work and new authority.
 
 ## Jobs
 
-| Job | Agent | Required | Lifecycle | Verdict | Owned scope |
-|---|---|---|---|---|---|
-| Required work | Lead | yes | queued | NOT VERIFIED | Named owned paths |
+| Job | Role | Agent | Required | Lifecycle | Verdict | Owned scope |
+|---|---|---|---|---|---|---|
+| Required work | lead | Lead | yes | queued | NOT VERIFIED | Named owned paths |
 
 Lifecycle is queued, running, completed or superseded. Verdict is PASS, FAIL,
 BLOCKED or NOT VERIFIED. Required is yes or no. Completion is not acceptance.
 A dropped job is superseded, optional, NOT VERIFIED, and names a superseded: reason.
+Workers default to no nested delegation. Reviewers are read-only.
 
 ## Decisions and evidence
 
@@ -50,3 +59,4 @@ Fill the objective, freeze the current artifact identity, then do the next autho
 ## Last verified
 
 Commit/snapshot: NOT VERIFIED. UTC timestamp: NOT VERIFIED.
+External actions not performed: push, merge, tag, release.

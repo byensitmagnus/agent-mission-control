@@ -28,11 +28,14 @@ kinds of claim. None is silently promoted to another.
 | Axis | Values | Use |
 |---|---|---|
 | Origin | primary_source · reasoned_inference · local_observation | Where the mechanism came from |
-| Enforcement | instruction_only · validator_enforced · host_enforced · externally_attested | What actually binds |
+| Enforcement | instruction_only · bundled_checker_enforced · repository_ci_enforced · host_enforced · externally_attested | What actually binds, with scope |
 | Outcome | not_verified · observed · repeatedly_observed | What we have seen happen |
 
 Grades A–E measure source quality. They are not outcome status. A green
-validator is deterministic contract proof, not behavioral proof.
+repository check is `repository_ci_enforced`, not an installed-product
+guarantee. A mission file passed through `amc-check.py` is
+`bundled_checker_enforced`. Live chats remain `instruction_only` until the
+checker runs.
 
 **Confidence** on an AMC rule: **high** = source and product class match;
 **medium** = source is adjacent or limited; **low** = local conservative choice.
@@ -47,10 +50,16 @@ validator is deterministic contract proof, not behavioral proof.
 | Desktop orchestrator | Daemon, worktrees, live UI | Agent Orchestrator | Out of class |
 | Hosted coordinator | Cloud threads, shared project memory, vendor UI | [Claude Code Projects](https://code.claude.com/docs/en/claude-projects) | Out of class |
 | Optimizer / learner | Offline search over instructions or kernels | NVIDIA AVO, Microsoft SkillOpt, Karpathy autoresearch | Offline only |
-| Portable skill | Loaded text plus optional scripts | AMC, Superpowers, Spec Kit | AMC's class |
+| Portable skill | Loaded text plus optional scripts | AMC | AMC's distribution |
+| Host plugin / method suite | Hooks, many skills, scripts | Superpowers v6.4.1 audited 2026-09-19 | Overlaps AMC at workflow-policy layer; different process |
 
 Do not compare AMC to ADK, LangGraph or Agent Framework as if they shipped the
-same product.
+same product. Compare at least five dimensions: distribution, execution
+substrate, workflow policy, deterministic enforcement, and state/artifact
+ownership. AMC and Superpowers overlap as workflow policies; do not run both as
+silent owners of one task. Claude Code Projects is a hosted substrate that can
+run an AMC policy. SDK/graph frameworks and desktop orchestrators remain out of
+AMC's runtime. Optimizer loops are optional routes with a frozen evaluator.
 
 ## Mechanism comparison
 
@@ -59,7 +68,7 @@ What each system can **enforce in code** versus what AMC can **ask a host to do*
 | Mechanism | Hosts (Codex / Claude Code / Cursor) | ADK / Agent Framework / LangGraph | AO | CALO | Superpowers / Spec Kit | AMC as a skill |
 |---|---|---|---|---|---|---|
 | Single-agent default | Native loop | Supported; MS docs: use a function if a function suffices | Workers are first-class | Role files still run in Codex | Superpowers prefers process skills first | Cautious default for sequential coding |
-| Multi-agent | Optional subagents; extra tokens | First-class graphs and orchestrations | Always-on workers | Named roles | SDD: implementer+review per task if chosen | Sequential specialist allowed; fan-out only for independent jobs |
+| Multi-agent | Optional subagents; extra tokens | First-class graphs and orchestrations | Always-on workers | Named roles | v6.4.1: Native inline or SDD | Sequential specialist allowed; fan-out only for independent jobs |
 | Execution graph | Implicit in the lead | Code DAG / checkpointed graph | Session board | Prompt roles | Plan file + SDD | Dynamic dependencies in the lead; no graph DB |
 | Context selection | Host compaction; skills progressive disclosure | Session state, context providers | Workspace files | Profile text | Skill load-before-action | Selective packets; over-compression loses facts |
 | Persistent state / resume | Host session + git | Checkpointers, workflow resume, hosted event logs | Daemon + worktrees | Codex session | Plan/todo files | Compact mission record; reconcile before trust |
@@ -80,7 +89,7 @@ A harness source-audit that counted skills in 9/11 systems and MCP in 8/11 is an
 
 | Mechanism | Source (grade) | AMC takes | AMC rejects | Confidence |
 |---|---|---|---|---|
-| Direct sequential coding as default | Kim et al. Nature MMI 2026 (**A**); Anthropic effective-agents 2024-12-19 (**C**) | Stay with the lead on understood dependent work | “Multi-agent never helps”; a live 45% classifier | high for sequential coding, medium elsewhere |
+| Direct sequential coding as default | Kim et al. Nature MMI 2026 (**A**); Anthropic effective-agents 2024-12-19 (**C**) | Reasoned inference: stay with the lead on tightly coupled work with high coordination cost | Universal sequential law; AMC sequential specialists proven | medium |
 | Sequential specialist isolation | Anthropic orchestrator-workers (**C**); OpenAI subagents (**C**); AMC Truth Layer (**E**) | Bounded sequential jobs for specialization or context isolation | Independence required for every delegated job | high for the split, low for payoff |
 | Parallel fan-out only if independent | Local Context Diamond (**D**); Nature Finance +80.8% vs PlanCraft −39..−70% (**A**) | Exclusive scopes; lead integrates | Fixed team; always-on SDD | high |
 | Central verification | Nature independent error amp ~17× vs centralized ~4× (**A**) | Lead acceptance; review when material | Swarm of unchecked writers | high |
@@ -114,7 +123,7 @@ Codex spawns subagents when asked; extra tokens; default depth 1; caution parall
 - [Building effective agents](https://www.anthropic.com/engineering/building-effective-agents) 2024-12-19: start simple; add complexity when measured; **orchestrator-workers** for complex work whose subtasks cannot be predicted (coding across unknown files is their example); evaluator-optimizer needs real criteria
 - [Context engineering](https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents), [long-running harness](https://www.anthropic.com/engineering/effective-harnesses-for-long-running-agents), [Managed Agents](https://www.anthropic.com/engineering/managed-agents) 2026-04-08, [multi-agent research](https://www.anthropic.com/engineering/multi-agent-research-system)
 - [Claude Code subagents](https://code.claude.com/docs/en/sub-agents): overflow context, not a default team
-- [Claude Code Projects](https://code.claude.com/docs/en/claude-projects) fetched 2026-09-19: hosted coordinator; cloud threads; VM + own branch; project memory vs CLAUDE.md; 200 threads/day hard cap; public beta Pro/Max. Soft: routing judgment, memory drafts. Hard: VM, branch, thread cap, skip-permissions. **Out of AMC class.**
+- [Claude Code Projects](https://code.claude.com/docs/en/claude-projects) fetched 2026-09-19: hosted coordinator; cloud threads; VM + own branch; project memory vs CLAUDE.md; 200 threads/day hard cap; public beta Pro/Max. Soft: routing judgment, memory drafts. Hard: VM, branch, thread cap. Cloning a repo is **workspace availability**, not proof that every file is in the active model context. MEMORY.md is an index; other files open on demand. **Out of AMC runtime class.** A hosted substrate may still run an AMC policy.
 - [Claude Agent SDK](https://code.claude.com/docs/en/agent-sdk/overview): loop in your process; Managed Agents is hosted
 
 The multi-agent research system reported a higher internal research score with
@@ -136,7 +145,8 @@ Do not quote Anthropic as “never orchestrate”. They document both the cost o
 ### Microsoft (**B** SkillOpt + **C** Agent Framework)
 
 - [Agent Framework overview](https://learn.microsoft.com/en-us/agent-framework/overview/): successor to AutoGen and Semantic Kernel; agents, harness agent, graph workflows, MCP, checkpointing, HITL. “If you can write a function, do that instead of an agent.”
-- SkillOpt [arXiv:2605.23904](https://arxiv.org/abs/2605.23904) v2; pin [79124b37](https://github.com/microsoft/SkillOpt/tree/79124b37e9a6371e13b753f8bcd7adb1e493ade1)
+- SkillOpt [arXiv:2605.23904](https://arxiv.org/abs/2605.23904) v2: frozen target, bounded edits, held-out accept. **Not** the source for “skills can be harmful.”
+- [Agent Skills Can Be Harmful](https://arxiv.org/abs/2608.11888) arXiv:2608.11888: 307 attributed failures; excessive verification and heavy pipelines dominate efficiency regressions.
 - OEO [arXiv:2608.09629](https://arxiv.org/abs/2608.09629) v1
 
 ### NVIDIA (**B**)
@@ -154,7 +164,7 @@ Do not quote Anthropic as “never orchestrate”. They document both the cost o
 - [Same model, different harness](https://arxiv.org/abs/2608.26218) (**B**, abstract): tight-window Verified F2PF 28%→49% with frozen weights.
 - [mini-SWE-agent](https://github.com/SWE-agent/mini-swe-agent) (**D**): ~100-line bash loop; reported >74% SWE-bench Verified with recent models.
 - Cursor [worktrees](https://cursor.com/docs/configuration/worktrees) / [Cloud Agents](https://cursor.com/docs/cloud-agent) (**C**)
-- [obra/superpowers](https://github.com/obra/superpowers) plugin v6.1.1 / pin [b36e082](https://github.com/obra/superpowers/tree/b36e0829c6d0140e93cfef2ca599b1b07d4a7797) (**D**): SessionStart hook injects bootstrap; SDD = fresh implementer + spec-reviewer + two-stage review if chosen; `verification-before-completion` is instruction-only; worktree skill fails open. Vendor README says “proven techniques”; AMC does not treat that as outcome proof.
+- [obra/superpowers](https://github.com/obra/superpowers) (**D**): local installed cache **v6.1.1**; audited upstream snapshot **v6.4.1** (`5bf4e78`, 2026-09-19). v6.4.1 Native/inline `executing-plans` runs the plan in-session with one fresh whole-branch review. SDD remains an alternative, not the only mode. `task-done` is deterministic when invoked. Worktrees: native tool, then git worktree, then continue in place with disclosure if consent is refused or the sandbox blocks creation. Not a SWE-bench win.
 - [github/spec-kit](https://github.com/github/spec-kit) (**D**): specs, not a multi-agent runtime
 - Agent Orchestrator pin [15e9ea97](https://github.com/Untrivial-ai/agent-orchestrator/tree/15e9ea971f1711ec8b50e157d6eb300db6cbe0d6); comparison fork [63a04f0](https://github.com/byensitmagnus/agent-orchestrator/tree/63a04f08fc5a5804a2306e96d1c59fc4a7f68c03) (**D**)
 - donvito CALO pin [575e74eb](https://github.com/donvito/codex-astra-luna-orchestrator/tree/575e74ebcf9b199513151a8996665a71cf64ce50); fork [014b1d7](https://github.com/byensitmagnus/codex-astra-luna-orchestrator/tree/014b1d7c48c39087beec8aa4f1ca022053ac17b3) (**D**)
@@ -175,7 +185,7 @@ mechanisms. It should not take the products as dependencies.
 | [Agent Orchestrator](https://github.com/Untrivial-ai/agent-orchestrator/tree/15e9ea971f1711ec8b50e157d6eb300db6cbe0d6) | 12,056 | [15e9ea97](https://github.com/Untrivial-ai/agent-orchestrator/tree/15e9ea971f1711ec8b50e157d6eb300db6cbe0d6) | Fact-based status, exclusive workspaces, isolation | Desktop app, daemon, always-on workers |
 | [oh-my-claudecode](https://github.com/Yeachan-Heo/oh-my-claudecode/tree/5281b19e0d64f8e6dc6767f2130299a88af2dc71) | 39,172 | [5281b19](https://github.com/Yeachan-Heo/oh-my-claudecode/tree/5281b19e0d64f8e6dc6767f2130299a88af2dc71) | Host adapters, role routing, limited concurrency | “Team mode recommended” as a universal default |
 | [DeerFlow](https://github.com/bytedance/deer-flow/tree/14c9d44440780e63563e935046db8708e121a5b1) | 82,462 | [14c9d44](https://github.com/bytedance/deer-flow/tree/14c9d44440780e63563e935046db8708e121a5b1) | Resource limits, compact artifact handoffs | Gateway, database and runtime architecture |
-| [Superpowers](https://github.com/obra/superpowers/tree/b36e0829c6d0140e93cfef2ca599b1b07d4a7797) | 286,856 | [b36e082](https://github.com/obra/superpowers/tree/b36e0829c6d0140e93cfef2ca599b1b07d4a7797) | Progressive disclosure, specialized workflows | Mandatory implementer/reviewer chain on small tasks |
+| [Superpowers](https://github.com/obra/superpowers/tree/b36e0829c6d0140e93cfef2ca599b1b07d4a7797) | 286,856 | local v6.1.1 / audited v6.4.1 | Progressive disclosure; optional specialized workflows | Mandatory SDD as AMC identity; “proven techniques” as outcome proof |
 | [wshobson/agents](https://github.com/wshobson/agents/tree/4236bb91f8395b0435f1d8b8baf9e8e4c69a8620) | 39,667 | [4236bb9](https://github.com/wshobson/agents/tree/4236bb91f8395b0435f1d8b8baf9e8e4c69a8620) | Capability routing, host profiles | Their model hierarchy as a documented benchmark |
 | [Ralph Orchestrator](https://github.com/mikeyobrien/ralph-orchestrator/tree/edc2b3268c9bd0c08a12c8193a7ace7ab2789261) | 3,138 | [edc2b32](https://github.com/mikeyobrien/ralph-orchestrator/tree/edc2b3268c9bd0c08a12c8193a7ace7ab2789261) | Stop conditions, fail-closed checks | Autonomous loops without a clear end |
 | [Astra–Luna Orchestrator](https://github.com/donvito/codex-astra-luna-orchestrator/tree/575e74ebcf9b199513151a8996665a71cf64ce50) | 1,336 | [575e74eb](https://github.com/donvito/codex-astra-luna-orchestrator/tree/575e74ebcf9b199513151a8996665a71cf64ce50) | Optional host mapping | Proof of better quality or lower price |
@@ -202,6 +212,9 @@ These statements were too strong in earlier AMC docs and are withdrawn:
 8. **“Delegate only when independent.”** Too strict. Independence is required for parallel ready jobs. Sequential specialist isolation is a separate route (`sequential_delegated`).
 9. **Claude Code Projects as an AMC feature or competitor in the same class.** Different product: hosted coordinator, not a portable skill.
 10. **Superpowers “proven techniques” as AMC evidence.** Vendor language. Superpowers verification is instruction-only.
+11. **SkillOpt as the source for “skills can be harmful.”** Wrong paper. Use arXiv:2608.11888 for skill-induced failure; SkillOpt is offline bounded optimization.
+12. **Nature MMI as a universal sequential coding rule.** The study reports trade-offs in tested setups, including a 20-instance SWE subset. AMC's direct default is a reasoned inference.
+13. **Repository clone equals full model context.** Workspace availability is not active attention.
 
 ## AMC kernel mapping
 
@@ -211,7 +224,7 @@ file, history, evals.
 | Kernel rule | Why it exists | Limit |
 |---|---|---|
 | One lead, adaptive graph | Host is the real harness (**C**); Markdown cannot enforce a DAG (**E**) | Agents can ignore the skill |
-| Sequential default | Nature SWE subset (**A**) + Anthropic simplicity (**C**) | Not a ban on sequential specialists or fan-out |
+| Sequential default | Reasoned inference from Nature trade-offs (**A**) + Anthropic simplicity (**C**) | Not a universal coding rule; not a ban on specialists |
 | Sequential specialist | Anthropic orchestrator-workers (**C**); OpenAI subagents (**C**) | Extra hop is not a quality claim |
 | Scout then decide | Context Diamond (**D**); information value vs cost (**E**) | Scout is not a team recruiter |
 | Independent fan-out + host isolation | Diamond (**D**) + host isolation docs (**C**) + Nature error amp (**A**) | Isolation is the host's job |

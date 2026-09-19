@@ -11,7 +11,7 @@ import tempfile
 from pathlib import Path
 
 from package_plugin import (
-    COPY_DIRS, PLUGIN_NAME, REQUIRED_FILES, SOURCE_ROOT, VERSION,
+    COPY_DIRS, COPY_FILES, PLUGIN_NAME, REQUIRED_FILES, SOURCE_ROOT, VERSION,
     _absolute, _is_link, _is_within, _reject_linked_chain,
     _validate_default_source, _validate_source, package,
 )
@@ -27,18 +27,35 @@ SHA256 = re.compile(r"[0-9a-f]{64}$", re.IGNORECASE)
 
 
 def file_hashes(root: Path, selected: bool = False) -> dict[str, str]:
-    paths = [root / name for name in REQUIRED_FILES] if selected else []
-    trees = [root / name for name in COPY_DIRS] if selected else [root]
+    paths: list[Path] = []
+    if selected:
+        paths.extend(root / name for name in REQUIRED_FILES)
+        paths.extend(root / relative for relative in COPY_FILES)
+        trees = [root / name for name in COPY_DIRS]
+    else:
+        trees = [root]
     for tree in trees:
         for path in tree.rglob("*"):
             if _is_link(path):
                 raise ValueError(f"linked file or directory: {path}")
             if path.is_file():
+                if path.name == "BUILD_RECORD.json":
+                    continue
                 paths.append(path)
             elif not path.is_dir():
                 raise ValueError(f"unsupported file: {path}")
+    unique = []
+    seen = set()
+    for path in paths:
+        if path.name == "BUILD_RECORD.json":
+            continue
+        key = path.relative_to(root).as_posix()
+        if key in seen:
+            continue
+        seen.add(key)
+        unique.append(path)
     return {path.relative_to(root).as_posix(): hashlib.sha256(path.read_bytes()).hexdigest()
-            for path in sorted(paths)}
+            for path in sorted(unique)}
 
 
 def fingerprint(files: dict[str, str]) -> str:

@@ -176,5 +176,23 @@ See [the candidate.8 engineering record](engineering-candidate.8.md) for exact
 checks, client observations and remaining limits. Local Windows checks do not
 establish that a complete task works on macOS, Linux or every host/version.
 
+## Capability matrix
+
+Status is scoped. Documentation is not an observation. An installer self-check
+is not host discovery.
+
+| Capability | Codex | Claude Code | Cursor | Grok | Kimi |
+|---|---|---|---|---|---|
+| filesystem_install | observed in installer tests | observed in installer tests | observed in installer tests | observed in installer tests | observed in installer tests |
+| skill_discovery | NOT VERIFIED | NOT VERIFIED | NOT VERIFIED | NOT VERIFIED | NOT VERIFIED |
+| bundled_checker_execution | NOT VERIFIED | NOT VERIFIED | NOT VERIFIED | NOT VERIFIED | NOT VERIFIED |
+| child_spawn | NOT VERIFIED | NOT VERIFIED | NOT VERIFIED | NOT VERIFIED | NOT VERIFIED |
+| write_isolation | NOT VERIFIED | NOT VERIFIED | NOT VERIFIED | NOT VERIFIED | NOT VERIFIED |
+| model_override | NOT VERIFIED | NOT VERIFIED | NOT VERIFIED | NOT VERIFIED | NOT VERIFIED |
+| last_observed_host_version | unknown | unknown | unknown | unknown | unknown |
+
+Last matrix review: 2026-09-19. Operating system for installer tests: Windows
+and Ubuntu CI for packaging, not a host-activation study.
+
 [Get started](getting-started.md) · [Task recipes](task-guide.md) ·
 [Compare implementations](choosing.md)

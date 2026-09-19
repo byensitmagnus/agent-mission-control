@@ -8,6 +8,10 @@ make jobs independent. Each writer owns one exclusive scope, including tests,
 generated files and resources. Confirm the old owner stopped before transferring
 writes; if uncertain, inspect read-only. Preserve collaborators' edits.
 
+Packets name `role`, `delegation_authority` (workers default false), owned
+scope and the acceptance check. Reviewers do not write. Nested children without
+authority are a deviation, not extra capacity.
+
 Parallel writers need **host-enforced** isolation: a worktree, sandbox, VM or
 exclusive permissions. A prompt that names exclusive files is not a sandbox.
 If the host cannot isolate writers, serialize the writes and say so. Shared

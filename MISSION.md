@@ -1,67 +1,58 @@
 schema_version: 1
 overall: NOT VERIFIED
 
-# Truth Layer v1
+# Product contract v1
 
 ## Goal / Definition of Done
 
-Canonical fail-closed control contract for intent, route, observation, artifact
-identity and acceptance. Engineering checks on this branch. Behavioral
-superiority remains NOT VERIFIED. No push, merge, tag or release.
+Portable skill with a bundled optional checker, role-safe receipts, one
+canonical claim file, and honest package identity. Behavioral superiority
+remains NOT VERIFIED. No push, merge, tag or release.
 
 ## Base and candidate
 
-Current artifact: dirty working tree on `codex/truth-layer-v1` over base tree
-`9a347734ba8e2e4974160a8e1a3f77c1b0b8dc28`. Candidate commit SHA is not stored
+Current artifact: dirty working tree on `codex/product-contract-v1` over
+`3cc23250383f4178d1f4d3e55ee5acbc4ec98771`. Candidate commit SHA is not stored
 in this file.
-Previous published ZIP: `v0.2.0-candidate.8` (older runtime).
-Candidate.9: `main` source, no tagged ZIP.
+Previous published ZIP: `v0.2.0-candidate.8`.
+Package identity for this slice: `0.2.0-candidate.10` (not a release).
+
+## Route
+
+Planned route: direct
+Observed route: direct
+Deviation: none
+Observed agents/threads: none
+Observed isolation: none
 
 ## Hard gates
 
 | Gate | Status | Evidence |
 |---|---|---|
-| False overall PASS rejected | PASS | `scripts/test_validate.py`; queued/running jobs forbidden under overall PASS |
-| Plugin copy is one AMC workflow | PASS | `scripts/package_plugin.py`; `agents/openai.yaml`; `SKILL.md` |
-| Blank templates vs examples | PASS | `templates/`; `examples/packets/` |
-| Optional profiles not frozen to named models | PASS | `scripts/validate.py` Codex rules |
-| Compact live mission | PASS | this file; `docs/history/through-candidate.8.md` |
-| Same-lead engineering notes | PASS | `docs/reviews/`; not independent public review |
-| Homemade subject-farm closed | PASS | [postmortem](evals/candidate.9/README.md); raw JSONL removed |
-| Field-state evidence model | PASS | [field-state.md](docs/field-state.md) grades A–E |
-| Install matches current source | PASS | `docs/getting-started.md` installs `main`, not the candidate.8 ZIP |
-| Truth Layer contract self-check | PASS | `python evals/control_contract.py --self-check` 58 cases, extra-error harness; engineering only |
-| Behavioral superiority vs direct work | NOT VERIFIED | nine Codex runs: no unique win; contaminated Superpowers plugin |
+| False overall PASS rejected | PASS | `scripts/test_validate.py` |
+| Bundled checker ships | NOT VERIFIED | `scripts/amc-check.py` until package tests run |
+| Claims SkillOpt vs harmful-skills split | NOT VERIFIED | `research/claims.json` until renderer check runs |
+| Superpowers local vs upstream distinct | NOT VERIFIED | v6.1.1 vs v6.4.1 in `research/claims.json` |
+| Behavioral superiority vs direct work | NOT VERIFIED | no production outcome study |
 
 ## Authority
 
-Authorized: local engineering and docs on `codex/truth-layer-v1`.
+Authorized: local engineering and docs on `codex/product-contract-v1`.
 Forbidden: push, merge, GitHub release, global install, host-config change, daemons,
 new services, new AMC subject-run batches and GitHub settings changes.
 
 ## Jobs
 
-| Job | Agent | Required | Lifecycle | Verdict | Owned scope |
-|---|---|---|---|---|---|
-| Validator, plugin and PASS rules | Lead | yes | completed | PASS | `scripts/validate.py`, tests |
-| Runtime kernel and templates | Lead | yes | completed | PASS | `SKILL.md`, `references/`, `templates/` |
-| Docs, field state and postmortem | Lead | yes | completed | PASS | `docs/`, `README.md`, `evals/candidate.9/README.md` |
-| Cost-aware delegation, profiles and D-grade field table | Lead | yes | completed | PASS | `references/resources.md`, `examples/profiles.md`, `evals/decision_kernel.py` |
-| Repo front door, docs map and agent instructions | Lead | yes | completed | PASS | `README.md`, `docs/README.md`, `AGENTS.md`, `.claude/GOAL.md` |
-| User path install → first task | Lead | yes | completed | PASS | `docs/getting-started.md` |
-| Open PR against main | Lead | yes | completed | PASS | https://github.com/byensitmagnus/agent-mission-control/pull/6 |
-| Merge PR #6 | Lead | yes | completed | PASS | `main` `1f4b676` |
-| Truth Layer v1 contract | Lead | yes | completed | PASS | `evals/control_contract.py`, docs, governance templates |
-| Three-arm comparison | Lead | no | superseded | NOT VERIFIED | superseded: farm closed; conclusion in postmortem |
+| Job | Role | Agent | Required | Lifecycle | Verdict | Owned scope |
+|---|---|---|---|---|---|---|
+| Product contract v1 | lead | Lead | yes | running | NOT VERIFIED | `scripts/amc_guard.py`, packaging, claims, docs |
+| Farm comparison | worker | Lead | no | superseded | NOT VERIFIED | superseded: farm closed; conclusion in postmortem |
 
 ## Decisions and evidence
 
-Engineering integrity is separate from agent quality. Machine semantics for the
-control contract live in `evals/control_contract.py`. Markdown mission views
-remain human projections. `SKILL.md` is unchanged in this round. The nine Codex
-runs stay a closed postmortem. Kernel changes cite graded sources in
-`docs/field-state.md` (pins dated 2026-09-15, not revalidated 2026-09-18).
-Install from `main`. The candidate.8 ZIP remains the last tagged package.
+Engineering integrity is separate from agent quality. Canonical checker:
+`scripts/amc_guard.py`. Installed CLI: `scripts/amc-check.py`. Claims:
+`research/claims.json`. Markdown ledgers are generated views.
 
 ## Blockers
 
@@ -69,9 +60,10 @@ None.
 
 ## Next action
 
-Finish nothing further in this local slice. Do not push, merge or cut a GitHub release.
+Finish local tests. Do not push, merge or cut a GitHub release.
 
 ## Last verified
 
-Commit/snapshot: base tree `9a347734ba8e2e4974160a8e1a3f77c1b0b8dc28` on `main` `df184ad`. UTC timestamp: 2026-09-18T08:40:00Z.
+Commit/snapshot: parent `3cc23250383f4178d1f4d3e55ee5acbc4ec98771`. UTC timestamp: 2026-09-19T10:00:00Z.
 This file does not pin the candidate commit SHA.
+External actions not performed: push, merge, tag, release.

@@ -67,6 +67,24 @@ AMC owns this workflow; do not hand the task to another orchestrator in sequence
 Honor an explicitly requested procedure, name that owner and reuse its proof.
 A failed procedure cannot be bypassed to evade a gate.
 
+## Roles and ceremony
+
+Only the lead may change the global graph. Workers own one job and default to
+`delegation_authority: false`. Reviewers are read-only and do not repair.
+Verifiers run named checks and do not widen scope. Nested children without
+authority are a route deviation.
+
+Trivial direct work needs no mission JSON and no checker.
+For delegated, interrupted, multi-writer, release-sensitive or high-cost-of-
+false-PASS work, write a control-contract JSON and run
+`python scripts/amc-check.py CONTRACT.json` from the installed skill folder
+when the host can. If the checker cannot run, continue on the authorized
+route and keep the guarantee instruction-only / NOT VERIFIED. Do not pretend
+it ran.
+
+Do not run Superpowers and AMC as competing owners of the same task. Name one
+workflow owner.
+
 ## Finish from evidence
 
 Reuse the existing mission record for long work: unresolved gates, artifact

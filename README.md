@@ -6,7 +6,7 @@
 </p>
 
 <h1 align="center">Agent Mission Control</h1>
-<p align="center"><strong>Give your coding agent an outcome. It chooses the smallest graph that can finish and prove the work.</strong></p>
+<p align="center"><strong>A portable, progressively enforced control skill. It chooses the smallest useful route, records what happened, and checks material missions when the host can run the bundled checker.</strong></p>
 <p align="center">One portable skill. Codex · Claude Code · Cursor · Grok · Kimi.<br />No extra server. Delegate only when a job earns its cost.</p>
 
 <p align="center">
@@ -39,7 +39,7 @@ Small tasks stay with the lead. Larger tasks can use native subagents when they
 add value. Sequential delegation is allowed for bounded specialization or
 context isolation. Independence is required for parallel ready jobs. Stronger-lead
 plus cheaper-worker is optional, not AMC's identity. Host tools and permissions
-determine what can actually run. Claims: [docs/claim-ledger.md](docs/claim-ledger.md).
+determine what can actually run.
 
 ## Start in your project
 
@@ -79,18 +79,25 @@ missing evidence must stay visible. Long tasks keep a recoverable mission record
 
 An illustrative delivery can be as short as:
 
-> **Fixed:** zero is retained in the exported total.<br>
-> **Checked:** regression and existing export checks passed.<br>
-> **Scope:** export formatting changed; no deployment performed.
+```text
+Route planned: Direct implementation
+Route observed: Direct implementation
+Changed: 3 files
+Checked: pytest tests/export — 18 passed
+Artifact: <tree or digest>
+Limitations: Windows path behavior not tested
+Status: PASS for the identified artifact
+External actions not performed: push, deploy
+```
 
 This is an output example, not a measured run.
 [Follow a complete task and delivery example →](docs/task-guide.md#what-a-completed-delivery-looks-like)
 
 ## Versions
 
-**Use now:** GitHub `main` — current kernel, no tagged ZIP yet.
+**Use now:** current source (`VERSION` = `0.2.0-candidate.10` on this branch; not a release).
 **Last tagged package:** [candidate.8](https://github.com/byensitmagnus/agent-mission-control/releases/tag/v0.2.0-candidate.8)
-skill and plugin ZIPs (older runtime).
+skill and plugin ZIPs (older runtime). Different bytes must not reuse the same version label.
 
 What each check actually covers is in the [evidence guide](docs/evidence.md).
 Engineering, behavioral and release status are separate
@@ -115,17 +122,16 @@ workspace UI. A model profile fits when you want explicit role/model presets.
 | Understand the workflow | [How it works](docs/how-it-works.md) |
 | Compare tools or inspect evidence | [Choosing](docs/choosing.md) · [Evidence](docs/evidence.md) · [Field state](docs/field-state.md) |
 | Contribute | [Development](docs/development.md) · [Contributing](CONTRIBUTING.md) |
+| Maintainer research | [Claims](docs/claim-ledger.md) · [research/claims.json](research/claims.json) |
 
 The full folder map is [docs/README.md](docs/README.md). Optional host mappings:
 [intent profiles](examples/profiles.md) · [Codex example](examples/codex/README.md).
 
 ## Built in the open
 
-AMC draws on Context Diamond, AVO, SkillOpt, practical orchestrators and lab
-research. The current map is [field state](docs/field-state.md).
-[Sources](docs/sources.md) list what we adapt;
-[research-basis](docs/research-basis.md) is the longer archived review.
-These sources are not extra installations or endorsements.
+AMC is developed in public. You do not need the research files to use it.
+Maintainers: [field state](docs/field-state.md), [sources](docs/sources.md),
+[claim ledger](docs/claim-ledger.md).
 
 Try a useful task and [share what happened](https://github.com/byensitmagnus/agent-mission-control/issues/new?template=experience.yml).
 One concrete example helps: the goal, what the agent did, the result you checked

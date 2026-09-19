@@ -1,6 +1,9 @@
 # Context Packet — populated demonstration, not live evidence
 
 Objective: Determine whether the transport deadline check matches its contract.
+Role: worker
+Delegation authority: false
+Parent job: lead
 Reason for delegation: Retry policy can be investigated independently in parallel.
 Base commit or snapshot: Fixture snapshot transport.py and requirements.md, captured by root in the run manifest.
 Owned scope: Read-only transport.py and requirements.md; no writable paths.
