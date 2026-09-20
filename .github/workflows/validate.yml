@@ -15,8 +15,8 @@ jobs:
       matrix:
         python-version: ["3.11", "3.14"]
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+      - uses: actions/setup-python@42375524e23c412d93fb67b49958b491fce71c38 # v5.4.0
         with:
           python-version: ${{ matrix.python-version }}
       - name: Validate structural contracts
@@ -33,6 +33,8 @@ jobs:
         run: python scripts/render_claims.py --check
       - name: Test bundled AMC Guard
         run: python scripts/test_amc_check.py
+      - name: Test 30 adversarial guard cases
+        run: python scripts/test_adversarial_guard.py
       - name: Test Orca host mapping
         run: python scripts/test_orca_mapping.py
       - name: Check preservation diagnostic controls
@@ -43,8 +45,32 @@ jobs:
         run: python scripts/test_install_skill.py
       - name: Check native usage accounting
         run: python scripts/test_usage_snapshot.py
-      - uses: actions/setup-dotnet@v4
+      - uses: actions/setup-dotnet@3951f0adf7a476261c6c573f9146ca80f58de421 # v4.3.0
         with:
           dotnet-version: "8.0.x"
       - name: Check public real-task replays
         run: python evals/fps_replay.py --self-check
+
+  windows-focused-validation:
+    runs-on: windows-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ["3.11", "3.14"]
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+      - uses: actions/setup-python@42375524e23c412d93fb67b49958b491fce71c38 # v5.4.0
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Validate structural contracts
+        run: python scripts/validate.py
+      - name: Test plugin packaging on Windows
+        run: python scripts/test_package_plugin.py
+      - name: Test project skill installation, reparse safety and preservation on Windows
+        run: python scripts/test_install_skill.py
+      - name: Test installed checker execution and path handling on Windows
+        run: python scripts/test_amc_check.py
+      - name: Test 30 adversarial guard cases on Windows
+        run: python scripts/test_adversarial_guard.py
+      - name: Check truth-layer control contract on Windows
+        run: python evals/control_contract.py --self-check

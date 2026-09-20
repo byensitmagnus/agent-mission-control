@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import re
 import sys
 from pathlib import Path
 
@@ -19,10 +20,19 @@ REQUIRED_CLAIM = (
 REQUIRED_SOURCE = (
     "source_id", "author", "title", "source_type", "url", "retrieved_at",
 )
+ALLOWED_EVIDENCE_ORIGIN = {"primary_source", "reasoned_inference", "local_observation", "replicated_eval"}
+ALLOWED_ENFORCEMENT_SCOPE = {"instruction_only", "bundled_checker_enforced", "host_enforced", "repository_ci_enforced"}
+ALLOWED_OUTCOME_STATUS = {"observed", "not_verified", "verified"}
+ALLOWED_ADOPTION = {"adopted", "adapted", "rejected_as_runtime", "rejected", "recorded"}
+DATE_RE = re.compile(r"^\d{4}-\d{2}-\d{2}$")
 
 
 def load() -> dict:
     data = json.loads(CANONICAL.read_text(encoding="utf-8"))
+    top_audited_date = str(data.get("audited_date") or "")
+    if not DATE_RE.match(top_audited_date):
+        raise ValueError(f"top-level audited_date must be YYYY-MM-DD: {top_audited_date!r}")
+
     claims = data.get("claims") or []
     sources = {item["source_id"]: item for item in data.get("sources") or []}
     if len(sources) != len(data.get("sources") or []):
@@ -30,21 +40,62 @@ def load() -> dict:
     ids = [item["claim_id"] for item in claims]
     if len(ids) != len(set(ids)):
         raise ValueError("duplicate claim_id")
-    for item in claims:
-        missing = [key for key in REQUIRED_CLAIM if key not in item]
-        if missing:
-            raise ValueError(f"{item.get('claim_id')}: missing {missing}")
-        for source_id in item["source_ids"]:
-            if source_id not in sources:
-                raise ValueError(f"{item['claim_id']}: unknown source {source_id}")
-        if "latest" in json.dumps(item).lower():
-            raise ValueError(f"{item['claim_id']}: durable claims must not say latest")
+
+    claim_map = {item["claim_id"]: item for item in claims}
+
     for source in sources.values():
         missing = [key for key in REQUIRED_SOURCE if key not in source]
         if missing:
             raise ValueError(f"{source.get('source_id')}: missing {missing}")
         if str(source.get("version") or "").strip().lower() == "latest":
             raise ValueError(f"{source['source_id']}: version must not be latest")
+        retrieved_at = str(source.get("retrieved_at") or "")
+        if not DATE_RE.match(retrieved_at):
+            raise ValueError(f"{source['source_id']}: retrieved_at must be YYYY-MM-DD: {retrieved_at!r}")
+        for supported_claim_id in source.get("supports") or []:
+            if supported_claim_id not in claim_map:
+                raise ValueError(f"{source['source_id']}: supports non-existent claim {supported_claim_id}")
+            if source["source_id"] not in claim_map[supported_claim_id].get("source_ids", []):
+                raise ValueError(
+                    f"{source['source_id']} supports {supported_claim_id}, but claim does not list it in source_ids"
+                )
+
+    for item in claims:
+        missing = [key for key in REQUIRED_CLAIM if key not in item]
+        if missing:
+            raise ValueError(f"{item.get('claim_id')}: missing {missing}")
+        if item.get("evidence_origin") not in ALLOWED_EVIDENCE_ORIGIN:
+            raise ValueError(f"{item['claim_id']}: invalid evidence_origin: {item.get('evidence_origin')}")
+        if item.get("enforcement_scope") not in ALLOWED_ENFORCEMENT_SCOPE:
+            raise ValueError(f"{item['claim_id']}: invalid enforcement_scope: {item.get('enforcement_scope')}")
+        if item.get("outcome_status") not in ALLOWED_OUTCOME_STATUS:
+            raise ValueError(f"{item['claim_id']}: invalid outcome_status: {item.get('outcome_status')}")
+        if item.get("adoption") not in ALLOWED_ADOPTION:
+            raise ValueError(f"{item['claim_id']}: invalid adoption: {item.get('adoption')}")
+
+        claim_date = str(item.get("audited_date") or "")
+        if not DATE_RE.match(claim_date):
+            raise ValueError(f"{item['claim_id']}: audited_date must be YYYY-MM-DD: {claim_date!r}")
+        if claim_date > top_audited_date:
+            raise ValueError(f"{item['claim_id']}: audited_date {claim_date} exceeds top-level audited_date {top_audited_date}")
+
+        for source_id in item["source_ids"]:
+            if source_id not in sources:
+                raise ValueError(f"{item['claim_id']}: unknown source {source_id}")
+            if item["claim_id"] not in sources[source_id].get("supports", []):
+                raise ValueError(
+                    f"{item['claim_id']} cites {source_id}, but source supports back-reference does not list it"
+                )
+
+        impl = item.get("implementation") or ""
+        for raw_path in [p.strip() for p in impl.split(",") if p.strip()]:
+            file_path = raw_path.split()[0]
+            if not (ROOT / file_path).exists():
+                raise ValueError(f"{item['claim_id']}: implementation path does not exist: {file_path}")
+
+        if "latest" in json.dumps(item).lower():
+            raise ValueError(f"{item['claim_id']}: durable claims must not say latest")
+
     skillopt = [item["claim_id"] for item in claims if "SKILLOPT" in item["claim_id"]]
     harmful = [item["claim_id"] for item in claims if "HARMFUL" in item["claim_id"]]
     if not skillopt or not harmful:

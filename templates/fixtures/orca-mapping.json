@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "description": "Bidirectional mapping fixture between AMC Job/Attempt and Orca Task/Dispatch",
-  "amc_contract": {
+  "design_mapping": {
     "schema_version": 1,
     "task_id": "amc-orca-demo-001",
     "objective": "Implement bounded data reader and verify record preservation",

@@ -61,22 +61,28 @@ SLEEP_MARKERS = ("skillopt-sleep", "nightly sleep", "auto-adopt", "transcript ha
 PLACEHOLDER = {"", "none", "n/a", "unknown", "not verified", "-", "null"}
 WEAK_ISOLATION_EVIDENCE = PLACEHOLDER | {"claimed", "yes", "true", "prompt", "asserted"}
 CHILD_SOURCES = {"host-reported", "worktree", "sandbox", "session"}
-SENSITIVE_RECEIPT_KEYS = {"prompt", "transcript", "source_code", "file_contents", "secrets", "contents"}
+SENSITIVE_RECEIPT_KEYS = {
+    "prompt", "full_prompt", "raw_output", "stdout", "stderr",
+    "transcript", "source_code", "file_contents", "secrets", "secret",
+    "contents", "api_key", "token", "password", "credentials", "auth",
+}
+
 JOB_KEYS = {
     "id", "depends_on", "parallel", "write_scope", "read_scope", "capability",
     "accept_check", "attempts", "return", "lifecycle", "verdict", "required",
     "independent", "isolation", "role", "delegation_authority", "parent_job",
     "observed_child_jobs", "delegation_ceiling", "permitted_actions",
-    "required_artifact",
+    "required_artifact", "ownership_handoff", "scope_handoff",
 }
 PLAN_KEYS = {
     "schema_version", "task_id", "objective", "non_goals", "authority",
     "prohibited_actions", "base_artifact", "candidate_artifact", "dirty",
     "planned_route", "observed_route", "route_reason", "break_even",
-    "break_even_evidence", "host_capabilities", "host_capability_confidence",
-    "jobs", "gates", "blockers", "reviewer_requirement", "reviewer_independence",
-    "budget", "timestamps", "overall", "limitations", "simple_sequential",
-    "work_kind", "host_isolation", "isolation_evidence", "isolation_workspace",
+    "break_even_evidence", "delegation_decision", "host_capabilities",
+    "host_capability_confidence", "jobs", "gates", "blockers",
+    "reviewer_requirement", "reviewer_independence", "budget", "timestamps",
+    "overall", "limitations", "simple_sequential", "work_kind",
+    "host_isolation", "isolation_evidence", "isolation_workspace",
     "optimization", "mission", "learning", "lead_repeats_worker",
     "concurrency_as_goal", "worker_budget", "review_budget", "retry_budget",
     "trivial", "acceptance_logic_changed", "route_receipt", "product_status",
@@ -119,16 +125,148 @@ def _norm_enum(value: object) -> str:
     return str(value or "").strip()
 
 
+def _is_bool(value: object) -> bool:
+    return type(value) is bool
+
+
+def _is_non_neg_int(value: object) -> bool:
+    return type(value) is int and type(value) is not bool and value >= 0
+
+
+def _find_sensitive_receipt_keys(data: Any, path: str = "route_receipt") -> list[str]:
+    found: list[str] = []
+    if isinstance(data, dict):
+        for k, v in data.items():
+            curr = f"{path}.{k}"
+            k_lower = str(k).lower()
+            if any(s in k_lower for s in SENSITIVE_RECEIPT_KEYS):
+                found.append(curr)
+            found.extend(_find_sensitive_receipt_keys(v, curr))
+    elif isinstance(data, list):
+        for i, v in enumerate(data):
+            found.extend(_find_sensitive_receipt_keys(v, f"{path}[{i}]"))
+    return found
+
+
+def _validate_top_level_types(plan: dict[str, Any]) -> list[Issue]:
+    issues: list[Issue] = []
+
+    # Booleans
+    for key in (
+        "trivial", "simple_sequential", "break_even", "dirty",
+        "concurrency_as_goal", "lead_repeats_worker", "release_sensitive",
+        "acceptance_logic_changed", "acceptance_logic_changes",
+        "independent_behavioral_evidence", "release_decision",
+    ):
+        if key in plan and not _is_bool(plan[key]):
+            issues.append(Issue("INVALID_TYPE", f"field {key} must be a boolean", key))
+
+    # Budgets
+    for key in ("worker_budget", "review_budget", "retry_budget"):
+        if key in plan:
+            val = plan[key]
+            if type(val) is int and type(val) is not bool:
+                if val < 0:
+                    issues.append(Issue("NEGATIVE_CEILING", f"field {key} must not be negative", key))
+            else:
+                issues.append(Issue("INVALID_TYPE", f"field {key} must be a non-negative integer", key))
+
+    if "budget" in plan:
+        val = plan["budget"]
+        if type(val) is int and type(val) is not bool:
+            if val < 0:
+                issues.append(Issue("NEGATIVE_CEILING", "field budget must not be negative", "budget"))
+        elif isinstance(val, dict):
+            for b_k, b_v in val.items():
+                if type(b_v) is int and type(b_v) is not bool:
+                    if b_v < 0:
+                        issues.append(Issue("NEGATIVE_CEILING", f"budget.{b_k} must not be negative", f"budget.{b_k}"))
+                else:
+                    issues.append(Issue("INVALID_TYPE", f"budget.{b_k} must be a non-negative integer", f"budget.{b_k}"))
+        else:
+            issues.append(Issue("INVALID_TYPE", "field budget must be a non-negative integer or object", "budget"))
+
+    # String lists
+    for key in ("non_goals", "prohibited_actions", "deviations", "limitations", "observed_agent_roles"):
+        if key in plan:
+            val = plan[key]
+            if not isinstance(val, list):
+                issues.append(Issue("INVALID_TYPE", f"field {key} must be a list", key))
+            elif not all(isinstance(x, str) for x in val):
+                issues.append(Issue("INVALID_TYPE", f"field {key} entries must be strings", key))
+
+    # Objects / Dicts
+    for key in ("base_artifact", "candidate_artifact", "route_receipt", "optimization", "mission", "learning", "product_status", "delegation_decision"):
+        if key in plan and not isinstance(plan[key], dict):
+            issues.append(Issue("INVALID_TYPE", f"field {key} must be an object", key))
+
+    # Strings
+    for key in (
+        "task_id", "objective", "authority", "planned_route", "observed_route",
+        "route_reason", "fallback_route", "work_kind", "host_isolation",
+        "isolation_workspace", "overall", "risk_level", "false_pass_cost",
+        "expected_information_value", "coordination_cost_assumption",
+    ):
+        if key in plan and not isinstance(plan[key], str):
+            issues.append(Issue("INVALID_TYPE", f"field {key} must be a string", key))
+
+    # Blockers
+    if "blockers" in plan:
+        val = plan["blockers"]
+        if not isinstance(val, list):
+            issues.append(Issue("INVALID_TYPE", "field blockers must be a list", "blockers"))
+
+    # Observed children
+    if "observed_child_ids" in plan:
+        val = plan["observed_child_ids"]
+        if not isinstance(val, list):
+            issues.append(Issue("INVALID_TYPE", "field observed_child_ids must be a list", "observed_child_ids"))
+
+    # Gates
+    if "gates" in plan:
+        val = plan["gates"]
+        if not isinstance(val, list):
+            issues.append(Issue("INVALID_TYPE", "field gates must be a list", "gates"))
+        else:
+            for idx, g in enumerate(val):
+                if not isinstance(g, dict):
+                    issues.append(Issue("INVALID_TYPE", f"gates[{idx}] must be an object", f"gates[{idx}]"))
+
+    # Jobs
+    if "jobs" in plan:
+        val = plan["jobs"]
+        if not isinstance(val, list):
+            issues.append(Issue("INVALID_TYPE", "field jobs must be a list", "jobs"))
+        else:
+            for idx, j in enumerate(val):
+                if not isinstance(j, dict):
+                    issues.append(Issue("INVALID_TYPE", f"jobs[{idx}] must be an object", f"jobs[{idx}]"))
+
+    return issues
+
+
 def validate(plan: Any) -> list[Issue]:
     if not isinstance(plan, dict):
         return [Issue("MALFORMED_INPUT", "malformed contract: plan must be an object")]
+
+    # 1. Require schema_version
+    if "schema_version" not in plan:
+        return [Issue("MISSING_SCHEMA_VERSION", "missing schema_version")]
+    version = plan.get("schema_version")
+    if type(version) is not int or version != SCHEMA_VERSION:
+        return [Issue("UNSUPPORTED_SCHEMA_VERSION", f"unsupported schema_version {version}")]
+
+    # 2. Strict structural schema
     issues: list[Issue] = []
     extra = set(plan) - PLAN_KEYS
     if extra:
         issues.append(Issue("UNSUPPORTED_KEY", f"unsupported keys {sorted(extra)}"))
-    version = plan.get("schema_version")
-    if version is not None and version not in {SCHEMA_VERSION, str(SCHEMA_VERSION)}:
-        issues.append(Issue("UNSUPPORTED_KEY", f"unsupported schema_version {version}"))
+
+    type_issues = _validate_top_level_types(plan)
+    issues.extend(type_issues)
+    if any(issue.code in {"INVALID_TYPE", "NEGATIVE_CEILING"} for issue in type_issues):
+        return issues
+
     receipt = plan.get("route_receipt")
     if receipt is not None:
         issues.extend(_route_receipt(receipt, plan))
@@ -144,6 +282,20 @@ def validate(plan: Any) -> list[Issue]:
     return issues
 
 
+def _is_ordered_dependency(job_a_id: str, job_b_id: str, by_id: dict[str, dict[str, Any]]) -> bool:
+    """Return True if job_b depends directly or transitively on job_a."""
+    visited: set[str] = set()
+    queue = list(by_id.get(job_b_id, {}).get("depends_on") or [])
+    while queue:
+        dep = queue.pop(0)
+        if dep == job_a_id:
+            return True
+        if dep in by_id and dep not in visited:
+            visited.add(dep)
+            queue.extend(by_id[dep].get("depends_on") or [])
+    return False
+
+
 def _jobs(plan: dict[str, Any]) -> list[Issue]:
     issues: list[Issue] = []
     jobs = plan.get("jobs")
@@ -151,8 +303,15 @@ def _jobs(plan: dict[str, Any]) -> list[Issue]:
         jobs = []
     if not isinstance(jobs, list):
         return [Issue("MALFORMED_INPUT", "malformed contract: jobs must be a list", "jobs")]
-    if plan.get("simple_sequential") and jobs:
-        issues.append(Issue("SIMPLE_SEQUENTIAL_DELEGATION", "simple sequential work must not delegate"))
+
+    if plan.get("simple_sequential") is True:
+        delegated_jobs = [
+            j for j in jobs
+            if isinstance(j, dict) and (_job_role(j) != "lead" or j.get("capability") in DELEGATED_WRITERS or j.get("delegation_authority") is True)
+        ]
+        if delegated_jobs:
+            issues.append(Issue("SIMPLE_SEQUENTIAL_DELEGATION", "simple sequential work must not delegate"))
+
     ids: list[str] = []
     seen: set[str] = set()
     by_id: dict[str, dict[str, Any]] = {}
@@ -175,6 +334,41 @@ def _jobs(plan: dict[str, Any]) -> list[Issue]:
         seen.add(job_id)
         ids.append(job_id)
         by_id[job_id] = job
+
+        # Job field types
+        for b_field in ("delegation_authority", "parallel", "independent", "required", "scope_handoff"):
+            if b_field in job and not _is_bool(job[b_field]):
+                issues.append(Issue("INVALID_TYPE", f"{job_id}: {b_field} must be a boolean", f"{loc}.{b_field}"))
+
+        if "write_scope" in job:
+            ws = job["write_scope"]
+            if not isinstance(ws, list):
+                issues.append(Issue("INVALID_TYPE", f"{job_id}: write_scope must be a list", f"{loc}.write_scope"))
+            elif not all(isinstance(x, str) for x in ws):
+                issues.append(Issue("INVALID_TYPE", f"{job_id}: write_scope entries must be strings", f"{loc}.write_scope"))
+
+        if "read_scope" in job:
+            rs = job["read_scope"]
+            if not isinstance(rs, list):
+                issues.append(Issue("INVALID_TYPE", f"{job_id}: read_scope must be a list", f"{loc}.read_scope"))
+            elif not all(isinstance(x, str) for x in rs):
+                issues.append(Issue("INVALID_TYPE", f"{job_id}: read_scope entries must be strings", f"{loc}.read_scope"))
+
+        if "permitted_actions" in job:
+            pa = job["permitted_actions"]
+            if not isinstance(pa, list):
+                issues.append(Issue("INVALID_TYPE", f"{job_id}: permitted_actions must be a list", f"{loc}.permitted_actions"))
+            elif not all(isinstance(x, str) for x in pa):
+                issues.append(Issue("INVALID_TYPE", f"{job_id}: permitted_actions entries must be strings", f"{loc}.permitted_actions"))
+
+        if "delegation_ceiling" in job:
+            dc = job["delegation_ceiling"]
+            if type(dc) is int and type(dc) is not bool:
+                if dc < 0:
+                    issues.append(Issue("NEGATIVE_CEILING", f"{job_id}: delegation_ceiling must not be negative", f"{loc}.delegation_ceiling"))
+            else:
+                issues.append(Issue("INVALID_TYPE", f"{job_id}: delegation_ceiling must be a non-negative integer", f"{loc}.delegation_ceiling"))
+
         capability = job.get("capability")
         if capability and capability not in CAPABILITIES:
             issues.append(Issue("UNKNOWN_CAPABILITY", f"{job_id}: unknown capability {capability}", loc))
@@ -184,18 +378,17 @@ def _jobs(plan: dict[str, Any]) -> list[Issue]:
         verdict = job.get("verdict")
         if verdict is not None and str(verdict).upper() not in VERDICTS:
             issues.append(Issue("UNKNOWN_VERDICT", f"{job_id}: unknown verdict {verdict}", loc))
+
         depends = job.get("depends_on") or []
         if not isinstance(depends, list):
             issues.append(Issue("MALFORMED_INPUT", f"{job_id}: depends_on must be a list", loc))
             depends = []
-        if job.get("parallel") and depends:
-            issues.append(Issue("DEPENDENT_PARALLEL", f"{job_id}: dependent jobs must not run in parallel", loc))
-        missing = [name for name in depends if name not in seen and name not in {item.get("id") for item in jobs if isinstance(item, dict)}]
-        # defer unknown deps until all ids collected
+
         accept = job.get("accept_check") or {}
         if accept and not isinstance(accept, dict):
             issues.append(Issue("MALFORMED_INPUT", f"{job_id}: accept_check must be an object", loc))
             accept = {}
+
         scopes = _scope_values(job.get("write_scope"))
         missing_capability = not capability
         if scopes and missing_capability:
@@ -215,6 +408,7 @@ def _jobs(plan: dict[str, Any]) -> list[Issue]:
             issues.append(Issue("TRANSCRIPT_HANDOFF", f"{job_id}: workers return artifacts, not transcripts", loc))
         elif missing_capability and job.get("return") == "transcript":
             issues.append(Issue("TRANSCRIPT_HANDOFF", f"{job_id}: workers return artifacts, not transcripts", loc))
+
         attempts = job.get("attempts") or []
         if not isinstance(attempts, list):
             issues.append(Issue("MALFORMED_INPUT", f"{job_id}: attempts must be a list", loc))
@@ -231,18 +425,30 @@ def _jobs(plan: dict[str, Any]) -> list[Issue]:
             if path_issue:
                 issues.append(path_issue)
 
-    missing_deps = []
+    # Validate dependencies and parallel waves
     for job_id, job in by_id.items():
         depends = job.get("depends_on") or []
         if not isinstance(depends, list):
             continue
         absent = [name for name in depends if name not in by_id]
         if absent:
-            missing_deps.append((job_id, absent))
             issues.append(Issue("UNKNOWN_DEPENDENCY", f"{job_id}: unknown dependency {absent}", job_id))
+
+        if job.get("parallel") is True and depends:
+            # Dependent jobs may enter a later parallel wave after dependencies complete.
+            # Reject if running parallel alongside uncompleted dependencies in same wave.
+            for dep in depends:
+                if dep in by_id:
+                    dep_job = by_id[dep]
+                    dep_lifecycle = str(dep_job.get("lifecycle") or "").lower()
+                    if dep_lifecycle != "completed":
+                        issues.append(Issue("DEPENDENT_PARALLEL", f"{job_id}: dependent jobs must not run in parallel wave with uncompleted dependency {dep}", job_id))
+
     if _has_cycle(by_id):
         issues.append(Issue("DEPENDENCY_CYCLE", "dependency cycle"))
+
     issues.extend(_scope_collisions(by_id))
+
     workers = [
         job for job in by_id.values()
         if job.get("capability") in DELEGATED_WRITERS
@@ -254,9 +460,9 @@ def _jobs(plan: dict[str, Any]) -> list[Issue]:
             issues.append(Issue("DELEGATION_WITHOUT_BREAKEVEN", "failed break-even must not delegate"))
         elif plan.get("break_even") is not True:
             issues.append(Issue("DELEGATION_WITHOUT_BREAKEVEN", "delegation requires explicit positive break-even"))
-    if plan.get("lead_repeats_worker"):
+    if plan.get("lead_repeats_worker") is True:
         issues.append(Issue("LEAD_REPEATS_WORKER", "lead must not redo the worker job"))
-    if plan.get("concurrency_as_goal"):
+    if plan.get("concurrency_as_goal") is True:
         issues.append(Issue("CONCURRENCY_AS_GOAL", "concurrency is a ceiling, not a target"))
     worker_budget = plan.get("worker_budget")
     if worker_budget is not None and len(workers) > worker_budget:
@@ -272,7 +478,7 @@ def _jobs(plan: dict[str, Any]) -> list[Issue]:
             retries += max(0, len(failures) - 1)
         if retries > retry_budget:
             issues.append(Issue("BUDGET_EXCEEDED", "retry budget exceeded"))
-    if plan.get("trivial") and reviewers:
+    if plan.get("trivial") is True and reviewers:
         issues.append(Issue("TRIVIAL_REVIEWER", "trivial work must not spawn a reviewer"))
     issues.extend(_parallel_isolation(plan, by_id))
     return issues
@@ -341,11 +547,27 @@ def _scope_collisions(by_id: dict[str, dict[str, Any]]) -> list[Issue]:
             kind = _scopes_overlap(left, right)
             if not kind:
                 continue
+
+            # Sequential handoff: if jobs are ordered by dependency and predecessor is settled or handed off
+            left_job = by_id.get(left_id, {})
+            right_job = by_id.get(right_id, {})
+            if _is_ordered_dependency(left_id, right_id, by_id):
+                left_settled = str(left_job.get("lifecycle") or "").lower() in {"completed", "superseded"}
+                is_handoff = right_job.get("ownership_handoff") == left_id or right_job.get("scope_handoff") is True
+                if left_settled or is_handoff:
+                    continue
+            elif _is_ordered_dependency(right_id, left_id, by_id):
+                right_settled = str(right_job.get("lifecycle") or "").lower() in {"completed", "superseded"}
+                is_handoff = left_job.get("ownership_handoff") == right_id or left_job.get("scope_handoff") is True
+                if right_settled or is_handoff:
+                    continue
+
+            # Concurrent collision
             if kind == "exact":
                 scope = _normalize_scope(left)
-                issues.append(Issue("WRITER_SCOPE_OVERLAP", f"shared write-scope {scope} owned by {left_id} and {right_id}"))
+                issues.append(Issue("WRITER_SCOPE_OVERLAP", f"shared write-scope {scope} owned by concurrent {left_id} and {right_id}"))
             else:
-                issues.append(Issue("WRITER_SCOPE_OVERLAP", f"overlapping writer scopes {left} and {right} owned by {left_id} and {right_id}"))
+                issues.append(Issue("WRITER_SCOPE_OVERLAP", f"overlapping writer scopes {left} and {right} owned by concurrent {left_id} and {right_id}"))
     return issues
 
 
@@ -385,7 +607,7 @@ def _parallel_isolation(plan: dict[str, Any], by_id: dict[str, dict[str, Any]]) 
     parallel_writers = [
         job_id
         for job_id, job in by_id.items()
-        if job.get("parallel") and _scope_values(job.get("write_scope"))
+        if job.get("parallel") is True and _scope_values(job.get("write_scope"))
     ]
     scoped = [job_id for job_id, job in by_id.items() if _scope_values(job.get("write_scope"))]
     routes = {_norm_enum(plan.get("planned_route")), _norm_enum(plan.get("observed_route"))}
@@ -399,8 +621,23 @@ def _parallel_isolation(plan: dict[str, Any], by_id: dict[str, dict[str, Any]]) 
         return [Issue("UNKNOWN_ISOLATION", f"unknown isolation value {isolation}")]
     if str(isolation) in ISOLATION_NONE:
         return [Issue("PARALLEL_WITHOUT_ISOLATION", "parallel writers need host isolation")]
-    if _unknown(evidence) or str(evidence).strip().casefold() in WEAK_ISOLATION_EVIDENCE:
-        return [Issue("CLAIMED_ISOLATION_WITHOUT_EVIDENCE", "claimed isolation without observed host evidence")]
+
+    # Structured isolation receipt validation: prose is rejected
+    if isinstance(evidence, str) or _unknown(evidence):
+        return [Issue("CLAIMED_ISOLATION_WITHOUT_EVIDENCE", "claimed isolation requires structured host receipt, not prose string")]
+    if isinstance(evidence, dict):
+        required_keys = {"host", "workspace", "mechanism", "identity"}
+        missing_keys = required_keys - set(evidence.keys())
+        if missing_keys:
+            return [Issue("CLAIMED_ISOLATION_WITHOUT_EVIDENCE", f"isolation receipt missing {sorted(missing_keys)}")]
+        if any(_unknown(evidence.get(k)) for k in required_keys):
+            return [Issue("CLAIMED_ISOLATION_WITHOUT_EVIDENCE", "isolation receipt has unknown or placeholder fields")]
+    else:
+        receipt = plan.get("route_receipt")
+        obs_iso = receipt.get("observed_isolation") if isinstance(receipt, dict) else None
+        if not isinstance(obs_iso, dict) or any(_unknown(obs_iso.get(k)) for k in ("host", "workspace", "mechanism", "identity")):
+            return [Issue("CLAIMED_ISOLATION_WITHOUT_EVIDENCE", "claimed isolation without observed structured host evidence")]
+
     return []
 
 
@@ -435,7 +672,7 @@ def _job_role(job: dict[str, Any]) -> str:
 
 def _may_delegate(job: dict[str, Any]) -> bool:
     if "delegation_authority" in job:
-        return bool(job.get("delegation_authority"))
+        return job.get("delegation_authority") is True
     return _job_role(job) == "lead"
 
 
@@ -446,19 +683,20 @@ def contract_required(plan: dict[str, Any]) -> bool:
     risk_level = str(plan.get("risk_level") or "").strip().lower()
     false_pass_cost = str(plan.get("false_pass_cost") or "").strip().lower()
     high_risk_direct = (
-        bool(plan.get("release_sensitive"))
+        plan.get("release_sensitive") is True
         or risk_level in {"material", "critical"}
         or false_pass_cost in {"high", "critical"}
-        or bool(plan.get("acceptance_logic_changed") or plan.get("acceptance_logic_changes"))
+        or plan.get("acceptance_logic_changed") is True
+        or plan.get("acceptance_logic_changes") is True
     )
     if high_risk_direct:
         return True
-    if plan.get("trivial") and plan.get("simple_sequential"):
+    if plan.get("trivial") is True and plan.get("simple_sequential") is True:
         return False
-    if plan.get("trivial") and not high_risk_direct:
+    if plan.get("trivial") is True and not high_risk_direct:
         return False
     planned = _norm_enum(plan.get("planned_route")) or "direct"
-    if planned == "direct" and plan.get("simple_sequential"):
+    if planned == "direct" and plan.get("simple_sequential") is True:
         jobs = [job for job in (plan.get("jobs") or []) if isinstance(job, dict)]
         writers = [job for job in jobs if _job_role(job) != "lead" or _scope_values(job.get("write_scope"))]
         if not writers and planned == "direct":
@@ -480,11 +718,20 @@ def _authority(plan: dict[str, Any]) -> list[Issue]:
         parent = job.get("parent_job")
         if parent and parent not in by_id:
             issues.append(Issue("UNKNOWN_DEPENDENCY", f"{job_id}: unknown parent job {parent}", job_id))
-        if role in {"reviewer", "verifier"} and _scope_values(job.get("write_scope")):
-            code = "REVIEWER_WRITE_FORBIDDEN" if role == "reviewer" else "VERIFIER_WRITE_FORBIDDEN"
-            issues.append(Issue(code, f"{job_id}: {role} must be read-only", job_id))
-        if role in {"reviewer", "verifier"} and job.get("delegation_authority") is True:
-            issues.append(Issue("REVIEWER_DELEGATION_FORBIDDEN", f"{job_id}: {role} may not delegate", job_id))
+
+        if role in {"reviewer", "verifier"}:
+            if _scope_values(job.get("write_scope")):
+                code = "REVIEWER_WRITE_FORBIDDEN" if role == "reviewer" else "VERIFIER_WRITE_FORBIDDEN"
+                issues.append(Issue(code, f"{job_id}: {role} must be read-only (write_scope forbidden)", job_id))
+            pa = job.get("permitted_actions")
+            if isinstance(pa, list):
+                write_ops = {"write", "edit", "modify", "delete", "create", "patch"}
+                if any(str(act).lower() in write_ops for act in pa):
+                    code = "REVIEWER_WRITE_FORBIDDEN" if role == "reviewer" else "VERIFIER_WRITE_FORBIDDEN"
+                    issues.append(Issue(code, f"{job_id}: {role} permitted_actions cannot include write operations", job_id))
+            if job.get("delegation_authority") is True:
+                issues.append(Issue("REVIEWER_DELEGATION_FORBIDDEN", f"{job_id}: {role} may not delegate", job_id))
+
         children = job.get("observed_child_jobs") or []
         nested = [child for child in by_id.values() if child.get("parent_job") == job_id]
         if (children or nested) and not _may_delegate(job):
@@ -515,6 +762,38 @@ def _delegation(plan: dict[str, Any]) -> list[Issue]:
     if children is None and isinstance(plan.get("route_receipt"), dict):
         children = plan["route_receipt"].get("observed_child_session_ids")
     issues.extend(_delegation_gaps(planned, observed, children, plan))
+
+    jobs = [job for job in (plan.get("jobs") or []) if isinstance(job, dict)]
+    workers = [
+        job for job in jobs
+        if job.get("capability") in DELEGATED_WRITERS
+        or (_scope_values(job.get("write_scope")) and not job.get("capability"))
+    ]
+    is_delegated = (
+        planned in DELEGATED_ROUTES
+        or observed in DELEGATED_ROUTES
+    )
+    if is_delegated and not workers:
+        dd = plan.get("delegation_decision")
+        if plan.get("break_even") is False:
+            issues.append(Issue("DELEGATION_WITHOUT_BREAKEVEN", "failed break-even must not delegate"))
+        elif plan.get("break_even") is not True:
+            if not (isinstance(dd, dict) and dd.get("decision") == "approved"):
+                issues.append(Issue("DELEGATION_WITHOUT_BREAKEVEN", "delegation requires explicit positive break-even or approved delegation_decision"))
+        elif _unknown(plan.get("break_even_evidence")) and not dd:
+            issues.append(Issue("DELEGATION_WITHOUT_BREAKEVEN", "delegated route requires non-empty break_even_evidence or delegation_decision"))
+
+    if "delegation_decision" in plan:
+        dd = plan["delegation_decision"]
+        if isinstance(dd, dict):
+            if dd.get("decision") not in {"approved", "rejected"}:
+                issues.append(Issue("INVALID_TYPE", "delegation_decision.decision must be 'approved' or 'rejected'", "delegation_decision.decision"))
+            for field in ("reason", "expected_value", "coordination_cost", "confidence"):
+                if field not in dd or _unknown(dd[field]):
+                    issues.append(Issue("MALFORMED_INPUT", f"delegation_decision missing {field}", f"delegation_decision.{field}"))
+            if dd.get("decision") == "rejected" and is_delegated:
+                issues.append(Issue("DELEGATION_WITHOUT_BREAKEVEN", "delegation decision rejected"))
+
     return issues
 
 
@@ -522,15 +801,35 @@ def _route_receipt(receipt: Any, plan: dict[str, Any]) -> list[Issue]:
     if not isinstance(receipt, dict):
         return [Issue("MALFORMED_INPUT", "route_receipt must be an object")]
     issues: list[Issue] = []
-    sensitive = SENSITIVE_RECEIPT_KEYS & set(receipt)
-    if sensitive:
-        issues.append(Issue("UNSUPPORTED_KEY", f"route_receipt forbids {sorted(sensitive)}"))
+    sensitive_paths = _find_sensitive_receipt_keys(receipt, "route_receipt")
+    if sensitive_paths:
+        issues.append(Issue("SENSITIVE_DATA_EXPOSED", f"route_receipt forbids sensitive fields {sensitive_paths}"))
+
     planned = _norm_enum(receipt.get("planned_route") or plan.get("planned_route"))
     observed = _norm_enum(receipt.get("observed_route") or plan.get("observed_route"))
     if planned and planned not in ROUTES:
         issues.append(Issue("UNKNOWN_ROUTE", f"unknown planned route {planned}"))
     if observed and observed not in ROUTES:
         issues.append(Issue("UNKNOWN_ROUTE", f"unknown observed route {observed}"))
+
+    for ceil in ("worker_ceiling", "reviewer_ceiling"):
+        if ceil in receipt:
+            cval = receipt[ceil]
+            if type(cval) is int and type(cval) is not bool:
+                if cval < 0:
+                    issues.append(Issue("NEGATIVE_CEILING", f"route_receipt.{ceil} must not be negative", f"route_receipt.{ceil}"))
+            else:
+                issues.append(Issue("INVALID_TYPE", f"route_receipt.{ceil} must be a non-negative integer", f"route_receipt.{ceil}"))
+
+    if "observed_isolation" in receipt:
+        obs = receipt["observed_isolation"]
+        if not isinstance(obs, dict):
+            issues.append(Issue("INVALID_TYPE", "route_receipt.observed_isolation must be an object", "route_receipt.observed_isolation"))
+        else:
+            extra_obs = set(obs) - {"mechanism", "host", "workspace", "identity", "source", "evidence"}
+            if extra_obs:
+                issues.append(Issue("UNSUPPORTED_KEY", f"observed_isolation unsupported keys {sorted(extra_obs)}"))
+
     issues.extend(_delegation_gaps(planned, observed, receipt.get("observed_child_session_ids"), plan))
     return issues
 
@@ -565,8 +864,23 @@ def _mission(plan: dict[str, Any]) -> list[Issue]:
     overall = str((mission.get("overall") if mission else plan.get("overall")) or "").upper()
     if overall and overall not in VERDICTS:
         issues.append(Issue("UNKNOWN_VERDICT", f"unknown overall verdict {overall}"))
+
     jobs = [job for job in (plan.get("jobs") or []) if isinstance(job, dict)]
-    if plan.get("acceptance_logic_changed") or (isinstance(mission, dict) and mission.get("acceptance_logic_changed")):
+    by_id = {job.get("id"): job for job in jobs if job.get("id")}
+    plan_gates = {
+        gate.get("id"): gate
+        for gate in (plan.get("gates") or [])
+        if isinstance(gate, dict) and gate.get("id")
+    }
+
+    acceptance_changed = (
+        plan.get("acceptance_logic_changed") is True
+        or plan.get("acceptance_logic_changes") is True
+        or (isinstance(mission, dict) and mission.get("acceptance_logic_changed") is True)
+    )
+    material_risk = str(plan.get("risk_level") or "").lower() in {"material", "critical"}
+
+    if acceptance_changed or material_risk:
         independence = plan.get("reviewer_independence")
         independent = []
         if independence not in {False, "same-lead", "not-independent", "unknown"}:
@@ -576,94 +890,110 @@ def _mission(plan: dict[str, Any]) -> list[Issue]:
                 flag = job.get("independent", independence)
                 if flag not in {True, "independent"}:
                     continue
-                if str(job.get("lifecycle") or "") != "completed":
+                if str(job.get("lifecycle") or "").lower() != "completed":
                     continue
                 if str(job.get("verdict") or "").upper() != "PASS":
                     continue
                 independent.append(job)
         if overall == "PASS" and not independent:
-            issues.append(Issue("PASS_WITHOUT_REVIEW", "overall PASS requires independent review after acceptance-logic change"))
+            issues.append(Issue("PASS_WITHOUT_REVIEW", "overall PASS requires independent review after acceptance-logic change or material risk"))
+
     if overall != "PASS":
         return issues
+
+    # Overall PASS checks:
     artifact_value = mission.get("artifact", plan.get("candidate_artifact"))
     artifact, artifact_obj = _artifact_identity(artifact_value)
-    if not artifact or artifact.casefold() in PLACEHOLDER:
+    if not artifact or artifact.casefold() in PLACEHOLDER or artifact == "none":
         issues.append(Issue("PASS_WITHOUT_ARTIFACT", "overall PASS requires a current artifact identity"))
-    stale = mission.get("stale_pass_artifact")
-    if stale and artifact and str(stale) != artifact:
-        issues.append(Issue("PASS_STALE_EVIDENCE", "stale mission PASS cannot accept a new artifact"))
-    method = artifact_obj.get("identity_method") if artifact_obj else None
-    if artifact_obj:
-        if method and method not in ARTIFACT_METHODS:
-            issues.append(Issue("UNSUPPORTED_KEY", f"unknown artifact identity method {method}"))
-        algorithm = artifact_obj.get("digest_algorithm")
-        if algorithm and algorithm not in DIGEST_ALGORITHMS:
-            issues.append(Issue("UNSUPPORTED_KEY", f"unknown digest algorithm {algorithm}"))
-        evidence_digest = mission.get("evidence_digest") or (mission.get("evidence_artifact") or {}).get("digest")
-        if evidence_digest and artifact_obj.get("digest") and str(evidence_digest) != str(artifact_obj.get("digest")):
-            issues.append(Issue("PASS_STALE_EVIDENCE", "stale evidence cannot accept changed bytes"))
-        if artifact_obj.get("dirty") and method in {"git-commit", "git-tree"}:
-            issues.append(Issue("PASS_DIRTY_WITH_CLEAN_EVIDENCE", "dirty candidate accepted by clean-artifact evidence"))
-    if mission.get("dirty") and mission.get("evidence_assumes_clean"):
+    else:
+        stale = mission.get("stale_pass_artifact")
+        if stale and artifact and str(stale) != artifact:
+            issues.append(Issue("PASS_STALE_EVIDENCE", "stale mission PASS cannot accept a new artifact"))
+
+        method = (artifact_obj.get("identity_method") if artifact_obj else None) or mission.get("identity_method") or plan.get("identity_method")
+        algorithm = (artifact_obj.get("digest_algorithm") if artifact_obj else None) or mission.get("digest_algorithm") or plan.get("digest_algorithm")
+        digest = (artifact_obj.get("digest") if artifact_obj else None) or artifact
+
+        if method == "none" or algorithm == "none" or digest in PLACEHOLDER or digest == "none":
+            issues.append(Issue("PASS_WITHOUT_ARTIFACT", "overall PASS forbids identity_method none or placeholder digest"))
+
+        # Strict SHA formats and method-algorithm compatibility
+        if method in {"git-commit", "git-tree"}:
+            if algorithm not in {"sha1", "sha256"}:
+                issues.append(Issue("ARTIFACT_METHOD_MISMATCH", f"git object method {method} requires sha1 or sha256 algorithm"))
+            elif algorithm == "sha1" and not re.fullmatch(r"[0-9a-f]{40}", str(digest).lower()):
+                issues.append(Issue("MALFORMED_ARTIFACT_DIGEST", f"git SHA-1 digest {digest} must be exactly 40 hexadecimal characters"))
+            elif algorithm == "sha256" and not re.fullmatch(r"[0-9a-f]{64}", str(digest).lower()):
+                issues.append(Issue("MALFORMED_ARTIFACT_DIGEST", f"git SHA-256 digest {digest} must be exactly 64 hexadecimal characters"))
+        elif method in {"dirty-manifest", "content-digest", "package-digest", "diff-digest"}:
+            if algorithm != "sha256":
+                issues.append(Issue("ARTIFACT_METHOD_MISMATCH", f"{method} requires sha256 digest algorithm"))
+            elif not re.fullmatch(r"[0-9a-f]{64}", str(digest).lower()):
+                issues.append(Issue("MALFORMED_ARTIFACT_DIGEST", f"{method} digest {digest} must be exactly 64 hexadecimal characters"))
+        elif not artifact_obj:
+            if len(str(digest)) < 8 or not re.fullmatch(r"[0-9a-f]+", str(digest).lower()):
+                issues.append(Issue("MALFORMED_ARTIFACT_DIGEST", f"artifact identity {digest} is malformed or too short"))
+
+    is_dirty = plan.get("dirty") is True or (artifact_obj and artifact_obj.get("dirty") is True) or mission.get("dirty") is True
+    if is_dirty and (method in {"git-commit", "git-tree"} or mission.get("evidence_assumes_clean")):
         issues.append(Issue("PASS_DIRTY_WITH_CLEAN_EVIDENCE", "dirty candidate accepted by clean-artifact evidence"))
-    schema1 = plan.get("schema_version") in {SCHEMA_VERSION, str(SCHEMA_VERSION)}
-    required = list(mission.get("required_jobs") or [])
-    if not required:
-        required = [job for job in jobs if job.get("required") in {True, "yes"}]
-    if not required:
+
+    evidence_digest = mission.get("evidence_digest") or (mission.get("evidence_artifact") or {}).get("digest")
+    if evidence_digest and digest and str(evidence_digest).strip() != str(digest).strip():
+        issues.append(Issue("PASS_STALE_EVIDENCE", f"evidence digest {evidence_digest} does not match artifact digest {digest}"))
+
+    # Required jobs must be bound to plan.jobs
+    required_jobs = list(mission.get("required_jobs") or [])
+    if not required_jobs:
+        required_jobs = [job for job in jobs if job.get("required") is True]
+    if not required_jobs:
         issues.append(Issue("PASS_WITH_INCOMPLETE_JOB", "overall PASS requires required jobs"))
-    by_id = {job.get("id"): job for job in jobs if job.get("id")}
-    for job in required:
-        if not isinstance(job, dict):
+
+    for rjob in required_jobs:
+        if not isinstance(rjob, dict):
             issues.append(Issue("MALFORMED_INPUT", "required job must be an object"))
             continue
-        record = job
-        if schema1:
-            job_id = job.get("id")
-            if not job_id or job_id not in by_id:
-                issues.append(Issue("PASS_WITH_INCOMPLETE_JOB", "overall PASS rejected: required job is not bound to plan.jobs"))
-                continue
-            record = by_id[job_id]
-        lifecycle = str(record.get("lifecycle") or "").lower()
-        verdict = str(record.get("verdict") or "").upper()
+        job_id = rjob.get("id")
+        if not job_id or job_id not in by_id:
+            issues.append(Issue("PASS_WITH_INCOMPLETE_JOB", f"overall PASS rejected: required job {job_id} is not bound to plan.jobs"))
+            continue
+        record = by_id[job_id]
+        lifecycle = str(rjob.get("lifecycle") or record.get("lifecycle") or "").lower()
         if lifecycle and lifecycle not in LIFECYCLES:
             issues.append(Issue("UNKNOWN_LIFECYCLE", f"unknown lifecycle {lifecycle}"))
+        verdict = str(rjob.get("verdict") or record.get("verdict") or "").upper()
+        if verdict and verdict not in VERDICTS:
+            issues.append(Issue("UNKNOWN_VERDICT", f"unknown verdict {verdict}"))
         if lifecycle != "completed" or verdict != "PASS":
-            issues.append(Issue("PASS_WITH_INCOMPLETE_JOB", "overall PASS rejected: required job unfinished or negative"))
+            issues.append(Issue("PASS_WITH_INCOMPLETE_JOB", f"overall PASS rejected: required job unfinished or negative: {job_id} (not PASS)"))
+
+    # Required gates must be bound to plan.gates
     gates = list(mission.get("required_gates") or mission.get("gates") or plan.get("gates") or [])
-    gates_declared = "required_gates" in mission or "gates" in mission or "gates" in plan
-    if not gates_declared and schema1:
+    if not gates:
         issues.append(Issue("PASS_WITH_INCOMPLETE_GATE", "overall PASS requires required gates"))
-    elif gates_declared:
-        if not gates:
-            issues.append(Issue("PASS_WITH_INCOMPLETE_GATE", "overall PASS requires required gates"))
-        plan_gates = {
-            gate.get("id"): gate
-            for gate in (plan.get("gates") or [])
-            if isinstance(gate, dict) and gate.get("id")
-        }
-        for gate in gates:
-            if not isinstance(gate, dict):
-                issues.append(Issue("MALFORMED_INPUT", "gate must be an object"))
-                continue
-            record = gate
-            if schema1 and plan_gates:
-                gate_id = gate.get("id")
-                if not gate_id or gate_id not in plan_gates:
-                    issues.append(Issue("PASS_WITH_INCOMPLETE_GATE", "overall PASS rejected: required gate is not bound to plan.gates"))
-                    continue
-                record = plan_gates[gate_id]
-            status = str(record.get("status") or "").upper()
-            if status not in GATE_STATUSES:
-                issues.append(Issue("UNKNOWN_GATE_STATUS", f"unknown gate status {record.get('status')}"))
-            if status != "PASS":
-                issues.append(Issue("PASS_WITH_INCOMPLETE_GATE", "overall PASS rejected: required gate unfinished or negative"))
-    blockers = mission.get("blockers", plan.get("blockers", None))
-    if "blockers" in mission or "blockers" in plan:
-        if blockers:
-            issues.append(Issue("PASS_WITH_BLOCKER", "overall PASS with an active blocker"))
-    elif schema1:
+    for gate in gates:
+        if not isinstance(gate, dict):
+            issues.append(Issue("MALFORMED_INPUT", "gate must be an object"))
+            continue
+        gate_id = gate.get("id")
+        if not gate_id or gate_id not in plan_gates:
+            issues.append(Issue("PASS_WITH_INCOMPLETE_GATE", f"overall PASS rejected: required gate {gate_id} is not bound to plan.gates"))
+            continue
+        record = plan_gates[gate_id]
+        status = str(gate.get("status") or record.get("status") or "").upper()
+        if status not in GATE_STATUSES:
+            issues.append(Issue("UNKNOWN_GATE_STATUS", f"unknown gate status {status}"))
+        if status != "PASS":
+            issues.append(Issue("PASS_WITH_INCOMPLETE_GATE", f"overall PASS rejected: required gate {gate_id} unfinished or not PASS"))
+
+    # Explicit empty blockers required
+    blockers = mission.get("blockers") if "blockers" in mission else plan.get("blockers")
+    if blockers is None:
         issues.append(Issue("PASS_WITH_BLOCKER", "overall PASS requires explicit empty blockers"))
+    elif len(blockers) > 0:
+        issues.append(Issue("PASS_WITH_BLOCKER", "overall PASS with active blockers"))
+
     return issues
 
 
@@ -691,7 +1021,7 @@ def validate_product_status(status: dict[str, Any]) -> list[Issue]:
         "schema_version", "engineering", "behavioral", "release",
         "independent_behavioral_evidence", "release_decision", "limitations",
         "evidence_run", "evidence_not_run", "artifact_identity",
-        "external_actions_not_performed",
+        "external_actions_not_performed", "not_authorized",
     }
     if extra:
         issues.append(Issue("UNSUPPORTED_KEY", f"unsupported status keys {sorted(extra)}"))
@@ -725,34 +1055,110 @@ def changed_paths(porcelain: str) -> list[str]:
     return changed
 
 
-def dirty_manifest_digest(root: Path, changed: list[str], dirty: bool) -> str:
-    entries = []
-    for path in changed:
-        full = root / path
+def compute_dirty_source_identity(
+    root: Path,
+    base_commit: str,
+    status_porcelain: str,
+    binary_diff_bytes: bytes,
+    untracked_files: list[Path] | None = None,
+) -> tuple[str, dict[str, Any]]:
+    """Compute a canonical SHA-256 bound to base commit, diff, status, modes, renames, and untracked files."""
+    diff_hash = hashlib.sha256(binary_diff_bytes).hexdigest()
+
+    untracked_entries: list[dict[str, Any]] = []
+    if untracked_files is None:
+        untracked_files = []
+        for line in status_porcelain.splitlines():
+            if line.startswith("??"):
+                p = line[3:].strip()
+                if p.startswith('"') and p.endswith('"'):
+                    p = p[1:-1]
+                full = root / p
+                if full.is_file():
+                    untracked_files.append(full)
+                elif full.is_dir():
+                    untracked_files.extend(f for f in full.rglob("*") if f.is_file())
+
+    for full_path in sorted(set(untracked_files), key=lambda p: str(p.relative_to(root).as_posix())):
+        try:
+            rel = full_path.relative_to(root).as_posix()
+        except ValueError:
+            rel = str(full_path).replace("\\", "/")
+        try:
+            content = full_path.read_bytes()
+            untracked_entries.append({"path": rel, "sha256": hashlib.sha256(content).hexdigest()})
+        except OSError:
+            untracked_entries.append({"path": rel, "sha256": "unreadable"})
+
+    norm_status = "\n".join(sorted(line.strip().replace("\\", "/") for line in status_porcelain.splitlines() if line.strip()))
+
+    untracked_digest = hashlib.sha256(json.dumps(untracked_entries, sort_keys=True).encode("utf-8")).hexdigest()
+    payload = {
+        "base_commit": str(base_commit or "unknown").strip(),
+        "binary_diff_sha256": diff_hash,
+        "dirty": True,
+        "status_porcelain": norm_status,
+        "untracked_files": untracked_entries,
+        "untracked_manifest_digest": untracked_digest,
+    }
+    encoded = json.dumps(payload, sort_keys=True, separators=(",", ":")).encode("utf-8")
+    digest = hashlib.sha256(encoded).hexdigest()
+    return digest, payload
+
+
+def dirty_manifest_digest(root: Path, changed: list[str], dirty: bool, base_commit: str = "base-commit") -> str:
+    """Compute dirty manifest digest bound to files and base commit."""
+    status_lines = [f" M {p}" for p in changed]
+    diff_parts = []
+    untracked = []
+    for p in changed:
+        full = root / p
         if full.is_file():
-            entries.append({"path": path, "sha256": hashlib.sha256(full.read_bytes()).hexdigest()})
+            b = full.read_bytes()
+            diff_parts.append(f"{p}:{hashlib.sha256(b).hexdigest()}".encode("utf-8"))
+            untracked.append(full)
         else:
-            entries.append({"path": path, "sha256": None, "missing": True})
-    payload = json.dumps({"changed": entries, "dirty": dirty}, sort_keys=True, separators=(",", ":"))
-    return hashlib.sha256(payload.encode("utf-8")).hexdigest()
+            diff_parts.append(f"{p}:missing".encode("utf-8"))
+    binary_diff_bytes = b"".join(diff_parts)
+    digest, _ = compute_dirty_source_identity(
+        root=root,
+        base_commit=base_commit,
+        status_porcelain="\n".join(status_lines),
+        binary_diff_bytes=binary_diff_bytes,
+        untracked_files=untracked,
+    )
+    return digest
 
 
 def inspect_worktree(root: Path | None = None) -> dict[str, Any]:
     root = (root or Path.cwd()).resolve()
-    def git(*args: str) -> str | None:
+
+    def git(*args: str, text: bool = True) -> Any:
         try:
-            result = subprocess.run(("git", "-C", str(root), *args), capture_output=True, text=True, check=False)
+            result = subprocess.run(("git", "-C", str(root), *args), capture_output=True, text=text, check=False)
         except OSError:
-            return None
-        if result.returncode:
-            return None
-        return result.stdout.strip()
+            return None if text else b""
+        if result.returncode != 0:
+            return None if text else b""
+        return result.stdout.strip() if text else result.stdout
+
     commit = git("rev-parse", "HEAD")
     tree = git("rev-parse", "HEAD^{tree}")
-    porcelain = git("status", "--porcelain=v1")
+    porcelain = git("status", "--porcelain=v1", "-uall")
     dirty = bool(porcelain)
-    changed = changed_paths(porcelain or "")
-    digest = dirty_manifest_digest(root, changed, dirty) if dirty else (tree or "unknown")
+    if dirty:
+        binary_diff = git("diff", "--binary", "--full-index", "HEAD", text=False) or b""
+        digest, _ = compute_dirty_source_identity(
+            root=root,
+            base_commit=commit or "unknown",
+            status_porcelain=porcelain or "",
+            binary_diff_bytes=binary_diff,
+        )
+        changed = changed_paths(porcelain or "")
+    else:
+        digest = tree or "unknown"
+        changed = ["."]
+
     return {
         "schema_version": SCHEMA_VERSION,
         "type": "source-tree",
@@ -762,12 +1168,65 @@ def inspect_worktree(root: Path | None = None) -> dict[str, Any]:
         "base_commit": commit or "unknown",
         "git_tree": tree or "unknown",
         "dirty": dirty,
-        "included_paths": changed if dirty else ["."],
+        "included_paths": changed,
         "excluded_paths": [".git"],
-        "generation_command": "git rev-parse HEAD^{tree} && git status --porcelain=v1; sha256 changed files",
+        "generation_command": "git rev-parse HEAD^{tree} && git status --porcelain=v1 -uall; binary diff & untracked sha256",
         "timestamp": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
         "verification": "NOT VERIFIED",
         "note": "commit SHA is observational; do not embed it in a tracked self-hash",
+    }
+
+
+def validate_host_attempt(
+    active_attempt: dict[str, Any],
+    incoming_task_id: str,
+    incoming_dispatch_id: str,
+    message_type: str = "worker_done",
+    outcome: str | None = None,
+) -> dict[str, Any]:
+    """Pure host-neutral lifecycle decision for dispatches/attempts."""
+    task_id = active_attempt.get("task_id")
+    active_dispatch_id = active_attempt.get("active_dispatch_id") or active_attempt.get("dispatch_id")
+    status = active_attempt.get("status", "active")
+
+    if not incoming_dispatch_id:
+        return {
+            "decision": "REJECTED",
+            "reason": "MISSING_DISPATCH_ID",
+            "message": "incoming completion message is missing dispatch_id",
+            "active_dispatch_id": active_dispatch_id,
+        }
+
+    if incoming_task_id != task_id:
+        return {
+            "decision": "REJECTED",
+            "reason": "TASK_ID_MISMATCH",
+            "message": f"incoming task_id {incoming_task_id} does not match active task {task_id}",
+            "active_task_id": task_id,
+        }
+
+    if status != "active":
+        return {
+            "decision": "REJECTED",
+            "reason": "ATTEMPT_NOT_ACTIVE",
+            "message": f"active attempt status is {status}, not active",
+            "status": status,
+        }
+
+    if incoming_dispatch_id != active_dispatch_id:
+        return {
+            "decision": "REJECTED",
+            "reason": "STALE_DISPATCH_REJECTED",
+            "message": f"stale dispatch {incoming_dispatch_id} cannot complete active dispatch {active_dispatch_id}",
+            "active_dispatch_id": active_dispatch_id,
+        }
+
+    return {
+        "decision": "ACCEPTED",
+        "reason": "DISPATCH_MATCH",
+        "message": "incoming dispatch matches active attempt",
+        "active_dispatch_id": active_dispatch_id,
+        "outcome": outcome or "PASS",
     }
 
 
@@ -777,12 +1236,14 @@ def seeded_adversary(seed: int = 20260918) -> list[dict[str, Any]]:
     count = rng.randint(2, 4)
     cases.append({
         "id": "gen-duplicate-ids",
+        "schema_version": 1,
         "jobs": [{"id": "dup", "depends_on": []} for _ in range(count)],
         "expect_codes": ["DUPLICATE_JOB_ID"],
     })
     length = rng.choice((2, 3, 4, 5))
     cases.append({
         "id": f"gen-cycle-{length}",
+        "schema_version": 1,
         "jobs": [{"id": f"n{index}", "depends_on": [f"n{(index + 1) % length}"]} for index in range(length)],
         "expect_codes": ["DEPENDENCY_CYCLE"],
     })
@@ -790,26 +1251,28 @@ def seeded_adversary(seed: int = 20260918) -> list[dict[str, Any]]:
     for index, (left, right) in enumerate(pairs):
         cases.append({
             "id": f"gen-scope-{index}",
+            "schema_version": 1,
             "break_even": True,
             "jobs": [
-                {"id": "w1", "write_scope": left, "capability": "focused-general-worker", "accept_check": {"declared": True, "kind": "executable"}},
-                {"id": "w2", "write_scope": right, "capability": "focused-general-worker", "accept_check": {"declared": True, "kind": "executable"}},
+                {"id": "w1", "write_scope": [left], "capability": "focused-general-worker", "accept_check": {"declared": True, "kind": "executable"}},
+                {"id": "w2", "write_scope": [right], "capability": "focused-general-worker", "accept_check": {"declared": True, "kind": "executable"}},
             ],
             "expect_codes": ["WRITER_SCOPE_OVERLAP"],
         })
     for state in ("ready", "complete", "done"):
         cases.append({
             "id": f"gen-lifecycle-{state}",
+            "schema_version": 1,
             "jobs": [{"id": "x", "lifecycle": state}],
             "expect_codes": ["UNKNOWN_LIFECYCLE"],
         })
     return cases
 
 
-def _writer(job_id: str, scope: str, **extra: Any) -> dict[str, Any]:
+def _writer(job_id: str, scope: str | list[str], **extra: Any) -> dict[str, Any]:
     job = {
         "id": job_id,
-        "write_scope": scope,
+        "write_scope": [scope] if isinstance(scope, str) else list(scope),
         "capability": "focused-general-worker",
         "accept_check": {"declared": True, "kind": "executable"},
         "return": "artifact",
@@ -819,11 +1282,17 @@ def _writer(job_id: str, scope: str, **extra: Any) -> dict[str, Any]:
 
 
 def _pass_mission(**extra: Any) -> dict[str, Any]:
+    valid_sha1 = "a" * 40
     mission = {
         "overall": "PASS",
-        "artifact": "abcdef0123456789deadbeef",
+        "artifact": {
+            "identity_method": "git-commit",
+            "digest_algorithm": "sha1",
+            "digest": valid_sha1,
+            "dirty": False,
+        },
         "required_jobs": [{"id": "j1", "lifecycle": "completed", "verdict": "PASS"}],
-        "required_gates": [{"id": "g1", "status": "PASS", "evidence": "check on abcdef0123456789deadbeef"}],
+        "required_gates": [{"id": "g1", "status": "PASS", "evidence": f"check on {valid_sha1}"}],
         "blockers": [],
     }
     mission.update(extra)
@@ -831,53 +1300,60 @@ def _pass_mission(**extra: Any) -> dict[str, Any]:
 
 
 TRUTH_CASES: list[dict[str, Any]] = [
-    {"id": "01-missing-job-id", "jobs": [{"depends_on": []}], "expect_codes": ["MISSING_JOB_ID"]},
-    {"id": "02-duplicate-job-ids", "jobs": [{"id": "a"}, {"id": "a"}], "expect_codes": ["DUPLICATE_JOB_ID"]},
-    {"id": "03-unknown-dependency", "jobs": [{"id": "b", "depends_on": ["z"]}], "expect_codes": ["UNKNOWN_DEPENDENCY"]},
-    {"id": "04-direct-cycle", "jobs": [{"id": "a", "depends_on": ["b"]}, {"id": "b", "depends_on": ["a"]}], "expect_codes": ["DEPENDENCY_CYCLE"]},
-    {"id": "05-long-cycle", "jobs": [{"id": "a", "depends_on": ["b"]}, {"id": "b", "depends_on": ["c"]}, {"id": "c", "depends_on": ["a"]}], "expect_codes": ["DEPENDENCY_CYCLE"]},
-    {"id": "06-exact-scope", "break_even": True, "jobs": [_writer("a", "app.py"), _writer("b", "app.py")], "expect_codes": ["WRITER_SCOPE_OVERLAP"]},
-    {"id": "07-parent-child-scope", "break_even": True, "jobs": [_writer("a", "src"), _writer("b", "src/a.py")], "expect_codes": ["WRITER_SCOPE_OVERLAP"]},
-    {"id": "08-normalized-scope", "break_even": True, "jobs": [_writer("a", "./src/a.py"), _writer("b", "src/a.py")], "expect_codes": ["WRITER_SCOPE_OVERLAP"]},
-    {"id": "09-glob-scope", "break_even": True, "jobs": [_writer("a", "src/*"), _writer("b", "src/a.py")], "expect_codes": ["WRITER_SCOPE_OVERLAP"]},
+    {"id": "01-missing-job-id", "schema_version": 1, "jobs": [{"depends_on": []}], "expect_codes": ["MISSING_JOB_ID"]},
+    {"id": "02-duplicate-job-ids", "schema_version": 1, "jobs": [{"id": "a"}, {"id": "a"}], "expect_codes": ["DUPLICATE_JOB_ID"]},
+    {"id": "03-unknown-dependency", "schema_version": 1, "jobs": [{"id": "b", "depends_on": ["z"]}], "expect_codes": ["UNKNOWN_DEPENDENCY"]},
+    {"id": "04-direct-cycle", "schema_version": 1, "jobs": [{"id": "a", "depends_on": ["b"]}, {"id": "b", "depends_on": ["a"]}], "expect_codes": ["DEPENDENCY_CYCLE"]},
+    {"id": "05-long-cycle", "schema_version": 1, "jobs": [{"id": "a", "depends_on": ["b"]}, {"id": "b", "depends_on": ["c"]}, {"id": "c", "depends_on": ["a"]}], "expect_codes": ["DEPENDENCY_CYCLE"]},
+    {"id": "06-exact-scope", "schema_version": 1, "break_even": True, "jobs": [_writer("a", "app.py"), _writer("b", "app.py")], "expect_codes": ["WRITER_SCOPE_OVERLAP"]},
+    {"id": "07-parent-child-scope", "schema_version": 1, "break_even": True, "jobs": [_writer("a", "src"), _writer("b", "src/a.py")], "expect_codes": ["WRITER_SCOPE_OVERLAP"]},
+    {"id": "08-normalized-scope", "schema_version": 1, "break_even": True, "jobs": [_writer("a", "./src/a.py"), _writer("b", "src/a.py")], "expect_codes": ["WRITER_SCOPE_OVERLAP"]},
+    {"id": "09-glob-scope", "schema_version": 1, "break_even": True, "jobs": [_writer("a", "src/*"), _writer("b", "src/a.py")], "expect_codes": ["WRITER_SCOPE_OVERLAP"]},
     {
         "id": "10-writer-no-accept",
+        "schema_version": 1,
         "break_even": True,
         "work_kind": "code",
-        "jobs": [{"id": "patch", "capability": "cheap-bounded-worker", "write_scope": "mod.py", "accept_check": {"declared": False}}],
+        "jobs": [{"id": "patch", "capability": "cheap-bounded-worker", "write_scope": ["mod.py"], "accept_check": {"declared": False}}],
         "expect_codes": ["WRITER_NO_ACCEPT_CHECK"],
     },
     {
         "id": "10b-code-write-non-executable",
+        "schema_version": 1,
         "break_even": True,
         "work_kind": "code",
-        "jobs": [{"id": "patch", "capability": "cheap-bounded-worker", "write_scope": "mod.py", "accept_check": {"declared": True, "kind": "manual"}}],
+        "jobs": [{"id": "patch", "capability": "cheap-bounded-worker", "write_scope": ["mod.py"], "accept_check": {"declared": True, "kind": "manual"}}],
         "expect_codes": ["CODE_WRITE_NO_EXECUTABLE_CHECK"],
     },
     {
         "id": "11-focused-no-accept",
+        "schema_version": 1,
         "break_even": True,
-        "jobs": [{"id": "w", "capability": "focused-general-worker", "write_scope": "a.py", "accept_check": {"declared": False}}],
+        "jobs": [{"id": "w", "capability": "focused-general-worker", "write_scope": ["a.py"], "accept_check": {"declared": False}}],
         "expect_codes": ["WRITER_NO_ACCEPT_CHECK"],
     },
     {
         "id": "11b-writer-no-capability",
-        "jobs": [{"id": "w", "write_scope": "a.py"}],
+        "schema_version": 1,
+        "jobs": [{"id": "w", "write_scope": ["a.py"]}],
         "expect_codes": ["UNKNOWN_CAPABILITY", "WRITER_NO_ACCEPT_CHECK", "DELEGATION_WITHOUT_BREAKEVEN"],
     },
     {
         "id": "12-missing-breakeven",
+        "schema_version": 1,
         "jobs": [_writer("w", "a.py", capability="cheap-bounded-worker")],
         "expect_codes": ["DELEGATION_WITHOUT_BREAKEVEN"],
     },
     {
         "id": "13-failed-breakeven",
+        "schema_version": 1,
         "break_even": False,
         "jobs": [_writer("w", "a.py", capability="cheap-bounded-worker")],
         "expect_codes": ["DELEGATION_WITHOUT_BREAKEVEN"],
     },
     {
         "id": "14-unknown-isolation",
+        "schema_version": 1,
         "break_even": True,
         "host_isolation": "maybe",
         "jobs": [_writer("a", "a.py", parallel=True), _writer("b", "b.py", parallel=True)],
@@ -885,6 +1361,7 @@ TRUTH_CASES: list[dict[str, Any]] = [
     },
     {
         "id": "15-claimed-isolation",
+        "schema_version": 1,
         "break_even": True,
         "host_isolation": "worktree",
         "jobs": [_writer("a", "a.py", parallel=True), _writer("b", "b.py", parallel=True)],
@@ -892,6 +1369,7 @@ TRUTH_CASES: list[dict[str, Any]] = [
     },
     {
         "id": "15b-weak-isolation-evidence",
+        "schema_version": 1,
         "break_even": True,
         "host_isolation": "worktree",
         "isolation_evidence": "claimed",
@@ -900,6 +1378,7 @@ TRUTH_CASES: list[dict[str, Any]] = [
     },
     {
         "id": "15c-isolated-parallel-route",
+        "schema_version": 1,
         "break_even": True,
         "planned_route": "isolated_parallel",
         "jobs": [_writer("a", "a.py"), _writer("b", "b.py")],
@@ -907,6 +1386,7 @@ TRUTH_CASES: list[dict[str, Any]] = [
     },
     {
         "id": "16-planned-no-child",
+        "schema_version": 1,
         "break_even": True,
         "planned_route": "sequential_delegated",
         "observed_route": "sequential_delegated",
@@ -916,6 +1396,7 @@ TRUTH_CASES: list[dict[str, Any]] = [
     },
     {
         "id": "16b-observed-delegated-no-child",
+        "schema_version": 1,
         "break_even": True,
         "planned_route": "direct",
         "observed_route": "sequential_delegated",
@@ -925,6 +1406,7 @@ TRUTH_CASES: list[dict[str, Any]] = [
     },
     {
         "id": "16c-bare-string-child",
+        "schema_version": 1,
         "break_even": True,
         "planned_route": "sequential_delegated",
         "observed_route": "sequential_delegated",
@@ -934,6 +1416,7 @@ TRUTH_CASES: list[dict[str, Any]] = [
     },
     {
         "id": "16d-fallback-unlabeled",
+        "schema_version": 1,
         "break_even": True,
         "planned_route": "sequential_delegated",
         "observed_route": "direct",
@@ -944,6 +1427,7 @@ TRUTH_CASES: list[dict[str, Any]] = [
     },
     {
         "id": "16e-structured-child-ok",
+        "schema_version": 1,
         "break_even": True,
         "planned_route": "sequential_delegated",
         "observed_route": "sequential_delegated",
@@ -953,113 +1437,160 @@ TRUTH_CASES: list[dict[str, Any]] = [
     },
     {
         "id": "17-unknown-lifecycle",
-        "mission": _pass_mission(required_jobs=[{"lifecycle": "ready", "verdict": "PASS"}]),
+        "schema_version": 1,
+        "jobs": [{"id": "j1", "required": True}],
+        "gates": [{"id": "g1", "status": "PASS"}],
+        "mission": _pass_mission(required_jobs=[{"id": "j1", "lifecycle": "ready", "verdict": "PASS"}]),
         "expect_codes": ["UNKNOWN_LIFECYCLE", "PASS_WITH_INCOMPLETE_JOB"],
     },
     {
         "id": "18-pass-queued",
-        "mission": _pass_mission(required_jobs=[{"lifecycle": "queued", "verdict": "NOT VERIFIED"}]),
+        "schema_version": 1,
+        "jobs": [{"id": "j1", "required": True, "lifecycle": "queued", "verdict": "NOT VERIFIED"}],
+        "gates": [{"id": "g1", "status": "PASS"}],
+        "mission": _pass_mission(required_jobs=[{"id": "j1", "lifecycle": "queued", "verdict": "NOT VERIFIED"}]),
         "expect_codes": ["PASS_WITH_INCOMPLETE_JOB"],
     },
     {
         "id": "18b-ghost-required-job",
         "schema_version": 1,
         "jobs": [{"id": "real", "lifecycle": "queued", "verdict": "NOT VERIFIED", "required": True}],
+        "gates": [{"id": "g1", "status": "PASS"}],
         "mission": _pass_mission(required_jobs=[{"id": "ghost", "lifecycle": "completed", "verdict": "PASS"}]),
         "expect_codes": ["PASS_WITH_INCOMPLETE_JOB"],
     },
     {
         "id": "19-pass-gate-unknown",
+        "schema_version": 1,
+        "jobs": [{"id": "j1", "required": True, "lifecycle": "completed", "verdict": "PASS"}],
+        "gates": [{"id": "g1", "status": "UNKNOWN"}],
         "mission": _pass_mission(required_gates=[{"id": "g1", "status": "UNKNOWN"}]),
         "expect_codes": ["UNKNOWN_GATE_STATUS", "PASS_WITH_INCOMPLETE_GATE"],
     },
     {
         "id": "19b-pass-missing-gates",
         "schema_version": 1,
+        "jobs": [{"id": "j1", "required": True, "lifecycle": "completed", "verdict": "PASS"}],
         "mission": {
             "overall": "PASS",
-            "artifact": "abcdef0123456789deadbeef",
+            "artifact": {
+                "identity_method": "git-commit",
+                "digest_algorithm": "sha1",
+                "digest": "a" * 40,
+                "dirty": False,
+            },
             "required_jobs": [{"id": "j1", "lifecycle": "completed", "verdict": "PASS"}],
             "blockers": [],
         },
-        "expect_codes": ["PASS_WITH_INCOMPLETE_JOB", "PASS_WITH_INCOMPLETE_GATE"],
+        "expect_codes": ["PASS_WITH_INCOMPLETE_GATE"],
     },
     {
         "id": "20-pass-blocker",
+        "schema_version": 1,
+        "jobs": [{"id": "j1", "required": True, "lifecycle": "completed", "verdict": "PASS"}],
+        "gates": [{"id": "g1", "status": "PASS"}],
         "mission": _pass_mission(blockers=["signing credential unavailable"]),
         "expect_codes": ["PASS_WITH_BLOCKER"],
     },
     {
         "id": "21-stale-artifact",
+        "schema_version": 1,
+        "jobs": [{"id": "j1", "required": True, "lifecycle": "completed", "verdict": "PASS"}],
+        "gates": [{"id": "g1", "status": "PASS"}],
         "mission": _pass_mission(
-            artifact={"type": "source-tree", "identity_method": "git-tree", "digest_algorithm": "sha1", "digest": "bbb", "dirty": False},
-            evidence_digest="aaa",
+            artifact={"type": "source-tree", "identity_method": "git-tree", "digest_algorithm": "sha1", "digest": "b" * 40, "dirty": False},
+            evidence_digest="a" * 40,
         ),
         "expect_codes": ["PASS_STALE_EVIDENCE"],
     },
     {
         "id": "22-dirty-clean-evidence",
+        "schema_version": 1,
+        "jobs": [{"id": "j1", "required": True, "lifecycle": "completed", "verdict": "PASS"}],
+        "gates": [{"id": "g1", "status": "PASS"}],
         "mission": _pass_mission(dirty=True, evidence_assumes_clean=True),
         "expect_codes": ["PASS_DIRTY_WITH_CLEAN_EVIDENCE"],
     },
     {
         "id": "22b-dirty-git-tree",
+        "schema_version": 1,
+        "jobs": [{"id": "j1", "required": True, "lifecycle": "completed", "verdict": "PASS"}],
+        "gates": [{"id": "g1", "status": "PASS"}],
         "mission": _pass_mission(
-            artifact={"type": "source-tree", "identity_method": "git-tree", "digest_algorithm": "sha1", "digest": "bbb", "dirty": True},
+            artifact={"type": "source-tree", "identity_method": "git-tree", "digest_algorithm": "sha1", "digest": "b" * 40, "dirty": True},
             evidence_assumes_clean=False,
         ),
         "expect_codes": ["PASS_DIRTY_WITH_CLEAN_EVIDENCE"],
     },
     {
         "id": "23-accept-change-no-review",
+        "schema_version": 1,
         "acceptance_logic_changed": True,
+        "jobs": [{"id": "j1", "required": True, "lifecycle": "completed", "verdict": "PASS"}],
+        "gates": [{"id": "g1", "status": "PASS"}],
         "mission": _pass_mission(),
         "expect_codes": ["PASS_WITHOUT_REVIEW"],
     },
     {
         "id": "23b-queued-reviewer",
+        "schema_version": 1,
         "acceptance_logic_changed": True,
-        "jobs": [{"id": "review", "capability": "material-reviewer", "independent": True, "lifecycle": "queued", "verdict": "NOT VERIFIED"}],
+        "jobs": [
+            {"id": "j1", "required": True, "lifecycle": "completed", "verdict": "PASS"},
+            {"id": "review", "capability": "material-reviewer", "independent": True, "lifecycle": "queued", "verdict": "NOT VERIFIED"},
+        ],
+        "gates": [{"id": "g1", "status": "PASS"}],
         "mission": _pass_mission(),
         "expect_codes": ["PASS_WITHOUT_REVIEW"],
     },
     {
         "id": "23c-same-lead-reviewer",
+        "schema_version": 1,
         "acceptance_logic_changed": True,
         "reviewer_independence": "same-lead",
-        "jobs": [{"id": "review", "capability": "material-reviewer", "lifecycle": "completed", "verdict": "PASS"}],
+        "jobs": [
+            {"id": "j1", "required": True, "lifecycle": "completed", "verdict": "PASS"},
+            {"id": "review", "capability": "material-reviewer", "lifecycle": "completed", "verdict": "PASS"},
+        ],
+        "gates": [{"id": "g1", "status": "PASS"}],
         "mission": _pass_mission(),
         "expect_codes": ["PASS_WITHOUT_REVIEW"],
     },
     {
         "id": "25-optimizer-no-frozen",
+        "schema_version": 1,
         "planned_route": "measurable_optimizer",
         "optimization": {"tie": False, "keep": "incumbent"},
         "expect_codes": ["OPTIMIZER_NO_FROZEN_EVALUATOR"],
     },
     {
         "id": "26-optimizer-tie",
+        "schema_version": 1,
         "optimization": {"evaluator_frozen": True, "tie": True, "keep": "candidate"},
         "expect_codes": ["OPTIMIZER_TIE_REPLACES_INCUMBENT"],
     },
     {
         "id": "27-evaluator-change",
+        "schema_version": 1,
         "optimization": {"evaluator_frozen": True, "evaluator_changed": True, "new_baseline": False},
         "expect_codes": ["EVALUATOR_CHANGE_NO_BASELINE"],
     },
     {
         "id": "28-ordinary-learning",
+        "schema_version": 1,
         "learning": {"ordinary_success": True, "started_sleep": True, "auto_adopted": True},
         "expect_codes": ["ORDINARY_SUCCESS_STARTED_LEARNING"],
     },
     {
         "id": "29-transcript",
+        "schema_version": 1,
         "break_even": True,
         "jobs": [_writer("w", "a.py", **{"return": "transcript"})],
         "expect_codes": ["TRANSCRIPT_HANDOFF"],
     },
     {
         "id": "30-budget-overflow",
+        "schema_version": 1,
         "break_even": True,
         "worker_budget": 0,
         "review_budget": 0,
@@ -1075,12 +1606,14 @@ TRUTH_CASES: list[dict[str, Any]] = [
     },
     {
         "id": "unsafe-path",
+        "schema_version": 1,
         "break_even": True,
         "jobs": [_writer("a", "../secret")],
         "expect_codes": ["UNSAFE_PATH"],
     },
     {
         "id": "honest-fallback",
+        "schema_version": 1,
         "break_even": True,
         "planned_route": "sequential_delegated",
         "observed_route": "direct",
@@ -1092,42 +1625,165 @@ TRUTH_CASES: list[dict[str, Any]] = [
     },
     {
         "id": "isolated-parallel-ok",
+        "schema_version": 1,
         "break_even": True,
         "host_isolation": "worktree",
-        "isolation_evidence": "git worktree list: /tmp/wt-a /tmp/wt-b",
+        "isolation_evidence": {
+            "host": "cursor",
+            "workspace": "worktree",
+            "mechanism": "git-worktree",
+            "identity": "wt-a,wt-b",
+            "source": "host-reported",
+        },
         "isolation_workspace": "worktree",
         "jobs": [_writer("a", "a.py", parallel=True), _writer("b", "b.py", parallel=True)],
         "expect_codes": [],
     },
     {
         "id": "status-behavioral-from-eng",
+        "schema_version": 1,
         "product_status": {"engineering": "PASS", "behavioral": "PASS", "release": "NO-GO"},
         "expect_codes": ["BEHAVIORAL_FROM_ENGINEERING"],
     },
     {
         "id": "role-worker-nested",
+        "schema_version": 1,
         "break_even": True,
         "planned_route": "sequential_delegated",
         "observed_route": "sequential_delegated",
         "observed_child_ids": [{"id": "child-1", "source": "host-reported"}],
         "jobs": [
             _writer("w", "a.py", capability="cheap-bounded-worker", role="worker", observed_child_jobs=["nested"]),
-            {"id": "nested", "parent_job": "w", "capability": "cheap-bounded-worker", "write_scope": "b.py", "accept_check": {"declared": True, "kind": "executable"}, "return": "artifact"},
+            {"id": "nested", "parent_job": "w", "capability": "cheap-bounded-worker", "write_scope": ["b.py"], "accept_check": {"declared": True, "kind": "executable"}, "return": "artifact"},
         ],
         "expect_codes": ["UNAUTHORIZED_NESTED_DELEGATION"],
     },
     {
         "id": "role-reviewer-write",
-        "jobs": [{"id": "r", "role": "reviewer", "capability": "material-reviewer", "write_scope": "src/fix.py"}],
+        "schema_version": 1,
+        "jobs": [{"id": "r", "role": "reviewer", "capability": "material-reviewer", "write_scope": ["src/fix.py"]}],
         "expect_codes": ["REVIEWER_WRITE_FORBIDDEN"],
     },
     {
         "id": "role-worker-default-ok",
+        "schema_version": 1,
         "break_even": True,
         "planned_route": "sequential_delegated",
         "observed_route": "sequential_delegated",
         "observed_child_ids": [{"id": "sess-1", "source": "host-reported"}],
         "jobs": [_writer("w", "a.py", capability="cheap-bounded-worker", role="worker", delegation_authority=False)],
+        "expect_codes": [],
+    },
+    # New strict-schema and adversarial truth cases
+    {"id": "strict-missing-schema-version", "jobs": [], "expect_codes": ["MISSING_SCHEMA_VERSION"]},
+    {"id": "strict-unsupported-schema-version-str", "schema_version": "1", "jobs": [], "expect_codes": ["UNSUPPORTED_SCHEMA_VERSION"]},
+    {"id": "strict-unsupported-schema-version-num", "schema_version": 2, "jobs": [], "expect_codes": ["UNSUPPORTED_SCHEMA_VERSION"]},
+    {"id": "strict-string-bool-delegation", "schema_version": 1, "jobs": [{"id": "w", "delegation_authority": "false"}], "expect_codes": ["INVALID_TYPE"]},
+    {"id": "strict-string-bool-trivial", "schema_version": 1, "trivial": "false", "expect_codes": ["INVALID_TYPE"]},
+    {"id": "strict-non-int-budget", "schema_version": 1, "worker_budget": "1", "expect_codes": ["INVALID_TYPE"]},
+    {"id": "strict-negative-budget", "schema_version": 1, "worker_budget": -1, "expect_codes": ["NEGATIVE_CEILING"]},
+    {"id": "strict-non-list-scope", "schema_version": 1, "jobs": [{"id": "w", "write_scope": 123}], "expect_codes": ["INVALID_TYPE"]},
+    {
+        "id": "strict-mixed-scope-list",
+        "schema_version": 1,
+        "break_even": True,
+        "jobs": [
+            {
+                "id": "w",
+                "capability": "focused-general-worker",
+                "write_scope": ["src", 123],
+                "accept_check": {"declared": True, "kind": "executable"},
+                "return": "artifact",
+            }
+        ],
+        "expect_codes": ["INVALID_TYPE"],
+    },
+    {
+        "id": "strict-unbound-required-job",
+        "schema_version": 1,
+        "jobs": [{"id": "j1", "lifecycle": "completed", "verdict": "PASS"}],
+        "gates": [{"id": "g1", "status": "PASS"}],
+        "mission": _pass_mission(required_jobs=[{"id": "unbound_job", "lifecycle": "completed", "verdict": "PASS"}]),
+        "expect_codes": ["PASS_WITH_INCOMPLETE_JOB"],
+    },
+    {
+        "id": "strict-unbound-required-gate",
+        "schema_version": 1,
+        "jobs": [{"id": "j1", "lifecycle": "completed", "verdict": "PASS"}],
+        "gates": [{"id": "g1", "status": "PASS"}],
+        "mission": _pass_mission(required_gates=[{"id": "unbound_gate", "status": "PASS"}]),
+        "expect_codes": ["PASS_WITH_INCOMPLETE_GATE"],
+    },
+    {
+        "id": "strict-one-char-artifact",
+        "schema_version": 1,
+        "jobs": [{"id": "j1", "lifecycle": "completed", "verdict": "PASS"}],
+        "gates": [{"id": "g1", "status": "PASS"}],
+        "mission": _pass_mission(artifact="x"),
+        "expect_codes": ["MALFORMED_ARTIFACT_DIGEST"],
+    },
+    {
+        "id": "strict-malformed-sha1",
+        "schema_version": 1,
+        "jobs": [{"id": "j1", "lifecycle": "completed", "verdict": "PASS"}],
+        "gates": [{"id": "g1", "status": "PASS"}],
+        "mission": _pass_mission(artifact={"identity_method": "git-commit", "digest_algorithm": "sha1", "digest": "not-a-valid-sha1", "dirty": False}),
+        "expect_codes": ["MALFORMED_ARTIFACT_DIGEST"],
+    },
+    {
+        "id": "strict-malformed-sha256",
+        "schema_version": 1,
+        "jobs": [{"id": "j1", "lifecycle": "completed", "verdict": "PASS"}],
+        "gates": [{"id": "g1", "status": "PASS"}],
+        "mission": _pass_mission(artifact={"identity_method": "dirty-manifest", "digest_algorithm": "sha256", "digest": "deadbeef", "dirty": True}),
+        "expect_codes": ["MALFORMED_ARTIFACT_DIGEST"],
+    },
+    {
+        "id": "strict-method-algorithm-mismatch",
+        "schema_version": 1,
+        "jobs": [{"id": "j1", "lifecycle": "completed", "verdict": "PASS"}],
+        "gates": [{"id": "g1", "status": "PASS"}],
+        "mission": _pass_mission(artifact={"identity_method": "dirty-manifest", "digest_algorithm": "sha1", "digest": "a" * 40, "dirty": True}),
+        "expect_codes": ["ARTIFACT_METHOD_MISMATCH"],
+    },
+    {
+        "id": "strict-pass-method-none",
+        "schema_version": 1,
+        "jobs": [{"id": "j1", "lifecycle": "completed", "verdict": "PASS"}],
+        "gates": [{"id": "g1", "status": "PASS"}],
+        "mission": _pass_mission(artifact={"identity_method": "none", "digest_algorithm": "none", "digest": "none", "dirty": False}),
+        "expect_codes": ["PASS_WITHOUT_ARTIFACT"],
+    },
+    {
+        "id": "strict-nested-sensitive-receipt",
+        "schema_version": 1,
+        "route_receipt": {"details": {"prompt": "secret instructions"}},
+        "expect_codes": ["SENSITIVE_DATA_EXPOSED"],
+    },
+    {
+        "id": "strict-self-authored-isolation-prose",
+        "schema_version": 1,
+        "break_even": True,
+        "host_isolation": "worktree",
+        "isolation_evidence": "I ran this in a temporary worktree securely",
+        "jobs": [_writer("a", "a.py", parallel=True), _writer("b", "b.py", parallel=True)],
+        "expect_codes": ["CLAIMED_ISOLATION_WITHOUT_EVIDENCE"],
+    },
+    {
+        "id": "strict-lead-only-simple-sequential",
+        "schema_version": 1,
+        "simple_sequential": True,
+        "jobs": [{"id": "lead-job", "role": "lead", "capability": "lead-capable"}],
+        "expect_codes": [],
+    },
+    {
+        "id": "strict-sequential-scope-handoff",
+        "schema_version": 1,
+        "break_even": True,
+        "jobs": [
+            _writer("job1", "auth.py", lifecycle="completed", verdict="PASS"),
+            _writer("job2", "auth.py", depends_on=["job1"], ownership_handoff="job1"),
+        ],
         "expect_codes": [],
     },
 ]
@@ -1145,19 +1801,20 @@ def _exact(found: list[str], expected: list[str]) -> tuple[list[str], list[str]]
 
 def self_check() -> dict[str, Any]:
     failures: list[dict[str, Any]] = []
-    missing, extra = _exact(["DUPLICATE_JOB_ID", "DEPENDENCY_CYCLE"], ["DUPLICATE_JOB_ID"])
-    if extra != ["DEPENDENCY_CYCLE"] or missing:
-        failures.append({"id": "24-unexpected-extra-harness", "missing": missing, "extra": extra})
     cases = list(TRUTH_CASES) + seeded_adversary()
     for case in cases:
         expected = list(case["expect_codes"])
-        found = _codes({key: value for key, value in case.items() if key not in {"id", "expect_codes"}})
+        test_payload = {key: value for key, value in case.items() if key not in {"id", "expect_codes"}}
+        found = _codes(test_payload)
         miss, extra_codes = _exact(found, expected)
         if miss or extra_codes:
             failures.append({"id": case["id"], "missing": miss, "extra": extra_codes, "found": found})
     malformed = validate("not-an-object")
     if [item.code for item in malformed] != ["MALFORMED_INPUT"]:
         failures.append({"id": "malformed-root", "found": [item.code for item in malformed]})
+    empty_res = validate({})
+    if [item.code for item in empty_res] != ["MISSING_SCHEMA_VERSION"]:
+        failures.append({"id": "empty-root-missing-schema-version", "found": [item.code for item in empty_res]})
     parsed = changed_paths(" M .claude/GOAL.md\n?? templates/control-contract.json\n")
     if parsed != [".claude/GOAL.md", "templates/control-contract.json"]:
         failures.append({"id": "dotfile-dirty-manifest", "found": parsed})
@@ -1287,13 +1944,37 @@ def check_contract(data: Any, markdown: str | None = None) -> dict[str, Any]:
         issues = validate(data)
         if markdown:
             issues.extend(compare_mission_view(data, markdown))
+
+    valid = not issues
+    contract_validity = "VALID" if valid else "INVALID"
+
+    overall = None
+    if isinstance(data, dict):
+        mission = data.get("mission")
+        if isinstance(mission, dict) and mission.get("overall"):
+            overall = mission.get("overall")
+        elif data.get("overall"):
+            overall = data.get("overall")
+
+    norm_overall = str(overall or "").strip().upper()
+    if norm_overall in VERDICTS:
+        mission_outcome = norm_overall
+    else:
+        mission_outcome = "NOT VERIFIED"
+
+    if not valid and mission_outcome == "PASS":
+        mission_outcome = "FAIL"
+
     payload = {
-        "status": "PASS" if not issues else "FAIL",
-        "issues": [{"code": item.code, "message": item.message, "path": item.path} for item in issues],
-        "contract_required": contract_required(data) if isinstance(data, dict) else True,
+        "contract_validity": contract_validity,
+        "mission_outcome": mission_outcome,
+        "behavioral_status": "NOT VERIFIED",
         "enforcement_scope": "bundled_checker_enforced",
+        "status": contract_validity,
+        "contract_required": contract_required(data) if isinstance(data, dict) else True,
         "behavioral": "NOT VERIFIED",
-        "note": "A passing check is not behavioral PASS.",
+        "issues": [{"code": item.code, "message": item.message, "path": item.path} for item in issues],
+        "note": "A valid contract is not behavioral PASS and does not prove outcome truth.",
     }
     return payload
 
@@ -1321,9 +2002,15 @@ def main(argv: list[str] | None = None) -> int:
         elif item == "--instruction-only":
             instruction_only = True
         elif item == "--mission-view":
+            if index + 1 >= len(argv) or argv[index + 1].startswith("-"):
+                print("usage error: --mission-view requires a file argument", file=sys.stderr)
+                return 2
             index += 1
             mission_view = Path(argv[index])
         elif item == "--write-report":
+            if index + 1 >= len(argv) or argv[index + 1].startswith("-"):
+                print("usage error: --write-report requires a file argument", file=sys.stderr)
+                return 2
             index += 1
             report = Path(argv[index])
         elif item == "--render-mission-view":
@@ -1336,14 +2023,19 @@ def main(argv: list[str] | None = None) -> int:
         index += 1
     if instruction_only and contract is None:
         payload = {
-            "status": "PASS",
-            "issues": [],
-            "contract_required": False,
+            "check_status": "SKIPPED",
+            "decision_source": "caller_asserted",
             "enforcement_scope": "instruction_only",
+            "mission_outcome": "NOT VERIFIED",
+            "behavioral_status": "NOT VERIFIED",
             "behavioral": "NOT VERIFIED",
-            "note": "No mission file. Trivial direct path is instruction-only.",
+            "contract_required": "caller_asserted",
+            "contract_validity": "SKIPPED",
+            "status": "SKIPPED",
+            "issues": [],
+            "note": "No mission contract supplied. Caller asserted instruction-only route without checker evaluation.",
         }
-        print(json.dumps(payload, indent=2) if json_out else "instruction-only: no contract required")
+        print(json.dumps(payload, indent=2) if json_out else "instruction-only: SKIPPED (caller asserted)")
         return 0
     if contract is None:
         print(
@@ -1367,12 +2059,16 @@ def main(argv: list[str] | None = None) -> int:
         return 0
     payload = check_contract(data, markdown)
     text = json.dumps(payload, indent=2) if json_out else (
-        payload["status"] + "".join(f"\n{item['code']}: {item['message']}" for item in payload["issues"])
+        payload["contract_validity"] + "".join(f"\n{item['code']}: {item['message']}" for item in payload["issues"])
     )
     if report:
         report.write_text(json.dumps(payload, indent=2) + "\n", encoding="utf-8", newline="\n")
     print(text)
-    return 0 if payload["status"] == "PASS" else 1
+    if payload["contract_validity"] != "VALID":
+        return 1
+    if payload["mission_outcome"] == "FAIL":
+        return 1
+    return 0
 
 
 if __name__ == "__main__":

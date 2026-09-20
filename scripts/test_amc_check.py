@@ -67,6 +67,7 @@ class GuardContractTests(unittest.TestCase):
 
     def test_unauthorized_nested_delegation(self) -> None:
         plan = {
+            "schema_version": 1,
             "break_even": True,
             "planned_route": "sequential_delegated",
             "observed_route": "sequential_delegated",
@@ -76,7 +77,7 @@ class GuardContractTests(unittest.TestCase):
                     "id": "w",
                     "role": "worker",
                     "capability": "cheap-bounded-worker",
-                    "write_scope": "a.py",
+                    "write_scope": ["a.py"],
                     "accept_check": {"declared": True, "kind": "executable"},
                     "return": "artifact",
                     "observed_child_jobs": ["n"],
@@ -85,7 +86,7 @@ class GuardContractTests(unittest.TestCase):
                     "id": "n",
                     "parent_job": "w",
                     "capability": "cheap-bounded-worker",
-                    "write_scope": "b.py",
+                    "write_scope": ["b.py"],
                     "accept_check": {"declared": True, "kind": "executable"},
                     "return": "artifact",
                 },
@@ -95,19 +96,20 @@ class GuardContractTests(unittest.TestCase):
         self.assertIn("UNAUTHORIZED_NESTED_DELEGATION", codes)
 
     def test_reviewer_write_rejected(self) -> None:
-        plan = {"jobs": [{"id": "r", "role": "reviewer", "capability": "material-reviewer", "write_scope": "fix.py"}]}
+        plan = {"schema_version": 1, "jobs": [{"id": "r", "role": "reviewer", "capability": "material-reviewer", "write_scope": ["fix.py"]}]}
         codes = [item.code for item in amc_guard.validate(plan)]
         self.assertIn("REVIEWER_WRITE_FORBIDDEN", codes)
 
     def test_route_mismatch_visible(self) -> None:
         plan = {
+            "schema_version": 1,
             "break_even": True,
             "planned_route": "direct",
             "observed_route": "sequential_delegated",
             "jobs": [{
                 "id": "w",
                 "capability": "cheap-bounded-worker",
-                "write_scope": "a.py",
+                "write_scope": ["a.py"],
                 "accept_check": {"declared": True, "kind": "executable"},
                 "return": "artifact",
             }],
@@ -116,20 +118,23 @@ class GuardContractTests(unittest.TestCase):
         self.assertIn("ROUTE_MISMATCH", codes)
 
     def test_mission_view_cannot_drift(self) -> None:
-        plan = {"planned_route": "direct", "observed_route": "review", "overall": "NOT VERIFIED"}
+        plan = {"schema_version": 1, "planned_route": "direct", "observed_route": "review", "overall": "NOT VERIFIED"}
         markdown = "overall: NOT VERIFIED\nPlanned route: direct\nObserved route: direct\n"
         codes = [item.code for item in amc_guard.compare_mission_view(plan, markdown)]
         self.assertIn("MISSION_VIEW_DRIFT", codes)
 
     def test_stale_artifact_rejected(self) -> None:
         plan = {
+            "schema_version": 1,
             "overall": "PASS",
+            "jobs": [{"id": "j1", "required": True}],
+            "gates": [{"id": "g1", "status": "PASS"}],
             "mission": {
                 "overall": "PASS",
-                "artifact": "aaaaaaaaaaaaaaaa",
-                "stale_pass_artifact": "bbbbbbbbbbbbbbbb",
+                "artifact": "a" * 40,
+                "stale_pass_artifact": "b" * 40,
                 "required_jobs": [{"id": "j1", "lifecycle": "completed", "verdict": "PASS"}],
-                "required_gates": [{"id": "g1", "status": "PASS", "evidence": "check on aaaaaaaaaaaaaaaa"}],
+                "required_gates": [{"id": "g1", "status": "PASS", "evidence": f"check on {'a' * 40}"}],
             },
         }
         codes = [item.code for item in amc_guard.validate(plan)]
@@ -194,8 +199,9 @@ class PackageAndClaimsTests(unittest.TestCase):
             result = run(str(checker), "--json", str(contract), cwd=isolated)
             self.assertEqual(result.returncode, 0, result.stderr + result.stdout)
             payload = json.loads(result.stdout)
-            self.assertEqual(payload["status"], "PASS")
-            self.assertEqual(payload["behavioral"], "NOT VERIFIED")
+            self.assertEqual(payload["contract_validity"], "VALID")
+            self.assertEqual(payload["mission_outcome"], "NOT VERIFIED")
+            self.assertEqual(payload["behavioral_status"], "NOT VERIFIED")
 
     def test_checker_does_not_modify_project_files(self) -> None:
         with tempfile.TemporaryDirectory() as temporary:
@@ -218,8 +224,9 @@ class PackageAndClaimsTests(unittest.TestCase):
         def blocked(*_args, **_kwargs):
             raise AssertionError("network")
         with patch.object(socket, "create_connection", blocked), patch.object(socket, "socket", blocked):
-            result = amc_guard.check_contract({"planned_route": "direct", "observed_route": "direct", "overall": "NOT VERIFIED"})
-            self.assertEqual(result["status"], "PASS")
+            result = amc_guard.check_contract({"schema_version": 1, "planned_route": "direct", "observed_route": "direct", "overall": "NOT VERIFIED"})
+            self.assertEqual(result["contract_validity"], "VALID")
+            self.assertEqual(result["mission_outcome"], "NOT VERIFIED")
 
     def test_two_builds_same_digest(self) -> None:
         with tempfile.TemporaryDirectory() as temporary:

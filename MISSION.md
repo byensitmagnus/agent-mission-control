@@ -27,10 +27,10 @@ Observed isolation: none
 
 | Gate | Status | Evidence |
 |---|---|---|
-| Copy-path lists checker scripts | PASS | `docs/getting-started.md`; `scripts/test_amc_check.py` 18/18 |
+| Copy-path lists checker scripts | PASS | `docs/getting-started.md`; `scripts/test_amc_check.py` 19/19 |
 | Cursor bundled checker from installed folder | PASS | scoped 2026-09-19 observation: Cursor 3.21.13; checker PASS, behavioral NOT VERIFIED |
 | Grok project skill discovery | PASS | scoped 2026-09-19 observation: Grok 1.0.3 `inspect --json`; `source.type=project`; exact SKILL.md path |
-| Orca host profile mapping | PASS | `references/hosts/orca.md`; `scripts/test_orca_mapping.py` 9/9 |
+| Orca host profile mapping | PASS | `references/hosts/orca.md`; `scripts/test_orca_mapping.py` 10/10 |
 | Cursor / Codex / Claude / Kimi skill_discovery | NOT VERIFIED | no native loader listing in this slice |
 | Behavioral superiority vs direct work | NOT VERIFIED | no production outcome study |
 
@@ -72,6 +72,7 @@ NOT VERIFIED until similarly scoped. Do not merge, tag or release.
 
 ## Last verified
 
-Parent commit `6516f1165658c53d4b70809a391897a67ac8b75a`. Date: 2026-09-19.
-External actions authorized: push this branch for machine handoff.
-Not performed: merge, tag, release, GitHub settings change, global install.
+Date: 2026-09-20.
+Candidate commit attestation is provided externally by GitHub Actions `GITHUB_SHA`.
+Package runtime content identity is verified authoritatively via `BUILD_RECORD.json`.
+Forbidden actions: merge, tag, release, GitHub settings change, global install.

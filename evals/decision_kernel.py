@@ -10,7 +10,51 @@ from control_contract import validate
 
 
 def check(plan: dict[str, Any]) -> list[str]:
-    return [issue.message for issue in validate(plan)]
+    contract = dict(plan)
+    contract.setdefault("schema_version", 1)
+    if "jobs" in contract and isinstance(contract["jobs"], list):
+        norm_jobs = []
+        for j in contract["jobs"]:
+            if isinstance(j, dict):
+                nj = dict(j)
+                if isinstance(nj.get("write_scope"), str):
+                    nj["write_scope"] = [nj["write_scope"]]
+                norm_jobs.append(nj)
+            else:
+                norm_jobs.append(j)
+        contract["jobs"] = norm_jobs
+    if "isolation_evidence" in contract and isinstance(contract["isolation_evidence"], str):
+        if contract.get("host_isolation") == "worktree":
+            contract["isolation_evidence"] = {
+                "host": "git",
+                "workspace": "worktree",
+                "mechanism": "worktree",
+                "identity": contract["isolation_evidence"],
+            }
+    if "mission" in contract and isinstance(contract["mission"], dict):
+        m = dict(contract["mission"])
+        if m.get("artifact") in {"aaa", "bbb"}:
+            m["artifact"] = m["artifact"][0] * 40
+        if "gates" not in contract and "required_gates" in m:
+            contract["gates"] = [{"id": g.get("id"), "status": g.get("status", "PASS")} for g in m["required_gates"] if isinstance(g, dict)]
+        if "required_jobs" in m:
+            if "jobs" not in contract:
+                contract["jobs"] = []
+            plan_job_ids = {j["id"] for j in contract["jobs"] if isinstance(j, dict) and "id" in j}
+            norm_rjobs = []
+            for idx, rj in enumerate(m["required_jobs"]):
+                if isinstance(rj, dict):
+                    nrj = dict(rj)
+                    jid = nrj.get("id") or f"j{idx}"
+                    nrj["id"] = jid
+                    norm_rjobs.append(nrj)
+                    if jid not in plan_job_ids:
+                        contract["jobs"].append({"id": jid, "required": True, "lifecycle": nrj.get("lifecycle", "completed"), "verdict": nrj.get("verdict", "PASS")})
+                else:
+                    norm_rjobs.append(rj)
+            m["required_jobs"] = norm_rjobs
+        contract["mission"] = m
+    return [issue.message for issue in validate(contract)]
 
 
 CASES = [

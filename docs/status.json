@@ -29,14 +29,9 @@
     "branch protection enablement"
   ],
   "artifact_identity": {
-    "identity_method": "dirty-manifest",
-    "base_commit": "df184ad03da0f333f9525a7706f7aa664e09de47",
-    "base_tree": "9a347734ba8e2e4974160a8e1a3f77c1b0b8dc28",
-    "dirty": true,
-    "note": "Identifies this dirty branch against main. Do not store a self-hash of the candidate commit."
+    "note": "Candidate commit attestation is provided externally by GitHub Actions GITHUB_SHA. Package runtime content identity is verified authoritatively via BUILD_RECORD.json."
   },
-  "external_actions_not_performed": [
-    "push",
+  "not_authorized": [
     "merge",
     "tag",
     "release",

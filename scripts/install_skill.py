@@ -12,8 +12,8 @@ from pathlib import Path
 
 from package_plugin import (
     COPY_DIRS, COPY_FILES, PLUGIN_NAME, REQUIRED_FILES, SOURCE_ROOT, VERSION,
-    _absolute, _is_link, _is_within, _reject_linked_chain,
-    _validate_default_source, _validate_source, package,
+    _absolute, _is_link, _is_within, _reject_linked_chain, _runtime_digest,
+    _validate_default_source, _validate_source, load_version, package,
 )
 
 HOST_DIRS = {
@@ -144,8 +144,54 @@ def install(project: Path, host: str, *, check: bool = False,
         actual = file_hashes(destination)
         changed = sorted(key for key in expected.keys() | actual.keys()
                          if expected.get(key) != actual.get(key))
-        result.update(status="DIFFERENT" if changed else "MATCH",
-                      installed_sha256=fingerprint(actual), differences=changed)
+        content_match = not changed
+
+        build_record_path = destination / "BUILD_RECORD.json"
+        build_record_valid = False
+        build_record_status = "MISSING"
+        build_record_data = None
+        recomputed_runtime_digest = None
+
+        if build_record_path.is_file():
+            try:
+                build_record_data = json.loads(build_record_path.read_text(encoding="utf-8"))
+            except (OSError, json.JSONDecodeError):
+                build_record_status = "INVALID"
+            else:
+                if isinstance(build_record_data, dict):
+                    rec_digest = build_record_data.get("runtime_content_digest")
+                    rec_version = build_record_data.get("version")
+                    rec_format = build_record_data.get("package_format")
+
+                    recomputed_runtime_digest = _runtime_digest(destination)
+
+                    if not rec_digest or not rec_version or rec_format != "skill":
+                        build_record_status = "INVALID"
+                    elif rec_digest != recomputed_runtime_digest:
+                        build_record_status = "TAMPERED"
+                    elif rec_version != load_version(origin):
+                        build_record_status = "STALE"
+                    else:
+                        build_record_status = "VALID"
+                        build_record_valid = True
+                else:
+                    build_record_status = "INVALID"
+
+        overall_status = "MATCH" if (content_match and build_record_valid) else (
+            "DIFFERENT" if not content_match else "BUILD_RECORD_INVALID"
+        )
+
+        result.update(
+            status=overall_status,
+            content_status="MATCH" if content_match else "DIFFERENT",
+            build_record_status=build_record_status,
+            attestation="VALID" if build_record_valid else "INVALID",
+            installed_sha256=fingerprint(actual),
+            runtime_content_digest=recomputed_runtime_digest or _runtime_digest(destination),
+            differences=changed,
+            package_format="skill",
+            source_tree=build_record_data.get("source_tree") if isinstance(build_record_data, dict) else "unknown",
+        )
         return result
 
     if update:

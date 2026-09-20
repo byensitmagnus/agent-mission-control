@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
-  "audited_date": "2026-09-19",
-  "generated_note": "2026-09-19 product-contract-v1",
+  "audited_date": "2026-09-20",
+  "generated_note": "2026-09-20 product-contract-v1.1",
   "behavioral_superiority": "NOT VERIFIED",
   "sources": [
     {
@@ -35,7 +35,7 @@
       "url": "https://code.claude.com/docs/en/claude-projects",
       "retrieved_at": "2026-09-19",
       "audited_ref": "docs fetched 2026-09-19",
-      "supports": ["AMC-PROJ-001", "AMC-CTX-002"],
+      "supports": ["AMC-PROJ-001", "AMC-CTX-002", "AMC-CLASS-001"],
       "limitations": "Public beta, Pro/Max. Hosted product, not a skill."
     },
     {
@@ -46,7 +46,7 @@
       "url": "https://developers.openai.com/plugins/build/skills",
       "retrieved_at": "2026-09-19",
       "audited_ref": "docs fetched 2026-09-19",
-      "supports": ["AMC-GUARD-001"],
+      "supports": ["AMC-GUARD-001", "AMC-CLASS-001"],
       "limitations": "Host skill format. Does not require AMC's checker."
     },
     {
@@ -57,7 +57,7 @@
       "url": "https://developers.openai.com/codex/subagents",
       "retrieved_at": "2026-09-15",
       "audited_ref": "docs accessed 2026-09-15",
-      "supports": ["AMC-HOST-001"],
+      "supports": ["AMC-ROLE-001"],
       "limitations": "Children inherit parent model/effort unless set."
     },
     {
@@ -155,8 +155,20 @@
       "url": "https://github.com/stablyai/orca",
       "retrieved_at": "2026-09-20",
       "audited_ref": "main branch snapshot 2026-09-20; skill-guides/orchestration.md",
+      "commit": "ae1277cf5a5a22174c5cd92e55ba63a001539491",
       "supports": ["AMC-ORCA-001", "AMC-ORCA-002"],
       "limitations": "Desktop/remote ADE and orchestration runtime. Popularity is developer interest, not performance proof. Not AMC's portable core."
+    },
+    {
+      "source_id": "AMC-REPO-AUDIT",
+      "author": "Agent Mission Control Maintainers",
+      "title": "Agent Mission Control Repository Audit",
+      "source_type": "repository_observation",
+      "url": "https://github.com/byensitmagnus/agent-mission-control",
+      "retrieved_at": "2026-09-20",
+      "audited_ref": "repository evaluation state 2026-09-20",
+      "supports": ["AMC-COST-001"],
+      "limitations": "Internal repository artifact audit; confirms absence of production benchmark or superiority evals."
     }
   ],
   "claims": [
@@ -342,14 +354,14 @@
       "mechanism": "no_superiority_claim",
       "claim": "AMC does not claim general superiority in quality, price, speed or autonomy versus direct work, Superpowers, Projects or other orchestrators.",
       "evidence_origin": "local_observation",
-      "source_ids": ["HARMFUL-SKILLS-2608"],
+      "source_ids": ["AMC-REPO-AUDIT"],
       "source_supported_fact": "No AMC production outcome study exists in this repository.",
       "architectural_inference": "Keep behavioral status NOT VERIFIED.",
       "does_not_prove": "That the option to delegate is useless.",
       "adoption": "adopted",
       "enforcement_scope": "repository_ci_enforced",
       "outcome_status": "not_verified",
-      "audited_date": "2026-09-19",
+      "audited_date": "2026-09-20",
       "implementation": "docs/status.json, research/claims.json"
     },
     {
@@ -393,9 +405,9 @@
       "source_ids": ["ORCA-ADE-2026"],
       "source_supported_fact": "Orca requires worker_done messages to bind to both taskId and dispatchId to prevent stale retries from completing active tasks.",
       "architectural_inference": "Incorporate task vs attempt separation, explicit cleanup ownership, and separate requested vs effective model/host in host capability mapping.",
-      "does_not_prove": "That worktrees provide complete security isolation, or that racing parallel dispatches is universally beneficial.",
+      "does_not_prove": "That worktrees provide complete security isolation, or that racing parallel dispatches is universally beneficial. Stale-dispatch rejection is verified as a design mapping fixture, not live runtime enforcement.",
       "adoption": "adopted",
-      "enforcement_scope": "bundled_checker_enforced",
+      "enforcement_scope": "repository_ci_enforced",
       "outcome_status": "not_verified",
       "audited_date": "2026-09-20",
       "implementation": "references/hosts/orca.md, templates/fixtures/orca-mapping.json"

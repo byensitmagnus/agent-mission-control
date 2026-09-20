@@ -60,7 +60,7 @@ class OrcaHostProfileMappingTests(unittest.TestCase):
         self.assertIn("NOT VERIFIED", self.profile_doc)
 
     def test_bidirectional_entity_correspondence(self) -> None:
-        amc = self.fixture["amc_contract"]
+        amc = self.fixture["design_mapping"]
         orca = self.fixture["orca_orchestration"]
 
         # Mission <-> Run
@@ -131,7 +131,14 @@ class OrcaHostProfileMappingTests(unittest.TestCase):
         self.assertEqual(policies["disp-orca-1002"], "release")
 
     def test_behavioral_status_remains_not_verified(self) -> None:
-        self.assertEqual(self.fixture["amc_contract"]["overall"], "NOT VERIFIED")
+        self.assertEqual(self.fixture["design_mapping"]["overall"], "NOT VERIFIED")
+
+    def test_live_stale_dispatch_rejection_is_design_mapping_only(self) -> None:
+        """Orca profile mapping is repository_ci_enforced design documentation.
+        Live runtime stale-dispatch rejection is not implemented in AMC Guard."""
+        self.assertIn("Not AMC's portable core", self.profile_doc)
+        self.assertIn("design_mapping", self.fixture)
+        self.assertNotIn("amc_contract", self.fixture)
 
 
 if __name__ == "__main__":
