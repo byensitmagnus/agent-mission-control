@@ -1,0 +1,92 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "AMCHostCapabilityProfile",
+  "description": "Standard schema for Agent Mission Control host capability profiles.",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "host_id",
+    "host_name",
+    "host_class",
+    "capabilities",
+    "execution_mapping",
+    "adopted_principles",
+    "rejected_patterns",
+    "behavioral_status"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "integer",
+      "const": 1
+    },
+    "host_id": {
+      "type": "string",
+      "pattern": "^[a-z0-9_-]+$"
+    },
+    "host_name": {
+      "type": "string"
+    },
+    "host_class": {
+      "type": "string",
+      "enum": ["ade", "cli", "ide", "hosted_coordinator"]
+    },
+    "capabilities": {
+      "type": "object",
+      "required": [
+        "filesystem_install",
+        "skill_discovery",
+        "bundled_checker_execution",
+        "child_spawn",
+        "write_isolation",
+        "model_override"
+      ],
+      "properties": {
+        "filesystem_install": { "type": "string" },
+        "skill_discovery": { "type": "string" },
+        "bundled_checker_execution": { "type": "string" },
+        "child_spawn": { "type": "string" },
+        "write_isolation": { "type": "string" },
+        "model_override": { "type": "string" },
+        "last_observed_host_version": { "type": "string" }
+      },
+      "additionalProperties": false
+    },
+    "execution_mapping": {
+      "type": "object",
+      "required": [
+        "mission_unit",
+        "job_unit",
+        "attempt_unit",
+        "isolation_mechanism",
+        "completion_signal",
+        "blocker_mechanism",
+        "retry_mechanism",
+        "cleanup_policy"
+      ],
+      "properties": {
+        "mission_unit": { "type": "string" },
+        "job_unit": { "type": "string" },
+        "attempt_unit": { "type": "string" },
+        "isolation_mechanism": { "type": "string" },
+        "completion_signal": { "type": "string" },
+        "blocker_mechanism": { "type": "string" },
+        "retry_mechanism": { "type": "string" },
+        "cleanup_policy": { "type": "string" }
+      },
+      "additionalProperties": false
+    },
+    "adopted_principles": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "rejected_patterns": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "behavioral_status": {
+      "type": "string",
+      "const": "NOT VERIFIED"
+    }
+  },
+  "additionalProperties": false
+}

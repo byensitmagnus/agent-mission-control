@@ -21,6 +21,7 @@ A green checker is not behavioral PASS.
 | SUPERPOWERS-641 | obra/superpowers | Superpowers v6.4.1 | repository_release | v6.4.1 | 2026-09-19 |
 | KARPATHY-AUTORESEARCH | Andrej Karpathy | autoresearch | repository | commit 228791f | 2026-09-19 |
 | NVIDIA-AVO | NVIDIA | Agentic Variation Operators | preprint | arXiv:2603.24517v1 | 2026-09-15 |
+| ORCA-ADE-2026 | stablyai/orca | Orca: The Agent Development Environment | repository_observation | main branch snapshot 2026-09-20; skill-guides/orchestration.md | 2026-09-20 |
 
 ## Claims
 
@@ -230,4 +231,36 @@ A green checker is not behavioral PASS.
 - **outcome_status:** not_verified
 - **implementation:** docs/choosing.md
 - **audited_date:** 2026-09-19
+- **superseded:** no
+
+## AMC-ORCA-001 — orca_host_profile
+
+- **claim_type:** product_taxonomy
+- **claim:** Orca is classified as an optional external execution substrate and ADE (Run, Task, Dispatch in isolated worktrees). AMC remains the single workflow policy owner for route selection, authority, and verified acceptance.
+- **evidence_origin:** primary_source
+- **source_ids:** ORCA-ADE-2026
+- **source_supported_fact:** stablyai/orca skill-guides/orchestration.md defines Runs, Tasks, Dispatches, worker_done completion authority, and worktree isolation for CLI agents.
+- **architectural_inference:** Map AMC mission to Run, job to Task, attempt to Dispatch. Do not allow AMC and Orca orchestration to act as competing workflow owners.
+- **does_not_prove:** That Orca runtime or multi-agent dispatch improves coding quality, price or speed.
+- **adoption:** adapted
+- **enforcement_scope:** instruction_only
+- **outcome_status:** not_verified
+- **implementation:** references/hosts/orca.md, scripts/test_orca_mapping.py
+- **audited_date:** 2026-09-20
+- **superseded:** no
+
+## AMC-ORCA-002 — orca_dispatch_lifecycle
+
+- **claim_type:** integrity
+- **claim:** Orca-inspired attempt lifecycle: task identity is separate from attempt identity; stale attempts cannot complete an active task; worker_done requires both taskId and dispatchId.
+- **evidence_origin:** primary_source
+- **source_ids:** ORCA-ADE-2026
+- **source_supported_fact:** Orca requires worker_done messages to bind to both taskId and dispatchId to prevent stale retries from completing active tasks.
+- **architectural_inference:** Incorporate task vs attempt separation, explicit cleanup ownership, and separate requested vs effective model/host in host capability mapping.
+- **does_not_prove:** That worktrees provide complete security isolation, or that racing parallel dispatches is universally beneficial.
+- **adoption:** adopted
+- **enforcement_scope:** bundled_checker_enforced
+- **outcome_status:** not_verified
+- **implementation:** references/hosts/orca.md, templates/fixtures/orca-mapping.json
+- **audited_date:** 2026-09-20
 - **superseded:** no

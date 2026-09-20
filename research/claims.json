@@ -146,6 +146,17 @@
       "version": "v1",
       "supports": ["AMC-AVO-001"],
       "limitations": "Requires frozen f. Does not transfer to ordinary software tasks without an evaluator."
+    },
+    {
+      "source_id": "ORCA-ADE-2026",
+      "author": "stablyai/orca",
+      "title": "Orca: The Agent Development Environment",
+      "source_type": "repository_observation",
+      "url": "https://github.com/stablyai/orca",
+      "retrieved_at": "2026-09-20",
+      "audited_ref": "main branch snapshot 2026-09-20; skill-guides/orchestration.md",
+      "supports": ["AMC-ORCA-001", "AMC-ORCA-002"],
+      "limitations": "Desktop/remote ADE and orchestration runtime. Popularity is developer interest, not performance proof. Not AMC's portable core."
     }
   ],
   "claims": [
@@ -356,6 +367,38 @@
       "outcome_status": "not_verified",
       "audited_date": "2026-09-19",
       "implementation": "docs/choosing.md"
+    },
+    {
+      "claim_id": "AMC-ORCA-001",
+      "claim_type": "product_taxonomy",
+      "mechanism": "orca_host_profile",
+      "claim": "Orca is classified as an optional external execution substrate and ADE (Run, Task, Dispatch in isolated worktrees). AMC remains the single workflow policy owner for route selection, authority, and verified acceptance.",
+      "evidence_origin": "primary_source",
+      "source_ids": ["ORCA-ADE-2026"],
+      "source_supported_fact": "stablyai/orca skill-guides/orchestration.md defines Runs, Tasks, Dispatches, worker_done completion authority, and worktree isolation for CLI agents.",
+      "architectural_inference": "Map AMC mission to Run, job to Task, attempt to Dispatch. Do not allow AMC and Orca orchestration to act as competing workflow owners.",
+      "does_not_prove": "That Orca runtime or multi-agent dispatch improves coding quality, price or speed.",
+      "adoption": "adapted",
+      "enforcement_scope": "instruction_only",
+      "outcome_status": "not_verified",
+      "audited_date": "2026-09-20",
+      "implementation": "references/hosts/orca.md, scripts/test_orca_mapping.py"
+    },
+    {
+      "claim_id": "AMC-ORCA-002",
+      "claim_type": "integrity",
+      "mechanism": "orca_dispatch_lifecycle",
+      "claim": "Orca-inspired attempt lifecycle: task identity is separate from attempt identity; stale attempts cannot complete an active task; worker_done requires both taskId and dispatchId.",
+      "evidence_origin": "primary_source",
+      "source_ids": ["ORCA-ADE-2026"],
+      "source_supported_fact": "Orca requires worker_done messages to bind to both taskId and dispatchId to prevent stale retries from completing active tasks.",
+      "architectural_inference": "Incorporate task vs attempt separation, explicit cleanup ownership, and separate requested vs effective model/host in host capability mapping.",
+      "does_not_prove": "That worktrees provide complete security isolation, or that racing parallel dispatches is universally beneficial.",
+      "adoption": "adopted",
+      "enforcement_scope": "bundled_checker_enforced",
+      "outcome_status": "not_verified",
+      "audited_date": "2026-09-20",
+      "implementation": "references/hosts/orca.md, templates/fixtures/orca-mapping.json"
     }
   ]
 }

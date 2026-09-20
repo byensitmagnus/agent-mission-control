@@ -33,6 +33,8 @@ jobs:
         run: python scripts/render_claims.py --check
       - name: Test bundled AMC Guard
         run: python scripts/test_amc_check.py
+      - name: Test Orca host mapping
+        run: python scripts/test_orca_mapping.py
       - name: Check preservation diagnostic controls
         run: python evals/preservation_check.py --self-check
       - name: Test plugin packaging

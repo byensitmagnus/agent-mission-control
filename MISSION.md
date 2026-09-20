@@ -30,6 +30,7 @@ Observed isolation: none
 | Copy-path lists checker scripts | PASS | `docs/getting-started.md`; `scripts/test_amc_check.py` 18/18 |
 | Cursor bundled checker from installed folder | PASS | scoped 2026-09-19 observation: Cursor 3.21.13; checker PASS, behavioral NOT VERIFIED |
 | Grok project skill discovery | PASS | scoped 2026-09-19 observation: Grok 1.0.3 `inspect --json`; `source.type=project`; exact SKILL.md path |
+| Orca host profile mapping | PASS | `references/hosts/orca.md`; `scripts/test_orca_mapping.py` 9/9 |
 | Cursor / Codex / Claude / Kimi skill_discovery | NOT VERIFIED | no native loader listing in this slice |
 | Behavioral superiority vs direct work | NOT VERIFIED | no production outcome study |
 
@@ -52,6 +53,12 @@ new services, new AMC subject-run batches and GitHub settings changes.
 Grok inspect is discovery, not a completed task. Cursor checker execution is
 Python from an installer-placed folder, not skill-picker discovery. Codex,
 Claude Code and Kimi have no equivalent no-model inspect used here.
+Orca host profile v0 designed in `references/hosts/orca.md` with capability schema
+in `templates/host-capability-schema.json`, mapping fixture in `templates/fixtures/orca-mapping.json`,
+and deterministic tests in `scripts/test_orca_mapping.py`. Single workflow owner preserved:
+AMC owns route, authority and acceptance; Orca supplies execution and observation.
+Behavioral superiority remains NOT VERIFIED.
+Commit attestation is external via GitHub Actions GITHUB_SHA; runtime identity is generated BUILD_RECORD.json.
 
 ## Blockers
 
