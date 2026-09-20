@@ -32,8 +32,22 @@ def run(*args: str, cwd: Path | None = None) -> subprocess.CompletedProcess[str]
 
 class GuardContractTests(unittest.TestCase):
     def test_trivial_direct_does_not_require_contract(self) -> None:
-        plan = {"trivial": True, "simple_sequential": True, "planned_route": "direct"}
-        self.assertFalse(amc_guard.contract_required(plan))
+        self.assertFalse(amc_guard.contract_required({"trivial": True, "simple_sequential": True, "planned_route": "direct"}))
+        self.assertFalse(amc_guard.contract_required({"trivial": True, "planned_route": "direct"}))
+        self.assertFalse(amc_guard.contract_required({"planned_route": "direct", "simple_sequential": True}))
+
+    def test_high_risk_direct_requires_contract(self) -> None:
+        self.assertTrue(amc_guard.contract_required({"planned_route": "direct", "release_sensitive": True}))
+        self.assertTrue(amc_guard.contract_required({"planned_route": "direct", "risk_level": "material"}))
+        self.assertTrue(amc_guard.contract_required({"planned_route": "direct", "risk_level": "critical"}))
+        self.assertTrue(amc_guard.contract_required({"planned_route": "direct", "false_pass_cost": "high"}))
+        self.assertTrue(amc_guard.contract_required({"planned_route": "direct", "acceptance_logic_changed": True}))
+        self.assertTrue(amc_guard.contract_required({"planned_route": "direct", "acceptance_logic_changes": True}))
+        # High risk flags override trivial / simple_sequential exemption
+        self.assertTrue(amc_guard.contract_required({"planned_route": "direct", "trivial": True, "release_sensitive": True}))
+        self.assertTrue(amc_guard.contract_required({"planned_route": "direct", "trivial": True, "simple_sequential": True, "risk_level": "material"}))
+        self.assertTrue(amc_guard.contract_required({"planned_route": "direct", "trivial": True, "false_pass_cost": "high"}))
+        self.assertTrue(amc_guard.contract_required({"planned_route": "direct", "trivial": True, "acceptance_logic_changed": True}))
 
     def test_delegated_work_requires_contract(self) -> None:
         plan = {"planned_route": "sequential_delegated"}

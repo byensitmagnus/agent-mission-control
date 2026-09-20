@@ -11,8 +11,8 @@ Branch push is authorized for machine handoff; merge, tag and release are not.
 
 ## Base and candidate
 
-Current artifact: dirty working tree on `codex/product-contract-v1` over
-`6516f1165658c53d4b70809a391897a67ac8b75a`.
+Current artifact: branch `codex/product-contract-v1` (candidate.10). Commit attestation provided externally by GitHub Actions `GITHUB_SHA`; package runtime identity by `BUILD_RECORD.json`.
+Base commit: `df184ad03da0f333f9525a7706f7aa664e09de47` (main PR #6 merge).
 Package identity: `0.2.0-candidate.10` (not a release).
 
 ## Route
@@ -28,8 +28,8 @@ Observed isolation: none
 | Gate | Status | Evidence |
 |---|---|---|
 | Copy-path lists checker scripts | PASS | `docs/getting-started.md`; `scripts/test_amc_check.py` 18/18 |
-| Cursor bundled checker from installed folder | observed | Cursor 3.21.13; checker PASS, behavioral NOT VERIFIED |
-| Grok project skill discovery | observed | Grok 1.0.3 `inspect --json`; `source.type=project`; exact SKILL.md path |
+| Cursor bundled checker from installed folder | PASS | scoped 2026-09-19 observation: Cursor 3.21.13; checker PASS, behavioral NOT VERIFIED |
+| Grok project skill discovery | PASS | scoped 2026-09-19 observation: Grok 1.0.3 `inspect --json`; `source.type=project`; exact SKILL.md path |
 | Cursor / Codex / Claude / Kimi skill_discovery | NOT VERIFIED | no native loader listing in this slice |
 | Behavioral superiority vs direct work | NOT VERIFIED | no production outcome study |
 
@@ -45,7 +45,7 @@ new services, new AMC subject-run batches and GitHub settings changes.
 | Job | Role | Agent | Required | Lifecycle | Verdict | Owned scope |
 |---|---|---|---|---|---|---|
 | Copy-path + host observations | lead | Lead | yes | completed | NOT VERIFIED | getting-started, hosts.md |
-| Farm comparison | worker | Lead | no | superseded | NOT VERIFIED | farm closed |
+| Farm comparison | worker | Lead | no | superseded | NOT VERIFIED | superseded: farm closed; conclusion in postmortem |
 
 ## Decisions and evidence
 

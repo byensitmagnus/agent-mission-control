@@ -303,6 +303,25 @@ class PackagePluginTests(unittest.TestCase):
                     package(destination, source)
             self.assertTrue(destination.is_dir())
 
+    def test_explicit_source_with_different_version_propagates_to_manifest_and_build_record(self) -> None:
+        custom_version = "0.9.9-test.1"
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            source = make_source(root)
+            (source / "VERSION").write_text(custom_version + "\n", encoding="utf-8")
+            destination = root / "output" / PLUGIN_NAME
+            package(destination, source=source, package_format="plugin")
+
+            skill_version = (destination / "skills" / PLUGIN_NAME / "VERSION").read_text(encoding="utf-8").strip()
+            manifest = json.loads((destination / ".codex-plugin" / "plugin.json").read_text(encoding="utf-8"))
+            build_record_plugin = json.loads((destination / "BUILD_RECORD.json").read_text(encoding="utf-8"))
+            build_record_skill = json.loads((destination / "skills" / PLUGIN_NAME / "BUILD_RECORD.json").read_text(encoding="utf-8"))
+
+            self.assertEqual(skill_version, custom_version)
+            self.assertEqual(manifest["version"], custom_version)
+            self.assertEqual(build_record_plugin["version"], custom_version)
+            self.assertEqual(build_record_skill["version"], custom_version)
+
 
 if __name__ == "__main__":
     unittest.main()

@@ -185,10 +185,10 @@ def _write_build_record(destination: Path, source: Path, package_format: str) ->
     )
 
 
-def _write_manifest(destination: Path) -> None:
+def _write_manifest(destination: Path, source: Path) -> None:
     manifest = {
         "name": PLUGIN_NAME,
-        "version": load_version(SOURCE_ROOT),
+        "version": load_version(source),
         "description": "Use Agent Mission Control as one workflow. Choose the smallest useful execution graph and finish with verified evidence.",
         "author": {"name": "Byens IT"},
         "license": "MIT",
@@ -285,7 +285,7 @@ def package(
         _write_build_record(skill, source, "skill")
         shutil.copytree(source / "assets", destination / "assets")
         shutil.copy2(source / "LICENSE", destination / "LICENSE")
-        _write_manifest(destination)
+        _write_manifest(destination, source)
         _write_build_record(destination, source, "plugin")
 
     if archive is not None:

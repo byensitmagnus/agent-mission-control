@@ -80,6 +80,7 @@ PLAN_KEYS = {
     "optimization", "mission", "learning", "lead_repeats_worker",
     "concurrency_as_goal", "worker_budget", "review_budget", "retry_budget",
     "trivial", "acceptance_logic_changed", "route_receipt", "product_status",
+    "release_sensitive", "risk_level", "false_pass_cost", "acceptance_logic_changes",
     "observed_child_ids", "observed_agent_roles", "expected_information_value",
     "coordination_cost_assumption", "fallback_route", "deviations",
     "independent_behavioral_evidence", "release_decision",
@@ -439,10 +440,22 @@ def _may_delegate(job: dict[str, Any]) -> bool:
 
 
 def contract_required(plan: dict[str, Any]) -> bool:
-    """Trivial direct work does not need a mission file. Material routes do."""
+    """Trivial direct work does not need a mission file. Material routes and high-risk direct work do."""
     if not isinstance(plan, dict):
         return True
+    risk_level = str(plan.get("risk_level") or "").strip().lower()
+    false_pass_cost = str(plan.get("false_pass_cost") or "").strip().lower()
+    high_risk_direct = (
+        bool(plan.get("release_sensitive"))
+        or risk_level in {"material", "critical"}
+        or false_pass_cost in {"high", "critical"}
+        or bool(plan.get("acceptance_logic_changed") or plan.get("acceptance_logic_changes"))
+    )
+    if high_risk_direct:
+        return True
     if plan.get("trivial") and plan.get("simple_sequential"):
+        return False
+    if plan.get("trivial") and not high_risk_direct:
         return False
     planned = _norm_enum(plan.get("planned_route")) or "direct"
     if planned == "direct" and plan.get("simple_sequential"):
