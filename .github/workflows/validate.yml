@@ -45,7 +45,7 @@ jobs:
         run: python scripts/test_install_skill.py
       - name: Check native usage accounting
         run: python scripts/test_usage_snapshot.py
-      - uses: actions/setup-dotnet@3951f0adf7a476261c6c573f9146ca80f58de421 # v4.3.0
+      - uses: actions/setup-dotnet@v4 # mutable major tag temporarily retained for setup-dotnet
         with:
           dotnet-version: "8.0.x"
       - name: Check public real-task replays

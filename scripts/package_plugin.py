@@ -116,7 +116,11 @@ def _git_environment() -> dict[str, str]:
 
 def _validate_default_source(source: Path) -> None:
     top_level = _absolute(Path(_git(source, "rev-parse", "--show-toplevel")))
-    if os.path.normcase(str(top_level)) != os.path.normcase(str(source)):
+    try:
+        is_same = os.path.samefile(top_level, source)
+    except OSError:
+        is_same = os.path.normcase(str(top_level.resolve())) == os.path.normcase(str(source.resolve()))
+    if not is_same:
         raise ValueError(f"default source is not the repository root: {source}")
     origin = _git(source, "config", "--local", "--no-includes", "--get", "remote.origin.url")
     if origin not in {EXPECTED_ORIGIN, EXPECTED_ORIGIN.removesuffix(".git")}:
