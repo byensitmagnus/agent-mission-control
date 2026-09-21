@@ -14,6 +14,15 @@ remain human views. If the two disagree, the Python contract wins for machine
 checks. Live chats stay instruction-only until the host runs the bundled checker
 on a mission file. Trivial direct tasks do not need a mission file.
 
+## Checker CLI modes
+
+`amc-check.py` supports two validation modes:
+
+1. **Default mode (`amc-check.py CONTRACT.json`):** Contract validation mode. Validates the structural and semantic schema of the contract. Returns 0 for any structurally valid contract. If the mission outcome is non-PASS (`FAIL`, `BLOCKED`, `NOT VERIFIED`), it returns 0 but prints a note clearly stating that the contract is valid but no mission outcome was accepted. Returns non-zero (1) for invalid contracts.
+2. **Explicit acceptance mode (`amc-check.py --require-pass CONTRACT.json`):** Strict acceptance mode. Returns 0 only when the contract is valid AND the mission outcome is `PASS`. Returns non-zero (1) for `INVALID` contracts, mission `FAIL`, mission `BLOCKED`, or mission `NOT VERIFIED`.
+
+For instruction-only routes without a contract, `--instruction-only` returns 0 with `check_status: SKIPPED` (caller asserted, not checker established).
+
 ## Status split
 
 | Status | Meaning | Must not be inferred from |

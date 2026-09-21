@@ -544,5 +544,153 @@ class AdversarialGuardHardeningTests(unittest.TestCase):
         self.assertNotIn("dirty", art)
 
 
+class EvidenceBindingTests(unittest.TestCase):
+    def _base_contract(self) -> dict:
+        sha1 = "a" * 40
+        return {
+            "schema_version": 1,
+            "overall": "PASS",
+            "blockers": [],
+            "candidate_artifact": {
+                "type": "git-commit",
+                "identity_method": "git-commit",
+                "digest_algorithm": "sha1",
+                "digest": sha1,
+                "dirty": False,
+            },
+            "jobs": [
+                {
+                    "id": "j1",
+                    "role": "lead",
+                    "capability": "lead-capable",
+                    "write_scope": ["a.py"],
+                    "accept_check": {"declared": True, "command": "pytest"},
+                    "lifecycle": "completed",
+                    "verdict": "PASS",
+                }
+            ],
+            "gates": [
+                {
+                    "id": "g1",
+                    "status": "PASS",
+                    "evidence": {
+                        "command": "pytest",
+                        "evidence_digest": sha1,
+                    },
+                }
+            ],
+            "mission": {
+                "overall": "PASS",
+                "artifact": {
+                    "type": "git-commit",
+                    "identity_method": "git-commit",
+                    "digest_algorithm": "sha1",
+                    "digest": sha1,
+                    "dirty": False,
+                },
+                "required_jobs": ["j1"],
+                "required_gates": ["g1"],
+                "evidence_digest": sha1,
+            },
+        }
+
+    def test_matching_evidence_identity(self) -> None:
+        plan = self._base_contract()
+        issues = amc_guard.validate(plan)
+        codes = [i.code for i in issues]
+        self.assertNotIn("PASS_WITHOUT_EVIDENCE", codes)
+        self.assertNotIn("PASS_STALE_EVIDENCE", codes)
+        self.assertEqual(codes, [])
+
+    def test_missing_evidence_identity(self) -> None:
+        plan = self._base_contract()
+        del plan["mission"]["evidence_digest"]
+        issues = amc_guard.validate(plan)
+        codes = [i.code for i in issues]
+        self.assertIn("PASS_WITHOUT_EVIDENCE", codes)
+
+    def test_mismatching_evidence_identity(self) -> None:
+        plan = self._base_contract()
+        plan["mission"]["evidence_digest"] = "b" * 40
+        issues = amc_guard.validate(plan)
+        codes = [i.code for i in issues]
+        self.assertTrue("PASS_STALE_EVIDENCE" in codes or "PASS_WITHOUT_EVIDENCE" in codes)
+
+    def test_gate_evidence_absent(self) -> None:
+        plan = self._base_contract()
+        del plan["gates"][0]["evidence"]
+        issues = amc_guard.validate(plan)
+        codes = [i.code for i in issues]
+        self.assertIn("GATE_WITHOUT_EVIDENCE", codes)
+
+    def test_gate_evidence_placeholder(self) -> None:
+        plan = self._base_contract()
+        plan["gates"][0]["evidence"] = "none"
+        issues = amc_guard.validate(plan)
+        codes = [i.code for i in issues]
+        self.assertIn("GATE_WITHOUT_EVIDENCE", codes)
+
+    def test_gate_evidence_bound_to_stale_artifact(self) -> None:
+        plan = self._base_contract()
+        plan["gates"][0]["evidence"] = {
+            "command": "pytest",
+            "target_artifact": {
+                "type": "git-commit",
+                "identity_method": "git-commit",
+                "digest_algorithm": "sha1",
+                "digest": "b" * 40,
+                "dirty": False,
+            },
+        }
+        issues = amc_guard.validate(plan)
+        codes = [i.code for i in issues]
+        self.assertIn("PASS_STALE_EVIDENCE", codes)
+
+    def test_negative_plain_string_artifact_deadbeef(self) -> None:
+        plan = self._base_contract()
+        plan["mission"]["artifact"] = "deadbeef"
+        issues = amc_guard.validate(plan)
+        codes = [i.code for i in issues]
+        self.assertIn("PASS_WITHOUT_ARTIFACT", codes)
+
+    def test_regression_false_pass_contract_rejected(self) -> None:
+        contract = {
+            "schema_version": 1,
+            "overall": "PASS",
+            "blockers": [],
+            "jobs": [
+                {
+                    "id": "j1",
+                    "role": "lead",
+                    "capability": "lead-capable",
+                    "write_scope": ["src/lib.py"],
+                    "accept_check": {"declared": True, "command": "pytest"},
+                    "lifecycle": "completed",
+                    "verdict": "PASS",
+                }
+            ],
+            "gates": [
+                {
+                    "id": "g1",
+                    "status": "NOT VERIFIED",
+                    "evidence": "none",
+                }
+            ],
+            "mission": {
+                "overall": "PASS",
+                "artifact": "deadbeef",
+                "required_jobs": ["j1"],
+                "required_gates": [{"id": "g1", "status": "PASS"}],
+            },
+        }
+        res = amc_guard.check_contract(contract)
+        self.assertEqual(res["contract_validity"], "INVALID")
+        self.assertEqual(res["mission_outcome"], "FAIL")
+        codes = [i["code"] for i in res["issues"]]
+        self.assertIn("PASS_WITHOUT_ARTIFACT", codes)
+        self.assertIn("PASS_WITHOUT_EVIDENCE", codes)
+        self.assertIn("PASS_WITH_INCOMPLETE_GATE", codes)
+
+
 if __name__ == "__main__":
     unittest.main()

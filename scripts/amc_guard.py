@@ -42,6 +42,14 @@ ROUTES = {
     "measurable_optimizer",
 }
 DELEGATED_ROUTES = {"scout", "sequential_delegated", "isolated_parallel"}
+NON_DIRECT_ROUTES = ROUTES - {"direct"}
+ALLOWED_DELEGATION_BASIS = {
+    "information_value",
+    "specialization",
+    "parallel_speedup",
+    "risk_override",
+    "frozen_evaluator",
+}
 ISOLATION_VERIFIED = {"worktree", "sandbox", "vm", "permissions"}
 ISOLATION_NONE = {"none", "unverified"}
 ARTIFACT_METHODS = {
@@ -769,30 +777,41 @@ def _delegation(plan: dict[str, Any]) -> list[Issue]:
         if job.get("capability") in DELEGATED_WRITERS
         or (_scope_values(job.get("write_scope")) and not job.get("capability"))
     ]
-    is_delegated = (
-        planned in DELEGATED_ROUTES
-        or observed in DELEGATED_ROUTES
+    is_non_direct = (
+        bool(planned and planned in NON_DIRECT_ROUTES)
+        or bool(observed and observed in NON_DIRECT_ROUTES)
     )
-    if is_delegated and not workers:
-        dd = plan.get("delegation_decision")
-        if plan.get("break_even") is False:
+    dd = plan.get("delegation_decision")
+    if is_non_direct:
+        if not dd or not isinstance(dd, dict):
+            issues.append(Issue("MISSING_DELEGATION_DECISION", f"non-direct route {planned or observed} requires a typed delegation_decision"))
             issues.append(Issue("DELEGATION_WITHOUT_BREAKEVEN", "failed break-even must not delegate"))
-        elif plan.get("break_even") is not True:
-            if not (isinstance(dd, dict) and dd.get("decision") == "approved"):
-                issues.append(Issue("DELEGATION_WITHOUT_BREAKEVEN", "delegation requires explicit positive break-even or approved delegation_decision"))
-        elif _unknown(plan.get("break_even_evidence")) and not dd:
-            issues.append(Issue("DELEGATION_WITHOUT_BREAKEVEN", "delegated route requires non-empty break_even_evidence or delegation_decision"))
-
-    if "delegation_decision" in plan:
-        dd = plan["delegation_decision"]
-        if isinstance(dd, dict):
-            if dd.get("decision") not in {"approved", "rejected"}:
+        else:
+            decision = dd.get("decision")
+            if decision not in {"approved", "rejected"}:
                 issues.append(Issue("INVALID_TYPE", "delegation_decision.decision must be 'approved' or 'rejected'", "delegation_decision.decision"))
+            elif decision == "rejected":
+                issues.append(Issue("DELEGATION_WITHOUT_BREAKEVEN", "delegation decision rejected"))
+
+            basis = dd.get("basis")
+            if basis not in ALLOWED_DELEGATION_BASIS:
+                issues.append(Issue("INVALID_DELEGATION_BASIS", f"delegation_decision.basis must be one of {sorted(ALLOWED_DELEGATION_BASIS)}", "delegation_decision.basis"))
+
             for field in ("reason", "expected_value", "coordination_cost", "confidence"):
                 if field not in dd or _unknown(dd[field]):
                     issues.append(Issue("MALFORMED_INPUT", f"delegation_decision missing {field}", f"delegation_decision.{field}"))
-            if dd.get("decision") == "rejected" and is_delegated:
+    else:
+        if workers and plan.get("break_even") is False:
+            issues.append(Issue("DELEGATION_WITHOUT_BREAKEVEN", "failed break-even must not delegate"))
+        elif isinstance(dd, dict):
+            decision = dd.get("decision")
+            if decision not in {"approved", "rejected"}:
+                issues.append(Issue("INVALID_TYPE", "delegation_decision.decision must be 'approved' or 'rejected'", "delegation_decision.decision"))
+            elif decision == "rejected":
                 issues.append(Issue("DELEGATION_WITHOUT_BREAKEVEN", "delegation decision rejected"))
+            basis = dd.get("basis")
+            if basis and basis not in ALLOWED_DELEGATION_BASIS:
+                issues.append(Issue("INVALID_DELEGATION_BASIS", f"delegation_decision.basis must be one of {sorted(ALLOWED_DELEGATION_BASIS)}", "delegation_decision.basis"))
 
     return issues
 
@@ -902,92 +921,163 @@ def _mission(plan: dict[str, Any]) -> list[Issue]:
         return issues
 
     # Overall PASS checks:
+    # 1. Require structured artifact object for schema v1 mission PASS
     artifact_value = mission.get("artifact", plan.get("candidate_artifact"))
-    artifact, artifact_obj = _artifact_identity(artifact_value)
-    if not artifact or artifact.casefold() in PLACEHOLDER or artifact == "none":
+    if not artifact_value or (isinstance(artifact_value, str) and artifact_value.strip().lower() in PLACEHOLDER):
         issues.append(Issue("PASS_WITHOUT_ARTIFACT", "overall PASS requires a current artifact identity"))
+        artifact_obj = None
+        digest = None
+        method = None
+        algorithm = None
+    elif not isinstance(artifact_value, dict):
+        issues.append(Issue("PASS_WITHOUT_ARTIFACT", "overall PASS requires a structured artifact object with identity_method, digest_algorithm, digest, dirty, and type"))
+        artifact_obj = None
+        digest = str(artifact_value) if artifact_value else None
+        method = mission.get("identity_method") or plan.get("identity_method")
+        algorithm = mission.get("digest_algorithm") or plan.get("digest_algorithm")
+        is_dirty = plan.get("dirty") is True or mission.get("dirty") is True
+        art_type = mission.get("type") or plan.get("type")
+        if method and algorithm and digest:
+            if method in {"git-commit", "git-tree"}:
+                if algorithm not in {"sha1", "sha256"}:
+                    issues.append(Issue("ARTIFACT_METHOD_MISMATCH", f"git object method {method} requires sha1 or sha256 algorithm"))
+                elif algorithm == "sha1" and not re.fullmatch(r"[0-9a-f]{40}", str(digest).lower()):
+                    issues.append(Issue("MALFORMED_ARTIFACT_DIGEST", f"git SHA-1 digest {digest} must be exactly 40 hexadecimal characters"))
+                elif algorithm == "sha256" and not re.fullmatch(r"[0-9a-f]{64}", str(digest).lower()):
+                    issues.append(Issue("MALFORMED_ARTIFACT_DIGEST", f"git SHA-256 digest {digest} must be exactly 64 hexadecimal characters"))
+            elif method in {"dirty-manifest", "content-digest", "package-digest", "diff-digest"}:
+                if algorithm != "sha256":
+                    issues.append(Issue("ARTIFACT_METHOD_MISMATCH", f"{method} requires sha256 digest algorithm"))
+                elif not re.fullmatch(r"[0-9a-f]{64}", str(digest).lower()):
+                    issues.append(Issue("MALFORMED_ARTIFACT_DIGEST", f"{method} digest {digest} must be exactly 64 hexadecimal characters"))
     else:
+        artifact_obj = artifact_value
+        method = artifact_obj.get("identity_method")
+        algorithm = artifact_obj.get("digest_algorithm")
+        digest = artifact_obj.get("digest")
+        is_dirty = plan.get("dirty") is True or (artifact_obj and artifact_obj.get("dirty") is True) or mission.get("dirty") is True
+        art_type = artifact_obj.get("type")
+
+        if (
+            not method or method not in ARTIFACT_METHODS or method == "none"
+            or not algorithm or algorithm not in DIGEST_ALGORITHMS or algorithm == "none"
+            or not digest or _unknown(digest) or digest == "none"
+            or type(is_dirty) is not bool
+            or not art_type or not isinstance(art_type, str) or art_type.strip() == ""
+        ):
+            issues.append(Issue("PASS_WITHOUT_ARTIFACT", "overall PASS requires a structured artifact object with valid identity_method, digest_algorithm, digest, dirty, and type"))
+        else:
+            if method in {"git-commit", "git-tree"}:
+                if algorithm not in {"sha1", "sha256"}:
+                    issues.append(Issue("ARTIFACT_METHOD_MISMATCH", f"git object method {method} requires sha1 or sha256 algorithm"))
+                elif algorithm == "sha1" and not re.fullmatch(r"[0-9a-f]{40}", str(digest).lower()):
+                    issues.append(Issue("MALFORMED_ARTIFACT_DIGEST", f"git SHA-1 digest {digest} must be exactly 40 hexadecimal characters"))
+                elif algorithm == "sha256" and not re.fullmatch(r"[0-9a-f]{64}", str(digest).lower()):
+                    issues.append(Issue("MALFORMED_ARTIFACT_DIGEST", f"git SHA-256 digest {digest} must be exactly 64 hexadecimal characters"))
+            elif method in {"dirty-manifest", "content-digest", "package-digest", "diff-digest"}:
+                if algorithm != "sha256":
+                    issues.append(Issue("ARTIFACT_METHOD_MISMATCH", f"{method} requires sha256 digest algorithm"))
+                elif not re.fullmatch(r"[0-9a-f]{64}", str(digest).lower()):
+                    issues.append(Issue("MALFORMED_ARTIFACT_DIGEST", f"{method} digest {digest} must be exactly 64 hexadecimal characters"))
+
+        if is_dirty and (method in {"git-commit", "git-tree"} or mission.get("evidence_assumes_clean")):
+            issues.append(Issue("PASS_DIRTY_WITH_CLEAN_EVIDENCE", "dirty candidate accepted by clean-artifact evidence"))
+
         stale = mission.get("stale_pass_artifact")
-        if stale and artifact and str(stale) != artifact:
+        if stale and digest and str(stale) != str(digest):
             issues.append(Issue("PASS_STALE_EVIDENCE", "stale mission PASS cannot accept a new artifact"))
 
-        method = (artifact_obj.get("identity_method") if artifact_obj else None) or mission.get("identity_method") or plan.get("identity_method")
-        algorithm = (artifact_obj.get("digest_algorithm") if artifact_obj else None) or mission.get("digest_algorithm") or plan.get("digest_algorithm")
-        digest = (artifact_obj.get("digest") if artifact_obj else None) or artifact
+    # 2. Require evidence binding for PASS
+    evidence_artifact = mission.get("evidence_artifact") or plan.get("evidence_artifact")
+    evidence_digest = mission.get("evidence_digest") or plan.get("evidence_digest")
+    if evidence_artifact is None and evidence_digest is None:
+        issues.append(Issue("PASS_WITHOUT_EVIDENCE", "overall PASS requires evidence_artifact or evidence_digest bound to candidate artifact"))
+    elif not any(i.code in {"PASS_WITHOUT_ARTIFACT", "MALFORMED_ARTIFACT_DIGEST", "ARTIFACT_METHOD_MISMATCH"} for i in issues):
+        candidate_digest = digest
+        if evidence_artifact is not None:
+            if not isinstance(evidence_artifact, dict):
+                issues.append(Issue("INVALID_TYPE", "evidence_artifact must be an object"))
+            else:
+                ev_digest = evidence_artifact.get("digest")
+                ev_method = evidence_artifact.get("identity_method")
+                ev_alg = evidence_artifact.get("digest_algorithm")
+                if not ev_digest or (candidate_digest and str(ev_digest).strip() != str(candidate_digest).strip()):
+                    issues.append(Issue("PASS_STALE_EVIDENCE", f"evidence_artifact digest {ev_digest} does not match candidate digest {candidate_digest}"))
+                elif ev_method and method and ev_method != method:
+                    issues.append(Issue("PASS_STALE_EVIDENCE", f"evidence_artifact method {ev_method} does not match candidate method {method}"))
+                elif ev_alg and algorithm and ev_alg != algorithm:
+                    issues.append(Issue("PASS_STALE_EVIDENCE", f"evidence_artifact algorithm {ev_alg} does not match candidate algorithm {algorithm}"))
+        if evidence_digest is not None:
+            if not isinstance(evidence_digest, str) or str(evidence_digest).strip() == "" or str(evidence_digest).lower() in PLACEHOLDER:
+                issues.append(Issue("PASS_WITHOUT_EVIDENCE", "overall PASS evidence_digest must be non-placeholder"))
+            elif candidate_digest and str(evidence_digest).strip() != str(candidate_digest).strip():
+                issues.append(Issue("PASS_STALE_EVIDENCE", f"evidence digest {evidence_digest} does not match artifact digest {candidate_digest}"))
 
-        if method == "none" or algorithm == "none" or digest in PLACEHOLDER or digest == "none":
-            issues.append(Issue("PASS_WITHOUT_ARTIFACT", "overall PASS forbids identity_method none or placeholder digest"))
-
-        # Strict SHA formats and method-algorithm compatibility
-        if method in {"git-commit", "git-tree"}:
-            if algorithm not in {"sha1", "sha256"}:
-                issues.append(Issue("ARTIFACT_METHOD_MISMATCH", f"git object method {method} requires sha1 or sha256 algorithm"))
-            elif algorithm == "sha1" and not re.fullmatch(r"[0-9a-f]{40}", str(digest).lower()):
-                issues.append(Issue("MALFORMED_ARTIFACT_DIGEST", f"git SHA-1 digest {digest} must be exactly 40 hexadecimal characters"))
-            elif algorithm == "sha256" and not re.fullmatch(r"[0-9a-f]{64}", str(digest).lower()):
-                issues.append(Issue("MALFORMED_ARTIFACT_DIGEST", f"git SHA-256 digest {digest} must be exactly 64 hexadecimal characters"))
-        elif method in {"dirty-manifest", "content-digest", "package-digest", "diff-digest"}:
-            if algorithm != "sha256":
-                issues.append(Issue("ARTIFACT_METHOD_MISMATCH", f"{method} requires sha256 digest algorithm"))
-            elif not re.fullmatch(r"[0-9a-f]{64}", str(digest).lower()):
-                issues.append(Issue("MALFORMED_ARTIFACT_DIGEST", f"{method} digest {digest} must be exactly 64 hexadecimal characters"))
-        elif not artifact_obj:
-            if len(str(digest)) < 8 or not re.fullmatch(r"[0-9a-f]+", str(digest).lower()):
-                issues.append(Issue("MALFORMED_ARTIFACT_DIGEST", f"artifact identity {digest} is malformed or too short"))
-
-    is_dirty = plan.get("dirty") is True or (artifact_obj and artifact_obj.get("dirty") is True) or mission.get("dirty") is True
-    if is_dirty and (method in {"git-commit", "git-tree"} or mission.get("evidence_assumes_clean")):
-        issues.append(Issue("PASS_DIRTY_WITH_CLEAN_EVIDENCE", "dirty candidate accepted by clean-artifact evidence"))
-
-    evidence_digest = mission.get("evidence_digest") or (mission.get("evidence_artifact") or {}).get("digest")
-    if evidence_digest and digest and str(evidence_digest).strip() != str(digest).strip():
-        issues.append(Issue("PASS_STALE_EVIDENCE", f"evidence digest {evidence_digest} does not match artifact digest {digest}"))
-
-    # Required jobs must be bound to plan.jobs
+    # 3. Required jobs: IDs only from mission.required_jobs, lifecycle & verdict only from plan.jobs
     required_jobs = list(mission.get("required_jobs") or [])
     if not required_jobs:
-        required_jobs = [job for job in jobs if job.get("required") is True]
+        required_jobs = [job.get("id") for job in jobs if job.get("required") is True]
     if not required_jobs:
         issues.append(Issue("PASS_WITH_INCOMPLETE_JOB", "overall PASS requires required jobs"))
 
     for rjob in required_jobs:
-        if not isinstance(rjob, dict):
-            issues.append(Issue("MALFORMED_INPUT", "required job must be an object"))
+        job_id = rjob if isinstance(rjob, str) else (rjob.get("id") if isinstance(rjob, dict) else None)
+        if not job_id or not isinstance(job_id, str):
+            issues.append(Issue("MALFORMED_INPUT", "required job must be an ID string or object with id"))
             continue
-        job_id = rjob.get("id")
-        if not job_id or job_id not in by_id:
+        if job_id not in by_id:
             issues.append(Issue("PASS_WITH_INCOMPLETE_JOB", f"overall PASS rejected: required job {job_id} is not bound to plan.jobs"))
             continue
         record = by_id[job_id]
-        lifecycle = str(rjob.get("lifecycle") or record.get("lifecycle") or "").lower()
-        if lifecycle and lifecycle not in LIFECYCLES:
-            issues.append(Issue("UNKNOWN_LIFECYCLE", f"unknown lifecycle {lifecycle}"))
-        verdict = str(rjob.get("verdict") or record.get("verdict") or "").upper()
-        if verdict and verdict not in VERDICTS:
-            issues.append(Issue("UNKNOWN_VERDICT", f"unknown verdict {verdict}"))
-        if lifecycle != "completed" or verdict != "PASS":
+        r_lc = str((rjob.get("lifecycle") if isinstance(rjob, dict) else None) or record.get("lifecycle") or "").lower()
+        if r_lc and r_lc not in LIFECYCLES:
+            issues.append(Issue("UNKNOWN_LIFECYCLE", f"unknown lifecycle {r_lc}"))
+        r_vd = str((rjob.get("verdict") if isinstance(rjob, dict) else None) or record.get("verdict") or "").upper()
+        if r_vd and r_vd not in VERDICTS:
+            issues.append(Issue("UNKNOWN_VERDICT", f"unknown verdict {r_vd}"))
+        rec_lifecycle = str(record.get("lifecycle") or "").lower()
+        rec_verdict = str(record.get("verdict") or "").upper()
+        if rec_lifecycle != "completed" or rec_verdict != "PASS":
             issues.append(Issue("PASS_WITH_INCOMPLETE_JOB", f"overall PASS rejected: required job unfinished or negative: {job_id} (not PASS)"))
 
-    # Required gates must be bound to plan.gates
-    gates = list(mission.get("required_gates") or mission.get("gates") or plan.get("gates") or [])
+    # 4. Required gates: IDs only from mission.required_gates, status & evidence only from plan.gates
+    gates = list(mission.get("required_gates") or mission.get("gates") or [g.get("id") for g in plan.get("gates") or [] if isinstance(g, dict)])
     if not gates:
         issues.append(Issue("PASS_WITH_INCOMPLETE_GATE", "overall PASS requires required gates"))
+
     for gate in gates:
-        if not isinstance(gate, dict):
-            issues.append(Issue("MALFORMED_INPUT", "gate must be an object"))
+        gate_id = gate if isinstance(gate, str) else (gate.get("id") if isinstance(gate, dict) else None)
+        if not gate_id or not isinstance(gate_id, str):
+            issues.append(Issue("MALFORMED_INPUT", "gate must be an ID string or object with id"))
             continue
-        gate_id = gate.get("id")
-        if not gate_id or gate_id not in plan_gates:
+        if gate_id not in plan_gates:
             issues.append(Issue("PASS_WITH_INCOMPLETE_GATE", f"overall PASS rejected: required gate {gate_id} is not bound to plan.gates"))
             continue
         record = plan_gates[gate_id]
-        status = str(gate.get("status") or record.get("status") or "").upper()
+        status = str(record.get("status") or "").upper()
         if status not in GATE_STATUSES:
             issues.append(Issue("UNKNOWN_GATE_STATUS", f"unknown gate status {status}"))
         if status != "PASS":
             issues.append(Issue("PASS_WITH_INCOMPLETE_GATE", f"overall PASS rejected: required gate {gate_id} unfinished or not PASS"))
+            continue
 
-    # Explicit empty blockers required
+        gate_ev = record.get("evidence")
+        if not gate_ev or _unknown(gate_ev) or str(gate_ev).strip() == "" or str(gate_ev).lower() in PLACEHOLDER:
+            issues.append(Issue("GATE_WITHOUT_EVIDENCE", f"overall PASS requires non-placeholder evidence for required gate {gate_id}"))
+
+        gate_art = (
+            record.get("artifact_digest")
+            or record.get("artifact")
+            or record.get("stale_pass_artifact")
+            or (gate_ev.get("target_artifact") if isinstance(gate_ev, dict) else None)
+            or (gate_ev.get("evidence_digest") if isinstance(gate_ev, dict) else None)
+        )
+        if gate_art:
+            g_digest = gate_art.get("digest") if isinstance(gate_art, dict) else str(gate_art)
+            if digest and g_digest and str(g_digest).strip() != str(digest).strip():
+                issues.append(Issue("PASS_STALE_EVIDENCE", f"gate {gate_id} evidence bound to stale artifact {g_digest}"))
+
+    # 5. Explicit empty blockers required
     blockers = mission.get("blockers") if "blockers" in mission else plan.get("blockers")
     if blockers is None:
         issues.append(Issue("PASS_WITH_BLOCKER", "overall PASS requires explicit empty blockers"))
@@ -1281,6 +1371,30 @@ def _writer(job_id: str, scope: str | list[str], **extra: Any) -> dict[str, Any]
     return job
 
 
+def _pass_gate(gate_id: str = "g1", **extra: Any) -> dict[str, Any]:
+    valid_sha1 = "a" * 40
+    gate = {
+        "id": gate_id,
+        "status": "PASS",
+        "evidence": f"verified check on {valid_sha1}",
+    }
+    gate.update(extra)
+    return gate
+
+
+def _approved_delegation(basis: str = "specialization", **extra: Any) -> dict[str, Any]:
+    dd = {
+        "decision": "approved",
+        "reason": "authorized route delegation",
+        "basis": basis,
+        "expected_value": 10,
+        "coordination_cost": 2,
+        "confidence": 0.9,
+    }
+    dd.update(extra)
+    return dd
+
+
 def _pass_mission(**extra: Any) -> dict[str, Any]:
     valid_sha1 = "a" * 40
     mission = {
@@ -1290,9 +1404,11 @@ def _pass_mission(**extra: Any) -> dict[str, Any]:
             "digest_algorithm": "sha1",
             "digest": valid_sha1,
             "dirty": False,
+            "type": "git-commit",
         },
-        "required_jobs": [{"id": "j1", "lifecycle": "completed", "verdict": "PASS"}],
-        "required_gates": [{"id": "g1", "status": "PASS", "evidence": f"check on {valid_sha1}"}],
+        "required_jobs": ["j1"],
+        "required_gates": ["g1"],
+        "evidence_digest": valid_sha1,
         "blockers": [],
     }
     mission.update(extra)
@@ -1381,6 +1497,7 @@ TRUTH_CASES: list[dict[str, Any]] = [
         "schema_version": 1,
         "break_even": True,
         "planned_route": "isolated_parallel",
+        "delegation_decision": _approved_delegation(basis="parallel_speedup"),
         "jobs": [_writer("a", "a.py"), _writer("b", "b.py")],
         "expect_codes": ["PARALLEL_WITHOUT_ISOLATION", "DELEGATION_NOT_OBSERVED"],
     },
@@ -1390,6 +1507,7 @@ TRUTH_CASES: list[dict[str, Any]] = [
         "break_even": True,
         "planned_route": "sequential_delegated",
         "observed_route": "sequential_delegated",
+        "delegation_decision": _approved_delegation(basis="specialization"),
         "observed_child_ids": [],
         "jobs": [_writer("w", "a.py", capability="cheap-bounded-worker")],
         "expect_codes": ["DELEGATION_NOT_OBSERVED"],
@@ -1400,6 +1518,7 @@ TRUTH_CASES: list[dict[str, Any]] = [
         "break_even": True,
         "planned_route": "direct",
         "observed_route": "sequential_delegated",
+        "delegation_decision": _approved_delegation(basis="specialization"),
         "observed_child_ids": [],
         "jobs": [_writer("w", "a.py", capability="cheap-bounded-worker")],
         "expect_codes": ["DELEGATION_NOT_OBSERVED", "ROUTE_MISMATCH"],
@@ -1410,6 +1529,7 @@ TRUTH_CASES: list[dict[str, Any]] = [
         "break_even": True,
         "planned_route": "sequential_delegated",
         "observed_route": "sequential_delegated",
+        "delegation_decision": _approved_delegation(basis="specialization"),
         "observed_child_ids": ["session-abc"],
         "jobs": [_writer("w", "a.py", capability="cheap-bounded-worker")],
         "expect_codes": ["DELEGATION_NOT_OBSERVED"],
@@ -1421,6 +1541,7 @@ TRUTH_CASES: list[dict[str, Any]] = [
         "planned_route": "sequential_delegated",
         "observed_route": "direct",
         "fallback_route": "direct",
+        "delegation_decision": _approved_delegation(basis="specialization"),
         "observed_child_ids": [],
         "jobs": [_writer("w", "a.py", capability="cheap-bounded-worker")],
         "expect_codes": ["DELEGATION_NOT_OBSERVED", "ROUTE_MISMATCH"],
@@ -1431,6 +1552,7 @@ TRUTH_CASES: list[dict[str, Any]] = [
         "break_even": True,
         "planned_route": "sequential_delegated",
         "observed_route": "sequential_delegated",
+        "delegation_decision": _approved_delegation(basis="specialization"),
         "observed_child_ids": [{"id": "sess-1", "source": "host-reported"}],
         "jobs": [_writer("w", "a.py", capability="cheap-bounded-worker")],
         "expect_codes": [],
@@ -1439,7 +1561,7 @@ TRUTH_CASES: list[dict[str, Any]] = [
         "id": "17-unknown-lifecycle",
         "schema_version": 1,
         "jobs": [{"id": "j1", "required": True}],
-        "gates": [{"id": "g1", "status": "PASS"}],
+        "gates": [_pass_gate()],
         "mission": _pass_mission(required_jobs=[{"id": "j1", "lifecycle": "ready", "verdict": "PASS"}]),
         "expect_codes": ["UNKNOWN_LIFECYCLE", "PASS_WITH_INCOMPLETE_JOB"],
     },
@@ -1447,7 +1569,7 @@ TRUTH_CASES: list[dict[str, Any]] = [
         "id": "18-pass-queued",
         "schema_version": 1,
         "jobs": [{"id": "j1", "required": True, "lifecycle": "queued", "verdict": "NOT VERIFIED"}],
-        "gates": [{"id": "g1", "status": "PASS"}],
+        "gates": [_pass_gate()],
         "mission": _pass_mission(required_jobs=[{"id": "j1", "lifecycle": "queued", "verdict": "NOT VERIFIED"}]),
         "expect_codes": ["PASS_WITH_INCOMPLETE_JOB"],
     },
@@ -1455,7 +1577,7 @@ TRUTH_CASES: list[dict[str, Any]] = [
         "id": "18b-ghost-required-job",
         "schema_version": 1,
         "jobs": [{"id": "real", "lifecycle": "queued", "verdict": "NOT VERIFIED", "required": True}],
-        "gates": [{"id": "g1", "status": "PASS"}],
+        "gates": [_pass_gate()],
         "mission": _pass_mission(required_jobs=[{"id": "ghost", "lifecycle": "completed", "verdict": "PASS"}]),
         "expect_codes": ["PASS_WITH_INCOMPLETE_JOB"],
     },
@@ -1478,8 +1600,10 @@ TRUTH_CASES: list[dict[str, Any]] = [
                 "digest_algorithm": "sha1",
                 "digest": "a" * 40,
                 "dirty": False,
+                "type": "git-commit",
             },
-            "required_jobs": [{"id": "j1", "lifecycle": "completed", "verdict": "PASS"}],
+            "evidence_digest": "a" * 40,
+            "required_jobs": ["j1"],
             "blockers": [],
         },
         "expect_codes": ["PASS_WITH_INCOMPLETE_GATE"],
@@ -1488,7 +1612,7 @@ TRUTH_CASES: list[dict[str, Any]] = [
         "id": "20-pass-blocker",
         "schema_version": 1,
         "jobs": [{"id": "j1", "required": True, "lifecycle": "completed", "verdict": "PASS"}],
-        "gates": [{"id": "g1", "status": "PASS"}],
+        "gates": [_pass_gate()],
         "mission": _pass_mission(blockers=["signing credential unavailable"]),
         "expect_codes": ["PASS_WITH_BLOCKER"],
     },
@@ -1496,7 +1620,7 @@ TRUTH_CASES: list[dict[str, Any]] = [
         "id": "21-stale-artifact",
         "schema_version": 1,
         "jobs": [{"id": "j1", "required": True, "lifecycle": "completed", "verdict": "PASS"}],
-        "gates": [{"id": "g1", "status": "PASS"}],
+        "gates": [_pass_gate()],
         "mission": _pass_mission(
             artifact={"type": "source-tree", "identity_method": "git-tree", "digest_algorithm": "sha1", "digest": "b" * 40, "dirty": False},
             evidence_digest="a" * 40,
@@ -1507,7 +1631,7 @@ TRUTH_CASES: list[dict[str, Any]] = [
         "id": "22-dirty-clean-evidence",
         "schema_version": 1,
         "jobs": [{"id": "j1", "required": True, "lifecycle": "completed", "verdict": "PASS"}],
-        "gates": [{"id": "g1", "status": "PASS"}],
+        "gates": [_pass_gate()],
         "mission": _pass_mission(dirty=True, evidence_assumes_clean=True),
         "expect_codes": ["PASS_DIRTY_WITH_CLEAN_EVIDENCE"],
     },
@@ -1515,9 +1639,10 @@ TRUTH_CASES: list[dict[str, Any]] = [
         "id": "22b-dirty-git-tree",
         "schema_version": 1,
         "jobs": [{"id": "j1", "required": True, "lifecycle": "completed", "verdict": "PASS"}],
-        "gates": [{"id": "g1", "status": "PASS"}],
+        "gates": [_pass_gate()],
         "mission": _pass_mission(
             artifact={"type": "source-tree", "identity_method": "git-tree", "digest_algorithm": "sha1", "digest": "b" * 40, "dirty": True},
+            evidence_digest="b" * 40,
             evidence_assumes_clean=False,
         ),
         "expect_codes": ["PASS_DIRTY_WITH_CLEAN_EVIDENCE"],
@@ -1527,7 +1652,7 @@ TRUTH_CASES: list[dict[str, Any]] = [
         "schema_version": 1,
         "acceptance_logic_changed": True,
         "jobs": [{"id": "j1", "required": True, "lifecycle": "completed", "verdict": "PASS"}],
-        "gates": [{"id": "g1", "status": "PASS"}],
+        "gates": [_pass_gate()],
         "mission": _pass_mission(),
         "expect_codes": ["PASS_WITHOUT_REVIEW"],
     },
@@ -1539,7 +1664,7 @@ TRUTH_CASES: list[dict[str, Any]] = [
             {"id": "j1", "required": True, "lifecycle": "completed", "verdict": "PASS"},
             {"id": "review", "capability": "material-reviewer", "independent": True, "lifecycle": "queued", "verdict": "NOT VERIFIED"},
         ],
-        "gates": [{"id": "g1", "status": "PASS"}],
+        "gates": [_pass_gate()],
         "mission": _pass_mission(),
         "expect_codes": ["PASS_WITHOUT_REVIEW"],
     },
@@ -1552,7 +1677,7 @@ TRUTH_CASES: list[dict[str, Any]] = [
             {"id": "j1", "required": True, "lifecycle": "completed", "verdict": "PASS"},
             {"id": "review", "capability": "material-reviewer", "lifecycle": "completed", "verdict": "PASS"},
         ],
-        "gates": [{"id": "g1", "status": "PASS"}],
+        "gates": [_pass_gate()],
         "mission": _pass_mission(),
         "expect_codes": ["PASS_WITHOUT_REVIEW"],
     },
@@ -1560,6 +1685,7 @@ TRUTH_CASES: list[dict[str, Any]] = [
         "id": "25-optimizer-no-frozen",
         "schema_version": 1,
         "planned_route": "measurable_optimizer",
+        "delegation_decision": _approved_delegation(basis="frozen_evaluator"),
         "optimization": {"tie": False, "keep": "incumbent"},
         "expect_codes": ["OPTIMIZER_NO_FROZEN_EVALUATOR"],
     },
@@ -1617,6 +1743,7 @@ TRUTH_CASES: list[dict[str, Any]] = [
         "break_even": True,
         "planned_route": "sequential_delegated",
         "observed_route": "direct",
+        "delegation_decision": _approved_delegation(basis="specialization"),
         "fallback_route": "direct",
         "deviations": ["DELEGATION_NOT_OBSERVED"],
         "observed_child_ids": [],
@@ -1651,6 +1778,7 @@ TRUTH_CASES: list[dict[str, Any]] = [
         "break_even": True,
         "planned_route": "sequential_delegated",
         "observed_route": "sequential_delegated",
+        "delegation_decision": _approved_delegation(basis="specialization"),
         "observed_child_ids": [{"id": "child-1", "source": "host-reported"}],
         "jobs": [
             _writer("w", "a.py", capability="cheap-bounded-worker", role="worker", observed_child_jobs=["nested"]),
@@ -1670,6 +1798,7 @@ TRUTH_CASES: list[dict[str, Any]] = [
         "break_even": True,
         "planned_route": "sequential_delegated",
         "observed_route": "sequential_delegated",
+        "delegation_decision": _approved_delegation(basis="specialization"),
         "observed_child_ids": [{"id": "sess-1", "source": "host-reported"}],
         "jobs": [_writer("w", "a.py", capability="cheap-bounded-worker", role="worker", delegation_authority=False)],
         "expect_codes": [],
@@ -1702,56 +1831,56 @@ TRUTH_CASES: list[dict[str, Any]] = [
         "id": "strict-unbound-required-job",
         "schema_version": 1,
         "jobs": [{"id": "j1", "lifecycle": "completed", "verdict": "PASS"}],
-        "gates": [{"id": "g1", "status": "PASS"}],
-        "mission": _pass_mission(required_jobs=[{"id": "unbound_job", "lifecycle": "completed", "verdict": "PASS"}]),
+        "gates": [_pass_gate()],
+        "mission": _pass_mission(required_jobs=["unbound_job"]),
         "expect_codes": ["PASS_WITH_INCOMPLETE_JOB"],
     },
     {
         "id": "strict-unbound-required-gate",
         "schema_version": 1,
         "jobs": [{"id": "j1", "lifecycle": "completed", "verdict": "PASS"}],
-        "gates": [{"id": "g1", "status": "PASS"}],
-        "mission": _pass_mission(required_gates=[{"id": "unbound_gate", "status": "PASS"}]),
+        "gates": [_pass_gate()],
+        "mission": _pass_mission(required_gates=["unbound_gate"]),
         "expect_codes": ["PASS_WITH_INCOMPLETE_GATE"],
     },
     {
         "id": "strict-one-char-artifact",
         "schema_version": 1,
         "jobs": [{"id": "j1", "lifecycle": "completed", "verdict": "PASS"}],
-        "gates": [{"id": "g1", "status": "PASS"}],
+        "gates": [_pass_gate()],
         "mission": _pass_mission(artifact="x"),
-        "expect_codes": ["MALFORMED_ARTIFACT_DIGEST"],
+        "expect_codes": ["PASS_WITHOUT_ARTIFACT"],
     },
     {
         "id": "strict-malformed-sha1",
         "schema_version": 1,
         "jobs": [{"id": "j1", "lifecycle": "completed", "verdict": "PASS"}],
-        "gates": [{"id": "g1", "status": "PASS"}],
-        "mission": _pass_mission(artifact={"identity_method": "git-commit", "digest_algorithm": "sha1", "digest": "not-a-valid-sha1", "dirty": False}),
+        "gates": [_pass_gate()],
+        "mission": _pass_mission(artifact={"identity_method": "git-commit", "digest_algorithm": "sha1", "digest": "not-a-valid-sha1", "dirty": False, "type": "git-commit"}),
         "expect_codes": ["MALFORMED_ARTIFACT_DIGEST"],
     },
     {
         "id": "strict-malformed-sha256",
         "schema_version": 1,
         "jobs": [{"id": "j1", "lifecycle": "completed", "verdict": "PASS"}],
-        "gates": [{"id": "g1", "status": "PASS"}],
-        "mission": _pass_mission(artifact={"identity_method": "dirty-manifest", "digest_algorithm": "sha256", "digest": "deadbeef", "dirty": True}),
+        "gates": [_pass_gate()],
+        "mission": _pass_mission(artifact={"identity_method": "dirty-manifest", "digest_algorithm": "sha256", "digest": "deadbeef", "dirty": True, "type": "dirty-manifest"}),
         "expect_codes": ["MALFORMED_ARTIFACT_DIGEST"],
     },
     {
         "id": "strict-method-algorithm-mismatch",
         "schema_version": 1,
         "jobs": [{"id": "j1", "lifecycle": "completed", "verdict": "PASS"}],
-        "gates": [{"id": "g1", "status": "PASS"}],
-        "mission": _pass_mission(artifact={"identity_method": "dirty-manifest", "digest_algorithm": "sha1", "digest": "a" * 40, "dirty": True}),
+        "gates": [_pass_gate()],
+        "mission": _pass_mission(artifact={"identity_method": "dirty-manifest", "digest_algorithm": "sha1", "digest": "a" * 40, "dirty": True, "type": "dirty-manifest"}),
         "expect_codes": ["ARTIFACT_METHOD_MISMATCH"],
     },
     {
         "id": "strict-pass-method-none",
         "schema_version": 1,
         "jobs": [{"id": "j1", "lifecycle": "completed", "verdict": "PASS"}],
-        "gates": [{"id": "g1", "status": "PASS"}],
-        "mission": _pass_mission(artifact={"identity_method": "none", "digest_algorithm": "none", "digest": "none", "dirty": False}),
+        "gates": [_pass_gate()],
+        "mission": _pass_mission(artifact={"identity_method": "none", "digest_algorithm": "none", "digest": "none", "dirty": False, "type": "none"}),
         "expect_codes": ["PASS_WITHOUT_ARTIFACT"],
     },
     {
@@ -1965,6 +2094,10 @@ def check_contract(data: Any, markdown: str | None = None) -> dict[str, Any]:
     if not valid and mission_outcome == "PASS":
         mission_outcome = "FAIL"
 
+    note = "A valid contract is not behavioral PASS and does not prove outcome truth."
+    if valid and mission_outcome != "PASS":
+        note = f"Contract is structurally valid, but mission outcome is {mission_outcome}; no mission outcome was accepted."
+
     payload = {
         "contract_validity": contract_validity,
         "mission_outcome": mission_outcome,
@@ -1974,7 +2107,7 @@ def check_contract(data: Any, markdown: str | None = None) -> dict[str, Any]:
         "contract_required": contract_required(data) if isinstance(data, dict) else True,
         "behavioral": "NOT VERIFIED",
         "issues": [{"code": item.code, "message": item.message, "path": item.path} for item in issues],
-        "note": "A valid contract is not behavioral PASS and does not prove outcome truth.",
+        "note": note,
     }
     return payload
 
@@ -1990,6 +2123,7 @@ def main(argv: list[str] | None = None) -> int:
         return 0
     json_out = False
     instruction_only = False
+    require_pass = False
     mission_view: Path | None = None
     report: Path | None = None
     contract: Path | None = None
@@ -2001,6 +2135,8 @@ def main(argv: list[str] | None = None) -> int:
             json_out = True
         elif item == "--instruction-only":
             instruction_only = True
+        elif item == "--require-pass":
+            require_pass = True
         elif item == "--mission-view":
             if index + 1 >= len(argv) or argv[index + 1].startswith("-"):
                 print("usage error: --mission-view requires a file argument", file=sys.stderr)
@@ -2039,7 +2175,7 @@ def main(argv: list[str] | None = None) -> int:
         return 0
     if contract is None:
         print(
-            "usage: amc-check.py [--json] [--instruction-only] [--mission-view FILE] "
+            "usage: amc-check.py [--json] [--require-pass] [--instruction-only] [--mission-view FILE] "
             "[--write-report FILE] CONTRACT.json",
             file=sys.stderr,
         )
@@ -2066,7 +2202,7 @@ def main(argv: list[str] | None = None) -> int:
     print(text)
     if payload["contract_validity"] != "VALID":
         return 1
-    if payload["mission_outcome"] == "FAIL":
+    if require_pass and payload["mission_outcome"] != "PASS":
         return 1
     return 0
 

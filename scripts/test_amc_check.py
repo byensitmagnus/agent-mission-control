@@ -124,17 +124,33 @@ class GuardContractTests(unittest.TestCase):
         self.assertIn("MISSION_VIEW_DRIFT", codes)
 
     def test_stale_artifact_rejected(self) -> None:
+        valid_sha1 = "a" * 40
         plan = {
             "schema_version": 1,
             "overall": "PASS",
-            "jobs": [{"id": "j1", "required": True}],
-            "gates": [{"id": "g1", "status": "PASS"}],
+            "blockers": [],
+            "candidate_artifact": {
+                "type": "git-commit",
+                "identity_method": "git-commit",
+                "digest_algorithm": "sha1",
+                "digest": valid_sha1,
+                "dirty": False,
+            },
+            "jobs": [{"id": "j1", "required": True, "lifecycle": "completed", "verdict": "PASS"}],
+            "gates": [{"id": "g1", "status": "PASS", "evidence": {"command": "pytest", "evidence_digest": valid_sha1}}],
             "mission": {
                 "overall": "PASS",
-                "artifact": "a" * 40,
+                "artifact": {
+                    "type": "git-commit",
+                    "identity_method": "git-commit",
+                    "digest_algorithm": "sha1",
+                    "digest": valid_sha1,
+                    "dirty": False,
+                },
                 "stale_pass_artifact": "b" * 40,
-                "required_jobs": [{"id": "j1", "lifecycle": "completed", "verdict": "PASS"}],
-                "required_gates": [{"id": "g1", "status": "PASS", "evidence": f"check on {'a' * 40}"}],
+                "evidence_digest": valid_sha1,
+                "required_jobs": ["j1"],
+                "required_gates": ["g1"],
             },
         }
         codes = [item.code for item in amc_guard.validate(plan)]
@@ -240,6 +256,250 @@ class PackageAndClaimsTests(unittest.TestCase):
             self.assertEqual(first_zip.read_bytes(), second_zip.read_bytes())
             digest = hashlib.sha256(first_zip.read_bytes()).hexdigest()
             self.assertEqual(len(digest), 64)
+
+
+class RequirePassCliTests(unittest.TestCase):
+    def _run_cli(self, contract_data: dict | str, *flags: str) -> tuple[int, dict | str]:
+        with tempfile.TemporaryDirectory() as tmp:
+            p = Path(tmp) / "contract.json"
+            if isinstance(contract_data, str):
+                p.write_text(contract_data, encoding="utf-8")
+            else:
+                p.write_text(json.dumps(contract_data), encoding="utf-8")
+            res = run(str(ROOT / "scripts" / "amc-check.py"), *flags, "--json", str(p))
+            try:
+                payload = json.loads(res.stdout)
+            except Exception:
+                payload = res.stdout
+            return res.returncode, payload
+
+    def test_invalid_contract_fails_both_modes(self) -> None:
+        invalid = {"not_a_valid_contract": True}
+        code, out = self._run_cli(invalid)
+        self.assertEqual(code, 1)
+        self.assertEqual(out["contract_validity"], "INVALID")
+
+        code_rp, out_rp = self._run_cli(invalid, "--require-pass")
+        self.assertEqual(code_rp, 1)
+        self.assertEqual(out_rp["contract_validity"], "INVALID")
+
+    def test_mission_fail_behavior(self) -> None:
+        contract = {
+            "schema_version": 1,
+            "planned_route": "direct",
+            "observed_route": "direct",
+            "overall": "FAIL",
+            "mission": {"overall": "FAIL"},
+        }
+        # Default mode returns 0, but notes that no outcome was accepted
+        code, out = self._run_cli(contract)
+        self.assertEqual(code, 0)
+        self.assertEqual(out["contract_validity"], "VALID")
+        self.assertEqual(out["mission_outcome"], "FAIL")
+        self.assertIn("no mission outcome was accepted", out["note"])
+
+        # --require-pass returns non-zero (1)
+        code_rp, out_rp = self._run_cli(contract, "--require-pass")
+        self.assertEqual(code_rp, 1)
+        self.assertEqual(out_rp["contract_validity"], "VALID")
+        self.assertEqual(out_rp["mission_outcome"], "FAIL")
+
+    def test_mission_blocked_behavior(self) -> None:
+        contract = {
+            "schema_version": 1,
+            "planned_route": "direct",
+            "observed_route": "direct",
+            "overall": "BLOCKED",
+            "mission": {"overall": "BLOCKED"},
+        }
+        # Default mode returns 0
+        code, out = self._run_cli(contract)
+        self.assertEqual(code, 0)
+        self.assertEqual(out["contract_validity"], "VALID")
+        self.assertEqual(out["mission_outcome"], "BLOCKED")
+        self.assertIn("no mission outcome was accepted", out["note"])
+
+        # --require-pass returns non-zero (1)
+        code_rp, out_rp = self._run_cli(contract, "--require-pass")
+        self.assertEqual(code_rp, 1)
+        self.assertEqual(out_rp["contract_validity"], "VALID")
+        self.assertEqual(out_rp["mission_outcome"], "BLOCKED")
+
+    def test_mission_not_verified_behavior(self) -> None:
+        contract = {
+            "schema_version": 1,
+            "planned_route": "direct",
+            "observed_route": "direct",
+            "overall": "NOT VERIFIED",
+            "mission": {"overall": "NOT VERIFIED"},
+        }
+        # Default mode returns 0
+        code, out = self._run_cli(contract)
+        self.assertEqual(code, 0)
+        self.assertEqual(out["contract_validity"], "VALID")
+        self.assertEqual(out["mission_outcome"], "NOT VERIFIED")
+        self.assertIn("no mission outcome was accepted", out["note"])
+
+        # --require-pass returns non-zero (1)
+        code_rp, out_rp = self._run_cli(contract, "--require-pass")
+        self.assertEqual(code_rp, 1)
+        self.assertEqual(out_rp["contract_validity"], "VALID")
+        self.assertEqual(out_rp["mission_outcome"], "NOT VERIFIED")
+
+    def test_mission_pass_behavior(self) -> None:
+        contract = {
+            "schema_version": 1,
+            "planned_route": "direct",
+            "observed_route": "direct",
+            "overall": "PASS",
+            "blockers": [],
+            "candidate_artifact": {
+                "type": "git-commit",
+                "identity_method": "git-commit",
+                "digest_algorithm": "sha1",
+                "digest": "a" * 40,
+                "dirty": False,
+            },
+            "mission": {
+                "overall": "PASS",
+                "artifact": {
+                    "type": "git-commit",
+                    "identity_method": "git-commit",
+                    "digest_algorithm": "sha1",
+                    "digest": "a" * 40,
+                    "dirty": False,
+                },
+                "evidence_digest": "a" * 40,
+                "required_jobs": ["j1"],
+                "required_gates": ["g1"],
+            },
+            "jobs": [
+                {
+                    "id": "j1",
+                    "role": "lead",
+                    "capability": "lead-capable",
+                    "write_scope": ["src/lib.py"],
+                    "accept_check": {"declared": True, "command": "pytest"},
+                    "lifecycle": "completed",
+                    "verdict": "PASS",
+                }
+            ],
+            "gates": [
+                {
+                    "id": "g1",
+                    "status": "PASS",
+                    "evidence": {
+                        "test_command": "pytest",
+                        "evidence_digest": "a" * 40,
+                        "target_artifact": {
+                            "type": "git-commit",
+                            "identity_method": "git-commit",
+                            "digest_algorithm": "sha1",
+                            "digest": "a" * 40,
+                            "dirty": False,
+                        },
+                    },
+                }
+            ],
+        }
+        # Default mode returns 0
+        code, out = self._run_cli(contract)
+        self.assertEqual(code, 0)
+        self.assertEqual(out["contract_validity"], "VALID")
+        self.assertEqual(out["mission_outcome"], "PASS")
+
+        # --require-pass returns 0
+        code_rp, out_rp = self._run_cli(contract, "--require-pass")
+        self.assertEqual(code_rp, 0)
+        self.assertEqual(out_rp["contract_validity"], "VALID")
+        self.assertEqual(out_rp["mission_outcome"], "PASS")
+
+
+class CanonicalDelegationTests(unittest.TestCase):
+    def test_scout_route_decision(self) -> None:
+        plan = {
+            "schema_version": 1,
+            "planned_route": "scout",
+            "observed_route": "scout",
+            "delegation_decision": {
+                "decision": "delegate",
+                "reason": "explore potential solutions",
+                "basis": "information_value",
+                "expected_value": 0.8,
+                "coordination_cost": 0.2,
+                "confidence": 0.9,
+            },
+        }
+        issues = amc_guard.validate(plan)
+        codes = [i.code for i in issues]
+        self.assertNotIn("MISSING_DELEGATION_DECISION", codes)
+        self.assertNotIn("INVALID_DELEGATION_DECISION", codes)
+
+    def test_sequential_worker_route_decision(self) -> None:
+        plan = {
+            "schema_version": 1,
+            "planned_route": "sequential_delegated",
+            "observed_route": "sequential_delegated",
+            "delegation_decision": {
+                "decision": "delegate",
+                "reason": "specialized implementation task",
+                "basis": "specialization",
+                "expected_value": 0.9,
+                "coordination_cost": 0.3,
+                "confidence": 0.85,
+            },
+        }
+        issues = amc_guard.validate(plan)
+        codes = [i.code for i in issues]
+        self.assertNotIn("MISSING_DELEGATION_DECISION", codes)
+
+    def test_isolated_parallel_route_decision(self) -> None:
+        plan = {
+            "schema_version": 1,
+            "planned_route": "isolated_parallel",
+            "observed_route": "isolated_parallel",
+            "observed_isolation": {"method": "git_worktree", "evidence": "created worktree wt1"},
+            "delegation_decision": {
+                "decision": "delegate",
+                "reason": "parallel speedup on separate subtrees",
+                "basis": "parallel_speedup",
+                "expected_value": 1.2,
+                "coordination_cost": 0.4,
+                "confidence": 0.8,
+            },
+        }
+        issues = amc_guard.validate(plan)
+        codes = [i.code for i in issues]
+        self.assertNotIn("MISSING_DELEGATION_DECISION", codes)
+
+    def test_review_route_decision_risk_override(self) -> None:
+        plan = {
+            "schema_version": 1,
+            "planned_route": "reviewer_delegated",
+            "observed_route": "reviewer_delegated",
+            "delegation_decision": {
+                "decision": "delegate",
+                "reason": "high-risk acceptance logic requires fresh reviewer",
+                "basis": "risk_override",
+                "expected_value": 1.0,
+                "coordination_cost": 0.5,
+                "confidence": 0.95,
+            },
+        }
+        issues = amc_guard.validate(plan)
+        codes = [i.code for i in issues]
+        self.assertNotIn("MISSING_DELEGATION_DECISION", codes)
+        self.assertNotIn("INVALID_DELEGATION_DECISION", codes)
+
+    def test_missing_delegation_decision_rejected(self) -> None:
+        plan = {
+            "schema_version": 1,
+            "planned_route": "sequential_delegated",
+            "observed_route": "sequential_delegated",
+        }
+        issues = amc_guard.validate(plan)
+        codes = [i.code for i in issues]
+        self.assertIn("MISSING_DELEGATION_DECISION", codes)
 
 
 if __name__ == "__main__":

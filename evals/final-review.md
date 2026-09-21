@@ -4,6 +4,12 @@ Reviewed candidate: `e4d32b021832a48ebcb86f9625a832c120f2eef7`
 Review date: 2026-09-20  
 Reviewer identity: Fresh-context AI review (Security & Contract Reviewer)  
 Category: Fresh-context AI review (internal verification artifact; not external human audit)  
+Review and CI status:
+- Fresh-context AI review covered `e4d32b021832a48ebcb86f9625a832c120f2eef7`.
+- `5e509164b17ec668a552606c9cae24a1060f1a11` added the review artifact.
+- Final-tip CI passed on `5e509164b17ec668a552606c9cae24a1060f1a11`.
+- No GitHub review approval or independent human review exists yet.
+- GitHub Actions pinning: `actions/checkout` and `actions/setup-python` are pinned by immutable commit SHA. `actions/setup-dotnet@v4` temporarily retains a mutable major tag; not all Actions are immutable-pinned while `setup-dotnet` remains `@v4`.
 Supplied context: PR #7 branch diff against `df184ad`, AMC Product Contract v1.1 mandate, 30 adversarial attack vectors, and clean-slate fail-open audit.
 
 ## Verdict
