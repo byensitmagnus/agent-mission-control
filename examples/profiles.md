@@ -12,7 +12,7 @@ mapping. Keep the selected lead. See the cost-aware preflight in
 | Profile | Intent | Typical graph |
 |---|---|---|
 | `quality` | Prefer correctness over calendar time | More work stays with the lead. Review when the claim is material. Concurrency 1 unless the user asked for isolated independent jobs. |
-| `balanced` | Current AMC default | Direct for sequential work. Cheaper workers only for independent jobs with host isolation and compact artifacts. Review by risk, not by habit. |
+| `balanced` | Current AMC default | Direct for sequential work. Sequential specialists only for bounded isolation. Parallel cheaper workers only for independent jobs with host isolation and compact artifacts. Review by risk, not by habit. |
 | `throughput` | Prefer verifiable capacity inside the budget | More fan-out on ready independent jobs, still under the worker/retry/reviewer ceilings. Isolation and artifact handoff remain required. Review is still not automatic. |
 
 Example class mappings the host may already provide. Substitute what the host

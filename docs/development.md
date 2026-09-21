@@ -38,6 +38,9 @@ python scripts/validate.py
 python scripts/test_validate.py
 python scripts/test_prepare_eval.py
 python evals/decision_kernel.py --self-check
+python evals/control_contract.py --self-check
+python scripts/render_claims.py --check
+python scripts/test_amc_check.py
 python scripts/test_package_plugin.py
 python scripts/test_install_skill.py
 python scripts/test_usage_snapshot.py
@@ -51,11 +54,14 @@ checks on Python 3.11 and 3.14 with .NET 8. Passing them is not product PASS.
 
 The current local engineering record is
 [candidate.9](engineering-candidate.9.md). Historical candidate.8 evidence stays
-in [its record](engineering-candidate.8.md).
+in [its record](engineering-candidate.8.md). The Truth Layer contract is
+[control-contract.md](control-contract.md). Passing these checks is engineering
+evidence only.
 
-Root `MISSION.md` and `docs/` are repository status. Packaging copies only
-`SKILL.md`, `LICENSE`, `agents/`, `references/`, `templates/` and `assets/`.
-The live mission record is not part of the runtime skill or plugin.
+Root `MISSION.md` and `docs/` are repository status. Packaging copies
+`SKILL.md`, `LICENSE`, `VERSION`, `agents/`, `references/`, `templates/`,
+`assets/`, `scripts/amc-check.py` and `scripts/amc_guard.py`. The live mission
+record is not part of the runtime skill or plugin.
 
 The fixtures intentionally contain broken examples for regression controls.
 They are not production implementations. Replay C# executes as trusted local

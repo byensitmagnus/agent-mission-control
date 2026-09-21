@@ -4,6 +4,7 @@
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 import os
 import shutil
@@ -15,14 +16,31 @@ from pathlib import Path
 
 
 PLUGIN_NAME = "agent-mission-control"
-VERSION = "0.2.0-candidate.9"
 EXPECTED_ORIGIN = "https://github.com/byensitmagnus/agent-mission-control.git"
 SOURCE_ROOT = Path(os.path.abspath(__file__)).parent.parent
 COPY_DIRS = ("agents", "references", "templates", "assets")
-REQUIRED_FILES = ("SKILL.md", "LICENSE")
+COPY_FILES = ("scripts/amc-check.py", "scripts/amc_guard.py")
+REQUIRED_FILES = ("SKILL.md", "LICENSE", "VERSION")
 PACKAGE_FORMATS = ("skill", "plugin")
 FILE_ATTRIBUTE_REPARSE_POINT = 0x400
 ZIP_TIMESTAMP = (1980, 1, 1, 0, 0, 0)
+BUILDER_NAME = "package_plugin.py"
+
+
+def load_version(source: Path | None = None) -> str:
+    path = (source or SOURCE_ROOT) / "VERSION"
+    if not path.is_file():
+        fallback = SOURCE_ROOT / "VERSION"
+        if not fallback.is_file():
+            raise ValueError("VERSION file is missing")
+        path = fallback
+    text = path.read_text(encoding="utf-8").strip()
+    if not text or "\n" in text:
+        raise ValueError("VERSION must be one non-empty line")
+    return text
+
+
+VERSION = load_version()
 
 
 def _absolute(path: Path) -> Path:
@@ -61,6 +79,10 @@ def _validate_source(source: Path) -> None:
                 raise ValueError(f"linked source path is not allowed: {path}")
             if not path.is_dir() and not path.is_file():
                 raise ValueError(f"unsupported source path is not allowed: {path}")
+    for relative in COPY_FILES:
+        path = source / relative
+        if not path.is_file() or _is_link(path):
+            raise ValueError(f"required source file is missing or linked: {path}")
 
 
 def _git(source: Path, *args: str) -> str:
@@ -94,7 +116,11 @@ def _git_environment() -> dict[str, str]:
 
 def _validate_default_source(source: Path) -> None:
     top_level = _absolute(Path(_git(source, "rev-parse", "--show-toplevel")))
-    if os.path.normcase(str(top_level)) != os.path.normcase(str(source)):
+    try:
+        is_same = os.path.samefile(top_level, source)
+    except OSError:
+        is_same = os.path.normcase(str(top_level.resolve())) == os.path.normcase(str(source.resolve()))
+    if not is_same:
         raise ValueError(f"default source is not the repository root: {source}")
     origin = _git(source, "config", "--local", "--no-includes", "--get", "remote.origin.url")
     if origin not in {EXPECTED_ORIGIN, EXPECTED_ORIGIN.removesuffix(".git")}:
@@ -103,15 +129,70 @@ def _validate_default_source(source: Path) -> None:
 
 def _copy_skill(source: Path, destination: Path) -> None:
     shutil.copy2(source / "SKILL.md", destination / "SKILL.md")
+    shutil.copy2(source / "VERSION", destination / "VERSION")
     for name in COPY_DIRS:
         shutil.copytree(source / name, destination / name)
+    for relative in COPY_FILES:
+        target = destination / relative
+        target.parent.mkdir(parents=True, exist_ok=True)
+        shutil.copy2(source / relative, target)
     shutil.copy2(source / "LICENSE", destination / "LICENSE")
 
 
-def _write_manifest(destination: Path) -> None:
+def _file_digest_map(root: Path) -> dict[str, str]:
+    mapping: dict[str, str] = {}
+    for path in sorted(root.rglob("*")):
+        if not path.is_file() or path.name == "BUILD_RECORD.json":
+            continue
+        mapping[path.relative_to(root).as_posix()] = hashlib.sha256(path.read_bytes()).hexdigest()
+    return mapping
+
+
+def _runtime_digest(root: Path) -> str:
+    payload = json.dumps(_file_digest_map(root), sort_keys=True, separators=(",", ":")).encode("utf-8")
+    return hashlib.sha256(payload).hexdigest()
+
+
+def _source_identity(source: Path) -> dict[str, object]:
+    try:
+        commit = _git(source, "rev-parse", "HEAD")
+        tree = _git(source, "rev-parse", "HEAD^{tree}")
+        porcelain = _git(source, "status", "--porcelain=v1")
+    except (ValueError, OSError):
+        return {
+            "source_commit": "unknown",
+            "source_tree": "unknown",
+            "dirty": True,
+            "note": "source git identity unavailable",
+        }
+    return {
+        "source_commit": commit,
+        "source_tree": tree,
+        "dirty": bool(porcelain),
+        "note": "commit SHA is observational; not a self-hash of this package",
+    }
+
+
+def _write_build_record(destination: Path, source: Path, package_format: str) -> None:
+    identity = _source_identity(source)
+    record = {
+        "product": PLUGIN_NAME,
+        "version": load_version(source),
+        "package_format": package_format,
+        "builder": BUILDER_NAME,
+        "builder_version": load_version(SOURCE_ROOT),
+        "runtime_content_digest": _runtime_digest(destination),
+        **identity,
+    }
+    (destination / "BUILD_RECORD.json").write_text(
+        json.dumps(record, indent=2, sort_keys=True) + "\n", encoding="utf-8", newline="\n"
+    )
+
+
+def _write_manifest(destination: Path, source: Path) -> None:
     manifest = {
         "name": PLUGIN_NAME,
-        "version": VERSION,
+        "version": load_version(source),
         "description": "Use Agent Mission Control as one workflow. Choose the smallest useful execution graph and finish with verified evidence.",
         "author": {"name": "Byens IT"},
         "license": "MIT",
@@ -199,14 +280,17 @@ def package(
     destination.mkdir(exist_ok=False)
     if package_format == "skill":
         _copy_skill(source, destination)
+        _write_build_record(destination, source, "skill")
     else:
         (destination / ".codex-plugin").mkdir()
         skill = destination / "skills" / PLUGIN_NAME
         skill.mkdir(parents=True)
         _copy_skill(source, skill)
+        _write_build_record(skill, source, "skill")
         shutil.copytree(source / "assets", destination / "assets")
         shutil.copy2(source / "LICENSE", destination / "LICENSE")
-        _write_manifest(destination)
+        _write_manifest(destination, source)
+        _write_build_record(destination, source, "plugin")
 
     if archive is not None:
         _write_archive(destination, archive)

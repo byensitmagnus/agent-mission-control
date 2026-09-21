@@ -20,13 +20,16 @@ authority.
 
 AMC chooses the smallest graph that can raise verifiable capacity within the
 user's budget. For ordinary sequential coding, stay with the lead: implement,
-check, finish. Stronger-lead plus cheaper-worker is optional, not identity:
-delegate only when work is independent, isolated and cheap to verify.
+check, finish. Stronger-lead plus cheaper-worker is optional, not identity.
+Direct work is the default. Sequential delegation is allowed for bounded
+specialization or context isolation. Independence is required for parallel
+ready jobs; parallel writers need host isolation.
 
 | When | Do |
 |---|---|
 | Understood sequential work | Direct: implement, check, finish |
 | Important uncertainty about scope or dependencies | Cheap scout; the scout advises, the lead decides |
+| Bounded specialist or context isolation | Sequential delegated job; lead integrates |
 | Genuinely independent ready jobs | Fan-out exclusive scopes; the lead fans in |
 | Parallel writers | Host isolation (worktree, sandbox, VM or permissions); otherwise serialize |
 | Material risk or a changed acceptance rule | Independent review; the lead still accepts |
@@ -41,7 +44,7 @@ topology, phase sequence or named mode switch.
 
 Answer these questions, then add only nodes that earn their cost:
 
-1. Sequential work, or genuinely decomposable independent jobs?
+1. Direct sequential work, sequential specialist, or independent parallel jobs?
 2. What evaluator or evidence can falsify the result?
 3. What does a wrong PASS cost?
 4. What capability does the unresolved slice need?
@@ -63,6 +66,24 @@ Load only the relevant mechanism. Domain skills may supply technical knowledge.
 AMC owns this workflow; do not hand the task to another orchestrator in sequence.
 Honor an explicitly requested procedure, name that owner and reuse its proof.
 A failed procedure cannot be bypassed to evade a gate.
+
+## Roles and ceremony
+
+Only the lead may change the global graph. Workers own one job and default to
+`delegation_authority: false`. Reviewers are read-only and do not repair.
+Verifiers run named checks and do not widen scope. Nested children without
+authority are a route deviation.
+
+Trivial direct work needs no mission JSON and no checker.
+For delegated, interrupted, multi-writer, release-sensitive or high-cost-of-
+false-PASS work, write a control-contract JSON and run
+`python scripts/amc-check.py CONTRACT.json` from the installed skill folder
+when the host can. If the checker cannot run, continue on the authorized
+route and keep the guarantee instruction-only / NOT VERIFIED. Do not pretend
+it ran.
+
+Do not run Superpowers and AMC as competing owners of the same task. Name one
+workflow owner.
 
 ## Finish from evidence
 

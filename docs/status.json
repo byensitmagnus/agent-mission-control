@@ -1,0 +1,46 @@
+{
+  "schema_version": 1,
+  "engineering": "PASS",
+  "behavioral": "NOT VERIFIED",
+  "release": "NO-GO",
+  "independent_behavioral_evidence": false,
+  "release_decision": false,
+  "evidence_run": [
+    "python scripts/validate.py",
+    "python scripts/test_validate.py",
+    "python scripts/test_prepare_eval.py",
+    "python evals/decision_kernel.py --self-check",
+    "python evals/control_contract.py --self-check",
+    "python evals/preservation_check.py --self-check",
+    "python scripts/test_package_plugin.py",
+    "python scripts/test_install_skill.py",
+    "python scripts/test_usage_snapshot.py",
+    "python evals/fps_replay.py --self-check",
+    "py -3.14 scripts/validate.py",
+    "py -3.14 evals/decision_kernel.py --self-check",
+    "py -3.14 evals/control_contract.py --self-check",
+    "py -3.14 remaining Validate workflow commands",
+    "python scripts/package_plugin.py (temporary skill+plugin)",
+    "python scripts/install_skill.py --host cursor (temporary project)"
+  ],
+  "evidence_not_run": [
+    "host behavioral comparison",
+    "signed-commit policy verification",
+    "branch protection enablement"
+  ],
+  "artifact_identity": {
+    "note": "Candidate commit attestation is provided externally by GitHub Actions GITHUB_SHA. Package runtime content identity is verified authoritatively via BUILD_RECORD.json."
+  },
+  "not_authorized": [
+    "merge",
+    "tag",
+    "release",
+    "GitHub settings change",
+    "global install"
+  ],
+  "limitations": [
+    "A green engineering validator does not change behavioral status.",
+    "A merged change does not imply a release recommendation.",
+    "Behavioral superiority remains NOT VERIFIED."
+  ]
+}

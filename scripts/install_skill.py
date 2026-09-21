@@ -11,9 +11,9 @@ import tempfile
 from pathlib import Path
 
 from package_plugin import (
-    COPY_DIRS, PLUGIN_NAME, REQUIRED_FILES, SOURCE_ROOT, VERSION,
-    _absolute, _is_link, _is_within, _reject_linked_chain,
-    _validate_default_source, _validate_source, package,
+    COPY_DIRS, COPY_FILES, PLUGIN_NAME, REQUIRED_FILES, SOURCE_ROOT, VERSION,
+    _absolute, _is_link, _is_within, _reject_linked_chain, _runtime_digest,
+    _validate_default_source, _validate_source, load_version, package,
 )
 
 HOST_DIRS = {
@@ -27,18 +27,35 @@ SHA256 = re.compile(r"[0-9a-f]{64}$", re.IGNORECASE)
 
 
 def file_hashes(root: Path, selected: bool = False) -> dict[str, str]:
-    paths = [root / name for name in REQUIRED_FILES] if selected else []
-    trees = [root / name for name in COPY_DIRS] if selected else [root]
+    paths: list[Path] = []
+    if selected:
+        paths.extend(root / name for name in REQUIRED_FILES)
+        paths.extend(root / relative for relative in COPY_FILES)
+        trees = [root / name for name in COPY_DIRS]
+    else:
+        trees = [root]
     for tree in trees:
         for path in tree.rglob("*"):
             if _is_link(path):
                 raise ValueError(f"linked file or directory: {path}")
             if path.is_file():
+                if path.name == "BUILD_RECORD.json":
+                    continue
                 paths.append(path)
             elif not path.is_dir():
                 raise ValueError(f"unsupported file: {path}")
+    unique = []
+    seen = set()
+    for path in paths:
+        if path.name == "BUILD_RECORD.json":
+            continue
+        key = path.relative_to(root).as_posix()
+        if key in seen:
+            continue
+        seen.add(key)
+        unique.append(path)
     return {path.relative_to(root).as_posix(): hashlib.sha256(path.read_bytes()).hexdigest()
-            for path in sorted(paths)}
+            for path in sorted(unique)}
 
 
 def fingerprint(files: dict[str, str]) -> str:
@@ -51,6 +68,91 @@ def update_backup(project: Path) -> Path:
     parent.mkdir(exist_ok=True)
     _reject_linked_chain(parent, "backup")
     return Path(tempfile.mkdtemp(prefix=f"{PLUGIN_NAME}-", dir=parent))
+
+
+def inspect_installation(destination: Path, origin: Path, expected: dict[str, str]) -> dict:
+    if not destination.exists():
+        return {
+            "status": "MISSING",
+            "content_match": False,
+            "build_record_self_consistent": False,
+            "trusted_source_match": False,
+            "package_format": "skill",
+            "runtime_content_digest": None,
+            "build_record_status": "MISSING",
+            "content_status": "MISSING",
+            "attestation": "INVALID",
+            "installed_sha256": None,
+            "differences": sorted(expected.keys()),
+            "source_tree": "unknown",
+        }
+    if not destination.is_dir():
+        raise ValueError(f"installation is not a directory: {destination}")
+
+    actual = file_hashes(destination)
+    changed = sorted(key for key in expected.keys() | actual.keys()
+                     if expected.get(key) != actual.get(key))
+    content_match = not changed
+
+    build_record_path = destination / "BUILD_RECORD.json"
+    build_record_valid = False
+    build_record_status = "MISSING"
+    build_record_data = None
+    recomputed_runtime_digest = None
+
+    if build_record_path.is_file():
+        try:
+            build_record_data = json.loads(build_record_path.read_text(encoding="utf-8"))
+        except (OSError, json.JSONDecodeError):
+            build_record_status = "INVALID"
+        else:
+            if isinstance(build_record_data, dict):
+                rec_digest = build_record_data.get("runtime_content_digest")
+                rec_version = build_record_data.get("version")
+                rec_format = build_record_data.get("package_format")
+
+                recomputed_runtime_digest = _runtime_digest(destination)
+
+                if not rec_digest or not rec_version or rec_format != "skill":
+                    build_record_status = "INVALID"
+                elif rec_digest != recomputed_runtime_digest:
+                    build_record_status = "TAMPERED"
+                elif rec_version != load_version(origin):
+                    build_record_status = "STALE"
+                else:
+                    build_record_status = "VALID"
+                    build_record_valid = True
+            else:
+                build_record_status = "INVALID"
+
+    if recomputed_runtime_digest is None:
+        recomputed_runtime_digest = _runtime_digest(destination)
+
+    trusted_source_match = bool(
+        build_record_valid
+        and build_record_status == "VALID"
+        and isinstance(build_record_data, dict)
+        and build_record_data.get("version") == load_version(origin)
+    )
+
+    overall_status = "MATCH" if (content_match and build_record_valid) else (
+        "DIFFERENT" if not content_match else "BUILD_RECORD_INVALID"
+    )
+
+    return {
+        "status": overall_status,
+        "content_match": content_match,
+        "build_record_self_consistent": build_record_valid,
+        "trusted_source_match": trusted_source_match,
+        "package_format": "skill",
+        "runtime_content_digest": recomputed_runtime_digest,
+        "content_status": "MATCH" if content_match else "DIFFERENT",
+        "build_record_status": build_record_status,
+        "attestation": "VALID" if build_record_valid else "INVALID",
+        "installed_sha256": fingerprint(actual),
+        "differences": changed,
+        "source_tree": build_record_data.get("source_tree") if isinstance(build_record_data, dict) else "unknown",
+    }
 
 
 def activate_update(destination: Path, staged: Path, project: Path,
@@ -122,13 +224,8 @@ def install(project: Path, host: str, *, check: bool = False,
     if check:
         if not destination.exists():
             return result
-        if not destination.is_dir():
-            raise ValueError(f"installation is not a directory: {destination}")
-        actual = file_hashes(destination)
-        changed = sorted(key for key in expected.keys() | actual.keys()
-                         if expected.get(key) != actual.get(key))
-        result.update(status="DIFFERENT" if changed else "MATCH",
-                      installed_sha256=fingerprint(actual), differences=changed)
+        insp = inspect_installation(destination, origin, expected)
+        result.update(insp)
         return result
 
     if update:
@@ -138,9 +235,17 @@ def install(project: Path, host: str, *, check: bool = False,
         previous_sha256 = fingerprint(actual)
         if previous_sha256 != expected_installed_sha256:
             raise ValueError("installed SHA-256 does not match --expected-installed-sha256")
-        if actual == expected:
-            result.update(status="MATCH", installed_sha256=previous_sha256, differences=[])
+
+        # Centralized inspection for early MATCH path:
+        early_insp = inspect_installation(destination, origin, expected)
+        if early_insp["content_match"]:
+            if early_insp["build_record_self_consistent"]:
+                result.update(early_insp)
+                return result
+            # Runtime files match but BUILD_RECORD is missing or tampered: MATCH must be refused!
+            result.update(early_insp)
             return result
+
         # Stage outside discovery directories, then re-read both mutable inputs
         # before moving the original installation.
         with tempfile.TemporaryDirectory(prefix=".amc-update-", dir=project) as temporary:
@@ -155,7 +260,16 @@ def install(project: Path, host: str, *, check: bool = False,
             activated = activate_update(destination, staged, project, previous_sha256)
         result.update(activated, source_sha256=fingerprint(expected))
         if activated["status"] == "UPDATED":
-            result["installed_sha256"] = fingerprint(expected)
+            post_insp = inspect_installation(destination, origin, expected)
+            result.update(
+                installed_sha256=post_insp["installed_sha256"],
+                runtime_content_digest=post_insp["runtime_content_digest"],
+                content_match=post_insp["content_match"],
+                build_record_self_consistent=post_insp["build_record_self_consistent"],
+                trusted_source_match=post_insp["trusted_source_match"],
+                package_format=post_insp["package_format"],
+                build_record_status=post_insp["build_record_status"],
+            )
         return result
 
     if destination.exists():
@@ -176,7 +290,17 @@ def install(project: Path, host: str, *, check: bool = False,
             if path.name != "SKILL.md":
                 path.rename(destination / path.name)
         (staged / "SKILL.md").rename(destination / "SKILL.md")
-    result.update(status="INSTALLED", installed_sha256=fingerprint(expected))
+    post_insp = inspect_installation(destination, origin, expected)
+    result.update(
+        status="INSTALLED",
+        installed_sha256=post_insp["installed_sha256"],
+        runtime_content_digest=post_insp["runtime_content_digest"],
+        content_match=post_insp["content_match"],
+        build_record_self_consistent=post_insp["build_record_self_consistent"],
+        trusted_source_match=post_insp["trusted_source_match"],
+        package_format=post_insp["package_format"],
+        build_record_status=post_insp["build_record_status"],
+    )
     return result
 
 

@@ -18,6 +18,7 @@ Start here, then open one file. Do not read this folder in order.
 | AMC vs a desktop orchestrator vs a model profile | [choosing.md](choosing.md) |
 | What was actually checked | [evidence.md](evidence.md) |
 | Source grades A–E and current field map | [field-state.md](field-state.md) |
+| Canonical claims (generated) | Tracked in research alignment (`claim-ledger.md`) |
 | What AMC reuses from other projects | [sources.md](sources.md) |
 
 ## Build
@@ -25,6 +26,8 @@ Start here, then open one file. Do not read this folder in order.
 | Need | File |
 |---|---|
 | Package, checks, contributor path | [development.md](development.md) |
+| Control contract and status split | [control-contract.md](control-contract.md) · [status.json](status.json) |
+| GitHub protection checklist (not claimed active) | [github-settings-checklist.md](github-settings-checklist.md) |
 | Current main engineering record | [engineering-candidate.9.md](engineering-candidate.9.md) |
 | Last tagged candidate.8 record | [engineering-candidate.8.md](engineering-candidate.8.md) |
 

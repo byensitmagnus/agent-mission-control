@@ -10,7 +10,7 @@ import zipfile
 from pathlib import Path
 from unittest.mock import patch
 
-from package_plugin import COPY_DIRS, EXPECTED_ORIGIN, PLUGIN_NAME, VERSION, package
+from package_plugin import COPY_DIRS, COPY_FILES, EXPECTED_ORIGIN, PLUGIN_NAME, VERSION, package
 
 
 SKILL_BYTES = b"---\r\nname: agent-mission-control\r\ndescription: Test\r\n---\r\n"
@@ -22,16 +22,24 @@ def make_source(root: Path) -> Path:
     source.mkdir(parents=True)
     (source / "SKILL.md").write_bytes(SKILL_BYTES)
     (source / "LICENSE").write_bytes(b"MIT\r\n")
+    (source / "VERSION").write_bytes(VERSION.encode() + b"\n")
     for name in COPY_DIRS:
         directory = source / name
         (directory / "nested").mkdir(parents=True)
         (directory / "nested" / "fixture.bin").write_bytes(FIXTURE_BYTES + name.encode())
+    for relative in COPY_FILES:
+        path = source / relative
+        path.parent.mkdir(parents=True, exist_ok=True)
+        path.write_bytes(b"checker " + relative.encode())
     return source
 
 
 def assert_skill_bytes(test: unittest.TestCase, source: Path, skill: Path) -> None:
     test.assertEqual((skill / "SKILL.md").read_bytes(), (source / "SKILL.md").read_bytes())
     test.assertEqual((skill / "LICENSE").read_bytes(), (source / "LICENSE").read_bytes())
+    test.assertEqual((skill / "VERSION").read_bytes(), (source / "VERSION").read_bytes())
+    for relative in COPY_FILES:
+        test.assertEqual((skill / relative).read_bytes(), (source / relative).read_bytes())
     for name in COPY_DIRS:
         expected = source / name / "nested" / "fixture.bin"
         actual = skill / name / "nested" / "fixture.bin"
@@ -56,6 +64,10 @@ class PackagePluginTests(unittest.TestCase):
             self.assertEqual(manifest["version"], VERSION)
             self.assertEqual(manifest["skills"], "./skills/")
             self.assertTrue((destination / "skills" / PLUGIN_NAME / "SKILL.md").is_file())
+            self.assertTrue((destination / "skills" / PLUGIN_NAME / "scripts" / "amc-check.py").is_file())
+            self.assertTrue((destination / "skills" / PLUGIN_NAME / "scripts" / "amc_guard.py").is_file())
+            self.assertTrue((destination / "skills" / PLUGIN_NAME / "BUILD_RECORD.json").is_file())
+            self.assertTrue((destination / "skills" / PLUGIN_NAME / "VERSION").is_file())
             self.assertTrue((destination / "assets" / "icon-small.svg").is_file())
             self.assertFalse((destination / ".codex").exists())
             self.assertNotRegex(json.dumps(manifest), r"coordinated agents|multi-agent software missions")
@@ -290,6 +302,25 @@ class PackagePluginTests(unittest.TestCase):
                 with self.assertRaises(OSError):
                     package(destination, source)
             self.assertTrue(destination.is_dir())
+
+    def test_explicit_source_with_different_version_propagates_to_manifest_and_build_record(self) -> None:
+        custom_version = "0.9.9-test.1"
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            source = make_source(root)
+            (source / "VERSION").write_text(custom_version + "\n", encoding="utf-8")
+            destination = root / "output" / PLUGIN_NAME
+            package(destination, source=source, package_format="plugin")
+
+            skill_version = (destination / "skills" / PLUGIN_NAME / "VERSION").read_text(encoding="utf-8").strip()
+            manifest = json.loads((destination / ".codex-plugin" / "plugin.json").read_text(encoding="utf-8"))
+            build_record_plugin = json.loads((destination / "BUILD_RECORD.json").read_text(encoding="utf-8"))
+            build_record_skill = json.loads((destination / "skills" / PLUGIN_NAME / "BUILD_RECORD.json").read_text(encoding="utf-8"))
+
+            self.assertEqual(skill_version, custom_version)
+            self.assertEqual(manifest["version"], custom_version)
+            self.assertEqual(build_record_plugin["version"], custom_version)
+            self.assertEqual(build_record_skill["version"], custom_version)
 
 
 if __name__ == "__main__":

@@ -15,6 +15,14 @@ Base: NOT VERIFIED; root must capture HEAD and workspace snapshot before edits.
 Candidate: 1, parent is the captured baseline; hypothesis: strict deadline
 comparison rejects expired work without changing retry behavior. Maximum: 2.
 
+## Route
+
+Planned route: sequential_delegated
+Observed route: sequential_delegated
+Deviation: none
+Observed agents/threads: none
+Observed isolation: none
+
 ## Hard gates
 
 | Gate | Status | Evidence |
@@ -32,12 +40,12 @@ Evaluator and authority belong to root; workers cannot change them.
 
 ## Jobs
 
-| Job | Agent | Required | Lifecycle | Verdict | Owned scope |
-|---|---|---|---|---|---|
-| Deadline investigation | Unassigned | yes | queued | NOT VERIFIED | Read-only transport.py |
-| Retry investigation | Unassigned | no | queued | NOT VERIFIED | Read-only retry.py |
-| Implementation and integration | Root | yes | queued | NOT VERIFIED | transport.py and local checks, after architecture decision |
-| Independent review | Unassigned | yes | queued | NOT VERIFIED | Read-only candidate |
+| Job | Role | Agent | Required | Lifecycle | Verdict | Owned scope |
+|---|---|---|---|---|---|---|
+| Deadline investigation | worker | Unassigned | yes | queued | NOT VERIFIED | Read-only transport.py |
+| Retry investigation | worker | Unassigned | no | queued | NOT VERIFIED | Read-only retry.py |
+| Implementation and integration | lead | Root | yes | queued | NOT VERIFIED | transport.py and local checks, after architecture decision |
+| Independent review | reviewer | Unassigned | yes | queued | NOT VERIFIED | Read-only candidate |
 
 ## Decisions and evidence
 
@@ -55,3 +63,4 @@ Root captures git status, HEAD and fixture digest, then reads the deadline rule.
 ## Last verified
 
 Commit/snapshot: NOT VERIFIED. UTC timestamp: NOT VERIFIED.
+External actions not performed: push, merge, tag, release.

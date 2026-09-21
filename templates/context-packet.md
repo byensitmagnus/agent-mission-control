@@ -1,6 +1,9 @@
 # Context Packet — blank template. Copy and fill. No live claims.
 
 Objective: State the bounded job. Start as NOT VERIFIED.
+Role: worker
+Delegation authority: false
+Parent job: lead
 Reason for delegation: Why this node earns its coordination cost, or omit the packet and keep the work with the lead.
 Base commit or snapshot: Current artifact identity. NOT VERIFIED until captured.
 Owned scope: Exclusive paths this job may read or write.

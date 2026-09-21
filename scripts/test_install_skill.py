@@ -1,11 +1,12 @@
 #!/usr/bin/env python3
 """Project installation, preservation and failure controls; no host launches."""
+import json
 import os
 import tempfile
 import unittest
 from pathlib import Path
 from unittest.mock import patch
-from install_skill import HOST_DIRS, install
+from install_skill import HOST_DIRS, file_hashes, fingerprint, install
 from package_plugin import package
 from test_package_plugin import assert_skill_bytes, make_source
 
@@ -222,6 +223,43 @@ class InstallTests(unittest.TestCase):
         with self.assertRaises(ValueError):
             self.run_install(update=True, expected_installed_sha256=installed["installed_sha256"])
         self.assertEqual(Path(installed["path"]).joinpath("SKILL.md").read_bytes(), original_skill)
+
+    def test_update_refuses_match_if_build_record_missing_or_tampered(self):
+        installed = self.run_install()
+        destination = Path(installed["path"])
+        checked = self.run_install(check=True)
+        self.assertEqual(checked["status"], "MATCH")
+        self.assertTrue(checked["content_match"])
+        self.assertTrue(checked["build_record_self_consistent"])
+        self.assertTrue(checked["trusted_source_match"])
+
+        # Case 1: Runtime files match, but BUILD_RECORD.json missing during update
+        (destination / "BUILD_RECORD.json").unlink()
+        digest = fingerprint(file_hashes(destination))
+        res = self.run_install(update=True, expected_installed_sha256=digest)
+        self.assertNotEqual(res["status"], "MATCH")
+        self.assertEqual(res["status"], "BUILD_RECORD_INVALID")
+        self.assertEqual(res["build_record_status"], "MISSING")
+        self.assertTrue(res["content_match"])
+        self.assertFalse(res["build_record_self_consistent"])
+
+        # Re-install cleanly
+        import shutil
+        shutil.rmtree(destination)
+        installed = self.run_install()
+
+        # Case 2: Runtime files match, but BUILD_RECORD.json tampered during update
+        br_path = destination / "BUILD_RECORD.json"
+        data = json.loads(br_path.read_text(encoding="utf-8"))
+        data["runtime_content_digest"] = "0" * 64
+        br_path.write_text(json.dumps(data), encoding="utf-8")
+        digest_tampered = fingerprint(file_hashes(destination))
+        res2 = self.run_install(update=True, expected_installed_sha256=digest_tampered)
+        self.assertNotEqual(res2["status"], "MATCH")
+        self.assertEqual(res2["status"], "BUILD_RECORD_INVALID")
+        self.assertEqual(res2["build_record_status"], "TAMPERED")
+        self.assertTrue(res2["content_match"])
+        self.assertFalse(res2["build_record_self_consistent"])
 
 
 if __name__ == "__main__": unittest.main()

@@ -15,6 +15,9 @@ Source-backed maintenance can be accepted within the current mandate after code,
 source and package checks; it does not need a paid model comparison. These checks
 prove the inspected engineering properties, not improved agent decisions.
 
+Material PRs must fill [.github/pull_request_template.md](.github/pull_request_template.md):
+engineering, behavioral-claim and release recommendations as separate fields.
+
 Keep the prior source recoverable. A changed runtime needs a new candidate version
 and recorded source/package hashes before distribution. Dirty-tree development
 packages are allowed; a version string or expected Git origin alone does not

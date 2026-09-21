@@ -1,7 +1,12 @@
 # Mission View schema and resume
 
 The [version 1 template](../templates/mission-view.md) is a plain Markdown
-record, not a scheduler or dashboard. Its first two lines declare
+record, not a scheduler or dashboard. The blank machine form is
+[control-contract.json](../templates/control-contract.json). A Python checker
+exists in the AMC git repository under `evals/` and is not part of the
+installed skill. The Markdown checker tests presentation consistency; it cannot
+prove that natural-language evidence is true or that the named identity equals
+git HEAD. Its first two lines declare
 `schema_version: 1` and `overall: PASS|FAIL|BLOCKED|NOT VERIFIED`. The required
 sections are Goal / Definition of Done, Base and candidate, Hard gates,
 Authority, Jobs, Decisions and evidence, Blockers, Next action, Last verified.
