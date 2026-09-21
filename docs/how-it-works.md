@@ -24,7 +24,7 @@ sequential specialist vs independent parallel jobs, evaluator strength, error
 risk, required capability, information value vs coordination cost, and
 budget/authority. Direct, sequential, review, optimization and fan-out are
 combinable mechanisms, not exclusive modes. Claims live in
-the research claim ledger (`claim-ledger.md`, tracked in research alignment). The lead may choose an available
+[claim-ledger.md](claim-ledger.md). The lead may choose an available
 model and effort suitable for a bounded job, but AMC makes no promise about
 price, speed, or quality. Current files and executed checks—not a worker saying
 “done”—decide the result.

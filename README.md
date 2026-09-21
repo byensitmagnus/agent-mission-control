@@ -122,7 +122,7 @@ workspace UI. A model profile fits when you want explicit role/model presets.
 | Understand the workflow | [How it works](docs/how-it-works.md) |
 | Compare tools or inspect evidence | [Choosing](docs/choosing.md) · [Evidence](docs/evidence.md) · [Field state](docs/field-state.md) |
 | Contribute | [Development](docs/development.md) · [Contributing](CONTRIBUTING.md) |
-| Maintainer research | Claims and research ledger (tracked in research alignment) |
+| Maintainer research | [Claims](docs/claim-ledger.md) · [research/claims.json](research/claims.json) |
 
 The full folder map is [docs/README.md](docs/README.md). Optional host mappings:
 [intent profiles](examples/profiles.md) · [Codex example](examples/codex/README.md).
@@ -131,7 +131,7 @@ The full folder map is [docs/README.md](docs/README.md). Optional host mappings:
 
 AMC is developed in public. You do not need the research files to use it.
 Maintainers: [field state](docs/field-state.md), [sources](docs/sources.md),
-research claim ledger.
+[claim ledger](docs/claim-ledger.md).
 
 Try a useful task and [share what happened](https://github.com/byensitmagnus/agent-mission-control/issues/new?template=experience.yml).
 One concrete example helps: the goal, what the agent did, the result you checked

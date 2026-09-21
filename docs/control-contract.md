@@ -4,7 +4,7 @@ Canonical machine semantics: [`scripts/amc_guard.py`](../scripts/amc_guard.py), 
 The installed CLI is [`scripts/amc-check.py`](../scripts/amc-check.py).
 The blank form is [`templates/control-contract.json`](../templates/control-contract.json).
 Product statuses live in [`status.json`](status.json).
-Canonical claims: `research/claims.json` (tracked in research alignment).
+Canonical claims: [`research/claims.json`](../research/claims.json).
 
 This is an engineering contract for planning, observation and acceptance. It is
 not a runtime, scheduler, database or proof that AMC is better, cheaper or faster.

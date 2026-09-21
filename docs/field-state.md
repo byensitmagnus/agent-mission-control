@@ -7,8 +7,8 @@ project coordinator.
 This file classifies sources, compares mechanisms (not brands), and records
 what AMC takes. It does not prove that AMC improves quality, price or speed.
 
-Canonical claims, origin, enforcement and outcome live in the
-research claim ledger (`claim-ledger.md`, tracked in research alignment). Do not duplicate those entries here.
+Canonical claims, origin, enforcement and outcome live in
+[claim-ledger.md](claim-ledger.md). Do not duplicate those entries here.
 
 ## Evidence grades
 
@@ -23,7 +23,7 @@ research claim ledger (`claim-ledger.md`, tracked in research alignment). Do not
 A paper result, a vendor recommendation, a trend and an AMC rule are different
 kinds of claim. None is silently promoted to another.
 
-**Claim axes** (independent; see research claim ledger):
+**Claim axes** (independent; see [claim-ledger.md](claim-ledger.md)):
 
 | Axis | Values | Use |
 |---|---|---|

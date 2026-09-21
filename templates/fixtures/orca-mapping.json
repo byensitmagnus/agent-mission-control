@@ -1,0 +1,109 @@
+{
+  "schema_version": 1,
+  "description": "Bidirectional mapping fixture between AMC Job/Attempt and Orca Task/Dispatch",
+  "design_mapping": {
+    "schema_version": 1,
+    "task_id": "amc-orca-demo-001",
+    "objective": "Implement bounded data reader and verify record preservation",
+    "planned_route": "sequential_delegated",
+    "jobs": [
+      {
+        "id": "job-data-reader",
+        "role": "worker",
+        "capability": "focused-general-worker",
+        "delegation_authority": false,
+        "write_scope": ["src/readers/bounded.py"],
+        "active_attempt_id": "att-002",
+        "attempts": [
+          {
+            "attempt_id": "att-001",
+            "status": "failed",
+            "failure_reason": "timeout_checkpoint",
+            "host_dispatch_id": "disp-orca-1001"
+          },
+          {
+            "attempt_id": "att-002",
+            "status": "completed",
+            "host_dispatch_id": "disp-orca-1002"
+          }
+        ]
+      }
+    ],
+    "acceptance_check": "python check.py on candidate",
+    "overall": "NOT VERIFIED"
+  },
+  "orca_orchestration": {
+    "run_id": "run-amc-orca-demo-001",
+    "objective": "Implement bounded data reader and verify record preservation",
+    "tasks": [
+      {
+        "task_id": "task-data-reader",
+        "amc_job_id": "job-data-reader",
+        "spec": "Implement bounded data reader in src/readers/bounded.py",
+        "status": "completed",
+        "active_dispatch_id": "disp-orca-1002"
+      }
+    ],
+    "dispatches": [
+      {
+        "dispatch_id": "disp-orca-1001",
+        "task_id": "task-data-reader",
+        "amc_attempt_id": "att-001",
+        "status": "superseded",
+        "terminal_handle": "term_worker_1",
+        "worktree": "worktrees/attempt-1",
+        "requested_capability": "focused-general-worker",
+        "effective_agent": "codex",
+        "effective_model": "gpt-4o",
+        "cleanup_policy": "retain"
+      },
+      {
+        "dispatch_id": "disp-orca-1002",
+        "task_id": "task-data-reader",
+        "amc_attempt_id": "att-002",
+        "status": "completed",
+        "terminal_handle": "term_worker_2",
+        "worktree": "worktrees/attempt-2",
+        "requested_capability": "focused-general-worker",
+        "effective_agent": "codex",
+        "effective_model": "gpt-4o",
+        "cleanup_policy": "release"
+      }
+    ]
+  },
+  "test_scenarios": [
+    {
+      "name": "stale_attempt_completion_rejected",
+      "incoming_message": {
+        "type": "worker_done",
+        "task_id": "task-data-reader",
+        "dispatch_id": "disp-orca-1001",
+        "body": "Finished early work"
+      },
+      "expected_outcome": "REJECTED",
+      "expected_error": "STALE_DISPATCH_CANNOT_COMPLETE_ACTIVE_TASK"
+    },
+    {
+      "name": "missing_dispatch_id_rejected",
+      "incoming_message": {
+        "type": "worker_done",
+        "task_id": "task-data-reader",
+        "body": "Missing dispatch id"
+      },
+      "expected_outcome": "REJECTED",
+      "expected_error": "MISSING_DISPATCH_ID"
+    },
+    {
+      "name": "active_attempt_completion_accepted",
+      "incoming_message": {
+        "type": "worker_done",
+        "task_id": "task-data-reader",
+        "dispatch_id": "disp-orca-1002",
+        "body": "Implementation complete; ready for AMC lead inspection"
+      },
+      "expected_outcome": "ACCEPTED",
+      "updated_task_status": "completed",
+      "updated_amc_job_lifecycle": "completed"
+    }
+  ]
+}

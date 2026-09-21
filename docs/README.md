@@ -18,7 +18,7 @@ Start here, then open one file. Do not read this folder in order.
 | AMC vs a desktop orchestrator vs a model profile | [choosing.md](choosing.md) |
 | What was actually checked | [evidence.md](evidence.md) |
 | Source grades A–E and current field map | [field-state.md](field-state.md) |
-| Canonical claims (generated) | Tracked in research alignment (`claim-ledger.md`) |
+| Canonical claims (generated) | [claim-ledger.md](claim-ledger.md) · [`research/claims.json`](../research/claims.json) |
 | What AMC reuses from other projects | [sources.md](sources.md) |
 
 ## Build

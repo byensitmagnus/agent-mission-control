@@ -29,10 +29,14 @@ jobs:
         run: python evals/decision_kernel.py --self-check
       - name: Check truth-layer control contract
         run: python evals/control_contract.py --self-check
+      - name: Check generated claim ledger
+        run: python scripts/render_claims.py --check
       - name: Test bundled AMC Guard
         run: python scripts/test_amc_check.py
       - name: Test 30 adversarial guard cases
         run: python scripts/test_adversarial_guard.py
+      - name: Test Orca host mapping
+        run: python scripts/test_orca_mapping.py
       - name: Check preservation diagnostic controls
         run: python evals/preservation_check.py --self-check
       - name: Test plugin packaging
