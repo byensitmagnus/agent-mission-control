@@ -76,3 +76,38 @@ Repair, rerun affected checks and refresh affected review on the repaired artifa
 current passing evidence. If a required reviewer, runtime, external state or
 recovery test is unavailable, name that gate and the concrete missing input.
 Finish all safe preparation, then stop at the exact unauthorized consequence.
+
+## Shipped artifact
+
+When delivery is a generated script, package or installer, run the accept check
+on that file. A green check on the source that produces it leaves the package
+NOT VERIFIED. Rebuild, then rerun the same check against the package, or stop
+and name the unchecked artifact.
+
+This rule is local policy (**E**), forced by a real defect: FPS Booster's
+source cleanup check could pass while packaged `FPSBooster.ps1` still wiped
+shared temp trees. Microsoft Storage Sense (**C**) is the cleanup boundary:
+unused temporary files, not an immediate wipe of other apps' active temp data.
+The local check does not show that AMC or the app is release-ready.
+
+## Complex slices
+
+Load when remaining subtasks cannot be predicted up front, or a wrong PASS is
+expensive. An understood sequential edit stays with the lead and does not use
+this section.
+
+The author of a change does not accept that change. The lead accepts only after
+the applicable gates hold on the current artifact.
+
+Before another repair, split findings:
+
+- **Blocking:** wrong behavior, a broken acceptance rule, or missing required
+  evidence. Repair these, then rerun the affected check.
+- **Deferred:** style, optional polish, and unconfirmed remarks. Record them.
+  Do not spend another cycle on them.
+
+One repair of the same hypothesis is the ceiling in
+[resources](resources.md). A further attempt needs new evidence or a different
+hypothesis. Otherwise stop, name the unresolved gate and the missing input, and
+return that to the user. Do not start a standing implement/review/test/lint
+pipeline, a second orchestrator, or a review by every available model.

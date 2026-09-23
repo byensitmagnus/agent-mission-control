@@ -31,4 +31,4 @@ EVIDENCE: baseline=sample; candidate=sample; migration=sample; rollback=sample; 
 DECISION: NOT VERIFIED — sample evidence is not a measured release result
 ```
 
-Replace each sample with fresh, reproducible evidence from the target application before calling the mission `PASS`.
+Replace each sample with fresh, reproducible evidence from the target application before calling the mission `PASS`. If the delivered artifact is the installer, the accept check runs on that installer. A source-only check leaves it NOT VERIFIED.

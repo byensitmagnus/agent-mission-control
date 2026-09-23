@@ -68,7 +68,8 @@ A harness source-audit that counted skills in 9/11 systems and MCP in 8/11 is an
 | Fan-out only if independent | Local Context Diamond (**D**); Nature Finance +80.8% vs PlanCraft −39..−70% (**A**) | Exclusive scopes; lead integrates | Fixed team; always-on SDD | high |
 | Central verification | Nature independent error amp ~17× vs centralized ~4× (**A**) | Lead acceptance; review when material | Swarm of unchecked writers | high |
 | Host isolation for parallel writers | OpenAI subagents (**C**); Cursor worktrees / Cloud Agents (**C**); AO worktrees (**D**) | Require host isolation or serialize | Prompt-scope as a sandbox | high |
-| Selective context | Anthropic context engineering (**C**); OpenAI skills / Astra blog (**C**) | Task packets; load references on need | Dumping the skill library; word-count as quality | high |
+| Selective context | Anthropic context engineering, accessed 2026-09-23 (**C**); OpenAI skills / Astra blog (**C**); ADK node output passed along an edge, accessed 2026-09-23 (**C**) | Task packets name the dependency artifact; load references on need | Dumping the skill library; word-count as quality; an ADK graph runtime | high |
+| Discovery description | OpenAI skills guide, accessed 2026-09-23 (**C**); Cursor skills docs, accessed 2026-09-23 (**C**) | Front-load the coding task and the boundary in the skill description | A measured change in host auto-activation | medium |
 | Durable progress | Anthropic long-running harness (**C**); OpenAI exec plans (**C**) | Mission record + reconcile | Custom context DB; required initializer agent | high |
 | Orchestrator-worker when subtasks are unpredictable | Anthropic effective-agents (**C**); OpenAI subagents, accessed 2026-09-23 (**C**); Claude Code subagents, accessed 2026-09-23 (**C**) | One specialist after a named earlier artifact; parallel fan-out only when jobs are independent; parallel writers need host isolation | Copying orchestrator-worker as the default coding topology | medium |
 | Frozen evaluator | NVIDIA AVO (**B**); local AVO (**D**) | Only when a score exists | Everyday coding as AVO | high |
@@ -77,6 +78,7 @@ A harness source-audit that counted skills in 9/11 systems and MCP in 8/11 is an
 | Delete stale scaffolding | Managed Agents 2026-04-08 (**C**); Astra skills blog 2026-09-11 (**C**); METR horizons (**A**/lab) | Prefer fewer rules over time | Last year's ceremony as a team | medium |
 | Cost with accuracy | AI Agents That Matter (**B**); OpenAI eval guidance (**C**) | Unknown prices stay unknown | Homemade superiority farms | high |
 | Cost-aware delegation | Nature finance vs sequential (**A**); Anthropic research-system tokens (**C**); OpenAI subagent guidance (**C**); AMC policy (**E**) | Break-even preflight, artifact handoff, worker/retry/reviewer ceilings, optional intent profiles | Strong-lead/cheap-worker as identity; star counts as quality or price proof | medium |
+| Complex-slice stop | Claude-Cortex README, pin `bb47af79` (**D**); Nature independent vs central error amplification (**A**); existing retry ceiling (**E**) | On an unpredictable or high-stakes slice: author does not accept; repair blocking findings only; one same-hypothesis repair, then escalate | Always-on implement/test/lint loops; multi-model review chain; CLI, TUI or watch daemon | medium |
 
 ## Actors checked this pass
 
@@ -88,6 +90,7 @@ Official docs unless noted. Dates are page access 2026-09-15 or the page's own d
 - [Agents SDK](https://developers.openai.com/api/docs/guides/agents): harness vs compute; [sandbox agents](https://developers.openai.com/api/docs/guides/agents/sandboxes) (beta); [tracing](https://openai.github.io/openai-agents-python/tracing/) default on
 - [Eval best practices](https://developers.openai.com/api/docs/guides/evaluation-best-practices), [exec plans](https://developers.openai.com/cookbook/articles/codex_exec_plans)
 - [Astra skills blog](https://developers.openai.com/blog/rethinking-skills-and-prompts-for-gpt-6-astra) 2026-09-11: short descriptions, progressive disclosure, stale AGENTS.md overconstrains stronger models
+- Skills guide rechecked 2026-09-23: implicit invocation matches `description`; front-load the use case and trigger words, because a long skill list shortens descriptions first. Codex still loads repository `.agents/skills`. This is authoring guidance, not a measured AMC activation rate.
 
 Codex subagents, rechecked 2026-09-23: extra tokens versus a single agent; parallel agents fit independent read-heavy work; return a summary; parallel writers need care. AMC lets one specialist follow a named artifact and fans out only independent jobs. Skills are loaded text. The Agents SDK is a different product class from AMC.
 
@@ -113,6 +116,7 @@ Do not quote Anthropic as “never orchestrate”. They document both the cost o
   - Tested **fixed** SAS / independent / centralized / decentralized / hybrid topologies, not host-native coding harnesses.
   - Nature SWE-bench Verified: all MAS slightly worse than SAS (independent −12.8%). ~45% is a **selection rule**, not a coefficient that survived cluster-robust correction.
 - [ADK 2.0](https://google.github.io/adk-docs/2.0/) (Python GA 2026-05-19): graph workflows, dynamic workflows, collaborative coordinator/subagents. A **framework**, not a skill.
+- [ADK graphs](https://google.github.io/adk-docs/graphs/) rechecked 2026-09-23: a node's return value is the next node's input. AMC records that identity in the packet. It does not add a graph runtime.
 
 ### Microsoft (**B** SkillOpt + **C** Agent Framework)
 
@@ -155,6 +159,7 @@ mechanisms. It should not take the products as dependencies.
 | [Superpowers](https://github.com/obra/superpowers/tree/b36e0829c6d0140e93cfef2ca599b1b07d4a7797) | 286,856 | [b36e082](https://github.com/obra/superpowers/tree/b36e0829c6d0140e93cfef2ca599b1b07d4a7797) | Progressive disclosure, specialized workflows | Mandatory implementer/reviewer chain on small tasks |
 | [wshobson/agents](https://github.com/wshobson/agents/tree/4236bb91f8395b0435f1d8b8baf9e8e4c69a8620) | 39,667 | [4236bb9](https://github.com/wshobson/agents/tree/4236bb91f8395b0435f1d8b8baf9e8e4c69a8620) | Capability routing, host profiles | Their model hierarchy as a documented benchmark |
 | [Ralph Orchestrator](https://github.com/mikeyobrien/ralph-orchestrator/tree/edc2b3268c9bd0c08a12c8193a7ace7ab2789261) | 3,138 | [edc2b32](https://github.com/mikeyobrien/ralph-orchestrator/tree/edc2b3268c9bd0c08a12c8193a7ace7ab2789261) | Stop conditions, fail-closed checks | Autonomous loops without a clear end |
+| [Claude-Cortex](https://github.com/NickCrew/Claude-Cortex/tree/bb47af79ad3befe01ae01940fcf5f16e30a1b6df) | 42 (observed 2026-09-22) | [bb47af79](https://github.com/NickCrew/Claude-Cortex/tree/bb47af79ad3befe01ae01940fcf5f16e30a1b6df) | Blocking vs deferred findings; author does not accept; stop and escalate | CLI, TUI, watch daemon, always-on three loops, multi-model review as identity |
 | [Astra–Luna Orchestrator](https://github.com/donvito/codex-astra-luna-orchestrator/tree/575e74ebcf9b199513151a8996665a71cf64ce50) | 1,336 | [575e74eb](https://github.com/donvito/codex-astra-luna-orchestrator/tree/575e74ebcf9b199513151a8996665a71cf64ce50) | Optional host mapping | Proof of better quality or lower price |
 
 ### Other papers
@@ -193,6 +198,8 @@ file, history, evals.
 | AVO only with evaluator | NVIDIA (**B**) | No score → milestones, not search |
 | Learning offline | SkillOpt (**B**) | No Sleep from ordinary success |
 | Cost-aware delegation | Nature/Anthropic/OpenAI (**A**/**C**) + local policy (**E**) | Not a claim that AMC is cheaper |
+| Complex-slice stop | Cortex observation (**D**); Nature central verification (**A**); local ceiling (**E**) | Author does not accept; blocking findings only; one same-hypothesis repair, then escalate. Not an always-on review pipeline |
+| Shipped artifact | Identified-artifact PASS (**E**); FPS Booster package still wiping temp after a source check (**D**); Storage Sense (**C**) | Accept check runs on the generated package. Source PASS leaves the package NOT VERIFIED. Not a release or quality proof |
 
 Local Context Diamond, AVO, SkillOpt/Sleep, verification-loop, security-review,
 deployment-patterns and strategic-compact remain design sources. They are not

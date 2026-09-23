@@ -70,7 +70,9 @@ learning proposal.
 
 Here the optimization loop is conditional: it exists only if p99 frametime has
 a stable workload and evaluator. Profile preservation, rollback, crash guard,
-and rendered UI need their own evidence; a passing build is insufficient. The
+and rendered UI need their own evidence; a passing build is insufficient.
+When the thing the user runs is a generated package, the accept check runs on
+that package. The
 [FPS release example](../examples/fps-booster-release.md) is deliberately marked
 as sample evidence, not a measured release. Learning is separate and optional:
 it cannot silently rewrite the workflow that governed the release.

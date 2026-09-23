@@ -90,6 +90,8 @@ An illustrative delivery can be as short as:
 > **Scope:** export formatting changed; no deployment performed.
 
 This is an output example, not a measured run.
+If someone will run a generated script or installer, that file is the artifact.
+A passing check on the source leaves the package NOT VERIFIED.
 [Follow a complete task and delivery example →](docs/task-guide.md#what-a-completed-delivery-looks-like)
 
 ## Versions

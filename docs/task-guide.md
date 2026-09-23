@@ -47,7 +47,7 @@ Show the files changed, the command and result, and what you did not run.
 Stop before push.
 ```
 
-**Expected reply shape:** changed files, the export command and its observed result, and any limit such as “spreadsheet import was not opened.”
+**Expected reply shape:** changed files, the export command and its observed result, and any limit such as “spreadsheet import was not opened.” If the user will run a generated package, that package is what the check has to pass.
 
 ## Build a feature
 
