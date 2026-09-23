@@ -1,7 +1,7 @@
 # Get started with Agent Mission Control
 
 [Install](#1-install-the-skill) · [Select](#2-select-the-installed-copy) ·
-[First task](#3-try-a-small-first-task) · [Real work](task-guide.md) ·
+[Confirm the copy](#3-confirm-the-selected-copy) · [Useful task](#4-do-one-useful-task) ·
 [Troubleshooting](#troubleshooting)
 
 You need a coding assistant with native Agent Skills and a project folder.
@@ -80,7 +80,7 @@ client if a new folder does not appear. A file on disk is not proof the client
 loaded it. If the skill loads but cannot read a file, fix that permission
 before treating the first task as done.
 
-## 3. Try a small first task
+## 3. Confirm the selected copy
 
 Start in a project that has `README.md`. Keep your current model and normal
 permissions. Paste, using your host’s invocation if it is not `$agent-mission-control`:
@@ -102,11 +102,18 @@ Say explicitly that no checks were run.
 README, no project files changed, and the answer says checks were not run.
 Reading a README does not prove the application works.
 
-## 4. Move on to your actual task
+## 4. Do one useful task
 
-Use a [bug, feature, resume or research recipe](task-guide.md). Give the outcome
-and what must stay working. The lead owns coordination. You do not assign a
-team.
+Use the [filled bug prompt](task-guide.md#fix-a-bug). For a job that needs one
+read-only specialist first, use
+[that recipe](task-guide.md#one-specialist-after-an-artifact). To continue saved
+work, use [resume](task-guide.md#resume-unfinished-work).
+
+You should get back the files or report, the checks that actually ran, and what
+is still open. A worker finishing is not that result.
+[Share what happened](https://github.com/byensitmagnus/agent-mission-control/issues/new?template=experience.yml)
+after you remove private information. One example is enough: the goal, what the
+agent did, the result you checked, and where you stepped in.
 
 ## Troubleshooting
 

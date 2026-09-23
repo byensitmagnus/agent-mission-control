@@ -172,6 +172,14 @@ Grok's mapping was checked against the installed Grok **1.0.3 (1a29d5bc12)**
 `docs/user-guide/08-skills.md` and its `inspect --help` command. This is evidence
 for that CLI build; the Grok model name alone does not identify a compatible host.
 
+On 2026-09-23 the current [OpenAI skills guide](https://developers.openai.com/codex/skills)
+still documents repository `.agents/skills`, and [Cursor's skills guide](https://cursor.com/docs/skills)
+still documents project `.cursor/skills/` and `.agents/skills/`. Cursor also loads
+`.claude/skills/` and `.codex/skills/` for compatibility. Claude Code's
+[skills guide](https://code.claude.com/docs/en/skills) still documents project
+`.claude/skills/`. That recheck did not rerun the five-host installer. Kimi and
+Grok were not rechecked on that date.
+
 See [the candidate.8 engineering record](engineering-candidate.8.md) for exact
 checks, client observations and remaining limits. Local Windows checks do not
 establish that a complete task works on macOS, Linux or every host/version.

@@ -37,7 +37,8 @@ A resuming agent must not need old iterations to learn current status.
 Before a long-task handoff or context loss, refresh the current milestone,
 working artifact, important decisions, failed approaches and next hypothesis in
 the existing record. Keep durable evidence paths and brief diagnoses instead of
-copying raw conversations. Compression must not drop facts later gates need.
+copying raw conversations. Compression must not drop facts later gates need, including the artifact
+identity a later job uses.
 A clean checkpoint means recoverable scoped work; never discard another owner's
 uncommitted changes to manufacture a clean tree.
 

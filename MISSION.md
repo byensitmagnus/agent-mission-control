@@ -68,8 +68,11 @@ None.
 
 ## Next action
 
-Do not cut a GitHub release. Use AMC on commissioned work.
+Practical-use round on `codex/specialist-after-artifact`: same three routes in
+the skill, guides, and package text; a useful first task; README illustration
+labeled as an illustration. Do not cut a GitHub release. Behavior, price, and
+speed stay NOT VERIFIED.
 
 ## Last verified
 
-Commit/snapshot: `main` `1f4b676423608af44bf14c0b13f8e8c5ba776baa`. UTC timestamp: 2026-09-15T13:30:22Z.
+Commit/snapshot: branch `codex/specialist-after-artifact` before its practical-use commit. Checks on 2026-09-23: `python3 scripts/validate.py` PASS; `python3 scripts/test_package_plugin.py` 14 OK with Linux git 2.49.0. Cursor 3.20.21 project install MATCH; `host_discovery` NOT VERIFIED. UTC timestamp: 2026-09-23T17:00:00Z.

@@ -1,9 +1,10 @@
-# Current engineering validation
+# Evaluation index
 
-[Candidate.9](../docs/engineering-candidate.9.md) is current `main` source
-(PR [#6](https://github.com/byensitmagnus/agent-mission-control/pull/6) merged).
-It is not a tagged release. Its [nine Codex runs](candidate.9/README.md) are a
-**closed postmortem**. Do not add cases or rerun them as product proof. AMC does
+**Status of `main`:** [candidate.9](../docs/engineering-candidate.9.md) after
+PR [#6](https://github.com/byensitmagnus/agent-mission-control/pull/6) merged.
+No tagged ZIP. The [nine Codex runs](candidate.9/README.md) are a
+**closed postmortem**. Behavior, price and speed remain **NOT VERIFIED**.
+Do not add cases or rerun them as product proof. AMC does
 not run an owned behavioral research program; design cites host docs, published
 research, other public repos and known practitioner guidance.
 `evals/decision_kernel.py` is a deterministic regression test; it does not
@@ -39,23 +40,24 @@ including an initial false reviewer PASS, exact-byte repair, model/context
 observations and incomplete cost attribution. Final bounded repairs pass;
 comparative AMC benefit remains NOT VERIFIED. Historical sections follow.
 
-# Current standalone experiment
+# Historical standalone experiment
 
 [Iteration 3](v0.2-standalone-candidate.md) implements the standalone candidate and
 records six actual Luna tasks, two narrow source refinements and an independent
 review. Replacement qualification remains NOT VERIFIED; observed regressions and
 host contamination are preserved. The sections below are historical results.
 
-# Recommended next candidate
+# Historical candidate recommendation
 
 [Iteration 2](v0.2-control-candidate.md) passes its local simplification/review gate:
 one ownership change, existing checks, ten Luna source-decision probes, zero new
 Astra subjects. Real engineering superiority remains NOT VERIFIED. The historical
 qualification below remains FAIL; its results and frozen evaluator are unchanged.
 
-# Current qualification
+# Historical qualification, 2026-09-12
 
-**2026-09-12: FAIL as an improvement candidate.** Nineteen authenticated matched-host
+**2026-09-12: FAIL as an improvement candidate.** This FAIL does not score
+current `main`. Nineteen authenticated matched-host
 subjects completed the bounded evaluation (one timed out after a verified artifact).
 Authentication is no longer the blocker. See [qualification](v0.2-qualification.md)
 and [all results](results/2026-09-12-behavioral.json). The sections below preserve the
