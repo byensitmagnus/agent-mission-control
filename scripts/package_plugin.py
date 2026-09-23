@@ -112,7 +112,7 @@ def _write_manifest(destination: Path) -> None:
     manifest = {
         "name": PLUGIN_NAME,
         "version": VERSION,
-        "description": "Use Agent Mission Control as one workflow. Choose the smallest useful execution graph and finish with verified evidence.",
+        "description": "Use for a coding bug, feature, resume, or investigation that must show which checks ran. One lead works directly. A specialist follows a named artifact. Fan out only independent jobs. Isolate parallel writers.",
         "author": {"name": "Byens IT"},
         "license": "MIT",
         "repository": "https://github.com/byensitmagnus/agent-mission-control",
@@ -120,7 +120,7 @@ def _write_manifest(destination: Path) -> None:
         "interface": {
             "displayName": "Agent Mission Control",
             "shortDescription": "Smallest useful execution graph with verified completion",
-            "longDescription": "Use Agent Mission Control as one workflow. Choose the smallest useful execution graph and finish with verified evidence. Delegate only when a bounded job earns its coordination cost.",
+            "longDescription": "Use for a coding bug, feature, resume, or investigation that must show which checks ran. One lead works directly. A specialist follows a named artifact. Fan out only independent jobs. Isolate parallel writers.",
             "developerName": "Byens IT",
             "category": "Developer Tools",
             "capabilities": ["Interactive", "Read", "Write"],

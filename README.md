@@ -35,9 +35,10 @@ constraints and decisions that need your authority.
 | Interrupted work finished | Reconcile the saved mission with current files and valid proof. | Progress from the remaining work and a clear final status. |
 | Code investigated before a change | Trace callers and guards in a read-only snapshot, then challenge findings. | Supported findings or reasoned refutations, with untested behavior clearly identified. |
 
-Small tasks stay with the lead. Larger tasks can use native subagents when they
-add value. A stronger lead may delegate bounded jobs to cheaper workers only
-when the work is independent, isolated and cheap to verify. That pairing is
+Small tasks stay with the lead. A specialist may run after an earlier artifact
+when the handoff names that artifact. Parallel fan-out is only for jobs that
+do not need each other's output. Parallel writers need host isolation. A
+stronger lead may give a bounded job to a cheaper worker. That pairing is
 optional, not AMC's identity. Host tools and permissions determine what can
 actually run.
 

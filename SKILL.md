@@ -1,6 +1,6 @@
 ---
 name: agent-mission-control
-description: "Use Agent Mission Control as one workflow. Choose the smallest useful execution graph and finish with verified evidence. Delegate only when expected value exceeds coordination cost."
+description: "Use for a coding bug, feature, resume, or investigation that must show which checks ran. One lead works directly. A specialist follows a named artifact. Fan out only independent jobs. Isolate parallel writers."
 ---
 
 # Agent Mission Control
@@ -20,13 +20,16 @@ authority.
 
 AMC chooses the smallest graph that can raise verifiable capacity within the
 user's budget. For ordinary sequential coding, stay with the lead: implement,
-check, finish. Stronger-lead plus cheaper-worker is optional, not identity:
-delegate only when work is independent, isolated and cheap to verify.
+check, finish. Stronger-lead plus cheaper-worker is optional, not identity.
+A specialist may run after an earlier artifact when the handoff names that
+artifact. Parallel fan-out is only for jobs that do not need each other's
+output. Parallel writers need host isolation.
 
 | When | Do |
 |---|---|
 | Understood sequential work | Direct: implement, check, finish |
 | Important uncertainty about scope or dependencies | Cheap scout; the scout advises, the lead decides |
+| One earlier artifact | Sequential specialist; the handoff names that artifact |
 | Genuinely independent ready jobs | Fan-out exclusive scopes; the lead fans in |
 | Parallel writers | Host isolation (worktree, sandbox, VM or permissions); otherwise serialize |
 | Material risk or a changed acceptance rule | Independent review; the lead still accepts |
@@ -41,7 +44,7 @@ topology, phase sequence or named mode switch.
 
 Answer these questions, then add only nodes that earn their cost:
 
-1. Sequential work, or genuinely decomposable independent jobs?
+1. Direct work, one specialist after a named artifact, or independent parallel jobs?
 2. What evaluator or evidence can falsify the result?
 3. What does a wrong PASS cost?
 4. What capability does the unresolved slice need?

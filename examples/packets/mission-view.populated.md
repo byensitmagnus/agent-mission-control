@@ -36,13 +36,18 @@ Evaluator and authority belong to root; workers cannot change them.
 |---|---|---|---|---|---|
 | Deadline investigation | Unassigned | yes | queued | NOT VERIFIED | Read-only transport.py |
 | Retry investigation | Unassigned | no | queued | NOT VERIFIED | Read-only retry.py |
-| Implementation and integration | Root | yes | queued | NOT VERIFIED | transport.py and local checks, after architecture decision |
+| Implementation and integration | Root | yes | queued | NOT VERIFIED | transport.py and local checks |
 | Independent review | Unassigned | yes | queued | NOT VERIFIED | Read-only candidate |
 
 ## Decisions and evidence
 
 No implementation decision yet. Root must inspect the source and freeze the
 baseline before starting jobs. This populated demonstration makes no live claims.
+
+Edges: the deadline and retry investigations need no earlier output, so they
+may run in parallel. Implementation is sequential and needs their evidence
+results and the captured baseline. Review is sequential and needs the
+implementation candidate.
 
 ## Blockers
 

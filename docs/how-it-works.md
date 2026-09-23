@@ -4,10 +4,10 @@ AMC helps one lead agent choose the smallest execution graph that can raise
 verifiable capacity within the user's budget and still prove the result. It
 starts with the objective, constraints, and acceptance checks.
 For an understood sequential change, the lead works directly. That is a cautious
-default, not a ban on extra agents. A stronger lead may delegate to cheaper
-workers only when jobs are independent, isolated and cheap to verify. For
-separate independent jobs, it gives native subagents only the relevant task,
-inputs, authority, owned files, and proof.
+default, not a ban on extra agents. A specialist may run after an earlier
+artifact when the handoff names that artifact. Parallel fan-out is only for
+jobs that do not need each other's output. The lead gives each job the relevant
+task, inputs, authority, owned files, and proof.
 Parallel writers need host isolation (worktree, sandbox, VM or permissions);
 otherwise the lead serializes. The lead remains responsible for integration and
 the final verdict.
@@ -19,9 +19,10 @@ and [routing rules](../references/packets.md).
 
 Routing is dynamic. A task may gain an investigation, a candidate loop, a fresh
 review, or a repair only when that work can answer a real question. The lead
-chooses the graph from six questions: sequential vs decomposable work, evaluator
-strength, error risk, required capability, information value vs coordination
-cost, and budget/authority. Direct, review, optimization and fan-out are
+chooses from the same three routes: direct work, one specialist after a named
+artifact, or independent parallel jobs, then checks evaluator strength, error
+risk, required capability, information value versus coordination cost, and
+budget or authority. Direct, review, optimization and fan-out are
 combinable mechanisms, not exclusive modes. The lead may choose an available
 model and effort suitable for a bounded job, but AMC makes no promise about
 price, speed, or quality. Current files and executed checks—not a worker saying

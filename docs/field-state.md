@@ -70,7 +70,7 @@ A harness source-audit that counted skills in 9/11 systems and MCP in 8/11 is an
 | Host isolation for parallel writers | OpenAI subagents (**C**); Cursor worktrees / Cloud Agents (**C**); AO worktrees (**D**) | Require host isolation or serialize | Prompt-scope as a sandbox | high |
 | Selective context | Anthropic context engineering (**C**); OpenAI skills / Astra blog (**C**) | Task packets; load references on need | Dumping the skill library; word-count as quality | high |
 | Durable progress | Anthropic long-running harness (**C**); OpenAI exec plans (**C**) | Mission record + reconcile | Custom context DB; required initializer agent | high |
-| Orchestrator-worker when subtasks are unpredictable | Anthropic effective-agents (**C**) | Native subagents for that shape, still lead-owned | Copying orchestrator-worker as the default coding topology | medium |
+| Orchestrator-worker when subtasks are unpredictable | Anthropic effective-agents (**C**); OpenAI subagents, accessed 2026-09-23 (**C**); Claude Code subagents, accessed 2026-09-23 (**C**) | One specialist after a named earlier artifact; parallel fan-out only when jobs are independent; parallel writers need host isolation | Copying orchestrator-worker as the default coding topology | medium |
 | Frozen evaluator | NVIDIA AVO (**B**); local AVO (**D**) | Only when a score exists | Everyday coding as AVO | high |
 | Offline learning split | SkillOpt (**B**); Sleep (**D**) | Train/select/holdout; no auto-adopt | Mid-run skill rewrite | high |
 | Capability routing | RouteLLM (**B**); OpenAI subagent effort notes (**C**); CALO (**D**) | Classes, not frozen model names | Obligatory Astra/Luna pairing | medium |
@@ -89,13 +89,13 @@ Official docs unless noted. Dates are page access 2026-09-15 or the page's own d
 - [Eval best practices](https://developers.openai.com/api/docs/guides/evaluation-best-practices), [exec plans](https://developers.openai.com/cookbook/articles/codex_exec_plans)
 - [Astra skills blog](https://developers.openai.com/blog/rethinking-skills-and-prompts-for-gpt-6-astra) 2026-09-11: short descriptions, progressive disclosure, stale AGENTS.md overconstrains stronger models
 
-Codex spawns subagents when asked; extra tokens; default depth 1; caution parallel writers. Skills are loaded text. The Agents SDK is a different product class from AMC.
+Codex subagents, rechecked 2026-09-23: extra tokens versus a single agent; parallel agents fit independent read-heavy work; return a summary; parallel writers need care. AMC lets one specialist follow a named artifact and fans out only independent jobs. Skills are loaded text. The Agents SDK is a different product class from AMC.
 
 ### Anthropic (**C**)
 
 - [Building effective agents](https://www.anthropic.com/engineering/building-effective-agents) 2024-12-19: start simple; add complexity when measured; **orchestrator-workers** for complex work whose subtasks cannot be predicted (coding across unknown files is their example); evaluator-optimizer needs real criteria
 - [Context engineering](https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents), [long-running harness](https://www.anthropic.com/engineering/effective-harnesses-for-long-running-agents), [Managed Agents](https://www.anthropic.com/engineering/managed-agents) 2026-04-08, [multi-agent research](https://www.anthropic.com/engineering/multi-agent-research-system)
-- [Claude Code subagents](https://code.claude.com/docs/en/sub-agents): overflow context, not a default team
+- [Claude Code subagents](https://code.claude.com/docs/en/sub-agents), rechecked 2026-09-23: each subagent has its own context window and receives a delegation summary. Parallel research fits separate areas. `isolation: worktree` is for a writer. This is not a default team.
 - [Claude Agent SDK](https://code.claude.com/docs/en/agent-sdk/overview): loop in your process; Managed Agents is hosted
 
 The multi-agent research system reported a higher internal research score with
@@ -185,7 +185,7 @@ file, history, evals.
 | Kernel rule | Why it exists | Limit |
 |---|---|---|
 | One lead, adaptive graph | Host is the real harness (**C**); Markdown cannot enforce a DAG (**E**) | Agents can ignore the skill |
-| Sequential default | Nature SWE subset (**A**) + Anthropic simplicity (**C**) | Not a ban on fan-out |
+| Sequential default | Nature SWE subset (**A**) + Anthropic simplicity (**C**) | Not a ban on one sequential specialist or on independent fan-out |
 | Scout then decide | Context Diamond (**D**); information value vs cost (**E**) | Scout is not a team recruiter |
 | Independent fan-out + host isolation | Diamond (**D**) + host isolation docs (**C**) + Nature error amp (**A**) | Isolation is the host's job |
 | Risk-based review | Anthropic evaluator-optimizer (**C**); verification-loop (**D**) | Fresh context ≠ independent errors |
