@@ -21,14 +21,16 @@ docs · **D** repo/practitioner · **E** AMC decision. Grades are not quality sc
 | [donvito](https://github.com/donvito/codex-astra-luna-orchestrator/tree/575e74ebcf9b199513151a8996665a71cf64ce50) | D | Choose available model/effort for a bounded job; keep lead ownership. | [routing](../references/packets.md) |
 | Local verification-loop, security-review and deployment-patterns | D | Task-specific checks and risk-driven independent review. | [verification](../references/verification.md) |
 | Local strategic-compact | D | Preserve milestone, artifact, failed approach, next action. | [resume](../references/resume.md) |
-| [OpenAI skills](https://developers.openai.com/codex/skills), [subagents](https://developers.openai.com/codex/subagents), [config](https://developers.openai.com/codex/config-reference) | C | Use the host; do not recreate it. | [SKILL.md](../SKILL.md) |
-| [Anthropic long-running](https://www.anthropic.com/engineering/effective-harnesses-for-long-running-agents), [context engineering](https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents), [effective agents](https://www.anthropic.com/engineering/building-effective-agents) | C | Recoverable progress, selective context, complexity only when earned. Orchestrator-worker is allowed for unpredictable complex subtasks, not as the default. | [routing](../references/packets.md), [resume](../references/resume.md) |
+| [OpenAI skills](https://developers.openai.com/codex/skills), [subagents](https://developers.openai.com/codex/subagents), [config](https://developers.openai.com/codex/config-reference) | C | Use the host; do not recreate it. Description names the coding task, the checks, and the boundary. Rechecked 2026-09-23. | [SKILL.md](../SKILL.md) |
+| [Anthropic long-running](https://www.anthropic.com/engineering/effective-harnesses-for-long-running-agents), [context engineering](https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents), [effective agents](https://www.anthropic.com/engineering/building-effective-agents) | C | Recoverable progress and selective context. A specialist may follow a named earlier artifact. Parallel fan-out waits for independent jobs. Parallel writers need host isolation. Orchestrator-worker is not the default. Rechecked 2026-09-23. | [routing](../references/packets.md), [resume](../references/resume.md) |
 | [Kim et al., Nature MMI 2026](https://www.nature.com/articles/s42256-026-01268-y) | A | Cautious sequential default for coding-like work; fan-out when independent; centralize material review. n=20 SWE/Terminal subsets; fixed topologies. | [routing](../references/packets.md) |
 | AMC cost-aware delegation policy | E | Break-even preflight, worker/retry/reviewer ceilings, compact artifacts, optional intent profiles. Not a claim that AMC is cheaper. | [resources](../references/resources.md#cost-aware-delegation), [profiles](../examples/profiles.md) |
+| [Claude-Cortex](https://github.com/NickCrew/Claude-Cortex/tree/bb47af79ad3befe01ae01940fcf5f16e30a1b6df) | D | On a complex slice, the author does not accept; repair blocking findings only; stop at the existing retry ceiling. Observed 2026-09-22, pin `bb47af79`. Not a measured quality gain. | [verification](../references/verification.md#complex-slices) |
 
 ## What is deliberately absent
 
 AMC has no always-on supervisor, fixed team shape, mandatory optimizer loop,
+standing implement/review/test/lint pipeline, skill-recommendation daemon,
 learning daemon, graph database, custom context store, transcript collection,
 billing system, automatic adoption, or four exclusive modes. Companion skills
 must not take turns owning the task. Named host models are optional profile
@@ -47,7 +49,7 @@ a skill. They are not competitors in the same product class.
 
 | Source | Grade | Constraint |
 |---|---|---|
-| [Google ADK](https://google.github.io/adk-docs/graphs/) | C | Code graphs and coordinator/subagents are a framework, not a portable skill. |
+| [Google ADK](https://google.github.io/adk-docs/graphs/) | C | Code graphs pass each node output to the next node. That is a framework, not a portable skill. AMC names the same artifact in the packet. Rechecked 2026-09-23. |
 | [Microsoft Agent Framework](https://learn.microsoft.com/en-us/agent-framework/overview/) | C | Successor to AutoGen/Semantic Kernel; workflows, HITL, MCP, tracing. |
 | [LangGraph](https://docs.langchain.com/oss/python/langgraph/use-graph-api) | C | Checkpointers and interrupts need a runtime. |
 | [OpenAI Agents SDK](https://developers.openai.com/api/docs/guides/agents) / [sandbox agents](https://developers.openai.com/api/docs/guides/agents/sandboxes) | C | Harness vs compute; tracing lives in the SDK. |

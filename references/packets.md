@@ -1,7 +1,8 @@
 # Work, context and capability routing
 
 Delegate when a bounded job buys useful information or execution after context,
-coordination and integration cost. Ask whether each job truly needs another's
+coordination and integration cost. A specialist may run after an earlier
+artifact when the handoff names that artifact. Ask whether each job truly needs another's
 output. Freeze shared interfaces first; parallelize ready independent work;
 serialize dependent work and shared mutable resources. A worktree alone does not
 make jobs independent. Each writer owns one exclusive scope, including tests,
@@ -66,7 +67,10 @@ independence that cannot be provided.
 ## Handoff and integration
 
 Send goal, current source identity, necessary inputs, exclusive owned scope,
-constraints/authority and acceptance check. Start new workers with fresh context
+constraints/authority and acceptance check. When a job needs an earlier output,
+name that artifact as a path, snapshot or evidence result. When no earlier
+output exists, write none. Compaction may drop raw tool output and still keep
+the identity the next check uses. Start new workers with fresh context
 and a task-specific packet, without the parent's or siblings' conversations.
 Pass only necessary outputs from dependency jobs through the lead. A researcher
 needs its question and sources; an implementer needs the agreed interfaces and

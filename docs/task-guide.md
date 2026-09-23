@@ -31,6 +31,24 @@ Stop before push, deployment or other external changes.
 preserved and the reported check actually covers the bug. A green unrelated
 suite is insufficient. A small fix may need only the lead.
 
+Filled shape. Replace the paths with yours. This is a prompt pattern, not a measured run:
+
+```text
+$agent-mission-control
+
+Bug: src/export.py writes a blank cell when the value is 0. A missing value must stay blank.
+Acceptance: a legitimate 0 exports as 0. An absent value still exports as blank.
+Preserve: every other export column.
+Input: current src/export.py and tests/test_export.py. Do not invent a second package.
+
+Stay on this lead unless a check needs a fact you do not have.
+Repair the smallest cause and run the project's existing export check.
+Show the files changed, the command and result, and what you did not run.
+Stop before push.
+```
+
+**Expected reply shape:** changed files, the export command and its observed result, and any limit such as “spreadsheet import was not opened.” If the user will run a generated package, that package is what the check has to pass.
+
 ## Build a feature
 
 ```text
@@ -41,7 +59,9 @@ Acceptance: [two or three observable behaviors].
 Preserve: [existing workflows, data and compatibility].
 Out of scope: [adjacent changes you do not want].
 
-Choose and carry out the work, including useful independent help.
+Choose and carry out the work. Use one specialist only after you can name the
+artifact they need. Use parallel help only when jobs do not need each other's
+output. You do not assign a team.
 Coordinate ownership, integrate the result and verify every acceptance
 criterion. Keep a brief record if the task spans several stages.
 Show the finished behavior, relevant checks and any remaining blocker.
@@ -49,10 +69,33 @@ Stop before push, deployment, purchases or other external changes.
 ```
 
 **Inspect the delivery:** try each acceptance behavior and open the relevant
-evidence. If a UI changed, inspect the rendered result. Delegation is useful when
-jobs can proceed independently or a fresh review can uncover a material error.
-Two workers editing the same files are not independent just because they have
-different role names. The lead must reconcile their work.
+evidence. If a UI changed, inspect the rendered result. Two workers editing the
+same files are not independent. The lead must reconcile their work.
+
+## One specialist after an artifact
+
+Use this when the lead must keep the goal, and one bounded slice needs a fresh
+look at a file you can name. The specialist does not write. The lead integrates.
+
+```text
+$agent-mission-control
+
+Objective: keep a legitimate zero in the CSV export, and keep a missing value blank.
+Current artifact: the commit you name, plus src/export.py and tests/test_export.py.
+Out of scope: packaging, deploy, and unrelated format changes.
+
+First, one specialist, sequential, read-only. Handoff: that snapshot, those two
+paths, and this acceptance check: quote the rule that distinguishes 0 from missing.
+No write scope.
+Then you repair and run the project's existing export check.
+Show the specialist's quoted rule, the files you changed, the command result,
+and what remains unchecked.
+Stop before push.
+```
+
+**Expected reply shape:** the named snapshot, the specialist's quoted rule, your
+diff, the export check you actually ran, and an explicit limit. This shape is an
+illustration, not a recorded run.
 
 ## Resume unfinished work
 
@@ -76,6 +119,22 @@ stop before push, deployment or other external changes.
 files with saved state and identifies current artifacts. A new plan alone is
 not the requested completion. If another agent is still writing, ownership needs
 resolution before a new writer takes over.
+
+Filled shape. This is a prompt pattern, not a measured run:
+
+```text
+$agent-mission-control
+
+Continue the export fix: a legitimate 0 must export as 0, and a missing value must stay blank.
+Read the progress note at MISSION.md. Trust it only after you match its artifact
+to the current files. Keep the named snapshot, the failed approach, and the next check.
+Do not start a second writer on files the note still assigns.
+Finish the remaining local repair and rerun the export check.
+Stop before push.
+```
+
+**Expected reply shape:** what was already true, the artifact you accepted, the
+new check result, and either done or the exact blocker.
 
 ## Research code without changing it
 

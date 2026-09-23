@@ -82,6 +82,18 @@ def check(plan: dict[str, Any]) -> list[str]:
         _err(errors, "reviewer budget exceeded")
     if plan.get("trivial") and reviewers:
         _err(errors, "trivial work must not spawn a reviewer")
+    if plan.get("complex_slice"):
+        if plan.get("author_accepts"):
+            _err(errors, "complex slice author must not accept")
+        repaired = [item for item in list(plan.get("findings") or []) if item.get("repaired")]
+        if repaired and not any(item.get("blocking") for item in repaired):
+            _err(errors, "complex slice repairs must target blocking findings")
+        same_hypothesis = int(plan.get("same_hypothesis_repairs") or 0)
+        continued = plan.get("new_evidence") or plan.get("hypothesis_changed") or plan.get("escalated")
+        if same_hypothesis > 1 and not continued:
+            _err(errors, "complex slice stops after one same-hypothesis repair")
+        if plan.get("standing_pipeline"):
+            _err(errors, "complex slice must not start a standing review pipeline")
 
     parallel_writers = [
         job["id"]
@@ -115,6 +127,11 @@ def check(plan: dict[str, Any]) -> list[str]:
             verdict = str(job.get("verdict") or "").upper()
             if lifecycle in {"queued", "running", "complete"} or verdict in {"FAIL", "BLOCKED", "NOT VERIFIED", ""}:
                 _err(errors, "overall PASS rejected: required job unfinished or negative")
+        if plan.get("release_delivery"):
+            shipped = str(plan.get("shipped_artifact") or "").strip()
+            checked = str(plan.get("checked_artifact") or "").strip()
+            if not shipped or shipped != checked:
+                _err(errors, "release PASS must check the shipped artifact")
 
     learning = plan.get("learning") or {}
     ordinary = bool(learning.get("ordinary_success"))
@@ -427,6 +444,84 @@ CASES = [
                 "return": "artifact",
             }
         ],
+        "expect": [],
+    },
+    {
+        "id": "14-complex-author-accept-fail",
+        "complex_slice": True,
+        "author_accepts": True,
+        "findings": [{"blocking": True, "repaired": True}],
+        "same_hypothesis_repairs": 1,
+        "expect": ["complex slice author must not accept"],
+    },
+    {
+        "id": "14-complex-deferred-repair-fail",
+        "complex_slice": True,
+        "author_accepts": False,
+        "findings": [{"blocking": False, "repaired": True}],
+        "same_hypothesis_repairs": 1,
+        "expect": ["complex slice repairs must target blocking findings"],
+    },
+    {
+        "id": "14-complex-second-repair-fail",
+        "complex_slice": True,
+        "author_accepts": False,
+        "findings": [{"blocking": True, "repaired": True}],
+        "same_hypothesis_repairs": 2,
+        "expect": ["complex slice stops after one same-hypothesis repair"],
+    },
+    {
+        "id": "14-complex-standing-pipeline-fail",
+        "complex_slice": True,
+        "author_accepts": False,
+        "standing_pipeline": True,
+        "same_hypothesis_repairs": 1,
+        "findings": [{"blocking": True, "repaired": True}],
+        "expect": ["complex slice must not start a standing review pipeline"],
+    },
+    {
+        "id": "14-complex-new-evidence-continues",
+        "complex_slice": True,
+        "author_accepts": False,
+        "new_evidence": True,
+        "findings": [{"blocking": True, "repaired": True}],
+        "same_hypothesis_repairs": 2,
+        "expect": [],
+    },
+    {
+        "id": "14-complex-blocking-then-stop",
+        "complex_slice": True,
+        "author_accepts": False,
+        "escalated": True,
+        "findings": [
+            {"blocking": True, "repaired": True},
+            {"blocking": False, "repaired": False},
+        ],
+        "same_hypothesis_repairs": 1,
+        "expect": [],
+    },
+    {
+        "id": "15-release-source-pass-fail",
+        "release_delivery": True,
+        "checked_artifact": "scripts/main.ps1",
+        "shipped_artifact": "FPSBooster.ps1",
+        "mission": {
+            "overall": "PASS",
+            "artifact": "scripts/main.ps1",
+            "required_jobs": [{"lifecycle": "completed", "verdict": "PASS"}],
+        },
+        "expect": ["release PASS must check the shipped artifact"],
+    },
+    {
+        "id": "15-release-package-checked",
+        "release_delivery": True,
+        "checked_artifact": "FPSBooster.ps1",
+        "shipped_artifact": "FPSBooster.ps1",
+        "mission": {
+            "overall": "PASS",
+            "artifact": "FPSBooster.ps1",
+            "required_jobs": [{"lifecycle": "completed", "verdict": "PASS"}],
+        },
         "expect": [],
     },
 ]

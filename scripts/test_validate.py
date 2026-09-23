@@ -73,7 +73,7 @@ def bad_child_model(root): replace(root / "examples/codex/.codex/config.toml", '
 def bad_child_effort(root): replace(root / "examples/codex/.codex/config.toml", 'default_subagent_reasoning_effort = "medium"', 'default_subagent_reasoning_effort = "invented-effort"')
 def zero_threads(root): replace(root / "examples/codex/.codex/config.toml", "max_concurrent_threads_per_session = 3", "max_concurrent_threads_per_session = 0")
 def fiction_template(root): replace(root / "templates/context-packet.md", "State the bounded job. Start as NOT VERIFIED.", "Inspect transport.py::should_send.")
-def plugin_push(root): replace(root / "scripts/package_plugin.py", "smallest useful execution graph and finish with verified evidence", "coordinated agents in multi-agent software missions")
+def plugin_push(root): replace(root / "scripts/package_plugin.py", "smallest useful workflow and finish with verified evidence", "coordinated agents in multi-agent software missions")
 def invalid_eval_path(root):
     path = root / "evals/cases.json"; data = json.loads(path.read_text(encoding="utf-8")); data["cases"][0]["fixture"] = {"../escape.txt": "x"}; path.write_text(json.dumps(data), encoding="utf-8")
 def invalid_activation(root):

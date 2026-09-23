@@ -4,6 +4,9 @@ These projects solve related problems at different levels. This comparison is
 based on the linked repository versions inspected on 2026-09-13. It describes
 inspected implementation as well as documentation; it is not an execution benchmark.
 
+Install current GitHub `main`, not the candidate.8 tag. The mechanism table
+below records that older inspection.
+
 ## Start with what you need
 
 | Your need | A good fit | Why |
@@ -50,15 +53,16 @@ The pinned forks, rather than changing upstream heads, define this comparison.
 
 The code comparison matters as much as the interface:
 
-| Mechanism | AMC candidate.8 source | Agent Orchestrator | Codex Astra/Luna |
+| Mechanism | AMC source on 2026-09-13 | Agent Orchestrator | Codex Astra/Luna |
 |---|---|---|---|
 | Host integration | One skill payload, five project destinations, read-only byte check; native tools supply execution. | [Real adapter interface](https://github.com/byensitmagnus/agent-orchestrator/blob/63a04f08fc5a5804a2306e96d1c59fc4a7f68c03/backend/internal/ports/agent.go) with launch and restore behavior. | [Codex installation script](https://github.com/byensitmagnus/codex-astra-luna-orchestrator/blob/014b1d7c48c39087beec8aa4f1ca022053ac17b3/setup.ps1) and model/role profiles. |
 | Existing user files | Default install refuses replacement; explicit updates check the reviewed fingerprint and retain the complete old copy. No global/config changes. | Its service manages worker workspaces. | Copies project profiles with overwrite handling; this is a configuration change. |
 | Recovery and isolation | Native host mechanisms plus lead reconciliation; no automatic recovery service. | [Implemented worktree lifecycle](https://github.com/byensitmagnus/agent-orchestrator/blob/63a04f08fc5a5804a2306e96d1c59fc4a7f68c03/backend/internal/adapters/workspace/gitworktree/workspace.go) and [session-switch recovery](https://github.com/byensitmagnus/agent-orchestrator/blob/63a04f08fc5a5804a2306e96d1c59fc4a7f68c03/backend/internal/session_manager/agent_switching.go). | Codex provides the runtime; profile instructions guide its use. |
 | Review | Lead arranges material independent review, integrates fixes and executes acceptance. | [Idle auto-review coordinator](https://github.com/byensitmagnus/agent-orchestrator/blob/63a04f08fc5a5804a2306e96d1c59fc4a7f68c03/backend/internal/autoreview/coordinator.go) is actual service code. | Named reviewer roles and orchestration instructions. |
 
-AMC's new installer and integrity regressions are practical improvements. They
-do not reproduce AO's daemon features. [Inspect the code checks and host limits](engineering-candidate.8.md).
+The candidate.8 installer and integrity checks were practical improvements over
+AMC's previous source. They do not reproduce AO's daemon features.
+[That record](engineering-candidate.8.md) is not a reason to install the tag.
 
 Check the result on a task you understand: preserved behavior, verified delivery,
 necessary user intervention and total work required. AMC's
@@ -66,11 +70,16 @@ necessary user intervention and total work required. AMC's
 run an equivalent end-to-end task across all three products, so comparative
 quality, completion rate, speed and cost remain unverified.
 
-## What still needs to improve
+## What to install
 
-Candidate.8 is worth adopting for its checked installation and repaired tooling.
-That is an improvement over AMC's previous source, not evidence of an overall
-lead over either alternative.
+Install current GitHub `main`, using [getting started](getting-started.md).
+candidate.8 is the last tagged ZIP and an older runtime. The 2026-09-13
+inspection is not evidence of an overall lead over either alternative.
+
+Other branches are not this kernel. A product-contract draft adds a JSON
+contract and a Python checker. An Orca draft maps jobs onto another product's
+CLI. Neither is required here. This skill keeps direct work, one specialist
+after a named artifact, and parallel work only when the jobs are independent.
 
 AMC does not run an owned behavioral research program. Further kernel changes
 must cite host docs, published research, other public repositories or known

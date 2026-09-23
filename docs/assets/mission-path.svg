@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 360" role="img" aria-labelledby="title desc">
   <title id="title">Agent Mission Control — from a goal to checked work</title>
-  <desc id="desc">Workflow illustration. A lead chooses direct work or focused help. Both routes return to integration and verification. Actual routes depend on the task.</desc>
+  <desc id="desc">Illustration, not a recorded run. The lead chooses direct work, one specialist, or parallel independent jobs, then integrates and verifies.</desc>
   <defs>
     <pattern id="grid" width="32" height="32" patternUnits="userSpaceOnUse"><path d="M32 0H0V32" fill="none" stroke="#A8BBD4" stroke-opacity=".09"/></pattern>
     <marker id="arrow" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto"><path d="m1 1 5 3-5 3" fill="none" stroke="#5BE0E5" stroke-width="1.5"/></marker>
@@ -28,7 +28,8 @@
     <text x="831" y="100" text-anchor="middle" font-size="26" fill="#F4F8FD">Direct work</text>
     <text x="831" y="187" text-anchor="middle" font-size="17" fill="#A8BBD4" letter-spacing="2">OR</text>
     <rect x="729" y="231" width="205" height="74" rx="12" fill="#11264B" stroke="#A8BBD4" stroke-opacity=".7"/>
-    <text x="831" y="277" text-anchor="middle" font-size="26" fill="#F4F8FD">Focused help</text>
+    <text x="831" y="262" text-anchor="middle" font-size="22" fill="#F4F8FD">One specialist</text>
+    <text x="831" y="288" text-anchor="middle" font-size="20" fill="#A8BBD4">or parallel</text>
     <rect x="1010" y="131" width="142" height="98" rx="12" fill="#11264B" stroke="#FFC46B" stroke-width="2"/>
     <text x="1081" y="171" text-anchor="middle" font-size="24" fill="#F4F8FD">Integrate</text>
     <text x="1081" y="205" text-anchor="middle" font-size="24" fill="#FFC46B">&amp; verify</text>

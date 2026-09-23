@@ -1,12 +1,12 @@
 <p align="center">
   <picture>
     <source media="(max-width: 600px)" srcset="docs/assets/mission-path-mobile.svg" />
-    <img src="docs/assets/mission-path.svg" alt="AMC workflow illustration: give the lead a goal; it chooses direct work or focused help, then integrates and verifies the result." width="100%" />
+    <img src="docs/assets/mission-path.svg" alt="Illustration, not a recorded run: a lead takes a goal, chooses direct work or a specialist or parallel help, then integrates and verifies." width="100%" />
   </picture>
 </p>
 
 <h1 align="center">Agent Mission Control</h1>
-<p align="center"><strong>Give your coding agent an outcome. It chooses the smallest graph that can finish and prove the work.</strong></p>
+<p align="center"><strong>For a hard coding job inside the assistant you already use.</strong><br />One lead keeps the goal, chooses direct work or real help, and shows what was checked.</p>
 <p align="center">One portable skill. Codex · Claude Code · Cursor · Grok · Kimi.<br />No extra server. Delegate only when a job earns its cost.</p>
 
 <p align="center">
@@ -35,9 +35,13 @@ constraints and decisions that need your authority.
 | Interrupted work finished | Reconcile the saved mission with current files and valid proof. | Progress from the remaining work and a clear final status. |
 | Code investigated before a change | Trace callers and guards in a read-only snapshot, then challenge findings. | Supported findings or reasoned refutations, with untested behavior clearly identified. |
 
-Small tasks stay with the lead. Larger tasks can use native subagents when they
-add value. A stronger lead may delegate bounded jobs to cheaper workers only
-when the work is independent, isolated and cheap to verify. That pairing is
+Small tasks stay with the lead. The route is one of three:
+
+1. **Direct.** The lead edits, checks, and finishes.
+2. **One specialist.** They run after an earlier artifact. The handoff names that artifact, the owned files, and the acceptance check.
+3. **Parallel.** Only jobs that do not need each other's output. Parallel writers need host isolation.
+
+A stronger lead may give a bounded job to a cheaper worker. That pairing is
 optional, not AMC's identity. Host tools and permissions determine what can
 actually run.
 
@@ -50,7 +54,11 @@ actually run.
 2. **Select the project copy** with your
    [host command](docs/getting-started.md#2-select-the-installed-copy). Keep your
    current model and normal permissions.
-3. **Try this read-only task** in a project with a README:
+3. **Confirm the copy, then do one useful task.** The read-only check below only
+   shows that the project skill was selected. The first useful task is the
+   [filled bug prompt](docs/task-guide.md#fix-a-bug). A harder job with one
+   specialist is [here](docs/task-guide.md#one-specialist-after-an-artifact).
+   To continue saved work, use [resume](docs/task-guide.md#resume-unfinished-work).
 
 ```text
 $agent-mission-control
@@ -61,15 +69,13 @@ Do not change files, install anything, run project checks or delegate.
 Say explicitly that no checks were run.
 ```
 
-**A successful first result:** three supported points, references you can find,
-no changed files and an explicit “no checks run.” This checks basic use;
-your project's working behavior needs its own tests.
+**A successful selection check:** three supported points, references you can find,
+no changed files and an explicit “no checks run.” That does not prove the
+application works.
 
-**Then use it on work you need done:** [fix a bug](docs/task-guide.md#fix-a-bug),
-[build a feature](docs/task-guide.md#build-a-feature),
-[resume unfinished work](docs/task-guide.md#resume-unfinished-work) or
-[research code without changing it](docs/task-guide.md#research-code-without-changing-it).
-Each recipe includes a prompt and what to inspect when it finishes.
+**A useful result** names the changed files or the report, the checks that
+actually ran, and what is still open. [Share that experience](https://github.com/byensitmagnus/agent-mission-control/issues/new?template=experience.yml)
+after you remove private information.
 
 ## Know what “done” means
 
@@ -84,6 +90,8 @@ An illustrative delivery can be as short as:
 > **Scope:** export formatting changed; no deployment performed.
 
 This is an output example, not a measured run.
+If someone will run a generated script or installer, that file is the artifact.
+A passing check on the source leaves the package NOT VERIFIED.
 [Follow a complete task and delivery example →](docs/task-guide.md#what-a-completed-delivery-looks-like)
 
 ## Versions

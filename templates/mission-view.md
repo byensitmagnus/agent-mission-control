@@ -34,6 +34,8 @@ Forbidden: credentials, push, deploy, destructive work and new authority.
 Lifecycle is queued, running, completed or superseded. Verdict is PASS, FAIL,
 BLOCKED or NOT VERIFIED. Required is yes or no. Completion is not acceptance.
 A dropped job is superseded, optional, NOT VERIFIED, and names a superseded: reason.
+Owned scope lists paths. When a job needs an earlier output, name that artifact
+under Decisions and evidence.
 
 ## Decisions and evidence
 
