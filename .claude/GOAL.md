@@ -1,29 +1,23 @@
 # Mål
 
-Gør Agent Mission Control til den bedste måde Magnus' coding-agenter leverer
-verificerbart arbejde på: offentlig kilde, install der matcher kernen, ét
-ærligt workflow, og læring fra rigtige opgaver.
+Få den færdige kerne på `main`: tre ruter, tjek af den fil brugeren kører, og en første nyttig opgave. Ingen ny runtime.
 
 ## Succeskriterier
 
-- Offentlig `main` er den aktuelle kerne. Det folk læser, er det de kan installere.
-- En ny bruger kan installere, vælge og køre første opgave på Codex, Claude Code, Cursor, Grok eller Kimi.
-- Kernen forbliver ét adaptivt workflow: mindste graf, cost-aware delegation, evidens før PASS.
-- Forbedringer kommer fra bestilt arbejde og engineering-kontrakter, ikke homemade subject-farms.
-- Påstande om kvalitet, pris og hastighed forbliver NOT VERIFIED indtil ekstern evidens eller brugstelemetri.
+- PR #10 er merget til `main`.
+- En Cursor-projektinstall af den merget kilde er `MATCH`.
+- `python3 scripts/validate.py` og `python3 scripts/test_package_plugin.py` er grønne på den commit.
+- Kvalitet, pris og hastighed forbliver NOT VERIFIED.
 
 ## Begrænsninger
 
-- Portable Markdown-skill. Ikke runtime, daemon, framework eller desktop-OS.
-- Ingen ny GitHub-release, global install eller host-config uden nyt mandat.
-- Stærk lead + billigere workers er valgfri og cost-aware, ikke identitet.
-- Sandhed → Proof → UX → Beta.
+- Portabel Markdown-skill. Værten ejer agenter, værktøjer og isolation.
+- Ingen release, tagged ZIP, daemon eller checker-runtime.
+- PR #8’s JSON-kontrakt og PR #9’s Orca-CLI følger ikke med.
 
 ## Uden for scope
 
-- Stjerneantal eller at slå Superpowers på popularitet.
-- SWE-bench eller prissammenligning som produktbevis.
-- At kopiere andre orchestrator-produkter som afhængigheder.
-- Ny tagged ZIP i denne runde.
+- At bevise at AMC er hurtigere, billigere eller bedre.
+- At Cursor 3.20.21’s skill-vælger kan køres headless. Den CLI viser `agent`, men parseren kører kun `tunnel`.
 
-_Opdateret: 2026-09-15_
+_Opdateret: 2026-09-23_
