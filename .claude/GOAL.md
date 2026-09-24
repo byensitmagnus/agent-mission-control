@@ -1,23 +1,38 @@
 # Mål
 
-Få den færdige kerne på `main`: tre ruter, tjek af den fil brugeren kører, og en første nyttig opgave. Ingen ny runtime.
+Gør Agent Mission Control til en sammenhængende, indbydende og brugsklar skill, der hjælper Byens IT og andre med at gennemføre krævende AI-opgaver.
 
-## Succeskriterier
+Brugeren beskriver resultatet og rammerne. AMC hjælper agenten med at vælge passende arbejde, bruge specialister når det gavner, give dem den nødvendige kontekst, samle resultaterne og afslutte med relevante kontroller. Brugeren skal kunne genoptage arbejdet uden at rekonstruere hele forløbet.
 
-- PR #10 er merget til `main`.
-- En Cursor-projektinstall af den merget kilde er `MATCH`.
-- `python3 scripts/validate.py` og `python3 scripts/test_package_plugin.py` er grønne på den commit.
-- Kvalitet, pris og hastighed forbliver NOT VERIFIED.
+Designet skal bygge på relevante erfaringer fra vores inspirationsrepos og officielle AI-dokumentation. Denne leverance skal gøre AMC klar til daglig brug.
 
-## Begrænsninger
+# Exit gate for denne leverance
 
-- Portabel Markdown-skill. Værten ejer agenter, værktøjer og isolation.
-- Ingen release, tagged ZIP, daemon eller checker-runtime.
-- PR #8’s JSON-kontrakt og PR #9’s Orca-CLI følger ikke med.
+1. Tydelig og indbydende GitHub-præsentation
+README forklarer målgruppe, konkret nytte og første handling. Grafik, navigation og eksempler fungerer i den renderede visning, også på smal skærm. Links, About-tekst og emneord passer til det faktiske produkt. Gem før/efter-visning.
 
-## Uden for scope
+2. Installation fører til faktisk brug
+En ny bruger kan følge vejledningen, installere den aktuelle version og vælge den i mindst én tilgængelig, relevant host. Kontrollér både filindhold og faktisk indlæsning. MATCH alene er utilstrækkeligt. Andre hosts har tydelig status og dokumenterede begrænsninger.
 
-- At bevise at AMC er hurtigere, billigere eller bedre.
-- At Cursor 3.20.21’s skill-vælger kan køres headless. Den CLI viser `agent`, men parseren kører kun `tunnel`.
+3. Ét konkret arbejdsforløb er gennemført
+Brug eksisterende, kontrollerbar erfaring eller én afgrænset, reel opgave til at vise vejen fra mål til leverance. Vis passende arbejdsdeling, nødvendig kontekstoverdragelse og kontrolleret slutresultat. Dokumentér brugerindgreb og friktion. Demonstrér genoptagelse, hvis forløbet kræver det. Tving ikke flere agenter ind i en opgave alene for demonstrationen.
 
-_Opdateret: 2026-09-23_
+4. Produktet hænger sammen
+Skill, referencer, templates, eksempler, installationsvejledning og versionsstatus er indbyrdes konsistente. Relevante eksisterende checks består på den konkrete version. Kendte fejl, der hindrer de lovede brugerforløb, er løst. Ny research eller flere regler skal begrundes i et konkret behov.
+
+5. Den færdige version kan tages i brug
+Ændringerne er samlet, reviewet og publiceret på main inden for det aktuelle mandat. Den aftalte projektinstallation bruger denne version. Projektstatus viser præcis leverance og evidens. Ingen nødvendige opgaver gemmes som fremtidige forbedringer; øvrige idéer får en kort backlog.
+
+# Afgrænsning og bevis
+
+AMC forbliver en portabel skill, hvor hosten leverer agenter, værktøjer og isolation.
+
+Ingen stor benchmarkkampagne. Brug målrettede engineering-checks og konkret brugserfaring. Påstande om generelt bedre kvalitet, pris eller hastighed kræver særskilt evidens og er ikke nødvendige for denne exit gate.
+
+Headless automatisering er ikke et krav. Faktisk brug i hosten er. Hvis en kontrol kræver UI, brug UI-adgang eller identificér den præcise nødvendige brugerhandling.
+
+Et manglende bevis skal stå åbent. Fjern ikke et succeskriterium for at kunne erklære målet nået.
+
+PR #10 og kontrollerne fra 2026-09-23 er delmilepæle, ikke denne exit gate.
+
+_Opdateret: 2026-09-24_

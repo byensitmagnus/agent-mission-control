@@ -11,9 +11,9 @@ Behavior, price and speed remain NOT VERIFIED. No new GitHub release in this rou
 
 ## Base and candidate
 
-Current artifact: GitHub `main` after PR https://github.com/byensitmagnus/agent-mission-control/pull/6
+Current artifact: GitHub `main` `7b72be5` after PR https://github.com/byensitmagnus/agent-mission-control/pull/10
 Previous published ZIP: `v0.2.0-candidate.8` (older runtime).
-Candidate.9: `main` source, no tagged ZIP.
+PR #10 is a milestone. The daily-use exit gate in `.claude/GOAL.md` is not closed.
 
 ## Hard gates
 
@@ -29,6 +29,11 @@ Candidate.9: `main` source, no tagged ZIP.
 | Field-state evidence model | PASS | [field-state.md](docs/field-state.md) grades A–E |
 | Install matches current source | PASS | `docs/getting-started.md` installs `main`, not the candidate.8 ZIP |
 | Behavioral superiority vs direct work | NOT VERIFIED | nine Codex runs: no unique win; contaminated Superpowers plugin |
+| Daily-use gate 1, GitHub presentation | PASS | README on `7b72be5`; light/dark/narrow graphic check 2026-09-23; About and topics updated the same day |
+| Daily-use gate 2, host loaded the skill | NOT VERIFIED | Cursor 3.20.21 install MATCH only. Picker was not observed. CLI `agent` is listed but the parser runs `tunnel` only |
+| Daily-use gate 3, one real task | PASS | Export-zero repair 2026-09-23. Direct lead. `python3 -m unittest tests.test_export` then OK. Resume was not required |
+| Daily-use gate 4, consistency checks | PASS | 2026-09-24: `validate.py` PASS; package tests 14 OK; decision kernel 36 PASS on `7b72be5` |
+| Daily-use gate 5, published and installed | NOT VERIFIED | `main` `7b72be5` is published. Temp install MATCH. Gate 2 still open, so the version is not fully in daily use |
 
 ## Authority
 
@@ -49,6 +54,7 @@ new services and new AMC subject-run batches.
 | Open PR against main | Lead | yes | completed | PASS | https://github.com/byensitmagnus/agent-mission-control/pull/6 |
 | Merge PR #6 | Lead | yes | completed | PASS | `main` `1f4b676` |
 | Three-arm comparison | Lead | no | superseded | NOT VERIFIED | superseded: farm closed; conclusion in postmortem |
+| Daily-use exit gate | Lead | yes | completed | NOT VERIFIED | `.claude/GOAL.md`; gate 2 still open |
 
 ## Decisions and evidence
 
@@ -64,15 +70,19 @@ Install from `main`. The candidate.8 ZIP remains the last tagged package.
 
 ## Blockers
 
-None.
+Open Cursor on `C:\Users\Magnus - Byens it\AppData\Local\Temp\amc-main-install`.
+Choose Customize, then Skills. Select `agent-mission-control`. Confirm the path
+ends in `.cursor\skills\agent-mission-control\SKILL.md` and the description
+contains "A specialist follows a named artifact." That selection is gate 2.
+It is not a headless check.
 
 ## Next action
 
-Practical-use round on `codex/specialist-after-artifact`: same three routes in
-the skill, guides, and package text; a useful first task; README illustration
-labeled as an illustration. Do not cut a GitHub release. Behavior, price, and
-speed stay NOT VERIFIED.
+Wait for that skill selection. Do not call the daily-use goal done before it.
+Backlog, not this gate: PR #8 JSON checker; PR #9 Orca CLI.
 
 ## Last verified
 
-Commit/snapshot: branch `codex/specialist-after-artifact` before its practical-use commit. Checks on 2026-09-23: `python3 scripts/validate.py` PASS; `python3 scripts/test_package_plugin.py` 14 OK with Linux git 2.49.0. Cursor 3.20.21 project install MATCH; `host_discovery` NOT VERIFIED. UTC timestamp: 2026-09-23T17:00:00Z.
+Commit/snapshot: `main` `7b72be5`. Checks 2026-09-24: validate PASS, package
+tests 14 OK, decision kernel 36 PASS. Cursor install MATCH. Host load NOT
+VERIFIED. UTC timestamp: 2026-09-24T08:10:00Z.
