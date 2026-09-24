@@ -4,8 +4,9 @@ AMC helps one lead agent choose the smallest execution graph that can raise
 verifiable capacity within the user's budget and still prove the result. It
 starts with the objective, constraints, and acceptance checks.
 For an understood sequential change, the lead works directly. That is a cautious
-default, not a ban on extra agents. A specialist may run after an earlier
-artifact when the handoff names that artifact. Parallel fan-out is only for
+default, not a ban on extra agents. A specialist can bring focused expertise or
+a fresh context; if it needs an earlier result, that result must be ready and
+identified in the handoff. Parallel fan-out is only for
 jobs that do not need each other's output. The lead gives each job the relevant
 task, inputs, authority, owned files, and proof.
 Parallel writers need host isolation (worktree, sandbox, VM or permissions);
@@ -19,8 +20,8 @@ and [routing rules](../references/packets.md).
 
 Routing is dynamic. A task may gain an investigation, a candidate loop, a fresh
 review, or a repair only when that work can answer a real question. The lead
-chooses from the same three routes: direct work, one specialist after a named
-artifact, or independent parallel jobs, then checks evaluator strength, error
+chooses from the same three routes: direct work, one specialist, or independent
+parallel jobs, then checks evaluator strength, error
 risk, required capability, information value versus coordination cost, and
 budget or authority. Direct, review, optimization and fan-out are
 combinable mechanisms, not exclusive modes. The lead may choose an available
@@ -33,6 +34,36 @@ price, speed, or quality. Current files and executed checks—not a worker sayin
 These are illustrative routes, not recorded executions or mandatory pipelines.
 AMC is a portable **skill**, not a runtime SDK or graph framework. Hosts own
 the loop, sandbox and traces. See [field state](field-state.md).
+
+## Context and dependencies
+
+Suppose a feature needs an export format and a permission check. Those two
+investigations can read the same source independently. Implementation needs
+both answers; acceptance needs the implemented artifact.
+
+```mermaid
+flowchart LR
+  Goal[Goal and acceptance criteria] --> Format[Inspect export format]
+  Goal --> Access[Inspect permissions]
+  Format -->|Format findings| Build[Implement feature]
+  Access -->|Permission findings| Build
+  Build -->|Changed artifact| Check[Check acceptance criteria]
+```
+
+An edge means the next job needs a specific result. Merely giving two jobs
+different role names does not create a dependency. The lead can perform any of
+these steps directly; the diagram does not require four agents.
+
+For a delegated investigation, the handoff contains the question, current source
+identity, relevant entry points, read access, exclusive write scope (or none),
+and what evidence to return. Load additional context when a real gap appears.
+Return findings with source paths, unresolved facts and the next useful check;
+do not send the full conversation by default. This is AMC's use of context and
+graph engineering: enough information at the step that needs it.
+
+The lead records decisions and accepted artifact identities in the existing
+mission record. After interruption, it checks current files and writer status
+before resuming. A summary cannot replace a file or revive stale test results.
 
 ## 1. A tiny edit stays tiny
 

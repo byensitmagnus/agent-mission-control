@@ -15,7 +15,7 @@ from pathlib import Path
 
 
 PLUGIN_NAME = "agent-mission-control"
-VERSION = "0.2.0-candidate.9"
+VERSION = "0.2.0-candidate.11"
 EXPECTED_ORIGIN = "https://github.com/byensitmagnus/agent-mission-control.git"
 SOURCE_ROOT = Path(os.path.abspath(__file__)).parent.parent
 COPY_DIRS = ("agents", "references", "templates", "assets")
@@ -23,6 +23,19 @@ REQUIRED_FILES = ("SKILL.md", "LICENSE")
 PACKAGE_FORMATS = ("skill", "plugin")
 FILE_ATTRIBUTE_REPARSE_POINT = 0x400
 ZIP_TIMESTAMP = (1980, 1, 1, 0, 0, 0)
+ROUTE_DESCRIPTION = (
+    "One lead works directly. Use a specialist for focused expertise or a fresh context. "
+    "Fan out only independent jobs. Isolate parallel writers."
+)
+PRODUCT_DESCRIPTION = (
+    "Use for a coding bug, feature, resume, or investigation that must show which checks ran. "
+    + ROUTE_DESCRIPTION
+)
+DEFAULT_PROMPT = (
+    "Use Agent Mission Control as one workflow for a bug, feature, resume, or investigation. "
+    "Choose the smallest useful workflow and finish with verified evidence. "
+    + ROUTE_DESCRIPTION
+)
 
 
 def _absolute(path: Path) -> Path:
@@ -41,6 +54,8 @@ def _reject_linked_chain(path: Path, label: str) -> None:
 
 
 def _is_within(path: Path, root: Path) -> bool:
+    path = path.resolve(strict=False)
+    root = root.resolve(strict=False)
     return path == root or root in path.parents
 
 
@@ -94,7 +109,11 @@ def _git_environment() -> dict[str, str]:
 
 def _validate_default_source(source: Path) -> None:
     top_level = _absolute(Path(_git(source, "rev-parse", "--show-toplevel")))
-    if os.path.normcase(str(top_level)) != os.path.normcase(str(source)):
+    try:
+        same_root = source.samefile(top_level)
+    except OSError:
+        same_root = False
+    if not same_root:
         raise ValueError(f"default source is not the repository root: {source}")
     origin = _git(source, "config", "--local", "--no-includes", "--get", "remote.origin.url")
     if origin not in {EXPECTED_ORIGIN, EXPECTED_ORIGIN.removesuffix(".git")}:
@@ -112,19 +131,19 @@ def _write_manifest(destination: Path) -> None:
     manifest = {
         "name": PLUGIN_NAME,
         "version": VERSION,
-        "description": "Use for a coding bug, feature, resume, or investigation that must show which checks ran. One lead works directly. A specialist follows a named artifact. Fan out only independent jobs. Isolate parallel writers.",
+        "description": PRODUCT_DESCRIPTION,
         "author": {"name": "Byens IT"},
         "license": "MIT",
         "repository": "https://github.com/byensitmagnus/agent-mission-control",
         "skills": "./skills/",
         "interface": {
             "displayName": "Agent Mission Control",
-            "shortDescription": "Coding workflow with one lead and checked evidence",
-            "longDescription": "Use for a coding bug, feature, resume, or investigation that must show which checks ran. One lead works directly. A specialist follows a named artifact. Fan out only independent jobs. Isolate parallel writers.",
+            "shortDescription": "Direct coding, focused specialists and checked evidence",
+            "longDescription": PRODUCT_DESCRIPTION,
             "developerName": "Byens IT",
             "category": "Developer Tools",
             "capabilities": ["Interactive", "Read", "Write"],
-            "defaultPrompt": ["Use Agent Mission Control as one workflow for a bug, feature, resume, or investigation. Choose the smallest useful workflow and finish with verified evidence."],
+            "defaultPrompt": [DEFAULT_PROMPT],
             "brandColor": "#8b5cf6",
             "composerIcon": "./assets/icon-small.svg",
             "logo": "./assets/icon-large.svg",
@@ -217,12 +236,22 @@ def main(argv: list[str]) -> int:
     parser.add_argument("destination", type=Path)
     parser.add_argument("--format", choices=PACKAGE_FORMATS, default="plugin", dest="package_format")
     parser.add_argument("--archive", type=Path, metavar="NEW.zip")
+    parser.add_argument(
+        "--source",
+        type=Path,
+        help="trusted local source snapshot; omitted uses the canonical repository check",
+    )
     try:
         args = parser.parse_args(argv[1:])
     except SystemExit as error:
         return int(error.code)
     try:
-        package(args.destination, package_format=args.package_format, archive=args.archive)
+        package(
+            args.destination,
+            source=args.source,
+            package_format=args.package_format,
+            archive=args.archive,
+        )
     except (ValueError, FileExistsError, OSError) as error:
         print(f"error: {error}", file=sys.stderr)
         return 1

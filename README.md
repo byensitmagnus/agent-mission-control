@@ -6,7 +6,7 @@
 </p>
 
 <h1 align="center">Agent Mission Control</h1>
-<p align="center"><strong>For a hard coding job inside the assistant you already use.</strong><br />One lead keeps the goal, chooses direct work or real help, and shows what was checked.</p>
+<p align="center"><strong>Turn a demanding AI coding task into a checked delivery.</strong><br />One lead manages context, useful specialist help and the work still left to finish.</p>
 <p align="center">One portable skill. Codex · Claude Code · Cursor · Grok · Kimi.<br />No extra server. Delegate only when a job earns its cost.</p>
 
 <p align="center">
@@ -20,6 +20,45 @@
   <a href="https://github.com/byensitmagnus/agent-mission-control/actions/workflows/validate.yml"><img src="https://github.com/byensitmagnus/agent-mission-control/actions/workflows/validate.yml/badge.svg?branch=main" alt="Public main engineering checks" /></a>
   <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-2c568c" alt="MIT license" /></a>
 </p>
+
+## Start in your project
+
+1. **Install the project skill** from
+   [current `main`](docs/getting-started.md#1-install-the-skill). Five-host
+   checked install and update live in
+   [hosts.md](docs/hosts.md#install-the-current-source).
+2. **Select the project copy** with your
+   [host command](docs/getting-started.md#2-select-the-installed-copy). Keep your
+   current model and normal permissions.
+3. **Give it work you already need.** Replace the brackets below with one
+   concrete outcome. The lead chooses the work and manages handoffs.
+
+```text
+$agent-mission-control
+
+Deliver: [the outcome I need].
+Done when: [two observable criteria].
+Preserve: [behavior, data, constraints].
+
+Inspect the project. Choose useful help.
+Finish the authorized local work.
+Run relevant checks. Show the result,
+evidence and remaining limits.
+Stop before push or external changes.
+```
+
+For a read-only first task: “Map how this project's main user action reaches its
+implementation. Cite the real files and flag missing context. Do not edit or run
+code.” A supported answer shows the task was done; confirm skill loading through
+your host's selected path or invocation record, not the answer alone.
+
+[Fix a bug](docs/task-guide.md#fix-a-bug) ·
+[Investigate with a specialist](docs/task-guide.md#one-specialist-for-a-bounded-investigation) ·
+[Resume saved work](docs/task-guide.md#resume-unfinished-work)
+
+**A useful result** names the changed files or the report, the checks that
+actually ran, and what is still open. [Share that experience](https://github.com/byensitmagnus/agent-mission-control/issues/new?template=experience.yml)
+after you remove private information.
 
 ## Your goal stays with one lead
 
@@ -38,44 +77,12 @@ constraints and decisions that need your authority.
 Small tasks stay with the lead. The route is one of three:
 
 1. **Direct.** The lead edits, checks, and finishes.
-2. **One specialist.** They run after an earlier artifact. The handoff names that artifact, the owned files, and the acceptance check.
+2. **One specialist.** Focused expertise or a fresh context helps a bounded job. The handoff names the required inputs, write scope and acceptance check; upstream work must be ready when needed.
 3. **Parallel.** Only jobs that do not need each other's output. Parallel writers need host isolation.
 
 A stronger lead may give a bounded job to a cheaper worker. That pairing is
 optional, not AMC's identity. Host tools and permissions determine what can
 actually run.
-
-## Start in your project
-
-1. **Install the project skill** from
-   [current `main`](docs/getting-started.md#1-install-the-skill). Five-host
-   checked install and update live in
-   [hosts.md](docs/hosts.md#install-the-current-source).
-2. **Select the project copy** with your
-   [host command](docs/getting-started.md#2-select-the-installed-copy). Keep your
-   current model and normal permissions.
-3. **Confirm the copy, then do one useful task.** The read-only check below only
-   shows that the project skill was selected. The first useful task is the
-   [filled bug prompt](docs/task-guide.md#fix-a-bug). A harder job with one
-   specialist is [here](docs/task-guide.md#one-specialist-after-an-artifact).
-   To continue saved work, use [resume](docs/task-guide.md#resume-unfinished-work).
-
-```text
-$agent-mission-control
-
-Read README.md. In at most three bullets, explain its purpose,
-one useful task and one limitation. Cite the section heading for each.
-Do not change files, install anything, run project checks or delegate.
-Say explicitly that no checks were run.
-```
-
-**A successful selection check:** three supported points, references you can find,
-no changed files and an explicit “no checks run.” That does not prove the
-application works.
-
-**A useful result** names the changed files or the report, the checks that
-actually ran, and what is still open. [Share that experience](https://github.com/byensitmagnus/agent-mission-control/issues/new?template=experience.yml)
-after you remove private information.
 
 ## Know what “done” means
 
@@ -93,6 +100,16 @@ This is an output example, not a measured run.
 If someone will run a generated script or installer, that file is the artifact.
 A passing check on the source leaves the package NOT VERIFIED.
 [Follow a complete task and delivery example →](docs/task-guide.md#what-a-completed-delivery-looks-like)
+
+## Context and dependencies, handled for you
+
+**Context engineering:** load the relevant files and decisions when needed, give
+specialists enough context to work, and keep compact findings with source paths.
+**Workflow graphs:** start independent work together, wait for real dependencies,
+and pass the specific output the next step needs. The lead keeps this structure
+in its plan; you do not configure a graph database or assign an agent hierarchy.
+
+[See a concrete handoff and dependency example →](docs/how-it-works.md#context-and-dependencies)
 
 ## Versions
 

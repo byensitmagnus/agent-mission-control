@@ -187,10 +187,16 @@ def main() -> int:
     parser.add_argument("--check", action="store_true", help="read-only byte comparison with this source")
     parser.add_argument("--update", action="store_true", help="replace the reviewed existing installation")
     parser.add_argument("--expected-installed-sha256", metavar="DIGEST")
+    parser.add_argument(
+        "--source",
+        type=Path,
+        help="trusted local source snapshot; omitted uses the canonical repository check",
+    )
     args = parser.parse_args()
     try:
         result = install(args.project, args.host, check=args.check, update=args.update,
-                         expected_installed_sha256=args.expected_installed_sha256)
+                         expected_installed_sha256=args.expected_installed_sha256,
+                         source=args.source)
     except (OSError, ValueError) as error:
         print(json.dumps({"status": "ERROR", "error": str(error)}))
         return 1

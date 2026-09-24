@@ -66,13 +66,18 @@ especially if another skill has the same name.
 
 ## 2. Select the installed copy
 
-Open the same project. Select `agent-mission-control` by path, not only by name:
+Open the same project. Invoke `agent-mission-control`, then verify which path
+the host selected; not every host offers selection by path:
 
 - **Codex:** `/skills`, `$`, or the desktop picker
 - **Claude Code:** `/agent-mission-control`
 - **Cursor:** Customize → Skills, or `/` in chat
 - **Grok:** `/agent-mission-control` after `grok inspect --json` from the project
 - **Kimi:** `/skill:agent-mission-control` from the Git root
+
+In Claude Code, a same-named personal copy wins over the project copy. Resolve
+that conflict with the [duplicate-copy instructions](hosts.md#resolve-a-claude-code-name-conflict)
+before trusting the project installation.
 
 The path must end in `agent-mission-control/SKILL.md` **inside this project**.
 A global or older copy with the same name is a different install. Restart the
@@ -82,8 +87,13 @@ before treating the first task as done.
 
 ## 3. Confirm the selected copy
 
-Start in a project that has `README.md`. Keep your current model and normal
-permissions. Paste, using your host’s invocation if it is not `$agent-mission-control`:
+Inspect the host's selection or invocation record for the exact project path.
+An installation check proves bytes; a discovery list proves visibility; an
+explicit skill invocation or loaded-instruction record establishes which copy
+was supplied to a task. An agent saying “I used AMC” is insufficient.
+
+For an optional read-only smoke task, start in a project that has `README.md`.
+Keep your current model and normal permissions. Use your host's invocation:
 
 ```text
 $agent-mission-control
@@ -98,16 +108,17 @@ Do not change files, install anything, run project checks, or delegate.
 Say explicitly that no checks were run.
 ```
 
-**Done when:** the project copy was selected, each bullet is supported by the
-README, no project files changed, and the answer says checks were not run.
-Reading a README does not prove the application works.
+**Task complete when:** each bullet is supported by the README, no project files
+changed, and the answer says checks were not run. This checks a bounded reading
+task. The answer alone proves neither skill loading nor application behavior.
 
 ## 4. Do one useful task
 
-Use the [filled bug prompt](task-guide.md#fix-a-bug). For a job that needs one
-read-only specialist first, use
-[that recipe](task-guide.md#one-specialist-after-an-artifact). To continue saved
-work, use [resume](task-guide.md#resume-unfinished-work).
+Describe one outcome you already need and two observable acceptance criteria.
+You can use [the bug prompt](task-guide.md#fix-a-bug), a
+[bounded investigation](task-guide.md#one-specialist-for-a-bounded-investigation),
+or [resume saved work](task-guide.md#resume-unfinished-work). Example file names
+are placeholders; use your project's actual paths.
 
 You should get back the files or report, the checks that actually ran, and what
 is still open. A worker finishing is not that result.
@@ -120,7 +131,7 @@ agent did, the result you checked, and where you stepped in.
 | What you see | What to check |
 |---|---|
 | AMC is missing from the picker | Confirm `SKILL.md` is in this project’s host directory, not a doubled `agent-mission-control/agent-mission-control/` folder, then restart the client. |
-| Two AMC entries appear | Select the project path. Global and project copies stay separate. |
+| Two AMC entries appear or an older copy loads | Select the project path where supported. For Claude Code, follow the [name-conflict instructions](hosts.md#resolve-a-claude-code-name-conflict). |
 | The agent cannot read the README | Resolve the host’s file-access prompt. A finished reply is not a successful read. Do not disable the sandbox. |
 | No subagents appear | A small task may stay with the lead. Installation does not add a subagent API. |
 | Output claims tests passed without evidence | Inspect the command output and the artifact. Missing proof is not PASS. |
@@ -130,7 +141,8 @@ To stop using this copy, deselect it and move
 That does not change global model settings.
 
 **Astra or extra models?** No. Keep your selected lead.
-**Always spawn agents?** No. Delegate only for independent work.
+**Always spawn agents?** No. A specialist needs a useful bounded job; only
+parallel jobs must be independent of each other's output.
 **Tagged plugin ZIP?** Last tag is candidate.8, an older runtime. Prefer current source.
 **Update?** [Checked update with a retained backup](hosts.md#update-an-existing-project-installation).
 

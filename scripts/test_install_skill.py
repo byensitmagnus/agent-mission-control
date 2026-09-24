@@ -1,6 +1,9 @@
 #!/usr/bin/env python3
 """Project installation, preservation and failure controls; no host launches."""
+import json
 import os
+import subprocess
+import sys
 import tempfile
 import unittest
 from pathlib import Path
@@ -21,6 +24,27 @@ class InstallTests(unittest.TestCase):
 
     def run_install(self, host="codex", **kwargs):
         return install(self.project, host, source=self.source, **kwargs)
+
+    def test_cli_accepts_explicit_trusted_source(self):
+        result = subprocess.run(
+            [
+                sys.executable,
+                str(Path(__file__).with_name("install_skill.py")),
+                "--project",
+                str(self.project),
+                "--host",
+                "codex",
+                "--source",
+                str(self.source),
+            ],
+            capture_output=True,
+            text=True,
+            check=False,
+        )
+        self.assertEqual(result.returncode, 0, result.stderr)
+        payload = json.loads(result.stdout)
+        self.assertEqual(payload["status"], "INSTALLED")
+        assert_skill_bytes(self, self.source, Path(payload["path"]))
 
     def test_five_hosts_preserve_files_and_have_identical_checked_bytes(self):
         for name in ("AGENTS.md", "CLAUDE.md", "config.toml"):

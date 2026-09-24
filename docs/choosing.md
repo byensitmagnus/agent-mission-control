@@ -44,10 +44,16 @@ If you want those specific presets, evaluate that setup. AMC's core skill keeps
 your selected lead and routes work to available capabilities; it does not require
 Astra/Luna or promise that another model pairing will be cheaper.
 
-The linked comparison repositories are forks of
+The pinned forks inspected for the comparison were
 [Untrivial-ai/agent-orchestrator](https://github.com/Untrivial-ai/agent-orchestrator)
 and [donvito/codex-astra-luna-orchestrator](https://github.com/donvito/codex-astra-luna-orchestrator).
-The pinned forks, rather than changing upstream heads, define this comparison.
+The read-only 2026-09-24 source refresh also inspected upstream pins AO
+`15e9ea971f1711ec8b50e157d6eb300db6cbe0d6` and CALO
+`575e74ebcf9b199513151a8996665a71cf64ce50`, alongside fork pins AO
+`63a04f08fc5a5804a2306e96d1c59fc4a7f68c03` and CALO
+`014b1d7c48c39087beec8aa4f1ca022053ac17b3`. Current upstream heads observed
+that day were AO `96f2b39` and CALO `30b7d0b`; those heads were not inspected
+and support no claims in this comparison.
 
 ## What to compare before adopting
 
@@ -78,8 +84,9 @@ inspection is not evidence of an overall lead over either alternative.
 
 Other branches are not this kernel. A product-contract draft adds a JSON
 contract and a Python checker. An Orca draft maps jobs onto another product's
-CLI. Neither is required here. This skill keeps direct work, one specialist
-after a named artifact, and parallel work only when the jobs are independent.
+CLI. Neither is required here. This skill keeps direct work, a specialist when
+focused expertise or fresh context helps, and parallel work only when the jobs
+are independent. Real dependencies name the upstream artifact they need.
 
 AMC does not run an owned behavioral research program. Further kernel changes
 must cite host docs, published research, other public repositories or known
@@ -87,11 +94,12 @@ practitioner guidance. Engineering checks and defects on real commissioned work
 remain allowed. Do not add subject-run farms to close the gaps below.
 
 The source-aligned product priority is a cautious sequential default for
-ordinary coding, plus coordination where a source actually supports it
-(independent decomposable jobs, centralized verification of material claims,
-durable progress, host isolation for parallel writers). A dashboard clone, more
-role files or a larger homemade test count would not by themselves demonstrate
-better delivered work. [Field state](field-state.md) maps those rules to graded
+ordinary coding, plus coordination where it fits: use expertise or fresh context
+for a bounded specialist task, fan out only independent jobs, and name a required
+upstream artifact only when the work actually depends on it. Keep durable
+progress and host isolation for parallel writers. A dashboard clone, more role
+files or a larger homemade test count would not by themselves demonstrate better
+delivered work. [Field state](field-state.md) maps these mechanisms to graded
 sources and compares AMC with hosts, SDKs, frameworks, AO, CALO, Superpowers and
 Spec Kit by mechanism, not by brand.
 

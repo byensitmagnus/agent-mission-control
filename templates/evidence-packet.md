@@ -1,6 +1,7 @@
 # Evidence Packet — blank template. Copy and fill. No live claims.
 
 Verdict: NOT VERIFIED
+Artifact identity checked: NOT VERIFIED. Name the commit, snapshot or digest and dirty state when relevant.
 Claims: No live claims until sources are inspected.
 Files and symbols inspected or changed: None yet.
 Commands run and observed results: None yet.

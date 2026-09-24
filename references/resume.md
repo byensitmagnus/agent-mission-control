@@ -14,14 +14,26 @@ Job **lifecycle** is queued, running, completed or superseded. Job **verdict** i
 BLOCKED or NOT VERIFIED. **Required** is yes or no. Lifecycle completion is not
 acceptance. Unfinished jobs stay `NOT VERIFIED`. Overall PASS forbids queued or running
 jobs. A dropped job is `superseded` with Required `no` and `superseded:` plus a
-reason in owned scope. Optional work that is not finished must be removed or
+reason in writable owned scope. Optional work that is not finished must be removed or
 superseded; it may not remain queued to obtain PASS.
+
+When a job is retried, keep its job identity and distinguish each attempt in
+Decisions and evidence. Only the current attempt may complete the job. A timeout
+or missing observation does not prove an older attempt stopped; late results
+from a superseded attempt cannot complete the job. Do not transfer its writable
+scope until the host confirms termination.
+Marking an attempt superseded does not revoke its tools. Before overall PASS,
+record host evidence that every unfinished or superseded writer is stopped or
+isolated from the accepted artifact. Otherwise keep acceptance unverified;
+continue independent safe work without reassigning its live writable scope.
 
 Overall PASS requires all of: every hard gate PASS with current evidence that is
 not an unverified placeholder; the current artifact identity in hard-gate
 evidence, decisions and last verified; every required job completed with verdict
 PASS; at least one required job; no queued or running jobs; no completed job
-with a negative verdict; Blockers exactly `None`; Next action not itself blocked.
+with a negative verdict; no unresolved writer able to mutate the accepted
+artifact; Blockers `None` (an optional trailing period is accepted); Next action
+not itself blocked.
 Narrative fields must not hide unfinished work as still queued. The checker tests
 Markdown contract consistency; it cannot prove that natural-language evidence is
 true or that the named identity equals git HEAD. Use FAIL for an observed gate failure, BLOCKED for an
@@ -52,7 +64,9 @@ uncommitted changes to manufacture a clean tree.
    workspace to fit an old claim. Record which checks need fresh execution.
 3. Query native agent state when available. An interrupted/session-lost worker
    is not automatically completed. Reconcile its files and packet before
-   reclaiming ownership. Never spawn a replacement writer while the previous
+   reclaiming ownership. A packet from a superseded attempt cannot complete the
+   job, and a packet whose artifact identity no longer matches the current bytes
+   is stale. Never spawn a replacement writer while the previous
    one might still mutate the same scope; confirm stopped or use read-only
    inspection until the conflict is resolved.
 4. Continue the next failed or unverified gate. Update status only with current

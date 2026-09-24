@@ -1,6 +1,7 @@
 # Evidence Packet — populated demonstration, not live evidence
 
 Verdict: NOT VERIFIED
+Artifact identity checked: NOT VERIFIED; the fixture snapshot and working-tree state have not been independently inspected.
 Claims: The required deadline boundary check has not been executed.
 Files and symbols inspected or changed: None; this demonstration has not been used for a live investigation.
 Commands run and observed results: None. Base/snapshot has not been independently inspected.

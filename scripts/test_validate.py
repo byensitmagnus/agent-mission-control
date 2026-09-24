@@ -7,7 +7,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 VALIDATOR = ROOT / "scripts/validate.py"
 TEMPLATE = Path("templates/mission-view.md")
-REQUIRED_JOB = "| Required work | Lead | yes | queued | NOT VERIFIED | Named owned paths |"
+REQUIRED_JOB = "| Required work | Lead | yes | queued | NOT VERIFIED | Named writable paths |"
 
 def run(root: Path) -> subprocess.CompletedProcess[str]:
     return subprocess.run([sys.executable, str(VALIDATOR), "--root", str(root)], capture_output=True, text=True, check=False)
@@ -35,7 +35,7 @@ def make_pass_ready(root: Path) -> None:
     )
     text = text.replace(
         REQUIRED_JOB,
-        "| Required work | Lead | yes | completed | PASS | Named owned paths |",
+        "| Required work | Lead | yes | completed | PASS | Named writable paths |",
         1,
     )
     text = text.replace(
@@ -61,11 +61,12 @@ def bad_mission_status(root): replace(root / TEMPLATE, "overall: NOT VERIFIED", 
 def bad_evidence_status(root): replace(root / "templates/evidence-packet.md", "Verdict: NOT VERIFIED", "Verdict: MAYBE")
 def bad_gate_status(root): replace(root / TEMPLATE, "| Required acceptance check | NOT VERIFIED |", "| Required acceptance check | MAYBE |")
 def bad_gate_header(root): replace(root / TEMPLATE, "| Gate | Status | Evidence |", "| Check | Status | Evidence |")
+def legacy_template_job_header(root): replace(root / TEMPLATE, "Writable owned scope", "Owned scope")
 def false_pass(root): replace(root / TEMPLATE, "overall: NOT VERIFIED", "overall: PASS")
 def empty_jobs(root): empty_section(root, "Jobs")
 def empty_authority(root): empty_section(root, "Authority")
-def ready_job(root): replace(root / TEMPLATE, REQUIRED_JOB, "| Required work | Lead | yes | ready | NOT VERIFIED | Named owned paths |")
-def complete_job(root): replace(root / TEMPLATE, REQUIRED_JOB, "| Required work | Lead | yes | complete | NOT VERIFIED | Named owned paths |")
+def ready_job(root): replace(root / TEMPLATE, REQUIRED_JOB, "| Required work | Lead | yes | ready | NOT VERIFIED | Named writable paths |")
+def complete_job(root): replace(root / TEMPLATE, REQUIRED_JOB, "| Required work | Lead | yes | complete | NOT VERIFIED | Named writable paths |")
 def unsafe_profile(root): replace(root / "examples/codex/.codex/agents/mission_reviewer.toml", 'sandbox_mode = "read-only"', 'sandbox_mode = "workspace-write"')
 def empty_lead_model(root): replace(root / "examples/codex/.codex/config.toml", 'model = "gpt-5.6-sol"', 'model = ""')
 def bad_lead_model(root): replace(root / "examples/codex/.codex/config.toml", 'model = "gpt-5.6-sol"', 'model = "not a model!"')
@@ -94,46 +95,46 @@ def placeholder(root):
 
 def pass_required_queued(root):
     make_pass_ready(root)
-    replace(root / TEMPLATE, "| Required work | Lead | yes | completed | PASS | Named owned paths |", REQUIRED_JOB)
+    replace(root / TEMPLATE, "| Required work | Lead | yes | completed | PASS | Named writable paths |", REQUIRED_JOB)
 
 def pass_required_running(root):
     make_pass_ready(root)
-    replace(root / TEMPLATE, "| Required work | Lead | yes | completed | PASS | Named owned paths |", "| Required work | Lead | yes | running | NOT VERIFIED | Named owned paths |")
+    replace(root / TEMPLATE, "| Required work | Lead | yes | completed | PASS | Named writable paths |", "| Required work | Lead | yes | running | NOT VERIFIED | Named writable paths |")
 
 def pass_required_fail(root):
     make_pass_ready(root)
-    replace(root / TEMPLATE, "| Required work | Lead | yes | completed | PASS | Named owned paths |", "| Required work | Lead | yes | completed | FAIL | Named owned paths |")
+    replace(root / TEMPLATE, "| Required work | Lead | yes | completed | PASS | Named writable paths |", "| Required work | Lead | yes | completed | FAIL | Named writable paths |")
 
 def pass_required_blocked(root):
     make_pass_ready(root)
-    replace(root / TEMPLATE, "| Required work | Lead | yes | completed | PASS | Named owned paths |", "| Required work | Lead | yes | completed | BLOCKED | Named owned paths |")
+    replace(root / TEMPLATE, "| Required work | Lead | yes | completed | PASS | Named writable paths |", "| Required work | Lead | yes | completed | BLOCKED | Named writable paths |")
 
 def pass_required_not_verified(root):
     make_pass_ready(root)
-    replace(root / TEMPLATE, "| Required work | Lead | yes | completed | PASS | Named owned paths |", "| Required work | Lead | yes | completed | NOT VERIFIED | Named owned paths |")
+    replace(root / TEMPLATE, "| Required work | Lead | yes | completed | PASS | Named writable paths |", "| Required work | Lead | yes | completed | NOT VERIFIED | Named writable paths |")
 
 def pass_optional_running(root):
     make_pass_ready(root)
     replace(
         root / TEMPLATE,
-        "| Required work | Lead | yes | completed | PASS | Named owned paths |",
-        "| Required work | Lead | yes | completed | PASS | Named owned paths |\n| Optional scout | Unassigned | no | running | NOT VERIFIED | Read-only notes |",
+        "| Required work | Lead | yes | completed | PASS | Named writable paths |",
+        "| Required work | Lead | yes | completed | PASS | Named writable paths |\n| Optional scout | Unassigned | no | running | NOT VERIFIED | Read-only notes |",
     )
 
 def pass_optional_queued(root):
     make_pass_ready(root)
     replace(
         root / TEMPLATE,
-        "| Required work | Lead | yes | completed | PASS | Named owned paths |",
-        "| Required work | Lead | yes | completed | PASS | Named owned paths |\n| Real remaining work | Unassigned | no | queued | NOT VERIFIED | the actual unfinished audit |",
+        "| Required work | Lead | yes | completed | PASS | Named writable paths |",
+        "| Required work | Lead | yes | completed | PASS | Named writable paths |\n| Real remaining work | Unassigned | no | queued | NOT VERIFIED | the actual unfinished audit |",
     )
 
 def pass_optional_completed_fail(root):
     make_pass_ready(root)
     replace(
         root / TEMPLATE,
-        "| Required work | Lead | yes | completed | PASS | Named owned paths |",
-        "| Required work | Lead | yes | completed | PASS | Named owned paths |\n| Optional scout | Unassigned | no | completed | FAIL | Read-only notes |",
+        "| Required work | Lead | yes | completed | PASS | Named writable paths |",
+        "| Required work | Lead | yes | completed | PASS | Named writable paths |\n| Optional scout | Unassigned | no | completed | FAIL | Read-only notes |",
     )
 
 def pass_missing_artifact(root):
@@ -142,7 +143,7 @@ def pass_missing_artifact(root):
 
 def pass_no_required_job(root):
     make_pass_ready(root)
-    replace(root / TEMPLATE, "| Required work | Lead | yes | completed | PASS | Named owned paths |", "| Required work | Lead | no | completed | PASS | Named owned paths |")
+    replace(root / TEMPLATE, "| Required work | Lead | yes | completed | PASS | Named writable paths |", "| Required work | Lead | no | completed | PASS | Named writable paths |")
 
 def pass_blocker_after_none(root):
     make_pass_ready(root)
@@ -162,14 +163,14 @@ def pass_gate_evidence_unverified(root):
 
 def pass_required_superseded(root):
     make_pass_ready(root)
-    replace(root / TEMPLATE, "| Required work | Lead | yes | completed | PASS | Named owned paths |", "| Required work | Lead | yes | superseded | NOT VERIFIED | superseded: dropped |")
+    replace(root / TEMPLATE, "| Required work | Lead | yes | completed | PASS | Named writable paths |", "| Required work | Lead | yes | superseded | NOT VERIFIED | superseded: dropped |")
 
 def pass_superseded_no_reason(root):
     make_pass_ready(root)
     replace(
         root / TEMPLATE,
-        "| Required work | Lead | yes | completed | PASS | Named owned paths |",
-        "| Required work | Lead | yes | completed | PASS | Named owned paths |\n| Old scout | Unassigned | no | superseded | NOT VERIFIED | leftover notes |",
+        "| Required work | Lead | yes | completed | PASS | Named writable paths |",
+        "| Required work | Lead | yes | completed | PASS | Named writable paths |\n| Old scout | Unassigned | no | superseded | NOT VERIFIED | leftover notes |",
     )
 
 def live_placeholders(root):
@@ -213,7 +214,7 @@ def pass_unfinished_narrative(root):
 
 def pass_authority_unfinished(root):
     make_pass_ready(root)
-    replace(root / TEMPLATE, "Forbidden: credentials, push, deploy, destructive work and new authority.", "Forbidden: none. Unfinished work remains queued.")
+    replace(root / TEMPLATE, "Forbidden: actions outside that scope, including unauthorized credential access,", "Forbidden: none. Unfinished work remains queued.")
 
 def pass_gate_not_executed(root):
     make_pass_ready(root)
@@ -231,8 +232,8 @@ def pass_optional_completed_not_verified(root):
     make_pass_ready(root)
     replace(
         root / TEMPLATE,
-        "| Required work | Lead | yes | completed | PASS | Named owned paths |",
-        "| Required work | Lead | yes | completed | PASS | Named owned paths |\n| Optional scout | Unassigned | no | completed | NOT VERIFIED | Read-only notes |",
+        "| Required work | Lead | yes | completed | PASS | Named writable paths |",
+        "| Required work | Lead | yes | completed | PASS | Named writable paths |\n| Optional scout | Unassigned | no | completed | NOT VERIFIED | Read-only notes |",
     )
 
 def main() -> int:
@@ -247,6 +248,7 @@ def main() -> int:
         missing_icon: "missing icon_small", duplicate_yaml: "duplicate key",
         duplicate_toml: "duplicate TOML", missing_packet_field: "fields must be exactly", empty_claims: "Claims needs content",
         bad_mission_status: "invalid overall", bad_evidence_status: "invalid Verdict", bad_gate_status: "invalid hard-gate status", bad_gate_header: "Hard gates header must be",
+        legacy_template_job_header: "Jobs header must be",
         false_pass: "overall PASS requires every hard gate PASS", empty_jobs: "empty section Jobs", empty_authority: "empty section Authority",
         ready_job: "invalid job lifecycle status", complete_job: "invalid job lifecycle status",
         unsafe_profile: "unsafe sandbox mode", empty_lead_model: "model reference required",
@@ -302,8 +304,8 @@ def main() -> int:
         make_pass_ready(copy)
         replace(
             copy / TEMPLATE,
-            "| Required work | Lead | yes | completed | PASS | Named owned paths |",
-            "| Required work | Lead | yes | completed | PASS | Named owned paths |\n| Old scout | Unassigned | no | superseded | NOT VERIFIED | superseded: replaced by lead inspection |",
+            "| Required work | Lead | yes | completed | PASS | Named writable paths |",
+            "| Required work | Lead | yes | completed | PASS | Named writable paths |\n| Old scout | Unassigned | no | superseded | NOT VERIFIED | superseded: replaced by lead inspection |",
         )
         if run(copy).returncode:
             print("FAIL: legitimate PASS with superseded optional job rejected", file=sys.stderr); return 1
@@ -315,6 +317,16 @@ def main() -> int:
         (copy / "examples/codex/.codex/agents/mission_verifier.toml").unlink()
         if run(copy).returncode:
             print("FAIL: optional profile with other models, 5 threads and three roles rejected", file=sys.stderr); return 1
+    with tempfile.TemporaryDirectory() as directory:
+        copy = Path(directory) / "repo"; shutil.copytree(ROOT, copy, ignore=shutil.ignore_patterns(".git", "__pycache__"))
+        mission = copy / "MISSION.md"
+        text = mission.read_text(encoding="utf-8")
+        if "Writable owned scope" in text:
+            mission.write_text(text.replace("Writable owned scope", "Owned scope", 1), encoding="utf-8")
+        elif "Owned scope" not in text:
+            print("FAIL: live MISSION has no recognized job-scope header", file=sys.stderr); return 1
+        if run(copy).returncode:
+            print("FAIL: existing schema-v1 MISSION with legacy Owned scope rejected", file=sys.stderr); return 1
     print(f"PASS: queued/PASS/BLOCKED positives; {len(controls)} negative controls"); return 0
 
 if __name__ == "__main__": raise SystemExit(main())

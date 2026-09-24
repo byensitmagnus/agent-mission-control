@@ -1,9 +1,10 @@
 # Work, context and capability routing
 
 Delegate when a bounded job buys useful information or execution after context,
-coordination and integration cost. A specialist may run after an earlier
-artifact when the handoff names that artifact. Ask whether each job truly needs another's
-output. Freeze shared interfaces first; parallelize ready independent work;
+coordination and integration cost. Focused expertise or a fresh context can
+justify a specialist without an earlier job output. When a job does need
+another's output, name that exact dependency artifact. Freeze shared interfaces
+first; parallelize ready independent work;
 serialize dependent work and shared mutable resources. A worktree alone does not
 make jobs independent. Each writer owns one exclusive scope, including tests,
 generated files and resources. Confirm the old owner stopped before transferring
@@ -34,7 +35,7 @@ classes, not product models:
 | Material reviewer | Independent falsification of a risky claim |
 | Narrow verifier | Executing a declared check against an identified artifact |
 
-Host profiles ([quality / balanced / throughput](../examples/profiles.md)) may
+Host profiles ([quality / balanced / throughput](https://github.com/byensitmagnus/agent-mission-control/blob/main/examples/profiles.md)) may
 map these classes to concrete models. Keep the selected lead.
 Do not default every child to the lead model or force difficult work onto the
 cheapest class. If the requested capability is unavailable, report the limit and
@@ -51,9 +52,12 @@ A cheap bounded worker may receive a job only when all of the following hold:
 For code writes, that check should be executable when behavior can be tested.
 Research may use source anchors, counterevidence and the lead reopening sources.
 UI work may need rendering or visual inspection. Allow at most one retry with a
-tighter contract; then escalate only the unresolved slice. Do not loop retries.
+tighter contract for the same bounded hypothesis; then diagnose and escalate
+only the unresolved slice or use a materially different hypothesis. Do not loop
+the same attempt.
 Run the break-even preflight in [resources](resources.md#cost-aware-delegation)
-before spawn. If it fails, keep the work with the lead.
+before spawn. If it rejects delegation, keep the work with the lead. If only
+parallel readiness fails, serialize a still-useful specialist handoff.
 
 Set child model and reasoning independently of the lead when native tools allow.
 Match effort to the unresolved work: low for straightforward mechanical tasks,
@@ -66,10 +70,12 @@ independence that cannot be provided.
 
 ## Handoff and integration
 
-Send goal, current source identity, necessary inputs, exclusive owned scope,
+Send goal, current source identity, necessary inputs, exclusive writable scope,
 constraints/authority and acceptance check. When a job needs an earlier output,
-name that artifact as a path, snapshot or evidence result. When no earlier
-output exists, write none. Compaction may drop raw tool output and still keep
+name the upstream job and exact artifact as a path, snapshot or evidence result.
+Reporting to the lead is not a dependency. When no earlier output exists, write
+none. Shared read inputs do not imply writable ownership. Compaction may drop
+raw tool output and still keep
 the identity the next check uses. Start new workers with fresh context
 and a task-specific packet, without the parent's or siblings' conversations.
 Pass only necessary outputs from dependency jobs through the lead. A researcher

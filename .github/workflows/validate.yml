@@ -39,3 +39,17 @@ jobs:
           dotnet-version: "8.0.x"
       - name: Check public real-task replays
         run: python evals/fps_replay.py --self-check
+
+  windows-package-install:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Test plugin packaging on Windows
+        run: python scripts/test_package_plugin.py
+      - name: Test project skill installation on Windows
+        run: python scripts/test_install_skill.py
+      - name: Prove junction and reparse rejection
+        run: python scripts/test_windows_reparse.py

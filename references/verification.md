@@ -96,8 +96,10 @@ Load when remaining subtasks cannot be predicted up front, or a wrong PASS is
 expensive. An understood sequential edit stays with the lead and does not use
 this section.
 
-The author of a change does not accept that change. The lead accepts only after
-the applicable gates hold on the current artifact.
+The author's own assessment is insufficient. Fresh independent review must try
+to falsify the risky claim. The lead remains the final acceptor after resolving
+findings and running the applicable checks on the current artifact, including
+when the lead authored the change.
 
 Before another repair, split findings:
 
@@ -106,8 +108,10 @@ Before another repair, split findings:
 - **Deferred:** style, optional polish, and unconfirmed remarks. Record them.
   Do not spend another cycle on them.
 
-One repair of the same hypothesis is the ceiling in
-[resources](resources.md). A further attempt needs new evidence or a different
-hypothesis. Otherwise stop, name the unresolved gate and the missing input, and
-return that to the user. Do not start a standing implement/review/test/lint
+One cheaper-worker repair of the same contract and hypothesis is the ceiling in
+[resources](resources.md). After it fails, diagnose the evidence and either
+escalate the unresolved slice or use a materially different hypothesis within
+the existing budget. Continue independent authorized work. Stop the mission only
+at an applicable hard budget, a missing required input, or an unauthorized or external
+consequence; keep unresolved gates visible. Do not start a standing implement/review/test/lint
 pipeline, a second orchestrator, or a review by every available model.

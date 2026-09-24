@@ -22,9 +22,9 @@ cd agent-mission-control
 
 Alternatively, use the [copy instructions](getting-started.md#1-install-the-skill)
 with the directory for your host below. That route requires neither Git nor
-Python if you already have the files. The source installer checks Git provenance,
-so use a clone rather than GitHub's automatic source ZIP when following the
-commands here.
+Python if you already have the files. By default, the installer screens the
+Git root and canonical origin. This is a provenance screen, not a signed-source
+attestation. Use a clone for the default commands below.
 
 From the AMC source checkout, choose one host and an existing target project:
 
@@ -65,7 +65,7 @@ Select the installed copy with the host's native command:
 `DIFFERENT` lists missing, edited or extra files; `MISSING` means no installation
 exists. Failed checks exit with code 1. A SHA-256 fingerprint identifies the
 runtime contents; `builder_version` identifies the installer, not the version
-of an arbitrary snapshot supplied through the Python API or a signed release.
+of an arbitrary snapshot supplied through `--source` or a signed release.
 Neither `INSTALLED` nor `MATCH` proves that your client loaded the skill:
 `host_discovery` intentionally remains `NOT VERIFIED` in these filesystem results.
 
@@ -76,6 +76,18 @@ finishes and its bytes are checked before `SKILL.md` is published by rename.
 If a final move fails, a partial directory may remain without `SKILL.md`; inspect
 that exact directory before removing it and retrying. A second install will not
 overwrite it. `--check` is read-only and does not launch a host or make a model call.
+
+For a fork, downloaded source or independently inspected local snapshot, both
+the installer and package builder accept `--source PATH`. That explicitly trusts
+the selected source rather than requiring the canonical Git origin; structural,
+path and copy checks still apply. Inspect the source before running its scripts.
+
+```bash
+python scripts/install_skill.py --host codex --project "../my-app" --source "." --check
+```
+
+Use the same `--source` for install, check and update. The returned runtime
+digest identifies the actual bytes, including local edits.
 
 ## Update an existing project installation
 
@@ -128,11 +140,30 @@ in Claude Code; Codex can show multiple same-named entries; Kimi's configured
 directories affect which copy wins. Restart the client if a newly added skill
 is absent. A plugin's Codex manifest is not a universal plugin installer.
 
-Then run the [small read-only first task](getting-started.md#3-try-a-small-first-task).
+Then follow [confirm the selected copy](getting-started.md#3-confirm-the-selected-copy).
 Use your host's invocation above in place of the example's `$agent-mission-control`.
 Keep your current model and normal permissions. A loader listing is discovery
-evidence; a supported answer citing the file is task evidence. Neither proves
-that native child-agent coordination works.
+evidence. An explicit invocation or loaded-instruction record ties the selected
+path to the task. A supported answer citing a file is task evidence only; it
+does not identify which skill was loaded. None of these alone proves native
+child-agent coordination.
+
+## Resolve a Claude Code name conflict
+
+Claude Code gives enterprise and personal skills precedence over a project
+skill with the same name. `/agent-mission-control` therefore cannot select the
+project copy while a higher-priority copy shadows it. This follows the official
+[name resolution rules](https://code.claude.com/docs/en/skills#resolve-skills-that-share-a-name),
+rechecked on 2026-09-24.
+
+If the conflicting copy is your personal installation, stop sessions using it
+and preserve its complete folder in a backup outside all skill discovery
+directories. Moving it affects other projects, so an agent needs your explicit
+approval for that personal-install change. Do not delete customizations or
+rename only the folder: the declared skill name can still conflict. Start a
+fresh session in the project, invoke AMC and inspect the loaded path. Retain
+the backup so you can restore the personal copy later. Enterprise-managed
+copies require the organization's owner; do not bypass their policy.
 
 ## Match the workflow to actual host capabilities
 
@@ -183,6 +214,12 @@ Grok were not rechecked on that date.
 See [the candidate.8 engineering record](engineering-candidate.8.md) for exact
 checks, client observations and remaining limits. Local Windows checks do not
 establish that a complete task works on macOS, Linux or every host/version.
+
+The [2026-09-24 readiness observation](reviews/readiness-2026-09-24.md#native-task-observation)
+ties the current project-installed runtime to an explicit Codex 0.156.1 skill
+input and a completed reading task with one normal command approval. It records
+the earlier setup failures; it does not establish desktop picker interaction or
+automatic Windows sandbox access.
 
 [Get started](getting-started.md) · [Task recipes](task-guide.md) ·
 [Compare implementations](choosing.md)

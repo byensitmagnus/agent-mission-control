@@ -12,15 +12,16 @@ import xml.etree.ElementTree as ET
 from prepare_eval import fixture_paths
 
 NAME = "agent-mission-control"
-CONTEXT = ("Objective", "Reason for delegation", "Base commit or snapshot", "Owned scope", "Relevant paths, symbols and inputs", "Dependencies already satisfied", "Constraints and invariants", "Authorized actions", "Required deliverable", "Acceptance check")
-EVIDENCE = ("Verdict", "Claims", "Files and symbols inspected or changed", "Commands run and observed results", "Acceptance-check result", "Risks and uncertainties", "Blocking decision, if any")
+CONTEXT = ("Objective", "Reason for delegation", "Base commit or snapshot", "Writable owned scope", "Read inputs, paths and symbols", "Dependencies already satisfied", "Constraints and invariants", "Authorized actions", "Required deliverable", "Acceptance check")
+EVIDENCE = ("Verdict", "Artifact identity checked", "Claims", "Files and symbols inspected or changed", "Commands run and observed results", "Acceptance-check result", "Risks and uncertainties", "Blocking decision, if any")
 MISSION = ("Goal / Definition of Done", "Base and candidate", "Hard gates", "Authority", "Jobs", "Decisions and evidence", "Blockers", "Next action", "Last verified")
 AGENT_KEYS = {"name", "description", "developer_instructions", "model", "model_reasoning_effort", "sandbox_mode"}
 STATUSES = {"PASS", "FAIL", "BLOCKED", "NOT VERIFIED"}
 JOB_LIFECYCLE = {"queued", "running", "completed", "superseded"}
 JOB_REQUIRED = {"yes", "no"}
-JOB_COLUMNS = ["Job", "Agent", "Required", "Lifecycle", "Verdict", "Owned scope"]
-PLACEHOLDERS = re.compile(r"Named owned paths|Copy and fill|Copying this template makes no live claims|State the objective|State the bounded job|Fill the objective", re.I)
+JOB_COLUMNS = ["Job", "Agent", "Required", "Lifecycle", "Verdict", "Writable owned scope"]
+LEGACY_JOB_COLUMNS = ["Job", "Agent", "Required", "Lifecycle", "Verdict", "Owned scope"]
+PLACEHOLDERS = re.compile(r"Named (?:owned|writable) paths|Copy and fill|Copying this template makes no live claims|State the objective|State the bounded job|Fill the objective", re.I)
 UNVERIFIED_EVIDENCE = re.compile(
     r"(?is)\b(?:none|n/?a|unknown|unverified|not(?:[ -]| yet )?verified|"
     r"no executed|not executed|not run|no (?:completed )?subject runs?|"
@@ -54,11 +55,13 @@ def relative(value: str, label: str) -> PurePosixPath:
     return path
 
 def resolve(root: Path, value: str, label: str, base: Path | None = None) -> Path:
+    root = root.resolve()
     path = ((base or root) / Path(*relative(value, label).parts)).resolve()
     need(path == root or root in path.parents, f"{label}: path escapes package: {value}")
     return path
 
 def resolve_link(root: Path, value: str, source: Path) -> Path:
+    root = root.resolve()
     need(not Path(value).is_absolute(), f"link in {source}: absolute local path")
     path = (source.parent / value).resolve()
     need(path == root or root in path.parents, f"link in {source}: path escapes package: {value}")
@@ -216,17 +219,21 @@ def validate_blank_templates(root: Path) -> None:
         need(TEMPLATE_FICTION.search(text) is None, f"{path}: blank templates must not contain case fiction")
         need("populated" not in text.lower(), f"{path}: blank templates must not look like populated demonstrations")
 
-def parse_jobs(section: str, path: Path) -> list[dict[str, str]]:
+def parse_jobs(section: str, path: Path, allow_legacy_scope: bool = False) -> list[dict[str, str]]:
     job_lines = [line for line in section.splitlines() if line.strip().startswith("|")]
     need(len(job_lines) >= 3, f"{path}: Jobs table needs header and a job")
     headers = [cell.strip() for cell in job_lines[0].strip().strip("|").split("|")]
-    need(headers == JOB_COLUMNS, f"{path}: Jobs header must be {' | '.join(JOB_COLUMNS)}")
+    allowed_headers = [JOB_COLUMNS]
+    if allow_legacy_scope:
+        allowed_headers.append(LEGACY_JOB_COLUMNS)
+    need(headers in allowed_headers, f"{path}: Jobs header must be {' | '.join(JOB_COLUMNS)}")
+    scope_column = "Writable owned scope" if headers == JOB_COLUMNS else "Owned scope"
     jobs = []
     for row in job_lines[2:]:
         cells = [cell.strip() for cell in row.strip().strip("|").split("|")]
         need(len(cells) == len(headers), f"{path}: malformed Jobs row")
         job = dict(zip(headers, cells))
-        need(job["Job"] and job["Agent"] and job["Owned scope"], f"{path}: Jobs row needs job, agent, and owned scope")
+        need(job["Job"] and job["Agent"] and job[scope_column], f"{path}: Jobs row needs job, agent, and writable owned scope")
         need(job["Required"] in JOB_REQUIRED, f"{path}: invalid job required flag")
         need(job["Lifecycle"] in JOB_LIFECYCLE, f"{path}: invalid job lifecycle status")
         need(job["Verdict"] in STATUSES, f"{path}: invalid job verdict")
@@ -235,13 +242,18 @@ def parse_jobs(section: str, path: Path) -> list[dict[str, str]]:
         if job["Lifecycle"] == "superseded":
             need(job["Required"] == "no", f"{path}: superseded jobs must be optional")
             need(job["Verdict"] == "NOT VERIFIED", f"{path}: superseded jobs must have verdict NOT VERIFIED")
-            need(re.search(r"(?i)superseded:", job["Owned scope"]) is not None, f"{path}: superseded jobs need a superseded: reason")
+            need(re.search(r"(?i)superseded:", job[scope_column]) is not None, f"{path}: superseded jobs need a superseded: reason")
         jobs.append(job)
     need(bool(jobs), f"{path}: Jobs table needs a job")
     need(any(job["Required"] == "yes" for job in jobs), f"{path}: at least one required job")
     return jobs
 
-def check_mission(text: str, path: Path, instance: bool = False) -> None:
+def check_mission(
+    text: str,
+    path: Path,
+    instance: bool = False,
+    allow_legacy_job_scope: bool = False,
+) -> None:
     need(re.search(r"^schema_version:\s*1\s*$", text, re.M) is not None, f"{path}: schema_version must be 1")
     status = re.search(r"^overall:\s*(.+?)\s*$", text, re.M)
     need(status is not None and status.group(1) in STATUSES, f"{path}: invalid overall")
@@ -268,7 +280,7 @@ def check_mission(text: str, path: Path, instance: bool = False) -> None:
         need(len(cells) >= 3 and cells[1] in STATUSES, f"{path}: invalid hard-gate status")
         need(bool(cells[0]) and bool(cells[2]), f"{path}: hard gates require name and evidence")
         gate_statuses.append(cells[1])
-    jobs = parse_jobs(sections["Jobs"], path)
+    jobs = parse_jobs(sections["Jobs"], path, allow_legacy_scope=allow_legacy_job_scope)
     ident = artifact.group(1).strip()
     if instance:
         need(PLACEHOLDERS.search(text) is None, f"{path}: unresolved template placeholders")
@@ -305,7 +317,7 @@ def validate_mission(root: Path) -> None:
     check_mission(read(path), path, instance=False)
     live = root / "MISSION.md"
     if live.is_file():
-        check_mission(read(live), live, instance=True)
+        check_mission(read(live), live, instance=True, allow_legacy_job_scope=True)
     demo = root / "examples/packets/mission-view.populated.md"
     if demo.is_file():
         check_mission(read(demo), demo, instance=True)

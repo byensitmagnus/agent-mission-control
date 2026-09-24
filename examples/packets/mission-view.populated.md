@@ -10,7 +10,7 @@ means before/equal/after boundary checks pass with independent review.
 
 ## Base and candidate
 
-Current artifact: NOT VERIFIED
+Current artifact: NOT VERIFIED; commit/snapshot and dirty state have not been captured.
 Base: NOT VERIFIED; root must capture HEAD and workspace snapshot before edits.
 Candidate: 1, parent is the captured baseline; hypothesis: strict deadline
 comparison rejects expired work without changing retry behavior. Maximum: 2.
@@ -32,17 +32,19 @@ Evaluator and authority belong to root; workers cannot change them.
 
 ## Jobs
 
-| Job | Agent | Required | Lifecycle | Verdict | Owned scope |
+| Job | Agent | Required | Lifecycle | Verdict | Writable owned scope |
 |---|---|---|---|---|---|
-| Deadline investigation | Unassigned | yes | queued | NOT VERIFIED | Read-only transport.py |
-| Retry investigation | Unassigned | no | queued | NOT VERIFIED | Read-only retry.py |
+| Deadline investigation | Unassigned | yes | queued | NOT VERIFIED | none |
+| Retry investigation | Unassigned | no | queued | NOT VERIFIED | none |
 | Implementation and integration | Root | yes | queued | NOT VERIFIED | transport.py and local checks |
-| Independent review | Unassigned | yes | queued | NOT VERIFIED | Read-only candidate |
+| Independent review | Unassigned | yes | queued | NOT VERIFIED | none |
 
 ## Decisions and evidence
 
 No implementation decision yet. Root must inspect the source and freeze the
 baseline before starting jobs. This populated demonstration makes no live claims.
+The investigations share read access to transport.py and retry.py; review shares
+read access to the candidate. None of those read-only jobs owns writable paths.
 
 Edges: the deadline and retry investigations need no earlier output, so they
 may run in parallel. Implementation is sequential and needs their evidence
