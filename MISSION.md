@@ -1,5 +1,5 @@
 schema_version: 1
-overall: NOT VERIFIED
+overall: PASS
 
 # Daily-use readiness
 
@@ -7,7 +7,9 @@ overall: NOT VERIFIED
 
 Deliver the practical exit gate in [.claude/GOAL.md](.claude/GOAL.md): an
 approachable portable skill that takes a requested outcome through appropriate
-work, useful handoffs, integration and inspectable evidence. One usable host
+work, useful handoffs, integration and inspectable evidence. The user supplies
+the outcome; the agent handles selective context, real dependencies and useful
+delegation after AMC is selected. One usable host
 path and one real commissioned task are sufficient; comparative performance
 research is outside this delivery.
 
@@ -15,7 +17,8 @@ research is outside this delivery.
 
 Baseline: `main` `3f35485679ad906fd900faaba9c1d1f2786b80a3`, read on 2026-09-24.
 Current artifact: candidate.11 runtime SHA-256 `4301eefdf4768522cd7d924bcbdc3f88c424f270eb14042ade5ceb6e0b6a52f8`.
-Source work is on `codex/usage-readiness`, based on `3f35485`.
+Delivered through PR #11 at main `24593236d23b3e1778d2b15c8a041a02ef524f6e`;
+the completion record changes documentation only.
 Runtime identity: `0.2.0-candidate.11`; candidate.10 belongs to an older
 contract draft. Last tagged ZIP remains candidate.8.
 
@@ -30,9 +33,9 @@ becomes PASS without regressing a higher-priority gate.
 |---|---|---|
 | Preserve work and product boundary | PASS | Six original dirty files preserved; isolated worktrees; portable runtime; no global changes |
 | Coherent core and package | PASS | Routing and handoffs reconciled; independent review; Windows/Linux checks and both built-package link checks pass |
-| GitHub and first-use path | PASS | Useful outcome prompt, corrected discovery guidance, retained artwork and rendered wide/390-pixel local previews; published view belongs to final delivery |
+| GitHub and first-use path | PASS | Useful outcome prompt, corrected discovery guidance, retained artwork; before/after previews and published main inspected wide/390-pixel; images and getting-started link work |
 | Current host use | PASS | Exact project install MATCH; explicit native skill input; Codex 0.156.1 read the installed skill and two current docs with one approved read command; lead checked the returned contents and report |
-| Real deliverable and publication | NOT VERIFIED | Real acceptance review and repairs completed; authorized publication, remote CI and final main-based project install remain open |
+| Real deliverable and publication | PASS | Real acceptance review and repairs completed; PR #11 merged at 2459323; main CI run 35982558460 passed all three jobs; final project install MATCH for candidate.11 runtime SHA-256 `4301eefdf4768522cd7d924bcbdc3f88c424f270eb14042ade5ceb6e0b6a52f8`. |
 
 ## Frozen evaluator and candidate lineage
 
@@ -55,7 +58,7 @@ diagnosis and a new bounded hypothesis, not abandonment of executable work.
 | Candidate | Parent | Hypothesis/change | Correctness | Score | Evidence | Verdict/diagnosis |
 |---|---|---|---|---|---|---|
 | Baseline | `3f35485` | Existing daily-use goal | Structural checks pass; two known product gaps | 1/5 gates established | Baseline observations above | Retain as recoverable baseline |
-| Readiness | Baseline | Repair routing, package links, Windows path identity and first use | Relevant engineering checks and approved native read PASS | 4/5 gates established | [Dated review](docs/reviews/readiness-2026-09-24.md) | Retain repairs; publication pending; no overall PASS or performance claim |
+| Readiness | Baseline | Repair routing, package links, Windows path identity and first use | Relevant engineering checks and approved native read PASS | 5/5 gates established | [Dated review](docs/reviews/readiness-2026-09-24.md), PR #11 and merged-main CI | Accept this delivery; no comparative performance claim |
 
 ## Authority
 
@@ -73,9 +76,15 @@ host configuration changes and a subject-run farm are outside this mandate.
 | Runtime and handoffs | Runtime specialist; lead integration | yes | completed | PASS | SKILL.md, references/, templates/, agents/, examples/ |
 | Packaging and checks | Engineering specialist; lead verification | yes | completed | PASS | scripts/, evals/decision_kernel.py, .github/workflows/validate.yml |
 | Source decisions | Source specialist | yes | completed | PASS | docs/field-state.md, docs/sources.md, docs/choosing.md |
-| Presentation, native use and acceptance | Lead | yes | running | NOT VERIFIED | README.md, remaining docs/, .claude/GOAL.md, MISSION.md |
+| Presentation, native use and acceptance | Lead | yes | completed | PASS | README.md, remaining docs/, .claude/GOAL.md, MISSION.md |
 
 ## Decisions and evidence
+
+Accepted artifact: candidate.11 runtime SHA-256 `4301eefdf4768522cd7d924bcbdc3f88c424f270eb14042ade5ceb6e0b6a52f8`.
+The [product outcome trace](docs/reviews/readiness-2026-09-24.md#product-outcome-and-workflow-trace)
+connects the user's goal, selected context, dependencies, confirmed repairs and
+accepted result. The product goal continues to guide later improvements; this
+PASS closes the practical delivery at the identified source.
 
 Keep one lead and the three routes. Specialists may help through expertise or
 fresh context; real dependencies carry a named artifact. Concurrent writers use
@@ -97,26 +106,21 @@ actual contract accepts a trailing period.
 
 ## Blockers
 
-No external authorization blocker remains for the reviewed publication flow.
-Remote checks, merge and the final main-based project installation are pending.
-The native file-read issue was resolved through a normal one-command approval
-within the already authorized audit scope, after removing stale inherited
-Desktop identity hints from the child process. No persistent permission, ACL or
-host configuration changed. Unassisted Windows sandbox reads and desktop/IDE
-picker interaction were not established and are not claimed.
+None.
 
 ## Next action
 
-Open the PR for the pushed branch and merge after remote checks and review.
-Then inspect the published rendering and install
-the accepted main source in the agreed project. A draft PR alone is not the exit
-gate; preserve the pending final-delivery job until these steps are complete.
+Use the accepted version for ordinary commissioned work. A future improvement
+starts from a concrete usage problem and a relevant check; the existing
+[experience form](.github/ISSUE_TEMPLATE/experience.yml) can capture it.
+There is no additional required implementation for this delivery.
 
 ## Last verified
 
-Baseline source `3f35485`; candidate runtime
-`4301eefdf4768522cd7d924bcbdc3f88c424f270eb14042ade5ceb6e0b6a52f8`.
-Local engineering checks, exact install/package hashes, rendered preview and
-native explicit invocation and approved file read observed 2026-09-24.
-UTC checkpoint: 2026-09-24 09:25:34.
-Publication and the final main-based project installation are not verified.
+Current accepted identity: candidate.11 runtime SHA-256 `4301eefdf4768522cd7d924bcbdc3f88c424f270eb14042ade5ceb6e0b6a52f8`.
+Merged main source `24593236d23b3e1778d2b15c8a041a02ef524f6e`;
+[remote checks](https://github.com/byensitmagnus/agent-mission-control/actions/runs/35982558460)
+passed. Exact project install MATCH, native invocation and approved file read,
+independent reviews, lead-run checks and public rendering are recorded in the
+[dated review](docs/reviews/readiness-2026-09-24.md#publication-and-acceptance).
+UTC checkpoint: 2026-09-24 09:46:10.
