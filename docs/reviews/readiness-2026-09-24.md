@@ -179,7 +179,8 @@ setup failures and checked repairs, not a comparative benchmark.
 
 ## Remaining boundary
 
-Local candidate review is complete. Publication and the final main-based project
-installation await publication authority and the remote checks. Comparative quality,
+Local candidate review is complete. The user authorized the recommended
+publication flow on 2026-09-24. Remote checks, merge and the final main-based
+project installation are still pending. Comparative quality,
 cost and speed remain unmeasured; these are separate research questions, not
 prerequisites for the finite practical exit gate.

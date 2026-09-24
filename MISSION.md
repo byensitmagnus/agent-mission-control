@@ -60,9 +60,10 @@ diagnosis and a new bounded hypothesis, not abandonment of executable work.
 ## Authority
 
 Authorized: complete local audit, goal, implementation, targeted checks and a
-project-scoped native-use observation. No push, merge, release, global install,
-host configuration changes or subject-run farm is authorized in this task.
-Prepare a concrete reviewed result before requesting publication authority.
+project-scoped native-use observation. On 2026-09-24 the user accepted the
+recommended publication flow: push the reviewed branch, open a PR and merge
+after green GitHub checks and review. Tagged release, global installation,
+host configuration changes and a subject-run farm are outside this mandate.
 
 ## Jobs
 
@@ -96,7 +97,8 @@ actual contract accepts a trailing period.
 
 ## Blockers
 
-Publication needs explicit authority after the local candidate is reviewable.
+No external authorization blocker remains for the reviewed publication flow.
+Remote checks, merge and the final main-based project installation are pending.
 The native file-read issue was resolved through a normal one-command approval
 within the already authorized audit scope, after removing stale inherited
 Desktop identity hints from the child process. No persistent permission, ACL or
@@ -105,8 +107,8 @@ picker interaction were not established and are not claimed.
 
 ## Next action
 
-Obtain explicit authority to push the reviewed branch, create its PR and merge
-after remote checks and review. Then inspect the published rendering and install
+Open the PR for the pushed branch and merge after remote checks and review.
+Then inspect the published rendering and install
 the accepted main source in the agreed project. A draft PR alone is not the exit
 gate; preserve the pending final-delivery job until these steps are complete.
 
