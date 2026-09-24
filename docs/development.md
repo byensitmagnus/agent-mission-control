@@ -21,8 +21,9 @@ The builder installs neither project configuration nor custom agents.
 
 Existing destinations/archives, linked paths, traversal and outputs inside the
 source are refused. The default source must be this repository with its expected
-GitHub origin. An explicit trusted snapshot can be supplied through the Python
-API for tests or offline builds. Source bytes are copied unchanged; ZIP order,
+GitHub origin. An explicit trusted snapshot can be supplied with `--source PATH`
+for forks or offline builds; this opts out of the default root/origin screen,
+not structural or path checks. Source bytes are copied unchanged; ZIP order,
 timestamps and permissions are fixed. Failures may leave a new partial output
 for inspection. Preserve existing outputs rather than overwriting them.
 
@@ -49,9 +50,14 @@ The JSON replay requires .NET 8; see [replay setup](../evals/fps-replays.md) for
 an explicit SDK path. These commands do not launch agents. CI runs the local
 checks on Python 3.11 and 3.14 with .NET 8. Passing them is not product PASS.
 
-The current local engineering record is
-[candidate.9](engineering-candidate.9.md). Historical candidate.8 evidence stays
-in [its record](engineering-candidate.8.md).
+The Windows CI job runs packaging, installation and
+`python scripts/test_windows_reparse.py`. The last command requires real
+junction controls to pass; it does not silently skip missing symlink privileges.
+Some Linux-oriented fixture checks above require symlink privileges on Windows.
+
+The current work is tracked in the [readiness record](reviews/readiness-2026-09-24.md).
+Earlier engineering evidence stays in [candidate.9](engineering-candidate.9.md)
+and [candidate.8](engineering-candidate.8.md), tied to their original snapshots.
 
 Root `MISSION.md` and `docs/` are repository status. Packaging copies only
 `SKILL.md`, `LICENSE`, `agents/`, `references/`, `templates/` and `assets/`.

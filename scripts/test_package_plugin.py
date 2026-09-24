@@ -4,6 +4,7 @@
 import json
 import os
 import subprocess
+import sys
 import tempfile
 import unittest
 import zipfile
@@ -11,6 +12,7 @@ from pathlib import Path
 from unittest.mock import patch
 
 from package_plugin import COPY_DIRS, EXPECTED_ORIGIN, PLUGIN_NAME, VERSION, package
+from validate import validate_links
 
 
 SKILL_BYTES = b"---\r\nname: agent-mission-control\r\ndescription: Test\r\n---\r\n"
@@ -45,6 +47,28 @@ def init_repo(path: Path, origin: str | None = None) -> None:
 
 
 class PackagePluginTests(unittest.TestCase):
+    def test_cli_accepts_explicit_trusted_source(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            source = make_source(root)
+            destination = root / "output" / PLUGIN_NAME
+            result = subprocess.run(
+                [
+                    sys.executable,
+                    str(Path(__file__).with_name("package_plugin.py")),
+                    str(destination),
+                    "--format",
+                    "skill",
+                    "--source",
+                    str(source),
+                ],
+                capture_output=True,
+                text=True,
+                check=False,
+            )
+            self.assertEqual(result.returncode, 0, result.stderr)
+            assert_skill_bytes(self, source, destination)
+
     def test_default_packages_genuine_plugin_and_refuses_overwrite(self) -> None:
         with tempfile.TemporaryDirectory() as temporary:
             destination = Path(temporary) / "new" / "nested" / PLUGIN_NAME
@@ -60,8 +84,12 @@ class PackagePluginTests(unittest.TestCase):
             self.assertFalse((destination / ".codex").exists())
             self.assertNotRegex(json.dumps(manifest), r"coordinated agents|multi-agent software missions")
             self.assertIn("which checks ran", manifest["description"])
-            self.assertIn("named artifact", manifest["description"])
+            self.assertIn("focused expertise or a fresh context", manifest["description"])
             self.assertIn("independent jobs", manifest["description"])
+            self.assertEqual(
+                manifest["interface"]["shortDescription"],
+                "Direct coding, focused specialists and checked evidence",
+            )
             self.assertIn("smallest useful workflow", manifest["interface"]["defaultPrompt"][0])
             self.assertIn("verified evidence", manifest["interface"]["defaultPrompt"][0])
             self.assertIn("one workflow", manifest["interface"]["defaultPrompt"][0])
@@ -93,6 +121,13 @@ class PackagePluginTests(unittest.TestCase):
             self.assertEqual(skill_files, plugin_files)
             for name in sorted(skill_files):
                 self.assertEqual((skill / name).read_bytes(), (plugin_skill / name).read_bytes(), name)
+
+    def test_packaged_skill_has_no_broken_local_markdown_links(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            destination = Path(temporary) / "skill" / PLUGIN_NAME
+            source = Path(__file__).resolve().parents[1]
+            package(destination, source=source, package_format="skill")
+            validate_links(destination)
 
     def test_explicit_trusted_snapshot_preserves_source_and_fixture_bytes(self) -> None:
         with tempfile.TemporaryDirectory() as temporary:
@@ -254,6 +289,26 @@ class PackagePluginTests(unittest.TestCase):
                         with self.assertRaisesRegex(ValueError, "unexpected default source origin"):
                             package(destination, package_format="skill")
                         self.assertFalse(destination.exists())
+
+    @unittest.skipUnless(os.name == "nt", "Windows path aliases only")
+    def test_windows_temp_alias_is_same_root_and_cannot_bypass_overlap(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            source = make_source(root)
+            physical_source = source.resolve()
+            if os.path.normcase(str(source)) == os.path.normcase(str(physical_source)):
+                self.skipTest("temporary directory has no distinct Windows alias")
+            init_repo(source, EXPECTED_ORIGIN)
+
+            destination = root / "output" / PLUGIN_NAME
+            with patch("package_plugin.SOURCE_ROOT", source):
+                package(destination, package_format="skill")
+            assert_skill_bytes(self, source, destination)
+
+            overlapping = physical_source / "nested" / PLUGIN_NAME
+            with self.assertRaisesRegex(ValueError, "inside the source"):
+                package(overlapping, source, package_format="skill")
+            self.assertFalse(overlapping.exists())
 
     def test_default_source_ignores_injected_git_repository_environment(self) -> None:
         with tempfile.TemporaryDirectory() as temporary:

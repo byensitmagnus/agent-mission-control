@@ -59,9 +59,9 @@ Acceptance: [two or three observable behaviors].
 Preserve: [existing workflows, data and compatibility].
 Out of scope: [adjacent changes you do not want].
 
-Choose and carry out the work. Use one specialist only after you can name the
-artifact they need. Use parallel help only when jobs do not need each other's
-output. You do not assign a team.
+Choose and carry out the work. Use a specialist when expertise or a fresh
+context helps; provide the required inputs. Use parallel help only when jobs
+do not need each other's output. As lead, manage delegation and integration.
 Coordinate ownership, integrate the result and verify every acceptance
 criterion. Keep a brief record if the task spans several stages.
 Show the finished behavior, relevant checks and any remaining blocker.
@@ -72,30 +72,34 @@ Stop before push, deployment, purchases or other external changes.
 evidence. If a UI changed, inspect the rendered result. Two workers editing the
 same files are not independent. The lead must reconcile their work.
 
-## One specialist after an artifact
+<a id="one-specialist-after-an-artifact"></a>
 
-Use this when the lead must keep the goal, and one bounded slice needs a fresh
-look at a file you can name. The specialist does not write. The lead integrates.
+## One specialist for a bounded investigation
+
+Use this for a substantial question inside a larger task, such as tracing an
+unfamiliar permission boundary. A small two-line repair usually stays direct.
+The lead supplies existing source or an earlier result when that is needed.
 
 ```text
 $agent-mission-control
 
-Objective: keep a legitimate zero in the CSV export, and keep a missing value blank.
-Current artifact: the commit you name, plus src/export.py and tests/test_export.py.
-Out of scope: packaging, deploy, and unrelated format changes.
+Objective: prepare [feature] without weakening existing access controls.
+Acceptance: [who may perform the action, and who must be denied].
+Preserve existing permissions and user data. Stop before push or deployment.
 
-First, one specialist, sequential, read-only. Handoff: that snapshot, those two
-paths, and this acceptance check: quote the rule that distinguishes 0 from missing.
-No write scope.
-Then you repair and run the project's existing export check.
-Show the specialist's quoted rule, the files you changed, the command result,
-and what remains unchecked.
-Stop before push.
+Inspect the project first. If the permission path needs a substantial separate
+investigation, give one read-only specialist the current source identity,
+entry points and acceptance question. Ask for callers, guards, relevant tests
+and unresolved facts, with file anchors. Give them no write scope.
+
+Use those findings to implement the feature and check both allowed and denied
+cases. If the boundary is already clear, work directly. Own integration and
+report the actual artifact, checks and remaining limits.
 ```
 
-**Expected reply shape:** the named snapshot, the specialist's quoted rule, your
-diff, the export check you actually ran, and an explicit limit. This shape is an
-illustration, not a recorded run.
+**Expected reply shape:** source identity, supported findings if delegated,
+the integrated diff, observed acceptance checks and limits. A specialist can
+read shared source; only its writable scope must be exclusively owned.
 
 ## Resume unfinished work
 

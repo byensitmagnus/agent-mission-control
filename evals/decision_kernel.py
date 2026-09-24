@@ -57,12 +57,20 @@ def check(plan: dict[str, Any]) -> list[str]:
                     _err(errors, f"{job['id']}: research accept check must be source anchors or counterevidence")
         attempts = list(job.get("attempts") or [])
         failures = [item for item in attempts if item.get("failed")]
-        if len(failures) > 1:
-            last = failures[-1]
-            if not last.get("contract_changed") and not last.get("escalated"):
-                _err(errors, f"{job['id']}: after one failed attempt, change the contract or escalate")
-        if len(failures) > 2:
-            _err(errors, f"{job['id']}: more than one retry is forbidden")
+        retry_count = max(0, len(failures) - 1)
+        for retry in failures[1:]:
+            if not (
+                retry.get("contract_changed")
+                or retry.get("hypothesis_changed")
+                or retry.get("escalated")
+            ):
+                _err(
+                    errors,
+                    f"{job['id']}: after one failed attempt, change the contract or hypothesis, or escalate",
+                )
+        retry_budget = int(job.get("retry_budget", 1))
+        if retry_count > retry_budget:
+            _err(errors, f"{job['id']}: retry budget exceeded")
         if job.get("capability") in {"cheap-bounded-worker", "focused-general-worker"} and job.get("return") == "transcript":
             _err(errors, f"{job['id']}: workers return artifacts, not transcripts")
 
@@ -83,8 +91,16 @@ def check(plan: dict[str, Any]) -> list[str]:
     if plan.get("trivial") and reviewers:
         _err(errors, "trivial work must not spawn a reviewer")
     if plan.get("complex_slice"):
-        if plan.get("author_accepts"):
-            _err(errors, "complex slice author must not accept")
+        independent_proof = any(
+            job.get("capability") in {"material-reviewer", "narrow-verifier"}
+            and job.get("independent") is True
+            and job.get("lifecycle") == "completed"
+            and str(job.get("verdict") or "").upper() == "PASS"
+            and (job.get("accept_check") or {}).get("artifact_identity_checked") is True
+            for job in jobs
+        )
+        if plan.get("author_accepts") and not independent_proof:
+            _err(errors, "complex slice author acceptance requires independent proof")
         repaired = [item for item in list(plan.get("findings") or []) if item.get("repaired")]
         if repaired and not any(item.get("blocking") for item in repaired):
             _err(errors, "complex slice repairs must target blocking findings")
@@ -218,7 +234,7 @@ CASES = [
         "expect": [],
     },
     {
-        "id": "06-endless-retry-fail",
+        "id": "06-repeated-unchanged-retry-fail",
         "jobs": [
             {
                 "id": "patch",
@@ -232,7 +248,40 @@ CASES = [
                 ],
             }
         ],
-        "expect": ["change the contract or escalate", "more than one retry is forbidden"],
+        "expect": ["change the contract or hypothesis, or escalate", "retry budget exceeded"],
+    },
+    {
+        "id": "06-new-hypothesis-and-escalation-within-budget",
+        "jobs": [
+            {
+                "id": "patch",
+                "capability": "cheap-bounded-worker",
+                "write_scope": "mod.py",
+                "retry_budget": 2,
+                "accept_check": {"declared": True, "kind": "executable"},
+                "attempts": [
+                    {"failed": True},
+                    {"failed": True, "hypothesis_changed": True},
+                    {"failed": True, "escalated": True},
+                ],
+            }
+        ],
+        "expect": [],
+    },
+    {
+        "id": "06-one-retry-per-job-is-not-a-global-budget",
+        "jobs": [
+            {
+                "id": job_id,
+                "capability": "focused-general-worker",
+                "attempts": [
+                    {"failed": True},
+                    {"failed": True, "hypothesis_changed": True},
+                ],
+            }
+            for job_id in ("first", "second")
+        ],
+        "expect": [],
     },
     {
         "id": "07-optimization-tie-keeps-incumbent",
@@ -452,7 +501,28 @@ CASES = [
         "author_accepts": True,
         "findings": [{"blocking": True, "repaired": True}],
         "same_hypothesis_repairs": 1,
-        "expect": ["complex slice author must not accept"],
+        "expect": ["complex slice author acceptance requires independent proof"],
+    },
+    {
+        "id": "14-complex-lead-accepts-after-independent-proof",
+        "complex_slice": True,
+        "author_accepts": True,
+        "jobs": [
+            {
+                "id": "review",
+                "capability": "material-reviewer",
+                "independent": True,
+                "lifecycle": "completed",
+                "verdict": "PASS",
+                "accept_check": {
+                    "declared": True,
+                    "artifact_identity_checked": True,
+                },
+            }
+        ],
+        "findings": [{"blocking": True, "repaired": True}],
+        "same_hypothesis_repairs": 1,
+        "expect": [],
     },
     {
         "id": "14-complex-deferred-repair-fail",

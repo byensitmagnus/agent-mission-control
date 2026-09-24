@@ -1,7 +1,7 @@
 interface:
   display_name: "Agent Mission Control"
-  short_description: "Coding workflow with one lead and checked evidence"
+  short_description: "Direct coding, focused specialists and checked evidence"
   icon_small: "./assets/icon-small.svg"
   icon_large: "./assets/icon-large.svg"
   brand_color: "#8b5cf6"
-  default_prompt: "Use $agent-mission-control as one workflow for a bug, feature, resume, or investigation. Choose the smallest useful workflow and finish with verified evidence."
+  default_prompt: "Use $agent-mission-control as one workflow for a bug, feature, resume, or investigation. Choose the smallest useful workflow. One lead works directly. Use a specialist for focused expertise or a fresh context. Fan out only independent jobs. Isolate parallel writers. Finish with verified evidence."

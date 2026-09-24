@@ -25,7 +25,8 @@ Start here, then open one file. Do not read this folder in order.
 | Need | File |
 |---|---|
 | Package, checks, contributor path | [development.md](development.md) |
-| Current main engineering record | [engineering-candidate.9.md](engineering-candidate.9.md) |
+| Current readiness work and exit gate | [Readiness review](reviews/readiness-2026-09-24.md) · [Mission](../MISSION.md) |
+| Earlier candidate.9 engineering record | [engineering-candidate.9.md](engineering-candidate.9.md) |
 | Last tagged candidate.8 record | [engineering-candidate.8.md](engineering-candidate.8.md) |
 
 ## Archive

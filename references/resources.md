@@ -62,16 +62,18 @@ and can worsen the last two.
 
 Delegation is cheaper than doing the work on the lead only when saved lead
 tokens are worth more than worker time, review, retries and coordination. That
-usually needs independent jobs, a small packet, a declared accept check before
-spawn, an artifact return the lead can judge without repeating the job, and
-review only when risk warrants it. It usually fails on unclear architecture,
+usually needs a valuable bounded job, independent jobs for parallel fan-out, a
+small packet, a declared accept check before spawn, an artifact return the lead
+can judge without repeating the job, and review only when risk warrants it. It usually fails on unclear architecture,
 tightly coupled files, missing tests, shared mutable state, or overlapping
 scouts.
 
 Before a costly spawn, answer the preflight. Any "no" keeps the work with the
-lead or serializes it:
+lead or narrows the handoff. A failed parallel-readiness check serializes a
+cost-justified specialist; it does not by itself cancel the handoff:
 
-1. Are the jobs genuinely independent?
+1. If parallel, are jobs independent? If a real upstream dependency exists, is
+   its artifact named and ready?
 2. Can each worker receive a small, precise packet?
 3. Is the accept check declared before spawn?
 4. Will the lead receive paths, diff, result and evidence — not a transcript?
@@ -84,12 +86,12 @@ Ceilings, not targets:
 
 | Resource | Default ceiling |
 |---|---|
-| Workers | `min(host concurrency, remaining budget, independent ready jobs)` |
-| Retries | At most one cheaper retry with a tighter contract, then escalate the slice |
+| Concurrent workers | `min(host concurrency, remaining budget, independent ready jobs)` |
+| Retries | At most one cheaper retry of the same hypothesis with a tighter contract, then diagnose and escalate the slice or change hypothesis within budget |
 | Reviewer | Zero unless material risk or a changed acceptance rule; then one independent review unless the user authorized more |
 
 Concurrency is a ceiling. Filling it is not a goal. A host profile
-([quality / balanced / throughput](../examples/profiles.md)) may bias how eagerly
+([quality / balanced / throughput](https://github.com/byensitmagnus/agent-mission-control/blob/main/examples/profiles.md)) may bias how eagerly
 the lead spends the ceiling; it does not waive isolation, artifacts or this
 preflight.
 

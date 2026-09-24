@@ -11,6 +11,7 @@ NOT VERIFIED and contains no case facts.
 ## Base and candidate
 
 Current artifact: NOT VERIFIED
+Record commit or snapshot plus dirty-tree/artifact digest when relevant.
 Base: NOT VERIFIED until a recoverable snapshot exists.
 Candidate: none.
 
@@ -23,18 +24,21 @@ Candidate: none.
 ## Authority
 
 Authorized: only the user's current task scope.
-Forbidden: credentials, push, deploy, destructive work and new authority.
+Forbidden: actions outside that scope, including unauthorized credential access,
+push, deploy or destructive work. Record any explicit publication mandate here;
+the mission record cannot grant new authority.
 
 ## Jobs
 
-| Job | Agent | Required | Lifecycle | Verdict | Owned scope |
+| Job | Agent | Required | Lifecycle | Verdict | Writable owned scope |
 |---|---|---|---|---|---|
-| Required work | Lead | yes | queued | NOT VERIFIED | Named owned paths |
+| Required work | Lead | yes | queued | NOT VERIFIED | Named writable paths |
 
 Lifecycle is queued, running, completed or superseded. Verdict is PASS, FAIL,
 BLOCKED or NOT VERIFIED. Required is yes or no. Completion is not acceptance.
 A dropped job is superseded, optional, NOT VERIFIED, and names a superseded: reason.
-Owned scope lists paths. When a job needs an earlier output, name that artifact
+Writable owned scope lists exclusive write paths; read-only jobs use `none`.
+When a job needs an earlier output, name the upstream job and exact artifact
 under Decisions and evidence.
 
 ## Decisions and evidence
