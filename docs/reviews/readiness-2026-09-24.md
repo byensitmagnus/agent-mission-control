@@ -40,7 +40,7 @@ GitHub PR identity was read directly on 2026-09-24:
 | [#9](https://github.com/byensitmagnus/agent-mission-control/pull/9) | `fb121bbdaf0162cd9ce971557bdf880840742ae9`, stacked on #8 | Orca and generated claims remain optional research, not installation prerequisites |
 | [#10](https://github.com/byensitmagnus/agent-mission-control/pull/10) | `072e52df7c77e035b83b919a0cb1af9c6063dfa8`, merged as `7b72be5` | Existing milestone included in baseline; not the complete daily-use gate |
 
-No PR was closed or merged by this review. The repository was already public;
+PR #7–9 were left open and unchanged. The repository was already public;
 its existing About description and topics matched a portable coding-agent skill.
 
 ## Why these changes
@@ -59,7 +59,7 @@ its existing About description and topics matched a portable coding-agent skill.
 The existing responsive SVG artwork is retained. GitHub-rendered Markdown was
 saved before and after; the candidate was inspected in a local preview at wide
 and 390-pixel widths, with light and dark styling. The preview approximates
-GitHub CSS; final published rendering remains a publication check. Existing
+GitHub CSS; the published view was checked after PR #11 merged. Existing
 public GitHub rendering was inspected as the baseline. Images loaded and the
 narrow page had no horizontal page overflow.
 
@@ -113,8 +113,8 @@ Python 3.12.8 and an independent Git clone with 161 candidate files verified
 byte-for-byte. Linux fixture preparation, usage-snapshot controls and the
 117-case preservation self-check also passed. Fixture preparation failed on
 Windows at its unguarded symlink setup (WinError 1314); it passed on Linux.
-The unchanged .NET FPS replay was not rerun. Remote CI for this unpublished
-candidate remains pending.
+The unchanged .NET FPS replay was not rerun locally. It subsequently passed in
+GitHub CI on both the PR and the merged source; see the publication record below.
 
 An independent reviewer read the complete engineering diff and relevant
 callers and reported no material findings; the lead separately executed the
@@ -177,10 +177,53 @@ desktop/IDE picker interaction, other hosts and native child-agent isolation
 remain outside this observation. This is one real acceptance workflow with
 setup failures and checked repairs, not a comparative benchmark.
 
-## Remaining boundary
+## Product outcome and workflow trace
 
-Local candidate review is complete. The user authorized the recommended
-publication flow on 2026-09-24. Remote checks, merge and the final main-based
-project installation are still pending. Comparative quality,
-cost and speed remain unmeasured; these are separate research questions, not
-prerequisites for the finite practical exit gate.
+The product goal is to let the user describe the outcome while the agent handles
+context selection, actual dependencies and useful delegation. In this commissioned
+work the user supplied the objective, constraints and publication permission;
+the lead chose scopes, assembled inputs, integrated work and accepted evidence.
+The following is an observed trace of this delivery, not a fabricated demo:
+
+| Stage | Context and dependency | Observed result |
+|---|---|---|
+| Understand the requested improvement | Current main, complete file/history coverage, open PR diffs and six local edits | Bounded runtime, engineering and source jobs; original edits preserved |
+| Investigate and implement independent scopes | Scoped source and ownership; separate writer worktrees | Runtime, packaging and source artifacts returned to the lead; integration waited for their outputs |
+| Review the integrated candidate | Frozen snapshot of 13 relevant files for the native review | Four findings returned; three confirmed and repaired, one rejected against actual validator code |
+| Check the repairs and first use | Updated source, exact installed skill and two onboarding documents | Focused follow-up accepted; one approved native read returned matching file contents and a checked report |
+| Deliver the accepted version | Reviewed branch, green checks and explicit publication permission | PR #11 merged; main CI passed; project installation MATCH against merged source |
+
+The concrete product gains are the repaired prerequisite rule, preserved handoff
+identity, working installed links, Windows path handling and actionable first use
+described above. The user did not have to design the worker graph or compose the
+handoffs. The lead handled the host's bounded read approval; setup failures and
+supplied context remain disclosed in the native observation. This trace is not
+proof of native child-agent isolation or a causal comparison with work without AMC.
+
+## Publication and acceptance
+
+The user authorized push, PR and merge after checks/review on 2026-09-24.
+[PR #11](https://github.com/byensitmagnus/agent-mission-control/pull/11)
+merged head `482b69eb0953fcdd51a939a73ba1feb2a9100561` into main as
+`24593236d23b3e1778d2b15c8a041a02ef524f6e`.
+All six head jobs (push and PR) passed. The
+[merged-main run](https://github.com/byensitmagnus/agent-mission-control/actions/runs/35982558460)
+also passed all three jobs: Windows package/install/junction checks and the
+Python 3.11/3.14 structural jobs, including the existing .NET replay.
+
+The published README was inspected at normal and 390-pixel viewport widths.
+The hero and badges loaded, the first-action prompt remained accessible and
+the page had no horizontal overflow; code blocks retained GitHub's own horizontal
+scrolling. The getting-started link was checked on GitHub. Local before/after
+rendered snapshots are retained as audit artifacts.
+
+A clean worktree at the merged main source was used for the installer's default
+source/provenance check against the agreed project installation: MATCH, version
+`0.2.0-candidate.11`, runtime SHA-256
+`4301eefdf4768522cd7d924bcbdc3f88c424f270eb14042ade5ceb6e0b6a52f8`.
+This is the project installation used for acceptance, not a global host update.
+
+The five practical delivery gates are satisfied for this runtime. Comparative
+quality, cost and speed remain unmeasured; they are separate research questions.
+The product goal continues to guide future changes through concrete work problems,
+targeted checks and disclosed friction. No tagged release was created.
