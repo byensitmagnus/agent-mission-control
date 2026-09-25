@@ -1,6 +1,6 @@
 # Evaluation index
 
-**Status of `main`:** runtime candidate.12, tagged `v0.2.0-candidate.12`.
+**Status of `main`:** runtime candidate.13, tagged `v0.2.0-candidate.13`.
 Latest runs: [Haiku smoke runs](haiku-smoke-2026-09-25.md), labelled smoke, not proof.
 The [nine Codex runs](candidate.9/README.md) are a **closed postmortem**. Behavior, price and speed remain **NOT VERIFIED**.
 Do not add cases or rerun them as product proof. AMC does

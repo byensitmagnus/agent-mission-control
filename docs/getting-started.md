@@ -11,7 +11,7 @@ No extra API key or server.
 ## 1. Install the skill
 
 Install the **current `main` source**. That is the kernel this site describes.
-The latest tagged ZIP, [candidate.12](https://github.com/byensitmagnus/agent-mission-control/releases/tag/v0.2.0-candidate.12), contains the same runtime with checksums.
+The latest tagged ZIP, [candidate.13](https://github.com/byensitmagnus/agent-mission-control/releases/tag/v0.2.0-candidate.13), contains the same runtime with checksums.
 
 **Fastest path** (Node.js). From your project folder, the open
 [skills CLI](https://github.com/vercel-labs/skills) copies only the skill folder:
@@ -166,7 +166,7 @@ That does not change global model settings.
 **Astra or extra models?** No. Keep your selected lead.
 **Always spawn agents?** No. A specialist needs a useful bounded job; only
 parallel jobs must be independent of each other's output.
-**Tagged ZIPs?** [candidate.12](https://github.com/byensitmagnus/agent-mission-control/releases/tag/v0.2.0-candidate.12) has a skill ZIP and a Codex-plugin ZIP; check them against `SHA256SUMS.txt`. Claude Code uses the plugin marketplace above.
+**Tagged ZIPs?** [candidate.13](https://github.com/byensitmagnus/agent-mission-control/releases/tag/v0.2.0-candidate.13) has a skill ZIP and a Codex-plugin ZIP; check them against `SHA256SUMS.txt`. Claude Code uses the plugin marketplace above.
 **Update?** [Checked update with a retained backup](hosts.md#update-an-existing-project-installation).
 
 [How it works](how-it-works.md) · [Hosts](hosts.md) ·

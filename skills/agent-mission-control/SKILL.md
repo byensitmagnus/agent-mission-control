@@ -60,7 +60,7 @@ capability choice, read [work routing](references/packets.md).
 | Condition | Load when needed |
 |---|---|
 | Difficult work needs repeated evidence and repair, or measurable candidate selection | [Execution feedback and optimization](references/optimization.md) |
-| Material correctness uncertainty, sensitive data, release risk, or a complex slice whose wrong PASS is expensive | [Independent review and proof](references/verification.md) |
+| Material correctness uncertainty, sensitive data, release, migration or data-loss risk, or a complex slice whose wrong PASS is expensive | [Independent review and proof](references/verification.md) |
 | Cross-phase state or interruption | [Reconciliation](references/resume.md) |
 | Another costly fan-out, escalation, candidate or repeated repair | [Resource checkpoint](references/resources.md) |
 | A concrete reusable success, failure or surprise | [Separate learning](references/learning.md) |
@@ -91,7 +91,8 @@ These verdict rules apply even when no reference file is opened:
   before the final report. A worker that cannot find its inputs is a failed
   handoff, not evidence.
 - **No delegation available:** run independent jobs one after another; if
-  required independent review cannot be provided, say so.
+  required independent review cannot be provided, say so; the verdict stays
+  NOT VERIFIED.
 - **Final report:** result, changed files, checks that actually ran, what stays
   unverified, and the status (PASS, FAIL, BLOCKED or NOT VERIFIED).
 
