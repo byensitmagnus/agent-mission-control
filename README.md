@@ -125,7 +125,7 @@ live board. A model profile fits when you want fixed role/model presets.
 | Contribute | [Development](docs/development.md) · [Contributing](CONTRIBUTING.md) |
 
 **Versions:** the installs above use `main`. The latest tagged ZIP,
-[candidate.12](https://github.com/byensitmagnus/agent-mission-control/releases/tag/v0.2.0-candidate.12),
+[candidate.13](https://github.com/byensitmagnus/agent-mission-control/releases/tag/v0.2.0-candidate.13),
 contains the same runtime, with checksums. The docs map is [docs/README.md](docs/README.md).
 
 ## Help it get better
