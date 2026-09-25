@@ -26,11 +26,12 @@ chooses directly. The result is the same 16 runtime files as the checked path.
 **Claude Code plugin.** The repository is also a plugin marketplace. In Claude Code:
 
 ```text
-/plugin marketplace add byensitmagnus/agent-mission-control
+/plugin marketplace add https://github.com/byensitmagnus/agent-mission-control
 /plugin install agent-mission-control@amc
 ```
 
-The plugin adds one skill and no agents, hooks or MCP servers. Invoke it as
+Use the HTTPS URL: the `owner/repo` shorthand clones over SSH and fails without a
+GitHub SSH key. The plugin adds one skill and no agents, hooks or MCP servers. Invoke it as
 `/agent-mission-control:agent-mission-control`. A plugin installs for your user
 by default; from a shell, `claude plugin install agent-mission-control@amc --scope project`
 limits it to the current project.
