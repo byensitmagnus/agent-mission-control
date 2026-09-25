@@ -5,7 +5,7 @@
 The user requested a complete repository review and practical improvements,
 grounded in the referenced projects and official AI documentation. Baseline:
 `main` `3f35485679ad906fd900faaba9c1d1f2786b80a3`. Work is isolated on
-`codex/usage-readiness`; [MISSION.md](../../MISSION.md) owns live status and
+`codex/usage-readiness`; [MISSION.md](../../MISSION.md) (now closed) owned status and
 [the goal](../../.claude/GOAL.md) owns the exit gate.
 
 The review covered all **159 tracked files**, with an exact Git-blob match for

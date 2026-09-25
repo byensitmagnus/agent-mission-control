@@ -1,7 +1,7 @@
 schema_version: 1
 overall: PASS
 
-# Daily-use readiness
+# Daily-use readiness (closed 2026-09-24, candidate.11)
 
 ## Goal / Definition of Done
 
@@ -20,7 +20,8 @@ Current artifact: candidate.11 runtime SHA-256 `4301eefdf4768522cd7d924bcbdc3f88
 Delivered through PR #11 at main `24593236d23b3e1778d2b15c8a041a02ef524f6e`;
 the completion record changes documentation only.
 Runtime identity: `0.2.0-candidate.11`; candidate.10 belongs to an older
-contract draft. Last tagged ZIP remains candidate.8.
+contract draft. Closed record. Current runtime: candidate.12 (tag
+`v0.2.0-candidate.12`, SHA-256 `e9cc02ad…7f586158`); see [docs/evidence.md](docs/evidence.md).
 
 ## Hard gates
 

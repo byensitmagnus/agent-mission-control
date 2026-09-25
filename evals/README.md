@@ -1,9 +1,8 @@
 # Evaluation index
 
-**Status of `main`:** [candidate.9](../docs/engineering-candidate.9.md) after
-PR [#6](https://github.com/byensitmagnus/agent-mission-control/pull/6) merged.
-No tagged ZIP. The [nine Codex runs](candidate.9/README.md) are a
-**closed postmortem**. Behavior, price and speed remain **NOT VERIFIED**.
+**Status of `main`:** runtime candidate.12, tagged `v0.2.0-candidate.12`.
+Latest runs: [Haiku smoke runs](haiku-smoke-2026-09-25.md), labelled smoke, not proof.
+The [nine Codex runs](candidate.9/README.md) are a **closed postmortem**. Behavior, price and speed remain **NOT VERIFIED**.
 Do not add cases or rerun them as product proof. AMC does
 not run an owned behavioral research program; design cites host docs, published
 research, other public repos and known practitioner guidance.
