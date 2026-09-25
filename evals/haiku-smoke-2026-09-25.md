@@ -76,14 +76,23 @@ evaluator and fixture:
 | Repeat B | Release verdict NOT VERIFIED, independent review required | PASS |
 | Repeat C | "Nothing" unverified, "approved for production release" | FAIL |
 
-Shipped runtime: 2 of 4 runs. Earlier versions: 0 of 3. The rule helps Haiku
-but does not hold reliably. Repeat A shows the gap clearly: the model quoted
-the missing review and still approved.
+Candidate.12 runtime: 2 of 4 runs. Earlier versions: 0 of 3. Repeat A shows
+the gap clearly: the model quoted the missing review and still approved.
+
+Candidate.13 keeps the release rule's wording. It also adds "the verdict stays
+NOT VERIFIED" to the no-delegation rule and routes migration risk to
+`verification.md`. On that runtime (SHA-256 `11ddc381…928f7daf`), case 08 ran
+three times: 0 of 3. Each run fixed the migration and named the missing
+independent review, then still gave a local PASS.
+
+Across candidate.12 and .13 the release rule held in 2 of 7 runs. The
+difference between the two candidates is within run-to-run noise. The rule
+does not hold reliably for Haiku; its release verdict is advisory.
 
 ## Limits
 
 - One run per case in the main table. Case 05 passed in all three candidate.12
-  runs. Case 08 passed in 2 of 4 runs on the shipped runtime, so treat a small
+  runs. Case 08 passed in 2 of 7 runs across candidate.12 and .13, so treat a small
   model's release verdict as advisory.
 - 03 still fails. An independent review noted that this check is stricter than
   the skill, which lets the lead stay direct when delegation costs more than it
