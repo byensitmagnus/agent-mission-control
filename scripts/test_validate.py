@@ -240,6 +240,8 @@ def pass_optional_completed_not_verified(root):
 def root_skill_md(root): shutil.copy2(root / SKILL / "SKILL.md", root / "SKILL.md")
 def stray_skill_file(root): (root / SKILL / "README.md").write_text("not runtime", encoding="utf-8")
 def skill_license_drift(root): (root / SKILL / "LICENSE").write_text("changed", encoding="utf-8")
+def plugin_version_drift(root): replace(root / ".claude-plugin/plugin.json", '"version": "', '"version": "9.9.9-')
+def marketplace_version_drift(root): replace(root / ".claude-plugin/marketplace.json", '"version": "', '"version": "9.9.9-')
 
 def main() -> int:
     from validate import srcset_urls
@@ -294,6 +296,7 @@ def main() -> int:
         broken_link: "broken local link", broken_srcset: "broken local link", malformed_svg: "malformed SVG", svg_event: "event handler forbidden",
         svg_style_import: "unsafe SVG element style", placeholder: "unfinished placeholder",
         root_skill_md: "not the repository root", stray_skill_file: "must contain exactly", skill_license_drift: "must match the repository LICENSE",
+        plugin_version_drift: "version must equal package VERSION", marketplace_version_drift: "entry with version",
     }
     for mutation, expected in controls.items():
         with tempfile.TemporaryDirectory() as directory:

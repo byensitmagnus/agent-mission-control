@@ -1,0 +1,18 @@
+{
+  "name": "amc",
+  "description": "Agent Mission Control: one portable skill for coding-agent work that is checked before it is called done",
+  "owner": {
+    "name": "Byens IT"
+  },
+  "plugins": [
+    {
+      "name": "agent-mission-control",
+      "description": "One lead agent takes the smallest route (direct work, one specialist, or independent parallel jobs) and only says done with checks that actually ran.",
+      "version": "0.2.0-candidate.12",
+      "source": "./",
+      "author": {
+        "name": "Byens IT"
+      }
+    }
+  ]
+}
