@@ -53,7 +53,7 @@ The lead owns integration and the final verdict: **PASS**, **FAIL**,
 ## Start in 30 seconds
 
 1. **Install** in your project: `npx skills add byensitmagnus/agent-mission-control`.
-   As a Claude Code plugin instead: `/plugin marketplace add byensitmagnus/agent-mission-control`,
+   As a Claude Code plugin instead: `/plugin marketplace add https://github.com/byensitmagnus/agent-mission-control`,
    then `/plugin install agent-mission-control@amc`.
    Prefer Git + Python or plain copy? See [other install paths](docs/getting-started.md#1-install-the-skill).
 2. **Select it:** `/agent-mission-control` in Claude Code, `$agent-mission-control`
