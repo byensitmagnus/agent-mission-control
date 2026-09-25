@@ -88,6 +88,8 @@ def broken_link(root):
     path = root / "README.md"; path.write_text(path.read_text(encoding="utf-8") + "\n[broken](missing-file.md)\n", encoding="utf-8")
 def broken_srcset(root):
     path = root / "README.md"; path.write_text(path.read_text(encoding="utf-8") + '\n<source srcset="skills/agent-mission-control/assets/icon-small.svg 1x, missing-mobile.svg 2x" />\n', encoding="utf-8")
+def broken_html_link(root):
+    path = root / "README.md"; path.write_text(path.read_text(encoding="utf-8") + '\n<a href="docs/missing-page.md">Missing</a>\n', encoding="utf-8")
 def malformed_svg(root): (root / SKILL / "assets/mission-control.svg").write_text("<svg>", encoding="utf-8")
 def svg_event(root): replace(root / SKILL / "assets/icon-small.svg", "<svg ", '<svg onload="alert(1)" ')
 def svg_style_import(root): replace(root / SKILL / "assets/icon-small.svg", "</svg>", "<style>@import url(https://example.test/x.css);</style></svg>")
@@ -293,7 +295,7 @@ def main() -> int:
         pass_gate_no_completed_subject: "overall PASS forbids missing hard-gate evidence",
         pass_optional_completed_not_verified: "overall PASS forbids completed jobs with a negative verdict",
         invalid_eval_path: "unsafe fixture path", invalid_activation: "invalid activation", drive_eval_path: "unsafe fixture path", eval_ancestor_collision: "conflicting fixture file and directory",
-        broken_link: "broken local link", broken_srcset: "broken local link", malformed_svg: "malformed SVG", svg_event: "event handler forbidden",
+        broken_link: "broken local link", broken_srcset: "broken local link", broken_html_link: "broken local link", malformed_svg: "malformed SVG", svg_event: "event handler forbidden",
         svg_style_import: "unsafe SVG element style", placeholder: "unfinished placeholder",
         root_skill_md: "not the repository root", stray_skill_file: "must contain exactly", skill_license_drift: "must match the repository LICENSE",
         plugin_version_drift: "version must equal package VERSION", marketplace_version_drift: "entry with version",
