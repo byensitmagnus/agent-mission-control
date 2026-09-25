@@ -177,8 +177,8 @@ Do not implement the proposed repairs.
 call path is covered. A helper accepting an argument does not establish that a
 user can supply it through the application. Neither a worker's confidence nor
 reviewer agreement substitutes for tracing that boundary. This recipe
-uses AMC's existing [packet](../references/packets.md) and
-[verification](../references/verification.md) guidance; it adds no mandatory
+uses AMC's existing [packet](../skills/agent-mission-control/references/packets.md) and
+[verification](../skills/agent-mission-control/references/verification.md) guidance; it adds no mandatory
 research stage to ordinary implementation.
 
 ## What a completed delivery looks like

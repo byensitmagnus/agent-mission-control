@@ -239,7 +239,7 @@ not certify their runtime changes.
 | README, provenance, security and assets | Link this report, keep experimental/no-endorsement claims and dated security guidance. Preserve current visuals and existing source-license boundaries. No unrelated redesign or source copying. |
 
 The earlier pinned Untrivial and donvito implementations remain credited in
-[provenance](../references/provenance.md). Their useful ownership/native-runtime
+[provenance](../skills/agent-mission-control/references/provenance.md). Their useful ownership/native-runtime
 mechanisms were already adopted; their schedulers and fixed delegation triggers
 are not required here. This review does not claim a new execution of those
 upstream systems or that every unrelated daily business skill was imported.

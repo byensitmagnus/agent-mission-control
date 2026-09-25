@@ -6,7 +6,8 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 VALIDATOR = ROOT / "scripts/validate.py"
-TEMPLATE = Path("templates/mission-view.md")
+SKILL = Path("skills/agent-mission-control")
+TEMPLATE = SKILL / "templates/mission-view.md"
 REQUIRED_JOB = "| Required work | Lead | yes | queued | NOT VERIFIED | Named writable paths |"
 
 def run(root: Path) -> subprocess.CompletedProcess[str]:
@@ -50,15 +51,15 @@ def make_pass_ready(root: Path) -> None:
     )
     path.write_text(text, encoding="utf-8")
 
-def missing_icon(root): (root / "assets/icon-small.svg").unlink()
+def missing_icon(root): (root / SKILL / "assets/icon-small.svg").unlink()
 def duplicate_yaml(root):
-    path = root / "agents/openai.yaml"; path.write_text(path.read_text(encoding="utf-8") + '  display_name: "duplicate"\n', encoding="utf-8")
+    path = root / SKILL / "agents/openai.yaml"; path.write_text(path.read_text(encoding="utf-8") + '  display_name: "duplicate"\n', encoding="utf-8")
 def duplicate_toml(root):
     path = next((root / "examples/codex/.codex/agents").glob("*.toml")); path.write_text(path.read_text(encoding="utf-8") + '\nname = "duplicate"\n', encoding="utf-8")
-def missing_packet_field(root): replace(root / "templates/evidence-packet.md", "Blocking decision, if any:", "Removed field:")
-def empty_claims(root): replace(root / "templates/evidence-packet.md", "Claims: No live claims until sources are inspected.", "Claims:")
+def missing_packet_field(root): replace(root / SKILL / "templates/evidence-packet.md", "Blocking decision, if any:", "Removed field:")
+def empty_claims(root): replace(root / SKILL / "templates/evidence-packet.md", "Claims: No live claims until sources are inspected.", "Claims:")
 def bad_mission_status(root): replace(root / TEMPLATE, "overall: NOT VERIFIED", "overall: MAYBE")
-def bad_evidence_status(root): replace(root / "templates/evidence-packet.md", "Verdict: NOT VERIFIED", "Verdict: MAYBE")
+def bad_evidence_status(root): replace(root / SKILL / "templates/evidence-packet.md", "Verdict: NOT VERIFIED", "Verdict: MAYBE")
 def bad_gate_status(root): replace(root / TEMPLATE, "| Required acceptance check | NOT VERIFIED |", "| Required acceptance check | MAYBE |")
 def bad_gate_header(root): replace(root / TEMPLATE, "| Gate | Status | Evidence |", "| Check | Status | Evidence |")
 def legacy_template_job_header(root): replace(root / TEMPLATE, "Writable owned scope", "Owned scope")
@@ -73,7 +74,7 @@ def bad_lead_model(root): replace(root / "examples/codex/.codex/config.toml", 'm
 def bad_child_model(root): replace(root / "examples/codex/.codex/config.toml", 'default_subagent_model = "gpt-5.6-luna"', 'default_subagent_model = "not a model!"')
 def bad_child_effort(root): replace(root / "examples/codex/.codex/config.toml", 'default_subagent_reasoning_effort = "medium"', 'default_subagent_reasoning_effort = "invented-effort"')
 def zero_threads(root): replace(root / "examples/codex/.codex/config.toml", "max_concurrent_threads_per_session = 3", "max_concurrent_threads_per_session = 0")
-def fiction_template(root): replace(root / "templates/context-packet.md", "State the bounded job. Start as NOT VERIFIED.", "Inspect transport.py::should_send.")
+def fiction_template(root): replace(root / SKILL / "templates/context-packet.md", "State the bounded job. Start as NOT VERIFIED.", "Inspect transport.py::should_send.")
 def plugin_push(root): replace(root / "scripts/package_plugin.py", "smallest useful workflow and finish with verified evidence", "coordinated agents in multi-agent software missions")
 def invalid_eval_path(root):
     path = root / "evals/cases.json"; data = json.loads(path.read_text(encoding="utf-8")); data["cases"][0]["fixture"] = {"../escape.txt": "x"}; path.write_text(json.dumps(data), encoding="utf-8")
@@ -86,10 +87,10 @@ def eval_ancestor_collision(root):
 def broken_link(root):
     path = root / "README.md"; path.write_text(path.read_text(encoding="utf-8") + "\n[broken](missing-file.md)\n", encoding="utf-8")
 def broken_srcset(root):
-    path = root / "README.md"; path.write_text(path.read_text(encoding="utf-8") + '\n<source srcset="assets/icon-small.svg 1x, missing-mobile.svg 2x" />\n', encoding="utf-8")
-def malformed_svg(root): (root / "assets/mission-control.svg").write_text("<svg>", encoding="utf-8")
-def svg_event(root): replace(root / "assets/icon-small.svg", "<svg ", '<svg onload="alert(1)" ')
-def svg_style_import(root): replace(root / "assets/icon-small.svg", "</svg>", "<style>@import url(https://example.test/x.css);</style></svg>")
+    path = root / "README.md"; path.write_text(path.read_text(encoding="utf-8") + '\n<source srcset="skills/agent-mission-control/assets/icon-small.svg 1x, missing-mobile.svg 2x" />\n', encoding="utf-8")
+def malformed_svg(root): (root / SKILL / "assets/mission-control.svg").write_text("<svg>", encoding="utf-8")
+def svg_event(root): replace(root / SKILL / "assets/icon-small.svg", "<svg ", '<svg onload="alert(1)" ')
+def svg_style_import(root): replace(root / SKILL / "assets/icon-small.svg", "</svg>", "<style>@import url(https://example.test/x.css);</style></svg>")
 def placeholder(root):
     path = root / "README.md"; path.write_text(path.read_text(encoding="utf-8") + "\nTODO unfinished\n", encoding="utf-8")
 
@@ -236,6 +237,10 @@ def pass_optional_completed_not_verified(root):
         "| Required work | Lead | yes | completed | PASS | Named writable paths |\n| Optional scout | Unassigned | no | completed | NOT VERIFIED | Read-only notes |",
     )
 
+def root_skill_md(root): shutil.copy2(root / SKILL / "SKILL.md", root / "SKILL.md")
+def stray_skill_file(root): (root / SKILL / "README.md").write_text("not runtime", encoding="utf-8")
+def skill_license_drift(root): (root / SKILL / "LICENSE").write_text("changed", encoding="utf-8")
+
 def main() -> int:
     from validate import srcset_urls
     assert list(srcset_urls('a.svg 1x,b.svg 2x')) == ['a.svg', 'b.svg']
@@ -288,6 +293,7 @@ def main() -> int:
         invalid_eval_path: "unsafe fixture path", invalid_activation: "invalid activation", drive_eval_path: "unsafe fixture path", eval_ancestor_collision: "conflicting fixture file and directory",
         broken_link: "broken local link", broken_srcset: "broken local link", malformed_svg: "malformed SVG", svg_event: "event handler forbidden",
         svg_style_import: "unsafe SVG element style", placeholder: "unfinished placeholder",
+        root_skill_md: "not the repository root", stray_skill_file: "must contain exactly", skill_license_drift: "must match the repository LICENSE",
     }
     for mutation, expected in controls.items():
         with tempfile.TemporaryDirectory() as directory:

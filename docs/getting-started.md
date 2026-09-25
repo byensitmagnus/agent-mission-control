@@ -13,8 +13,19 @@ No extra API key or server.
 Install the **current `main` source**. That is the kernel this site describes.
 The last tagged ZIP is [candidate.8](https://github.com/byensitmagnus/agent-mission-control/releases/tag/v0.2.0-candidate.8); it is an older runtime.
 
-**Checked path** (Git and Python 3.11+). Clone this repository, then install
-into an existing project:
+**Fastest path** (Node.js). From your project folder, the open
+[skills CLI](https://github.com/vercel-labs/skills) copies only the skill folder:
+
+```bash
+npx skills add byensitmagnus/agent-mission-control
+```
+
+It asks which agents to install for; `-a claude-code` (or `codex`, `cursor`, …)
+chooses directly. The result is the same 16 runtime files as the checked path.
+
+**Checked path** (Git and Python 3.11+). Byte-checked install, update with a
+retained backup, and no overwrite of an existing copy. Clone this repository,
+then install into an existing project:
 
 ```bash
 git clone https://github.com/byensitmagnus/agent-mission-control.git
@@ -25,11 +36,10 @@ python scripts/install_skill.py --host claude-code --project "../my-app"
 Replace `claude-code` with `codex`, `cursor`, `grok` or `kimi`. Details:
 [hosts.md](hosts.md#install-the-current-source).
 
-**Copy path** (no Python). Clone or download the default branch. Copy these
-runtime files into the skill directory for your host, keeping the folder name
-`agent-mission-control`:
-
-`SKILL.md`, `LICENSE`, `references/`, `templates/`, `agents/`, `assets/`
+**Copy path** (no tools). Clone or download the default branch. Copy the whole
+folder `skills/agent-mission-control/` into the skill directory for your host,
+keeping the folder name `agent-mission-control`. It contains `SKILL.md`,
+`LICENSE`, `references/`, `templates/`, `agents/` and `assets/`.
 
 | Host | Project directory |
 |---|---|
@@ -54,7 +64,7 @@ Install Agent Mission Control from
 https://github.com/byensitmagnus/agent-mission-control
 into this project only. Use the default branch, not a tagged ZIP.
 
-Copy SKILL.md, LICENSE, references, templates, agents and assets into
+Copy the repository folder skills/agent-mission-control/ into
 .agents/skills/agent-mission-control/. Inspect first. Preserve any existing
 installation or customizations; if one exists, show the difference before
 replacing it. Do not change global settings, model defaults or permissions.

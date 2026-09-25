@@ -12,6 +12,7 @@ import subprocess
 
 
 ROOT = Path(__file__).resolve().parents[1]
+SKILL_SOURCE = ROOT / "skills/agent-mission-control"
 RUNTIME_DIRS = ("agents", "references", "templates", "assets")
 # Python 3.11 lacks ntpath.isreserved; use its pathlib device-name check.
 _windows_reserved = getattr(ntpath, "isreserved", lambda name: PureWindowsPath(name).is_reserved())
@@ -167,7 +168,7 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("case")
     parser.add_argument("destination", type=Path)
-    parser.add_argument("--skill-source", type=Path, default=ROOT)
+    parser.add_argument("--skill-source", type=Path, default=SKILL_SOURCE)
     args = parser.parse_args()
     try:
         prepare(args.case, args.destination, args.skill_source)

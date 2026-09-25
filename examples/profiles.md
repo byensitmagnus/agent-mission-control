@@ -7,7 +7,7 @@ require named models.
 
 Apply a profile only when the user asks, or when the host already exposes the
 mapping. Keep the selected lead. See the cost-aware preflight in
-[resources](../references/resources.md#cost-aware-delegation) before any fan-out.
+[resources](../skills/agent-mission-control/references/resources.md#cost-aware-delegation) before any fan-out.
 
 | Profile | Intent | Typical graph |
 |---|---|---|

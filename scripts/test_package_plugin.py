@@ -11,7 +11,7 @@ import zipfile
 from pathlib import Path
 from unittest.mock import patch
 
-from package_plugin import COPY_DIRS, EXPECTED_ORIGIN, PLUGIN_NAME, VERSION, package
+from package_plugin import COPY_DIRS, EXPECTED_ORIGIN, PLUGIN_NAME, SKILL_DIR, VERSION, package
 from validate import validate_links
 
 
@@ -21,21 +21,23 @@ FIXTURE_BYTES = b"fixture\x00\r\n\xff"
 
 def make_source(root: Path) -> Path:
     source = root / "source"
-    source.mkdir(parents=True)
-    (source / "SKILL.md").write_bytes(SKILL_BYTES)
-    (source / "LICENSE").write_bytes(b"MIT\r\n")
+    runtime = source / SKILL_DIR
+    runtime.mkdir(parents=True)
+    (runtime / "SKILL.md").write_bytes(SKILL_BYTES)
+    (runtime / "LICENSE").write_bytes(b"MIT\r\n")
     for name in COPY_DIRS:
-        directory = source / name
+        directory = runtime / name
         (directory / "nested").mkdir(parents=True)
         (directory / "nested" / "fixture.bin").write_bytes(FIXTURE_BYTES + name.encode())
     return source
 
 
 def assert_skill_bytes(test: unittest.TestCase, source: Path, skill: Path) -> None:
-    test.assertEqual((skill / "SKILL.md").read_bytes(), (source / "SKILL.md").read_bytes())
-    test.assertEqual((skill / "LICENSE").read_bytes(), (source / "LICENSE").read_bytes())
+    runtime = source / SKILL_DIR
+    test.assertEqual((skill / "SKILL.md").read_bytes(), (runtime / "SKILL.md").read_bytes())
+    test.assertEqual((skill / "LICENSE").read_bytes(), (runtime / "LICENSE").read_bytes())
     for name in COPY_DIRS:
-        expected = source / name / "nested" / "fixture.bin"
+        expected = runtime / name / "nested" / "fixture.bin"
         actual = skill / name / "nested" / "fixture.bin"
         test.assertEqual(actual.read_bytes(), expected.read_bytes())
 
@@ -147,7 +149,7 @@ class PackagePluginTests(unittest.TestCase):
             assert_skill_bytes(self, source, destination / "skills" / PLUGIN_NAME)
             self.assertEqual(
                 (destination / "assets" / "nested" / "fixture.bin").read_bytes(),
-                (source / "assets" / "nested" / "fixture.bin").read_bytes(),
+                (source / SKILL_DIR / "assets" / "nested" / "fixture.bin").read_bytes(),
             )
 
     def test_zip_archives_are_byte_reproducible(self) -> None:
@@ -187,7 +189,7 @@ class PackagePluginTests(unittest.TestCase):
             source = make_source(root)
             external = root / "external.txt"
             external.write_text("external", encoding="utf-8")
-            link = source / "assets" / "external-link"
+            link = source / SKILL_DIR / "assets" / "external-link"
             try:
                 os.symlink(external, link)
             except OSError as error:

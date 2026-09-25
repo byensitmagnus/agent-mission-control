@@ -10,6 +10,7 @@ import argparse, json, re, sys, tomllib
 from pathlib import Path, PurePosixPath
 import xml.etree.ElementTree as ET
 from prepare_eval import fixture_paths
+from package_plugin import COPY_DIRS, REQUIRED_FILES, SKILL_DIR
 
 NAME = "agent-mission-control"
 CONTEXT = ("Objective", "Reason for delegation", "Base commit or snapshot", "Writable owned scope", "Read inputs, paths and symbols", "Dependencies already satisfied", "Constraints and invariants", "Authorized actions", "Required deliverable", "Acceptance check")
@@ -79,6 +80,15 @@ def quoted_yaml(text: str, allowed: set[str], label: str) -> dict[str, str]:
         need(key not in out, f"{label}:{number}: duplicate key {key}")
         out[key] = value
     return out
+
+def validate_skill_folder(root: Path) -> None:
+    # `npx skills add` copies the whole folder that holds SKILL.md; keep it runtime-only.
+    skill = root / SKILL_DIR
+    need(not (root / "SKILL.md").exists(), "SKILL.md: keep it in skills/agent-mission-control/, not the repository root")
+    need(skill.is_dir(), f"missing skill folder: {skill}")
+    expected = sorted(REQUIRED_FILES + COPY_DIRS)
+    need(sorted(path.name for path in skill.iterdir()) == expected, f"{skill}: must contain exactly {expected}")
+    need(read(skill / "LICENSE") == read(root / "LICENSE"), f"{skill / 'LICENSE'}: must match the repository LICENSE")
 
 def validate_skill(root: Path) -> None:
     parts = read(root / "SKILL.md").split("---", 2)
@@ -313,7 +323,7 @@ def check_mission(
         need(not re.match(r"(?is)^none\b", sections["Blockers"]), f"{path}: overall BLOCKED requires a concrete blocker")
 
 def validate_mission(root: Path) -> None:
-    path = root / "templates/mission-view.md"
+    path = root / SKILL_DIR / "templates/mission-view.md"
     check_mission(read(path), path, instance=False)
     live = root / "MISSION.md"
     if live.is_file():
@@ -366,7 +376,8 @@ def validate_plugin(root: Path) -> None:
 
 def validate(root: Path) -> None:
     root = root.resolve(); need(root.is_dir(), f"bad root: {root}")
-    validate_skill(root); validate_openai(root); validate_codex(root); validate_links(root); validate_svgs(root); validate_packets(root); validate_blank_templates(root); validate_mission(root); validate_evals(root); validate_plugin(root)
+    skill = root / SKILL_DIR
+    validate_skill_folder(root); validate_skill(skill); validate_openai(skill); validate_codex(root); validate_links(root); validate_svgs(root); validate_packets(skill); validate_blank_templates(skill); validate_mission(root); validate_evals(root); validate_plugin(root)
     for path in sorted(root.rglob("*")):
         if path.is_file() and path.suffix.lower() in {".md", ".toml", ".yaml", ".yml", ".svg", ".json"} and ".git" not in path.parts:
             need(re.search(r"\b(?:TBD|TODO|FIXME)\b", read(path)) is None, f"{path}: unfinished placeholder")

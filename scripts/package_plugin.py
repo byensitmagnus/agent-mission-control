@@ -18,6 +18,8 @@ PLUGIN_NAME = "agent-mission-control"
 VERSION = "0.2.0-candidate.11"
 EXPECTED_ORIGIN = "https://github.com/byensitmagnus/agent-mission-control.git"
 SOURCE_ROOT = Path(os.path.abspath(__file__)).parent.parent
+# Runtime lives in its own folder so `npx skills add` copies only the skill.
+SKILL_DIR = Path("skills") / PLUGIN_NAME
 COPY_DIRS = ("agents", "references", "templates", "assets")
 REQUIRED_FILES = ("SKILL.md", "LICENSE")
 PACKAGE_FORMATS = ("skill", "plugin")
@@ -63,12 +65,15 @@ def _validate_source(source: Path) -> None:
     if not source.is_dir():
         raise ValueError(f"source directory is missing: {source}")
     _reject_linked_chain(source, "source")
+    skill = source / SKILL_DIR
+    if not skill.is_dir() or _is_link(skill) or _is_link(skill.parent):
+        raise ValueError(f"required skill directory is missing or linked: {skill}")
     for name in REQUIRED_FILES:
-        path = source / name
+        path = skill / name
         if not path.is_file() or _is_link(path):
             raise ValueError(f"required source file is missing or linked: {path}")
     for name in COPY_DIRS:
-        root = source / name
+        root = skill / name
         if not root.is_dir() or _is_link(root):
             raise ValueError(f"required source directory is missing or linked: {root}")
         for path in root.rglob("*"):
@@ -121,10 +126,11 @@ def _validate_default_source(source: Path) -> None:
 
 
 def _copy_skill(source: Path, destination: Path) -> None:
-    shutil.copy2(source / "SKILL.md", destination / "SKILL.md")
+    skill = source / SKILL_DIR
+    shutil.copy2(skill / "SKILL.md", destination / "SKILL.md")
     for name in COPY_DIRS:
-        shutil.copytree(source / name, destination / name)
-    shutil.copy2(source / "LICENSE", destination / "LICENSE")
+        shutil.copytree(skill / name, destination / name)
+    shutil.copy2(skill / "LICENSE", destination / "LICENSE")
 
 
 def _write_manifest(destination: Path) -> None:
@@ -223,8 +229,8 @@ def package(
         skill = destination / "skills" / PLUGIN_NAME
         skill.mkdir(parents=True)
         _copy_skill(source, skill)
-        shutil.copytree(source / "assets", destination / "assets")
-        shutil.copy2(source / "LICENSE", destination / "LICENSE")
+        shutil.copytree(source / SKILL_DIR / "assets", destination / "assets")
+        shutil.copy2(source / SKILL_DIR / "LICENSE", destination / "LICENSE")
         _write_manifest(destination)
 
     if archive is not None:
