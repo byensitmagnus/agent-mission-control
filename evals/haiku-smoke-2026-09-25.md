@@ -81,7 +81,9 @@ the gap clearly: the model quoted the missing review and still approved.
 
 Candidate.13 keeps the release rule's wording. It also adds "the verdict stays
 NOT VERIFIED" to the no-delegation rule and routes migration risk to
-`verification.md`. On that runtime (SHA-256 `11ddc381…928f7daf`), case 08 ran
+`verification.md`. On its pre-review runtime (SHA-256 `11ddc381…928f7daf`; the
+released `4e6ece7a…0582f070` differs only in `references/provenance.md`, which
+Haiku did not open), case 08 ran
 three times: 0 of 3. Each run fixed the migration and named the missing
 independent review, then still gave a local PASS.
 
