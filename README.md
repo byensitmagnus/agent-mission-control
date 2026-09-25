@@ -121,9 +121,9 @@ live board. A model profile fits when you want fixed role/model presets.
 | Inspect evidence and sources | [Evidence](docs/evidence.md) · [Field state](docs/field-state.md) · [Sources](docs/sources.md) |
 | Contribute | [Development](docs/development.md) · [Contributing](CONTRIBUTING.md) |
 
-**Versions:** use `main` (the installs above). The last tagged ZIP,
-[candidate.8](https://github.com/byensitmagnus/agent-mission-control/releases/tag/v0.2.0-candidate.8),
-is an older runtime. The full folder map is [docs/README.md](docs/README.md).
+**Versions:** the installs above use `main`. The latest tagged ZIP,
+[candidate.12](https://github.com/byensitmagnus/agent-mission-control/releases/tag/v0.2.0-candidate.12),
+contains the same runtime, with checksums. The full folder map is [docs/README.md](docs/README.md).
 
 ## Help it get better
 
