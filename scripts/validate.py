@@ -187,7 +187,7 @@ def srcset_urls(value: str):
 
 
 def validate_links(root: Path) -> None:
-    patterns = (re.compile(r"!?\[[^\]]*\]\(([^)]+)\)"), re.compile(r"<(?:img|source)\b[^>]*\bsrc=[\"']([^\"']+)[\"']", re.I))
+    patterns = (re.compile(r"!?\[[^\]]*\]\(([^)]+)\)"), re.compile(r"<(?:img|source|a)\b[^>]*\b(?:src|href)=[\"']([^\"']+)[\"']", re.I))
     for path in sorted(root.rglob("*.md")):
         text = read(path)
         links = [raw for pattern in patterns for raw in pattern.findall(text)]
