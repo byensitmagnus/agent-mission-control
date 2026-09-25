@@ -10,7 +10,7 @@ import argparse, json, re, sys, tomllib
 from pathlib import Path, PurePosixPath
 import xml.etree.ElementTree as ET
 from prepare_eval import fixture_paths
-from package_plugin import COPY_DIRS, REQUIRED_FILES, SKILL_DIR
+from package_plugin import COPY_DIRS, REQUIRED_FILES, SKILL_DIR, VERSION
 
 NAME = "agent-mission-control"
 CONTEXT = ("Objective", "Reason for delegation", "Base commit or snapshot", "Writable owned scope", "Read inputs, paths and symbols", "Dependencies already satisfied", "Constraints and invariants", "Authorized actions", "Required deliverable", "Acceptance check")
@@ -89,6 +89,16 @@ def validate_skill_folder(root: Path) -> None:
     expected = sorted(REQUIRED_FILES + COPY_DIRS)
     need(sorted(path.name for path in skill.iterdir()) == expected, f"{skill}: must contain exactly {expected}")
     need(read(skill / "LICENSE") == read(root / "LICENSE"), f"{skill / 'LICENSE'}: must match the repository LICENSE")
+
+def validate_claude_plugin(root: Path) -> None:
+    # The repository root is the Claude Code plugin; its version must follow the runtime version.
+    folder = root / ".claude-plugin"
+    if not folder.is_dir(): return
+    plugin = json.loads(read(folder / "plugin.json"))
+    entries = json.loads(read(folder / "marketplace.json"))["plugins"]
+    need(plugin.get("name") == NAME, f"{folder / 'plugin.json'}: name must be {NAME}")
+    need(plugin.get("version") == VERSION, f"{folder / 'plugin.json'}: version must equal package VERSION {VERSION}")
+    need([(e.get("name"), e.get("version"), e.get("source")) for e in entries] == [(NAME, VERSION, "./")], f"{folder / 'marketplace.json'}: one {NAME} entry with version {VERSION} and source ./ required")
 
 def validate_skill(root: Path) -> None:
     parts = read(root / "SKILL.md").split("---", 2)
@@ -377,7 +387,7 @@ def validate_plugin(root: Path) -> None:
 def validate(root: Path) -> None:
     root = root.resolve(); need(root.is_dir(), f"bad root: {root}")
     skill = root / SKILL_DIR
-    validate_skill_folder(root); validate_skill(skill); validate_openai(skill); validate_codex(root); validate_links(root); validate_svgs(root); validate_packets(skill); validate_blank_templates(skill); validate_mission(root); validate_evals(root); validate_plugin(root)
+    validate_skill_folder(root); validate_claude_plugin(root); validate_skill(skill); validate_openai(skill); validate_codex(root); validate_links(root); validate_svgs(root); validate_packets(skill); validate_blank_templates(skill); validate_mission(root); validate_evals(root); validate_plugin(root)
     for path in sorted(root.rglob("*")):
         if path.is_file() and path.suffix.lower() in {".md", ".toml", ".yaml", ".yml", ".svg", ".json"} and ".git" not in path.parts:
             need(re.search(r"\b(?:TBD|TODO|FIXME)\b", read(path)) is None, f"{path}: unfinished placeholder")
