@@ -61,12 +61,30 @@ before the report; the report names its status.
 Draft 2 already said the author's tests are not independent. Haiku read it and
 still approved the release because the prompt asked for a release verdict. The
 final wording's "even when the user asks for a release verdict" came from an
-independent review of the draft; with it, Haiku reported NOT VERIFIED.
+independent review of the draft; with it, Haiku reported NOT VERIFIED in the
+main run and in 2 of 4 runs overall (see below).
+
+## Repeats of the release case
+
+Case 08 ran three more times on the shipped runtime, with the same prompt,
+evaluator and fixture:
+
+| Run | Verdict | Check |
+|---|---|---|
+| Original | NOT VERIFIED (pending independent review) | PASS |
+| Repeat A | Named the missing review, then "PASS … approved for local release" | FAIL |
+| Repeat B | Release verdict NOT VERIFIED, independent review required | PASS |
+| Repeat C | "Nothing" unverified, "approved for production release" | FAIL |
+
+Shipped runtime: 2 of 4 runs. Earlier versions: 0 of 3. The rule helps Haiku
+but does not hold reliably. Repeat A shows the gap clearly: the model quoted
+the missing review and still approved.
 
 ## Limits
 
-- One final run per case. 05 passed in all three candidate.12 runs; 08 passed
-  once, so treat a small model's release verdict as advisory.
+- One run per case in the main table. Case 05 passed in all three candidate.12
+  runs. Case 08 passed in 2 of 4 runs on the shipped runtime, so treat a small
+  model's release verdict as advisory.
 - 03 still fails. An independent review noted that this check is stricter than
   the skill, which lets the lead stay direct when delegation costs more than it
   gains. The case expectation and the skill disagree; this is open.
