@@ -12,8 +12,8 @@ installation, native discovery and completed work.
 ## Install the current source
 
 The commands in this section require the **current default branch**, Git and
-Python 3.11+. Clone this repository; do not pin the old candidate.8 tag if you
-want the kernel described in these docs.
+Python 3.11+. Clone this repository, or check out the `v0.2.0-candidate.12` tag
+for the latest tagged runtime; older tags carry older kernels.
 
 ```bash
 git clone https://github.com/byensitmagnus/agent-mission-control.git
