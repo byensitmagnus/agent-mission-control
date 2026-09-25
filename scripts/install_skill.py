@@ -11,7 +11,7 @@ import tempfile
 from pathlib import Path
 
 from package_plugin import (
-    COPY_DIRS, PLUGIN_NAME, REQUIRED_FILES, SOURCE_ROOT, VERSION,
+    COPY_DIRS, PLUGIN_NAME, REQUIRED_FILES, SKILL_DIR, SOURCE_ROOT, VERSION,
     _absolute, _is_link, _is_within, _reject_linked_chain,
     _validate_default_source, _validate_source, package,
 )
@@ -113,7 +113,7 @@ def install(project: Path, host: str, *, check: bool = False,
         _validate_default_source(origin)
     if _is_within(project, origin) or _is_within(origin, destination):
         raise ValueError("installation project and source must not overlap the installed skill")
-    expected = file_hashes(origin, selected=True)
+    expected = file_hashes(origin / SKILL_DIR, selected=True)
     result = {
         "status": "MISSING", "host": host, "path": str(destination),
         "builder_version": VERSION, "source_sha256": fingerprint(expected),
@@ -147,7 +147,7 @@ def install(project: Path, host: str, *, check: bool = False,
             staged = Path(temporary) / PLUGIN_NAME
             package(staged, source=source, package_format="skill")
             _validate_source(origin)
-            if file_hashes(origin, selected=True) != expected or file_hashes(staged) != expected:
+            if file_hashes(origin / SKILL_DIR, selected=True) != expected or file_hashes(staged) != expected:
                 raise ValueError("source changed while staging; installation was not activated")
             _reject_linked_chain(destination, "installation")
             if fingerprint(file_hashes(destination)) != previous_sha256:

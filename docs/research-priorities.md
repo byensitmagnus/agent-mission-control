@@ -60,7 +60,7 @@ about every delegated task. It suggests a useful scenario for AMC: the host may
 have created a worker even when the lead lost the response.
 
 AMC already [requires native-state reconciliation and forbids a replacement
-while the old writer remains uncertain](../references/resume.md#reconciliation).
+while the old writer remains uncertain](../skills/agent-mission-control/references/resume.md#reconciliation).
 The controller deferred the researcher's proposal to add mandatory admission
 keys: a Markdown field cannot supply atomic deduplication, and the host may
 already provide the needed operation identity.

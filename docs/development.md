@@ -2,7 +2,9 @@
 
 For using the skill, start with [the setup guide](getting-started.md).
 The folder map is [README.md](README.md).
-The repository root is the canonical skill source. The Python utilities below
+`skills/agent-mission-control/` is the canonical skill source. It holds only
+runtime files, so `npx skills add` and folder copies install nothing else;
+`validate.py` enforces that. The Python utilities below
 are development tools; users of a ready-made skill ZIP do not need Python.
 
 ## Build both formats
@@ -60,7 +62,8 @@ Earlier engineering evidence stays in [candidate.9](engineering-candidate.9.md)
 and [candidate.8](engineering-candidate.8.md), tied to their original snapshots.
 
 Root `MISSION.md` and `docs/` are repository status. Packaging copies only
-`SKILL.md`, `LICENSE`, `agents/`, `references/`, `templates/` and `assets/`.
+`skills/agent-mission-control/`: `SKILL.md`, `LICENSE`, `agents/`,
+`references/`, `templates/` and `assets/`. Its `LICENSE` must equal the root one.
 The live mission record is not part of the runtime skill or plugin.
 
 The fixtures intentionally contain broken examples for regression controls.

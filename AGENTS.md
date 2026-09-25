@@ -3,9 +3,9 @@
 Agent Mission Control is a **portable Markdown skill**. It is not a runtime,
 framework, daemon or extra server.
 
-Runtime copied into user projects: `SKILL.md`, `LICENSE`, `references/`,
-`templates/`, `agents/`, `assets/`. Everything else is repo documentation,
-packaging or checks.
+Runtime copied into user projects: everything in `skills/agent-mission-control/`
+(`SKILL.md`, `LICENSE`, `references/`, `templates/`, `agents/`, `assets/`).
+Everything else is repo documentation, packaging or checks.
 
 Hard rules for agents working here:
 
@@ -17,7 +17,7 @@ Hard rules for agents working here:
 4. Do not claim AMC is cheaper, faster or better without external evidence or
    real usage telemetry. Unknown numbers stay unknown.
 5. Cite [field state](docs/field-state.md) for evidence grades. Load
-   [SKILL.md](SKILL.md) only as far as the task needs.
+   [SKILL.md](skills/agent-mission-control/SKILL.md) only as far as the task needs.
 
 Active goal: [.claude/GOAL.md](.claude/GOAL.md).
 Checks: [docs/development.md](docs/development.md).

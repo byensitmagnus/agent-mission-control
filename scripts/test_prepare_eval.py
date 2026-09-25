@@ -10,7 +10,7 @@ import tempfile
 
 from unittest.mock import patch
 
-from prepare_eval import ROOT, fixture_paths, git_environment, load_evaluator, prepare, relative_path
+from prepare_eval import SKILL_SOURCE, fixture_paths, git_environment, load_evaluator, prepare, relative_path
 
 
 def main():
@@ -24,8 +24,8 @@ def main():
         for name in ("agents", "references", "templates", "assets"):
             (alternate_source / name).mkdir()
         for case in cases:
-            first = prepare(case["id"], root / case["id"] / "first", ROOT)
-            second = prepare(case["id"], root / case["id"] / "second", ROOT)
+            first = prepare(case["id"], root / case["id"] / "first", SKILL_SOURCE)
+            second = prepare(case["id"], root / case["id"] / "second", SKILL_SOURCE)
             alternate = prepare(case["id"], root / case["id"] / "alternate", alternate_source)
             assert first["prompt_sha256"] == second["prompt_sha256"]
             assert first["fixture_sha256"] == second["fixture_sha256"]
@@ -47,7 +47,7 @@ def main():
             assert first["behavioral_verdict"] == "NOT VERIFIED"
             before = (workspace / ".agents/skills/agent-mission-control/SKILL.md").read_bytes()
             try:
-                prepare(case["id"], root / case["id"] / "first", ROOT)
+                prepare(case["id"], root / case["id"] / "first", SKILL_SOURCE)
             except FileExistsError:
                 pass
             else:
@@ -70,7 +70,7 @@ def main():
                     "GIT_CONFIG_KEY_0": "core.attributesFile",
                     "GIT_CONFIG_VALUE_0": str(attributes), "GIT_DIR": str(root / "unrelated.git")}
         with patch.dict(os.environ, poisoned):
-            result = prepare("01-small-linear", root / "filtered", ROOT)
+            result = prepare("01-small-linear", root / "filtered", SKILL_SOURCE)
         workspace = root / "filtered/workspace"
         committed = subprocess.check_output(["git", "show", "HEAD:README.md"],
                                             cwd=workspace, env=git_environment())
@@ -126,7 +126,7 @@ def main():
         destination_parent_link = root / "destination-parent-link"
         destination_parent_link.symlink_to(destination_outside, target_is_directory=True)
         try:
-            prepare("01-small-linear", destination_parent_link / "eval", ROOT)
+            prepare("01-small-linear", destination_parent_link / "eval", SKILL_SOURCE)
         except ValueError as error:
             assert "destination parent or ancestor" in str(error)
         else:

@@ -2,7 +2,7 @@
 
 The ownership choices below describe iteration 2. Iteration 3 absorbs useful
 mechanisms into standalone AMC; current mapping and license decisions are in
-[design sources](../references/provenance.md). Source observations below remain
+[design sources](../skills/agent-mission-control/references/provenance.md). Source observations below remain
 relevant; companion requirements and Luna-only constraints are superseded.
 
 # Source-backed ownership decision

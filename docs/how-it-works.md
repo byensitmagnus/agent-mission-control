@@ -15,8 +15,8 @@ the final verdict.
 
 A context pack is a focused handoff, not amnesia or a sandbox. A worker need not
 receive unrelated history, but shared host instructions, available skills, and
-permissions can still apply. See the reusable [packet](../templates/context-packet.md)
-and [routing rules](../references/packets.md).
+permissions can still apply. See the reusable [packet](../skills/agent-mission-control/templates/context-packet.md)
+and [routing rules](../skills/agent-mission-control/references/packets.md).
 
 Routing is dynamic. A task may gain an investigation, a candidate loop, a fresh
 review, or a repair only when that work can answer a real question. The lead
@@ -110,7 +110,7 @@ it cannot silently rewrite the workflow that governed the release.
 
 For long work, the lead keeps a compact, inspectable record of gates, current
 artifact, commands, results, blockers, and next action in an existing tracker or
-[Mission View](../templates/mission-view.md). On return, AMC reconciles it with
+[Mission View](../skills/agent-mission-control/templates/mission-view.md). On return, AMC reconciles it with
 the workspace before trusting it. Its possible endings are `PASS`, `FAIL`,
 `BLOCKED`, and `NOT VERIFIED`; only PASS means every applicable gate has current
-evidence. The complete control rules live in [SKILL.md](../SKILL.md).
+evidence. The complete control rules live in [SKILL.md](../skills/agent-mission-control/SKILL.md).

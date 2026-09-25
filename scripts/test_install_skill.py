@@ -9,7 +9,7 @@ import unittest
 from pathlib import Path
 from unittest.mock import patch
 from install_skill import HOST_DIRS, install
-from package_plugin import package
+from package_plugin import SKILL_DIR, package
 from test_package_plugin import assert_skill_bytes, make_source
 
 
@@ -19,6 +19,7 @@ class InstallTests(unittest.TestCase):
         self.addCleanup(self.temporary.cleanup)
         self.root = Path(self.temporary.name)
         self.source = make_source(self.root)
+        self.skill = self.source / SKILL_DIR
         self.project = self.root / "project with spaces"
         self.project.mkdir()
 
@@ -133,7 +134,7 @@ class InstallTests(unittest.TestCase):
             (destination / "local-note.txt").write_bytes(f"keep-{host}".encode())
             before[host] = self.run_install(host, check=True)["installed_sha256"]
         (self.project / "AGENTS.md").write_bytes(b"project setting")
-        (self.source / "SKILL.md").write_bytes(b"updated skill\r\n")
+        (self.skill / "SKILL.md").write_bytes(b"updated skill\r\n")
 
         backups = set()
         for host, directory in HOST_DIRS.items():
@@ -168,18 +169,18 @@ class InstallTests(unittest.TestCase):
         installed = self.run_install()
         digest = installed["installed_sha256"]
         destination = Path(installed["path"])
-        (self.source / "SKILL.md").write_bytes(b"candidate")
+        (self.skill / "SKILL.md").write_bytes(b"candidate")
 
         def source_changes(staged, **kwargs):
             package(staged, **kwargs)
-            (self.source / "SKILL.md").write_bytes(b"changed after staging")
+            (self.skill / "SKILL.md").write_bytes(b"changed after staging")
         with patch("install_skill.package", side_effect=source_changes):
             with self.assertRaisesRegex(ValueError, "source changed while staging"):
                 self.run_install(update=True, expected_installed_sha256=digest)
         self.assertTrue(destination.is_dir())
         self.assertFalse((self.project / ".amc-skill-backups").exists())
 
-        (self.source / "SKILL.md").write_bytes(b"candidate two")
+        (self.skill / "SKILL.md").write_bytes(b"candidate two")
         def destination_changes(staged, **kwargs):
             package(staged, **kwargs)
             (destination / "race.txt").write_bytes(b"other owner")
@@ -195,7 +196,7 @@ class InstallTests(unittest.TestCase):
         old_skill = (destination / "SKILL.md").read_bytes()
         (destination / "local-note.txt").write_bytes(b"keep this too")
         digest = self.run_install(check=True)["installed_sha256"]
-        (self.source / "SKILL.md").write_bytes(b"candidate")
+        (self.skill / "SKILL.md").write_bytes(b"candidate")
         original_rename = Path.rename
 
         def fail_activation(path, target):
@@ -209,7 +210,7 @@ class InstallTests(unittest.TestCase):
         self.assertEqual((destination / "SKILL.md").read_bytes(), old_skill)
         self.assertEqual((destination / "local-note.txt").read_bytes(), b"keep this too")
 
-        (self.source / "SKILL.md").write_bytes(b"candidate two")
+        (self.skill / "SKILL.md").write_bytes(b"candidate two")
         def competing_owner(path, target):
             result = original_rename(path, target)
             if path == destination:
@@ -232,13 +233,13 @@ class InstallTests(unittest.TestCase):
         os.symlink(self.root / "outside", self.project / ".kimi", target_is_directory=True)
         with self.assertRaises(ValueError): self.run_install("kimi")
         destination = Path(self.run_install("grok")["path"])
-        os.symlink(self.source / "SKILL.md", destination / "extra.md")
+        os.symlink(self.skill / "SKILL.md", destination / "extra.md")
         with self.assertRaises(ValueError): self.run_install("grok", check=True)
 
     def test_update_refuses_linked_backup_directory(self):
         installed = self.run_install()
         original_skill = Path(installed["path"]).joinpath("SKILL.md").read_bytes()
-        (self.source / "SKILL.md").write_bytes(b"candidate")
+        (self.skill / "SKILL.md").write_bytes(b"candidate")
         external = self.root / "external-backups"
         external.mkdir()
         try: os.symlink(external, self.project / ".amc-skill-backups", target_is_directory=True)

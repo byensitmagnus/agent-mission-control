@@ -20,9 +20,11 @@ git clone https://github.com/byensitmagnus/agent-mission-control.git
 cd agent-mission-control
 ```
 
-Alternatively, use the [copy instructions](getting-started.md#1-install-the-skill)
-with the directory for your host below. That route requires neither Git nor
-Python if you already have the files. By default, the installer screens the
+Alternatively, `npx skills add byensitmagnus/agent-mission-control` or the
+[copy instructions](getting-started.md#1-install-the-skill) place the same
+`skills/agent-mission-control/` folder in the directory for your host below.
+Those routes need neither this clone nor Python; `--check` below can still
+compare such a copy byte-for-byte. By default, the installer screens the
 Git root and canonical origin. This is a provenance screen, not a signed-source
 attestation. Use a clone for the default commands below.
 
@@ -188,8 +190,8 @@ provide it. Keep relevant evidence in the existing mission record; a small task
 does not need a separate capability checklist.
 
 These behaviors are already defined in AMC's
-[routing](../references/packets.md), [reconciliation](../references/resume.md) and
-[verification](../references/verification.md) instructions. The host supplies the
+[routing](../skills/agent-mission-control/references/packets.md), [reconciliation](../skills/agent-mission-control/references/resume.md) and
+[verification](../skills/agent-mission-control/references/verification.md) instructions. The host supplies the
 runtime mechanisms. AMC does not implement a daemon or automatic recovery service.
 
 ## Sources and observed support
