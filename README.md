@@ -105,7 +105,8 @@ actual code), then merge after green CI. It is an observed trace, not a benchmar
 - AMC is instructions. Your host decides which tools, subagents and permissions exist.
 - Small models need the rules in plain sight. With Claude Haiku 4.5, 9 of 10
   repository cases passed after the verdict rules moved into `SKILL.md` (7 of 10
-  before). One run per case. [Haiku results](evals/haiku-smoke-2026-09-25.md)
+  before). One run per case. Haiku still approved a risky migration on its own
+  tests in 2 of 4 repeats. [Haiku results](evals/haiku-smoke-2026-09-25.md)
 - The CI badge covers engineering checks on `main`, not agent behavior.
 
 ## Pick the right tool
