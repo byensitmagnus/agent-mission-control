@@ -72,6 +72,29 @@ A failed procedure cannot be bypassed to evade a gate.
 
 ## Finish from evidence
 
+These verdict rules apply even when no reference file is opened:
+
+- **Resuming:** before trusting a saved record, run `git status --short` and
+  `git rev-parse HEAD` (no Git: compare the recorded file digest and say so),
+  and read the files its next gate cites. A recorded PASS whose commit or
+  artifact does not match what you observe now is stale: report it as NOT
+  VERIFIED, rerun the affected checks, then continue.
+- **Release, migration or data-loss risk** (not trivial edits): unless a
+  separate read-only reviewer agent or a named person reviewed the current
+  artifact, given the requirement, diff and results but not your case for PASS,
+  the verdict is NOT VERIFIED, never PASS or "approved for release", even when
+  the user asks for a release verdict. Your own tests, however thorough, are not
+  independent. Name the missing review and finish the other authorized work.
+- **Delegating:** give each job the working folder, the exact input paths (or
+  the folder to search), its exclusive write scope and its acceptance check.
+  Wait for every result, or record it as missing or failed, and integrate it
+  before the final report. A worker that cannot find its inputs is a failed
+  handoff, not evidence.
+- **No delegation available:** run independent jobs one after another; if
+  required independent review cannot be provided, say so.
+- **Final report:** result, changed files, checks that actually ran, what stays
+  unverified, and the status (PASS, FAIL, BLOCKED or NOT VERIFIED).
+
 Reuse the existing mission record for long work: unresolved gates, artifact
 identities, owners and next authorized action. A stale PASS or completed worker
 is not acceptance of a new artifact. The lead inspects results and runs relevant

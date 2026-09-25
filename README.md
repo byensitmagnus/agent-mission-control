@@ -19,7 +19,7 @@ One skill that makes the agent choose the right amount of help,<br />and show wh
 npx skills add byensitmagnus/agent-mission-control
 ```
 
-<p align="center">16 small files (about 54 KB). No server, no API key, no extra model.<br />
+<p align="center">16 small files (about 55 KB). No server, no API key, no extra model.<br />
 <a href="docs/getting-started.md"><strong>Get started →</strong></a> ·
 <a href="docs/task-guide.md">Task recipes</a> ·
 <a href="docs/how-it-works.md">How it works</a> ·
@@ -101,6 +101,9 @@ actual code), then merge after green CI. It is an observed trace, not a benchmar
 - General gains in cost, speed or quality are **not established**. We do not
   claim them. [What was actually checked](docs/evidence.md).
 - AMC is instructions. Your host decides which tools, subagents and permissions exist.
+- Small models need the rules in plain sight. With Claude Haiku 4.5, 9 of 10
+  repository cases passed after the verdict rules moved into `SKILL.md` (7 of 10
+  before). One run per case. [Haiku results](evals/haiku-smoke-2026-09-25.md)
 - The CI badge covers engineering checks on `main`, not agent behavior.
 
 ## Pick the right tool

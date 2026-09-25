@@ -13,6 +13,7 @@ another orchestration tool or an assistant working directly.
 | **v0.2.0-candidate.8** | [Last tagged ZIP](https://github.com/byensitmagnus/agent-mission-control/releases/tag/v0.2.0-candidate.8), with skill/plugin checksums. | Older runtime. Tagged source added five-host installation/checking/updating. [Engineering evidence](engineering-candidate.8.md). |
 | **0.2.0-candidate.9** | Baseline `main` at `3f35485`, including [#6](https://github.com/byensitmagnus/agent-mission-control/pull/6) and [#10](https://github.com/byensitmagnus/agent-mission-control/pull/10). No tagged ZIP. | Unified kernel and three routes. Dated engineering checks concern specific source snapshots. Nine Codex runs remain a [closed postmortem](../evals/candidate.9/README.md), not current behavioral qualification. |
 | **0.2.0-candidate.11** | Readiness work derived from `3f35485`; publication status is recorded in [MISSION.md](../MISSION.md). No tagged ZIP. | Repairs handoff consistency, installed links and first-use guidance. The [readiness record](reviews/readiness-2026-09-24.md) distinguishes completed checks and observed use from pending proof. |
+| **0.2.0-candidate.12** | `main` from the verdict-rules change onward. No tagged ZIP. | Moves the verdict rules small models skip in reference files into `SKILL.md`. [Haiku smoke runs](../evals/haiku-smoke-2026-09-25.md): 7/10 → 9/10 on the shipped runtime (SHA-256 `e9cc02ad…7f586158`). |
 
 The repository's CI badge describes current `main`, not every earlier release.
 Keep the release tag's source identity and archive checksum together.
@@ -23,6 +24,7 @@ normal use needs neither Python nor a custom model profile.
 
 | Observation | What passed | Practical limit |
 |---|---|---|
+| [Haiku smoke runs](../evals/haiku-smoke-2026-09-25.md) | Claude Haiku 4.5 on 10 repository cases, scored from files and transcripts: 7/10 on candidate.11, 9/10 on the shipped candidate.12. Stale-resume and release-verdict failures were repaired. | One run per final case, no run without AMC. The fan-out case still fails, and its check is stricter than the skill. |
 | [Current readiness candidate](reviews/readiness-2026-09-24.md) | Full repository audit, targeted engineering checks, exact project install, explicit Codex skill input, checked review repairs and an actual three-file read. | Native read needed one approved command. No unassisted sandbox, desktop picker, other-host behavior or comparative improvement claim. Publication remains pending. |
 | [Published skill first use](../examples/codex/compatibility.md#2026-09-13-standalone-skill-first-use-check) | A Windows Codex CLI session selected the exact project skill and returned supported README points. | A normal file-read approval was needed. Desktop/IDE discovery, plugin installation and role activation were not established. |
 | [Direct versus AMC task](../evals/v0.2-fps-comparison.md) | Both completed the same bounded repair, 18/18 checks. | AMC did not improve the result in that pair and took more time. Cache/order and accounting limits prevent a general cost conclusion. |
