@@ -8,7 +8,7 @@ verification; you do not need to assign a sequence of agent roles.
 These are task recipes, not claims that a particular task has already passed.
 Use normal host permissions. Each recipe stops before external publication.
 The examples use Codex's `$agent-mission-control`; substitute your
-[host's invocation](hosts.md#install-the-current-source) in another assistant.
+[host's invocation](getting-started.md#2-select-the-installed-copy) in another assistant.
 
 ## Fix a bug
 

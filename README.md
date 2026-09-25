@@ -56,9 +56,9 @@ The lead owns integration and the final verdict: **PASS**, **FAIL**,
    As a Claude Code plugin instead: `/plugin marketplace add https://github.com/byensitmagnus/agent-mission-control`,
    then `/plugin install agent-mission-control@amc`.
    Prefer Git + Python or plain copy? See [other install paths](docs/getting-started.md#1-install-the-skill).
-2. **Select it:** `/agent-mission-control` in Claude Code, `$agent-mission-control`
-   in Codex, `/` in Cursor. [All hosts](docs/getting-started.md#2-select-the-installed-copy).
-3. **Give it work you already need:**
+2. **Select it:** `/agent-mission-control` in Claude Code (`/agent-mission-control:agent-mission-control`
+   if installed as a plugin), `$agent-mission-control` in Codex, `/` in Cursor. [All hosts](docs/getting-started.md#2-select-the-installed-copy).
+3. **Give it work you already need** (`$` is Codex syntax; use your host's command from step 2):
 
 ```text
 $agent-mission-control
@@ -106,7 +106,7 @@ actual code), then merge after green CI. It is an observed trace, not a benchmar
 - Small models need the rules in plain sight. With Claude Haiku 4.5, 9 of 10
   repository cases passed after the verdict rules moved into `SKILL.md` (7 of 10
   before). One run per case. Haiku still approved a risky migration on its own
-  tests in 2 of 4 repeats. [Haiku results](evals/haiku-smoke-2026-09-25.md)
+  tests in 2 of 4 runs. [Haiku results](evals/haiku-smoke-2026-09-25.md)
 - The CI badge covers engineering checks on `main`, not agent behavior.
 
 ## Pick the right tool
@@ -126,7 +126,7 @@ live board. A model profile fits when you want fixed role/model presets.
 
 **Versions:** the installs above use `main`. The latest tagged ZIP,
 [candidate.12](https://github.com/byensitmagnus/agent-mission-control/releases/tag/v0.2.0-candidate.12),
-contains the same runtime, with checksums. The full folder map is [docs/README.md](docs/README.md).
+contains the same runtime, with checksums. The docs map is [docs/README.md](docs/README.md).
 
 ## Help it get better
 

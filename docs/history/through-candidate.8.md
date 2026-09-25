@@ -1,7 +1,7 @@
 # Development history through candidate.8
 
 This file preserves completed AMC iterations through `v0.2.0-candidate.8`.
-It is **not** the current mission record. Live status is [MISSION.md](../../MISSION.md).
+It is **not** the current mission record. The last mission record (closed) is [MISSION.md](../../MISSION.md).
 Historical FAIL, NOT VERIFIED and comparison results in `evals/` are unchanged.
 
 ---

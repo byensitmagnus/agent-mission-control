@@ -1,6 +1,7 @@
 # Use AMC in your coding assistant
 
-First install: [getting started](getting-started.md). This page is the five-host
+First install: [getting started](getting-started.md), which also covers the
+[Claude Code plugin](getting-started.md#1-install-the-skill). This page is the five-host
 installer, update CLI, discovery limits and invocation notes.
 
 AMC's workflow is an Agent Skill. Codex, Claude Code, Cursor, Grok and Kimi

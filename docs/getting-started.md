@@ -31,7 +31,7 @@ chooses directly. The result is the same 16 runtime files as the checked path.
 ```
 
 Use the HTTPS URL: the `owner/repo` shorthand clones over SSH and fails without a
-GitHub SSH key. The plugin adds one skill and no agents, hooks or MCP servers. Invoke it as
+GitHub SSH key. The plugin route downloads the repository into Claude Code's plugin cache and loads one skill: no agents, hooks or MCP servers. Invoke it as
 `/agent-mission-control:agent-mission-control`. A plugin installs for your user
 by default; from a shell, `claude plugin install agent-mission-control@amc --scope project`
 limits it to the current project.
@@ -166,7 +166,7 @@ That does not change global model settings.
 **Astra or extra models?** No. Keep your selected lead.
 **Always spawn agents?** No. A specialist needs a useful bounded job; only
 parallel jobs must be independent of each other's output.
-**Tagged plugin ZIP?** [candidate.12](https://github.com/byensitmagnus/agent-mission-control/releases/tag/v0.2.0-candidate.12) has skill and plugin ZIPs; check them against `SHA256SUMS.txt`.
+**Tagged ZIPs?** [candidate.12](https://github.com/byensitmagnus/agent-mission-control/releases/tag/v0.2.0-candidate.12) has a skill ZIP and a Codex-plugin ZIP; check them against `SHA256SUMS.txt`. Claude Code uses the plugin marketplace above.
 **Update?** [Checked update with a retained backup](hosts.md#update-an-existing-project-installation).
 
 [How it works](how-it-works.md) · [Hosts](hosts.md) ·

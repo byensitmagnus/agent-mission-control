@@ -57,7 +57,8 @@ The Windows CI job runs packaging, installation and
 junction controls to pass; it does not silently skip missing symlink privileges.
 Some Linux-oriented fixture checks above require symlink privileges on Windows.
 
-The current work is tracked in the [readiness record](reviews/readiness-2026-09-24.md).
+The last readiness record is [reviews/readiness-2026-09-24.md](reviews/readiness-2026-09-24.md);
+current release evidence is in [evidence.md](evidence.md#choose-a-version-deliberately).
 Earlier engineering evidence stays in [candidate.9](engineering-candidate.9.md)
 and [candidate.8](engineering-candidate.8.md), tied to their original snapshots.
 
