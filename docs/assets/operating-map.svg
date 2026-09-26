@@ -30,7 +30,7 @@
   <path d="M310 348H510" stroke="#585478" stroke-width="2"/>
   <text x="310" y="389" fill="#d1d7e9" font-family="Segoe UI,Arial,sans-serif" font-size="22">Smallest useful</text>
   <text x="310" y="424" fill="#d1d7e9" font-family="Segoe UI,Arial,sans-serif" font-size="22">graph for this task.</text>
-  <text x="310" y="476" fill="#a9b5d2" font-family="Segoe UI,Arial,sans-serif" font-size="18">Changes route if evidence does.</text>
+  <text x="310" y="476" fill="#a9b5d2" font-family="Segoe UI,Arial,sans-serif" font-size="18">Adapts to new evidence.</text>
 
   <rect x="569" y="232" width="360" height="278" rx="16" fill="#152a37" stroke="#65bfd3" stroke-width="2"/>
   <text x="595" y="275" fill="#8cd9e9" font-family="Segoe UI,Arial,sans-serif" font-size="18" font-weight="700" letter-spacing="2">03 / EXECUTION</text>
