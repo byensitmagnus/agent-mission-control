@@ -10,7 +10,7 @@
 
 <picture>
   <source media="(max-width: 700px)" srcset="docs/assets/amc-flow-mobile.svg" />
-  <img src="docs/assets/amc-flow.svg" alt="AMC flowchart: one lead chooses direct work, a bounded specialist or isolated independent jobs; optional scout, resume and measured AVO loop; artifact checks and risk-based independent review; failed evidence returns to the lead." />
+  <img src="docs/assets/amc-flow.svg" alt="AMC mission map: a lead routes each work slice to direct work, a specialist or isolated independent jobs. Scout, resume, measured optimization and budget checks are conditional. Artifact checks and independent review return failures for repair. The lead reports an advisory verdict; learning is separate after the task." />
 </picture>
 
 **AMC is a portable skill, not a graph runtime.** The paths are conditional;
