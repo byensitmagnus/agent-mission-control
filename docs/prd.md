@@ -107,7 +107,7 @@ Proof has to fit a small team, so AMC relies on published practice, logic and sm
 
 Checked on 2026-09-26 with the GitHub API and the linked pages. Star counts are rounded and move over time. Pins for the sources AMC adapts are in [sources](sources.md).
 
-For the README workflow presentation, also inspected [Superpowers' public README](https://github.com/obra/superpowers), [Google ADK's workflow graph docs](https://github.com/google/adk-python/blob/main/docs/guides/workflow/graph/index.md), and [Codex Astra/Luna Orchestrator](https://github.com/donvito/codex-astra-luna-orchestrator) on 2026-09-26. Superpowers explains a staged workflow; ADK documents real executable graph edges; CALO documents explicit model roles. AMC needs to explain conditional skill instructions, not a mandatory model preset or graph engine. The README uses a compact dark SVG map: the main route runs from task through lead, execution and checks to an evidence report; scout, AVO, review and resume sit in a visibly separate conditional rail. The earlier large map was too dense and its connectors made optional work look sequential. The interim plain Mermaid diagram lost the user's preferred visual style. The image-generated route sketch was imprecise. No third-party code or art was copied, so no license-dependent asset was adopted.
+For the README workflow presentation, inspected [Dify's README](https://github.com/langgenius/dify), [LangGraph's README](https://github.com/langchain-ai/langgraph), [Superpowers' README](https://github.com/obra/superpowers), and [LangGraph's flowchart example](https://github.com/langchain-ai/docs/blob/main/src/oss/langgraph/thinking-in-langgraph.mdx) on 2026-09-26. The repos had about 157k, 42k and 292k stars respectively; stars signal reach, not product quality. Dify puts a visual and quick start near the top; LangGraph uses a short proposition and install command; its guide uses labeled Mermaid branches for possible routes. AMC's README now uses one GitHub-native flowchart, short labels, a direct install example and links to deeper docs. The earlier large SVG and compact card map made the conditional workflow harder to scan. AMC is an instruction skill, not an executable graph runtime. No third-party art or code was copied.
 
 | Source | Signal | Reuse | Reject |
 |---|---|---|---|
@@ -134,8 +134,7 @@ For the README workflow presentation, also inspected [Superpowers' public README
 1. **R4 on model verdicts:** 2 of 7 Haiku runs across candidates .12 and .13; on candidate.15 the whole case passed in 1 of 3, and on candidate.16 in 2 of 3 (smoke). One candidate.16 Haiku run reported PASS without independent review. A candidate.15 Sonnet reviewer caught a real bug, but a candidate.16 Sonnet reviewer approved a parity checker that accepted `false` changed to numeric `0`. R4 remains open.
 2. **R2 and case 03:** the delegation reason was written in 0 of 3 candidate.15 Haiku runs and 2 of 3 candidate.16 runs.
 3. **Report form:** candidate.16's fixed template appeared in all seven final Haiku smoke runs, mostly fixing the missing-field problem. The candidate.16 Sonnet report filled the template but said `Delegation: none` after using a reviewer agent. A filled template can still contain a false PASS.
-4. **Demo:** the README now shows a real candidate.15 Sonnet report excerpt;
-   it awaits review and merge on the current branch.
+4. **Demo:** the real candidate.15 Sonnet trace remains in the [smoke record](../evals/haiku-smoke-2026-09-25.md#candidate15-smoke-2026-09-26) and [task guide](task-guide.md); the README links to detail instead of repeating it.
 5. **Front door:** about 40 Markdown files, roughly half of them history or development material.
 
 ## Plan
@@ -146,7 +145,7 @@ For the README workflow presentation, also inspected [Superpowers' public README
 | M2 | This PRD | Lead; cheaper-model review | Merged 2026-09-26 |
 | M3 | Candidate.15, with three parts:<br>• the four deferred points;<br>• a one-line reason when independent jobs stay with the lead (R2);<br>• an R7 budget in `validate.py` | Lead; independent reviewer | The review approves. Smoke: 3 Haiku runs each on cases 08 and 03, plus 1 Sonnet run on 08. Released |
 | M3b | Candidate.16: a fixed final-report template. The status is limited to the four values, with `Review:` and `Delegation:` fields | Lead; independent reviewer | Smoke on cases 08 and 03 shows the template followed. Released |
-| M4 | Front door: the README leads with the pain and a real report excerpt from an M3 smoke run, plus footprint numbers. The docs map separates current docs from the archive | Lead drafts; review | Merged |
+| M4 | Original front door added a real M3 smoke excerpt and footprint numbers; the 2026-09-26 flowchart revision links to that detail instead. The docs map separates current docs from the archive | Lead drafts; review | Merged |
 | M5 | Distribution: plugin-directory submission, one X post per concrete lesson, an r/ClaudeCode tip, a dev.to article, and Show HN once a demo exists | Magnus submits and posts to Reddit and HN; the lead drafts. X posts go out only after Magnus approves the text | Submitted or posted |
 | M6 | Optional report guard on hosts with Stop hooks | Lead evaluates | Evaluated and declined: a Stop hook cannot attest independent review or authorize release |
 
