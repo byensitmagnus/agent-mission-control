@@ -125,12 +125,13 @@ These verdict rules apply even when no reference file is opened:
   Checks run: <command -> observed outcome, one per line, or none>
   Not verified: <what stays unverified, or none>
   Delegation: <jobs you delegated and why, or none and why>
-  Review: <who reviewed which artifact and their answer, or none>
+  Review: <another agent or person: which artifact, and their answer; or none>
   Status: <exactly one of PASS, FAIL, BLOCKED, NOT VERIFIED>
   ```
 
-  One Status line for the whole task. With release, migration or data-loss
-  risk, `Review: none` rules out PASS.
+  Your own tests and checks go under Checks run, never under Review. One Status
+  line for the whole task. With release, migration or data-loss risk,
+  `Review: none` rules out PASS.
 
 Reuse the existing mission record for long work: unresolved gates, artifact
 identities, owners and next authorized action. A stale PASS or completed worker
