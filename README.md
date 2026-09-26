@@ -27,22 +27,33 @@ npx skills add byensitmagnus/agent-mission-control
 
 <picture>
   <source media="(max-width: 600px)" srcset="docs/assets/operating-map-mobile.svg" />
-  <img src="docs/assets/operating-map.svg" alt="AMC decision map: task to lead; direct, specialist or independent parallel route; integration and checks; conditional measured candidate loop and independent review; evidence report. Full rules are in the table below." width="100%" />
+  <img src="docs/assets/operating-map.svg" alt="AMC decision map: task to lead; direct, specialist or independent parallel route; integration and checks; conditional measured candidate loop and independent review; evidence report. Full rules follow the image." width="100%" />
 </picture>
 
 This is a **decision policy**, not a fixed pipeline or an executing graph engine.
 The lead can change route when evidence changes the task. The two lower branches
 are conditional and can be combined. [Detailed workflow →](docs/how-it-works.md)
 
-| Trigger | What the lead actually does | Rule source |
-|---|---|---|
-| Known, sequential change | Work directly, run the relevant check, finish. No scout or worker is required. | [Routing](skills/agent-mission-control/SKILL.md) |
-| Unclear scope or dependencies | Optionally ask a cheap, bounded scout; the lead makes the routing decision. Luna is one host-specific option, not an AMC dependency. | [Routing](skills/agent-mission-control/SKILL.md) |
-| Focused gap | Give one specialist exact inputs, write scope and acceptance check; integrate its result. | [Packets](skills/agent-mission-control/references/packets.md) |
-| At least two independent jobs | Fan out only if coordination pays off; isolate parallel writers and fan in before acceptance. | [Packets](skills/agent-mission-control/references/packets.md) |
-| Measurable candidate improvement | Freeze workload, evaluator, correctness gates and baseline **before** variation. Keep only a verified improvement; otherwise repair or retain the incumbent. This is the conditional AVO-style loop. | [Optimization](skills/agent-mission-control/references/optimization.md) |
-| Release, migration or data-loss risk | Get independent review of the **current artifact**. Repair confirmed findings and recheck; a model's PASS alone does not authorize the consequence. | [Verification](skills/agent-mission-control/references/verification.md) |
-| Interrupted work | Reconcile the saved mission record with current files and source identity before trusting an earlier PASS. | [Resume](skills/agent-mission-control/references/resume.md) |
+### Exact triggers
+
+- **Known, sequential change:** Work directly, run the relevant check and
+  finish. No scout or worker is required. [Routing rule](skills/agent-mission-control/SKILL.md)
+- **Unclear scope or dependencies:** Optionally ask a cheap, bounded scout;
+  the lead decides. Luna is one host-specific option, not an AMC dependency.
+  [Routing rule](skills/agent-mission-control/SKILL.md)
+- **Focused gap:** Give one specialist exact inputs, write scope and acceptance
+  check; integrate its result. [Handoff rule](skills/agent-mission-control/references/packets.md)
+- **Independent jobs:** Fan out only if coordination pays off; isolate parallel
+  writers and fan in before acceptance. [Parallel rule](skills/agent-mission-control/references/packets.md)
+- **Measurable candidate improvement:** Freeze workload, evaluator, correctness
+  gates and baseline **before** variation. Keep only a verified improvement;
+  otherwise repair or retain the incumbent. This is the conditional AVO-style
+  loop. [Optimization rule](skills/agent-mission-control/references/optimization.md)
+- **Release, migration or data-loss risk:** Get independent review of the
+  **current artifact**. Repair confirmed findings and recheck; a model's PASS
+  alone does not authorize the consequence. [Verification rule](skills/agent-mission-control/references/verification.md)
+- **Interrupted work:** Reconcile the saved mission record with current files
+  and source identity before trusting an earlier PASS. [Resume rule](skills/agent-mission-control/references/resume.md)
 
 The lead owns the final report: **PASS**, **FAIL**, **NOT VERIFIED** or
 **BLOCKED**, with observed checks and remaining limits. PASS is advisory;
