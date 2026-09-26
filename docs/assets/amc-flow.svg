@@ -1,0 +1,129 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 1170" role="img" aria-labelledby="title description">
+  <title id="title">Agent Mission Control: one lead, conditional work routes and evidence loops</title>
+  <desc id="description">A coding task reaches one lead agent. If scope is unclear, a scout advises the lead. The lead chooses direct work, a bounded specialist, or isolated independent jobs. A measured AVO-inspired candidate loop is optional. The lead integrates results and checks the current artifact. Failed checks or review findings return to the lead for repair or rerouting. Material risk adds independent review before the lead reports PASS, FAIL, NOT VERIFIED or BLOCKED. Long work may be resumed after reconciling saved state with current files.</desc>
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M1 1 9 5 1 9" fill="none" stroke="#9aa8b7" stroke-width="1.7"/></marker>
+    <marker id="blue-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M1 1 9 5 1 9" fill="none" stroke="#79c0ff" stroke-width="1.7"/></marker>
+    <marker id="amber-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M1 1 9 5 1 9" fill="none" stroke="#e3b341" stroke-width="1.7"/></marker>
+  </defs>
+
+  <rect style="fill:#0d1117" width="1080" height="1170" rx="16"/>
+  <text style="font:700 14px ui-sans-serif,system-ui,-apple-system,'Segoe UI',sans-serif;letter-spacing:1.8px;fill:#79c0ff" x="540" y="32" text-anchor="middle">ONE LEAD · ADAPTIVE GRAPH</text>
+
+  <!-- The brief and the accountable lead. -->
+  <rect style="fill:#161b22;stroke:#4b5663;stroke-width:1.5" x="390" y="53" width="300" height="82" rx="12"/>
+  <path d="M420 76h25l8 8v26h-33z M445 76v9h8 M427 94h18 M427 102h18" fill="none" stroke="#9aa8b7" stroke-width="2" stroke-linejoin="round"/>
+  <text style="font:700 24px ui-sans-serif,system-ui,-apple-system,'Segoe UI',sans-serif;fill:#f0f6fc" x="477" y="87">Coding task</text>
+  <text style="font:500 15px ui-sans-serif,system-ui,-apple-system,'Segoe UI',sans-serif;fill:#aab6c3" x="477" y="113">goal · limits · done when</text>
+  <path style="fill:none;stroke:#9aa8b7;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round" d="M540 135v52" marker-end="url(#arrow)"/>
+
+  <rect style="fill:#161b22;stroke:#647587;stroke-width:1.5;stroke-dasharray:7 6" x="30" y="188" width="270" height="112" rx="12"/>
+  <circle cx="63" cy="223" r="14" fill="none" stroke="#79c0ff" stroke-width="2"/>
+  <path d="m73 234 11 11 M58 220h9 M63 215v10" fill="none" stroke="#79c0ff" stroke-width="2" stroke-linecap="round"/>
+  <text style="font:700 14px ui-sans-serif,system-ui,-apple-system,'Segoe UI',sans-serif;letter-spacing:1.8px;fill:#79c0ff" x="96" y="222">IF UNCLEAR</text>
+  <text style="font:700 24px ui-sans-serif,system-ui,-apple-system,'Segoe UI',sans-serif;fill:#f0f6fc" x="53" y="257">Scout</text>
+  <text style="font:500 15px ui-sans-serif,system-ui,-apple-system,'Segoe UI',sans-serif;fill:#aab6c3" x="53" y="281">maps scope · advises lead</text>
+
+  <rect style="fill:#172130;stroke:#79c0ff;stroke-width:2" x="380" y="188" width="320" height="112" rx="13"/>
+  <rect x="405" y="220" width="49" height="43" rx="8" fill="none" stroke="#79c0ff" stroke-width="2.5"/>
+  <path d="M429 220v-10 M425 210h8 M405 237h-8 M454 237h8 M415 253h28" fill="none" stroke="#79c0ff" stroke-width="2.5" stroke-linecap="round"/>
+  <circle cx="420" cy="237" r="3" fill="#79c0ff"/><circle cx="439" cy="237" r="3" fill="#79c0ff"/>
+  <path d="m455 218 22-18 M478 198l-4 13" fill="none" stroke="#79c0ff" stroke-width="2.5" stroke-linecap="round"/>
+  <text style="font:700 14px ui-sans-serif,system-ui,-apple-system,'Segoe UI',sans-serif;letter-spacing:1.8px;fill:#79c0ff" x="486" y="224">ACCOUNTABLE</text>
+  <text style="font:700 24px ui-sans-serif,system-ui,-apple-system,'Segoe UI',sans-serif;fill:#f0f6fc" x="486" y="252">Lead agent</text>
+  <text style="font:500 15px ui-sans-serif,system-ui,-apple-system,'Segoe UI',sans-serif;fill:#aab6c3" x="486" y="278">routes · integrates · accepts</text>
+
+  <rect style="fill:#161b22;stroke:#647587;stroke-width:1.5;stroke-dasharray:7 6" x="780" y="188" width="270" height="112" rx="12"/>
+  <path d="M810 222a15 15 0 1 1 3 15 M810 222v-10 M810 222h10" fill="none" stroke="#79c0ff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+  <text style="font:700 14px ui-sans-serif,system-ui,-apple-system,'Segoe UI',sans-serif;letter-spacing:1.8px;fill:#79c0ff" x="844" y="222">IF INTERRUPTED</text>
+  <text style="font:700 24px ui-sans-serif,system-ui,-apple-system,'Segoe UI',sans-serif;fill:#f0f6fc" x="803" y="257">Resume</text>
+  <text style="font:500 15px ui-sans-serif,system-ui,-apple-system,'Segoe UI',sans-serif;fill:#aab6c3" x="803" y="281">reconcile saved + current</text>
+
+  <path style="fill:none;stroke:#79c0ff;stroke-width:2;stroke-dasharray:6 6;stroke-linecap:round" d="M300 243h80" marker-start="url(#blue-arrow)" marker-end="url(#blue-arrow)"/>
+  <path style="fill:none;stroke:#79c0ff;stroke-width:2;stroke-dasharray:6 6;stroke-linecap:round" d="M700 243h80" marker-start="url(#blue-arrow)" marker-end="url(#blue-arrow)"/>
+
+  <!-- Three alternatives, not three mandatory stages. -->
+  <text style="font:700 14px ui-sans-serif,system-ui,-apple-system,'Segoe UI',sans-serif;letter-spacing:1.8px;fill:#aab6c3" x="540" y="337" text-anchor="middle">LEAD CHOOSES THE SMALLEST USEFUL WORK PATH</text>
+  <path style="fill:none;stroke:#9aa8b7;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round" d="M540 300v57 M180 357h720"/>
+  <path style="fill:none;stroke:#9aa8b7;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round" d="M180 357v25" marker-end="url(#arrow)"/>
+  <path style="fill:none;stroke:#9aa8b7;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round" d="M540 357v25" marker-end="url(#arrow)"/>
+  <path style="fill:none;stroke:#9aa8b7;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round" d="M900 357v25" marker-end="url(#arrow)"/>
+
+  <rect style="fill:#161b22;stroke:#4b5663;stroke-width:1.5" x="30" y="383" width="300" height="132" rx="12"/>
+  <rect x="55" y="405" width="36" height="33" rx="7" fill="none" stroke="#9aa8b7" stroke-width="2"/>
+  <path d="M62 446h22 M72 438v8" fill="none" stroke="#9aa8b7" stroke-width="2" stroke-linecap="round"/>
+  <text style="font:700 14px ui-sans-serif,system-ui,-apple-system,'Segoe UI',sans-serif;letter-spacing:1.8px;fill:#aab6c3" x="107" y="420">KNOWN WORK</text>
+  <text style="font:700 24px ui-sans-serif,system-ui,-apple-system,'Segoe UI',sans-serif;fill:#f0f6fc" x="55" y="473">Direct</text>
+  <text style="font:500 18px ui-sans-serif,system-ui,-apple-system,'Segoe UI',sans-serif;fill:#aab6c3" x="55" y="499">lead implements + checks</text>
+
+  <rect style="fill:#161b22;stroke:#4b5663;stroke-width:1.5" x="390" y="383" width="300" height="132" rx="12"/>
+  <rect x="416" y="405" width="35" height="32" rx="7" fill="none" stroke="#9aa8b7" stroke-width="2"/>
+  <circle cx="427" cy="417" r="2.5" fill="#9aa8b7"/><circle cx="440" cy="417" r="2.5" fill="#9aa8b7"/>
+  <path d="M423 429h20 M456 422h12 M461 417l5 5-5 5" fill="none" stroke="#9aa8b7" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+  <text style="font:700 14px ui-sans-serif,system-ui,-apple-system,'Segoe UI',sans-serif;letter-spacing:1.8px;fill:#aab6c3" x="485" y="420">FOCUSED GAP</text>
+  <text style="font:700 24px ui-sans-serif,system-ui,-apple-system,'Segoe UI',sans-serif;fill:#f0f6fc" x="415" y="473">Specialist</text>
+  <text style="font:500 18px ui-sans-serif,system-ui,-apple-system,'Segoe UI',sans-serif;fill:#aab6c3" x="415" y="499">bounded handoff + result</text>
+
+  <rect style="fill:#161b22;stroke:#4b5663;stroke-width:1.5" x="750" y="383" width="300" height="132" rx="12"/>
+  <rect x="776" y="405" width="26" height="29" rx="6" fill="none" stroke="#9aa8b7" stroke-width="2"/>
+  <rect x="815" y="405" width="26" height="29" rx="6" fill="none" stroke="#9aa8b7" stroke-width="2"/>
+  <path d="M782 425h14 M821 425h14" fill="none" stroke="#9aa8b7" stroke-width="2"/>
+  <text style="font:700 14px ui-sans-serif,system-ui,-apple-system,'Segoe UI',sans-serif;letter-spacing:1.8px;fill:#aab6c3" x="858" y="420">INDEPENDENT JOBS</text>
+  <text style="font:700 24px ui-sans-serif,system-ui,-apple-system,'Segoe UI',sans-serif;fill:#f0f6fc" x="775" y="473">Parallel</text>
+  <text style="font:500 18px ui-sans-serif,system-ui,-apple-system,'Segoe UI',sans-serif;fill:#aab6c3" x="775" y="499">isolate writers · fan in</text>
+
+  <path style="fill:none;stroke:#9aa8b7;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round" d="M180 515v40 M540 515v40 M900 515v40 M180 555h720 M540 555v57" marker-end="url(#arrow)"/>
+
+  <!-- Optional measured candidate selection can be combined with any work path. -->
+  <path style="fill:none;stroke:#e3b341;stroke-width:2;stroke-dasharray:6 6;stroke-linecap:round" d="M180 555v48" marker-end="url(#amber-arrow)"/>
+  <rect style="fill:#1d1a14;stroke:#b18a36;stroke-width:1.5;stroke-dasharray:7 6" x="30" y="604" width="310" height="156" rx="12"/>
+  <text style="font:700 14px ui-sans-serif,system-ui,-apple-system,'Segoe UI',sans-serif;letter-spacing:1.8px;fill:#e3b341" x="54" y="631">OPTIONAL · MEASURABLE</text>
+  <text style="font:700 24px ui-sans-serif,system-ui,-apple-system,'Segoe UI',sans-serif;fill:#f0f6fc" x="54" y="661">AVO-inspired loop</text>
+  <text style="font:500 15px ui-sans-serif,system-ui,-apple-system,'Segoe UI',sans-serif;fill:#aab6c3" x="54" y="688">Freeze evaluator + baseline</text>
+  <text style="font:500 15px ui-sans-serif,system-ui,-apple-system,'Segoe UI',sans-serif;fill:#aab6c3" x="54" y="712">Run candidate → compare result</text>
+  <text style="font:500 15px ui-sans-serif,system-ui,-apple-system,'Segoe UI',sans-serif;fill:#aab6c3" x="54" y="736">Keep strict gain; repeat in budget</text>
+  <path style="fill:none;stroke:#e3b341;stroke-width:2;stroke-dasharray:6 6;stroke-linecap:round" d="M285 646a14 14 0 1 1 8 13" marker-end="url(#amber-arrow)"/>
+  <path style="fill:none;stroke:#e3b341;stroke-width:2;stroke-dasharray:6 6;stroke-linecap:round" d="M340 682h50" marker-end="url(#amber-arrow)"/>
+
+  <rect style="fill:#161b22;stroke:#4b5663;stroke-width:1.5" x="390" y="612" width="300" height="100" rx="12"/>
+  <text style="font:700 14px ui-sans-serif,system-ui,-apple-system,'Segoe UI',sans-serif;letter-spacing:1.8px;fill:#79c0ff" x="417" y="642">FAN IN</text>
+  <text style="font:700 24px ui-sans-serif,system-ui,-apple-system,'Segoe UI',sans-serif;fill:#f0f6fc" x="417" y="673">Lead integrates</text>
+  <text style="font:500 15px ui-sans-serif,system-ui,-apple-system,'Segoe UI',sans-serif;fill:#aab6c3" x="417" y="697">inspect the current artifact</text>
+  <path style="fill:none;stroke:#9aa8b7;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round" d="M540 712v56" marker-end="url(#arrow)"/>
+
+  <rect style="fill:#161b22;stroke:#4b5663;stroke-width:1.5" x="390" y="769" width="300" height="102" rx="12"/>
+  <path d="m418 810 8 8 15-18" fill="none" stroke="#7ee787" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+  <text style="font:700 14px ui-sans-serif,system-ui,-apple-system,'Segoe UI',sans-serif;letter-spacing:1.8px;fill:#7ee787" x="458" y="802">EVIDENCE</text>
+  <text style="font:700 24px ui-sans-serif,system-ui,-apple-system,'Segoe UI',sans-serif;fill:#f0f6fc" x="417" y="832">Check the artifact</text>
+  <text style="font:500 15px ui-sans-serif,system-ui,-apple-system,'Segoe UI',sans-serif;fill:#aab6c3" x="417" y="855">relevant tests · actual output</text>
+
+  <!-- Failures and review findings go back to the lead, with evidence. -->
+  <path style="fill:none;stroke:#79c0ff;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round" d="M690 820h370 V165 H680 V187" marker-end="url(#blue-arrow)"/>
+  <text style="font:500 15px ui-sans-serif,system-ui,-apple-system,'Segoe UI',sans-serif;fill:#79c0ff" x="750" y="806">failed check</text>
+  <text style="font:500 15px ui-sans-serif,system-ui,-apple-system,'Segoe UI',sans-serif;fill:#79c0ff" x="1044" y="550" transform="rotate(-90 1044 550)" text-anchor="middle">evidence → repair or reroute</text>
+
+  <path style="fill:none;stroke:#9aa8b7;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round" d="M540 871v34" marker-end="url(#arrow)"/>
+  <path d="M540 906 652 951 540 996 428 951Z" fill="#192327" stroke="#7ee787" stroke-width="2"/>
+  <text style="font:700 24px ui-sans-serif,system-ui,-apple-system,'Segoe UI',sans-serif;fill:#f0f6fc" x="540" y="948" text-anchor="middle">Material risk?</text>
+  <text style="font:500 15px ui-sans-serif,system-ui,-apple-system,'Segoe UI',sans-serif;fill:#aab6c3" x="540" y="966" text-anchor="middle">or changed acceptance</text>
+
+  <path style="fill:none;stroke:#9aa8b7;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round" d="M652 951h137" marker-end="url(#arrow)"/>
+  <text style="font:500 15px ui-sans-serif,system-ui,-apple-system,'Segoe UI',sans-serif;fill:#aab6c3" x="712" y="936">yes</text>
+  <rect style="fill:#161b22;stroke:#4b5663;stroke-width:1.5" x="790" y="901" width="260" height="101" rx="12"/>
+  <path d="M815 931h23 M826 922v19 M814 952l7 7 17-17" fill="none" stroke="#7ee787" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+  <text style="font:700 14px ui-sans-serif,system-ui,-apple-system,'Segoe UI',sans-serif;letter-spacing:1.8px;fill:#7ee787" x="851" y="929">SEPARATE EYES</text>
+  <text style="font:700 24px ui-sans-serif,system-ui,-apple-system,'Segoe UI',sans-serif;fill:#f0f6fc" x="814" y="966">Independent review</text>
+  <text style="font:500 15px ui-sans-serif,system-ui,-apple-system,'Segoe UI',sans-serif;fill:#aab6c3" x="814" y="989">tries to falsify this artifact</text>
+  <path style="fill:none;stroke:#79c0ff;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round" d="M1050 951h10" marker-end="url(#blue-arrow)"/>
+  <text style="font:500 15px ui-sans-serif,system-ui,-apple-system,'Segoe UI',sans-serif;fill:#79c0ff" x="1005" y="892">finding</text>
+
+  <path style="fill:none;stroke:#9aa8b7;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round" d="M540 996v53" marker-end="url(#arrow)"/>
+  <text style="font:500 15px ui-sans-serif,system-ui,-apple-system,'Segoe UI',sans-serif;fill:#aab6c3" x="558" y="1028">no</text>
+  <path style="fill:none;stroke:#9aa8b7;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round" d="M919 1002v92H691" marker-end="url(#arrow)"/>
+  <text style="font:500 15px ui-sans-serif,system-ui,-apple-system,'Segoe UI',sans-serif;fill:#aab6c3" x="931" y="1034">review evidence</text>
+
+  <rect style="fill:#161b22;stroke:#4b5663;stroke-width:1.5" x="390" y="1050" width="300" height="95" rx="12"/>
+  <text style="font:700 14px ui-sans-serif,system-ui,-apple-system,'Segoe UI',sans-serif;letter-spacing:1.8px;fill:#79c0ff" x="417" y="1077">LEAD'S FINAL REPORT</text>
+  <text style="font:700 24px ui-sans-serif,system-ui,-apple-system,'Segoe UI',sans-serif;fill:#f0f6fc" x="417" y="1107">Checks + limits</text>
+  <text style="font:500 15px ui-sans-serif,system-ui,-apple-system,'Segoe UI',sans-serif;fill:#aab6c3" x="417" y="1131">PASS · FAIL · NOT VERIFIED · BLOCKED</text>
+</svg>
