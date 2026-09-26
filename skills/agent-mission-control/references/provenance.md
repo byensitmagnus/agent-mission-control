@@ -53,10 +53,13 @@ a claim. [Skill authoring](https://platform.claude.com/docs/en/agents-and-tools/
 fixed steps for fragile operations, with more detail for small models.
 [obra/superpowers](https://github.com/obra/superpowers/tree/8ca22dba9a94f28898bbce59f2537ff4d87c747d)
 (MIT) `verification-before-completion` and `requesting-code-review`: a table of
-excuses, and a reviewer briefed with the requirement and diff, never the
-session history. [Google ADK patterns](https://developers.googleblog.com/developers-guide-to-multi-agent-patterns-in-adk/):
+excuses, and a reviewer briefed with the requirement and commit range, never
+the session history, that starts no agents of its own. [Google ADK patterns](https://developers.googleblog.com/developers-guide-to-multi-agent-patterns-in-adk/):
 a critic separate from the generator, and human approval before irreversible
 steps. [OpenAI's agent guide](https://openai.com/business/guides-and-resources/a-practical-guide-to-building-ai-agents/):
 human oversight for irreversible, high-stakes actions until reliability is
-shown. The wording is AMC's own. Whether small models now hold the gate is not
-measured.
+shown. [NVIDIA AVO](https://arxiv.org/abs/2603.24517), rechecked, verifies with
+execution feedback inside its own loop and does not address release approval,
+so it adds no rule here. A reviewer's approval can support PASS; PASS still
+grants no publishing rights. The wording is AMC's own. Whether small models now
+hold the gate is not measured.
