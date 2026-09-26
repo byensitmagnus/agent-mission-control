@@ -19,7 +19,7 @@ One skill that makes the agent choose the right amount of help,<br />and show wh
 npx skills add byensitmagnus/agent-mission-control
 ```
 
-<p align="center">16 small files (about 55 KB). No server, no API key, no extra model.<br />
+<p align="center">16 small files (about 60 KB). No server, no API key, no extra model.<br />
 <a href="docs/getting-started.md"><strong>Get started →</strong></a> ·
 <a href="docs/task-guide.md">Task recipes</a> ·
 <a href="docs/how-it-works.md">How it works</a> ·
@@ -123,6 +123,7 @@ live board. A model profile fits when you want fixed role/model presets.
 | Do useful work | [Task recipes](docs/task-guide.md) |
 | Understand the workflow | [How it works](docs/how-it-works.md) · [The skill itself](skills/agent-mission-control/SKILL.md) |
 | Inspect evidence and sources | [Evidence](docs/evidence.md) · [Field state](docs/field-state.md) · [Sources](docs/sources.md) |
+| See where AMC is going | [Product requirements and plan](docs/prd.md) |
 | Contribute | [Development](docs/development.md) · [Contributing](CONTRIBUTING.md) |
 
 **Versions:** the installs above use `main`. The latest tagged ZIP,

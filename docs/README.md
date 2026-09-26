@@ -24,6 +24,7 @@ Start here, then open one file. Do not read this folder in order.
 
 | Need | File |
 |---|---|
+| Product requirements, plan and decisions | [prd.md](prd.md) |
 | Package, checks, contributor path | [development.md](development.md) |
 | Closed candidate.11 readiness record | [Readiness review](reviews/readiness-2026-09-24.md) · [Mission](../MISSION.md) |
 | Earlier candidate.9 engineering record | [engineering-candidate.9.md](engineering-candidate.9.md) |
