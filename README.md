@@ -146,11 +146,11 @@ live board. A model profile fits when you want fixed role/model presets.
 | See where AMC is going | [Product requirements and plan](docs/prd.md) |
 | Contribute | [Development](docs/development.md) · [Contributing](CONTRIBUTING.md) |
 
-**Versions:** the installs above use `main`. The latest tagged ZIP is
-[candidate.15](https://github.com/byensitmagnus/agent-mission-control/releases/tag/v0.2.0-candidate.15),
-with checksums. Candidate.16 is unreleased; its original R4 claim was rejected
-after a false PASS on a migration smoke case. Its report template is being
-considered as a limited beta with that failure disclosed.
+**Versions:** the installs above use `main`. For a tagged ZIP, use the
+[latest release](https://github.com/byensitmagnus/agent-mission-control/releases/latest)
+and verify its checksums. Candidate.16's report template has a documented
+false high-risk PASS; any release of it is a report-format/workflow beta with
+advisory PASS, not an enforced release gate.
 The docs map is [docs/README.md](docs/README.md).
 
 ## Help it get better

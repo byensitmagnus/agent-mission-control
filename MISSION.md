@@ -20,8 +20,9 @@ Current artifact: candidate.11 runtime SHA-256 `4301eefdf4768522cd7d924bcbdc3f88
 Delivered through PR #11 at main `24593236d23b3e1778d2b15c8a041a02ef524f6e`;
 the completion record changes documentation only.
 Runtime identity: `0.2.0-candidate.11`; candidate.10 belongs to an older
-contract draft. Closed record. Latest tagged runtime: candidate.15;
-candidate.16 is on a branch. See [docs/evidence.md](docs/evidence.md).
+contract draft. Closed record. See [docs/evidence.md](docs/evidence.md) for
+version history and [Releases](https://github.com/byensitmagnus/agent-mission-control/releases)
+for the current tag.
 
 ## Hard gates
 

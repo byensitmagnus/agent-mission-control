@@ -151,7 +151,7 @@ Checked on 2026-09-26 with the GitHub API and the linked pages. Star counts are 
 M3b implementation and Haiku smoke are complete on `claude/candidate-16`.
 Independent read-only review on 2026-09-26 rejected the original claim that
 candidate.16 satisfies R4, because one observed high-risk PASS had no separate
-approval. Candidate.16 is not released. **Product decision:** keep its runtime
+approval. At this review snapshot, candidate.16 was not released. **Product decision:** keep its runtime
 and consider it only as a report-format beta under the envelope above. Do not
 make candidate.17 for another wording tweak. A fresh reviewer must assess the
 current artifact and this narrower claim; engineering checks and the required
@@ -200,7 +200,7 @@ not claiming AMC is generally faster, cheaper or more accurate than direct work.
    path; evidence and host limitations are accurate. One outside reader can
    install the release and understand what PASS does and does not mean.
 
-Current state (2026-09-26): gate 1 is open because candidate.16 is unreleased
+PR #25 pre-release snapshot (2026-09-26): gate 1 is open because candidate.16 is unreleased
 and the daily installed skill differs from it; gate 2 is open after the R4
 review rejection and absent `main` protection; gate 3 has no same-release
 three-task record; gate 4 has a local README demo, but no outside-reader check.
