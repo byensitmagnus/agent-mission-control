@@ -105,14 +105,14 @@ Checked on 2026-09-26 with the GitHub API and the linked pages. Star counts are 
 
 **Working:**
 - Both install paths are checked for each release.
-- 68 validator negative controls, and CI on Linux and Windows.
+- 70 validator negative controls, and CI on Linux and Windows.
 - Checksummed releases, recorded sources and honest limits.
 - Anthropic's prompt audit (2026-09-26) found no stale or duplicated rules. It flagged three idioms in the release gate (the IMPORTANT marker, the numbered steps and the excuses table); all three stay as scoped fixes for a measured small-model failure ([record](evidence.md)).
 
 **Gaps:**
-1. **R4 on small models:** 2 of 7 before candidate.14; on candidate.15 the whole case passed in 1 of 3 (smoke). A Sonnet run held, and its reviewer caught a real bug.
-2. **R2 and case 03:** candidate.15's routing line was written in 0 of 3 Haiku runs.
-3. **Report form:** Haiku can invent a status or skip a report line when the fields are prose.
+1. **R4 on small models:** 2 of 7 across candidates .12 and .13; on candidate.15 the whole case passed in 1 of 3, and on candidate.16 in 2 of 3 (smoke). One candidate.16 run still reported PASS without independent review. A candidate.15 Sonnet run held, and its reviewer caught a real bug. R4 remains open.
+2. **R2 and case 03:** the delegation reason was written in 0 of 3 candidate.15 Haiku runs and 2 of 3 candidate.16 runs.
+3. **Report form:** candidate.16's fixed template appeared in all seven final smoke runs, mostly fixing the missing-field problem. A filled template can still contain a false PASS.
 4. **No demo:** the README shows no real report.
 5. **Front door:** about 40 Markdown files, roughly half of them history or development material.
 
@@ -127,6 +127,9 @@ Checked on 2026-09-26 with the GitHub API and the linked pages. Star counts are 
 | M4 | Front door: the README leads with the pain and a real report excerpt from an M3 smoke run, plus footprint numbers. The docs map separates current docs from the archive | Lead drafts; review | Merged |
 | M5 | Distribution: plugin-directory submission, one X post per concrete lesson, an r/ClaudeCode tip, a dev.to article, and Show HN once a demo exists | Magnus submits and posts to Reddit and HN; the lead drafts. X posts go out only after Magnus approves the text | Submitted or posted |
 | M6 | Optional completion gate on hosts with Stop hooks | Lead evaluates | Considered only if the M3b template leaves R1 or R4 failures on Haiku, and the gate fits in about 50 lines, is opt-in and runs no commands |
+
+M3b implementation and smoke are complete on `claude/candidate-16`; its
+independent review and release remain open.
 
 ## Operating model
 

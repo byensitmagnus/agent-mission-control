@@ -106,9 +106,13 @@ actual code), then merge after green CI. It is an observed trace, not a benchmar
 - Small models need the rules in plain sight. With Claude Haiku 4.5, 9 of 10
   repository cases passed after the verdict rules moved into `SKILL.md` (7 of 10
   before). One run per case. Haiku still approved a risky migration on its own
-  tests in 5 of 7 runs across candidate.12 and .13. On candidate.15, whose gate
-  follows published practice, the case passed in 1 of 3 runs; one run started an
-  independent reviewer on its own. [Haiku results](evals/haiku-smoke-2026-09-25.md)
+  tests in 5 of 7 runs across candidate.12 and .13. On candidate.15 the whole
+  migration case passed in 1 of 3 runs; one started an independent reviewer.
+  Candidate.16's fixed report template was used in all seven final smoke runs.
+  The migration case passed in 2 of 3, but one still reported PASS without
+  independent review. The delegation reason appeared in 2 of 3 case 03 runs,
+  versus 0 of 3 on candidate.15. These are smoke results, not a reliability
+  claim. [Haiku results](evals/haiku-smoke-2026-09-25.md)
 - The CI badge covers engineering checks on `main`, not agent behavior.
 
 ## Pick the right tool
@@ -127,9 +131,10 @@ live board. A model profile fits when you want fixed role/model presets.
 | See where AMC is going | [Product requirements and plan](docs/prd.md) |
 | Contribute | [Development](docs/development.md) · [Contributing](CONTRIBUTING.md) |
 
-**Versions:** the installs above use `main`. The latest tagged ZIP,
-[candidate.16](https://github.com/byensitmagnus/agent-mission-control/releases/tag/v0.2.0-candidate.16),
-contains the same runtime, with checksums. The docs map is [docs/README.md](docs/README.md).
+**Versions:** the installs above use `main`. The latest tagged ZIP is
+[candidate.15](https://github.com/byensitmagnus/agent-mission-control/releases/tag/v0.2.0-candidate.15),
+with checksums; candidate.16 is on a branch pending review and release.
+The docs map is [docs/README.md](docs/README.md).
 
 ## Help it get better
 
