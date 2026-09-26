@@ -103,12 +103,12 @@
   <text style="font:500 15px ui-sans-serif,system-ui,-apple-system,'Segoe UI',sans-serif;fill:#79c0ff" x="1044" y="550" transform="rotate(-90 1044 550)" text-anchor="middle">evidence → repair or reroute</text>
 
   <path style="fill:none;stroke:#9aa8b7;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round" d="M540 871v34" marker-end="url(#arrow)"/>
-  <path d="M540 906 652 951 540 996 428 951Z" fill="#192327" stroke="#7ee787" stroke-width="2"/>
+  <path d="M540 906 720 951 540 996 360 951Z" fill="#192327" stroke="#7ee787" stroke-width="2"/>
   <text style="font:700 24px ui-sans-serif,system-ui,-apple-system,'Segoe UI',sans-serif;fill:#f0f6fc" x="540" y="948" text-anchor="middle">Material risk?</text>
   <text style="font:500 15px ui-sans-serif,system-ui,-apple-system,'Segoe UI',sans-serif;fill:#aab6c3" x="540" y="966" text-anchor="middle">or changed acceptance</text>
 
-  <path style="fill:none;stroke:#9aa8b7;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round" d="M652 951h137" marker-end="url(#arrow)"/>
-  <text style="font:500 15px ui-sans-serif,system-ui,-apple-system,'Segoe UI',sans-serif;fill:#aab6c3" x="712" y="936">yes</text>
+  <path style="fill:none;stroke:#9aa8b7;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round" d="M720 951h69" marker-end="url(#arrow)"/>
+  <text style="font:500 15px ui-sans-serif,system-ui,-apple-system,'Segoe UI',sans-serif;fill:#aab6c3" x="739" y="936">yes</text>
   <rect style="fill:#161b22;stroke:#4b5663;stroke-width:1.5" x="790" y="901" width="260" height="101" rx="12"/>
   <path d="M815 931h23 M826 922v19 M814 952l7 7 17-17" fill="none" stroke="#7ee787" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
   <text style="font:700 14px ui-sans-serif,system-ui,-apple-system,'Segoe UI',sans-serif;letter-spacing:1.8px;fill:#7ee787" x="851" y="929">SEPARATE EYES</text>

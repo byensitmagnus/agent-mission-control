@@ -8,7 +8,10 @@
 
 ## How it works
 
-![AMC flowchart: one lead chooses direct work, a bounded specialist or isolated independent jobs; optional scout, resume and measured AVO loop; artifact checks and risk-based independent review; failed evidence returns to the lead.](docs/assets/amc-flow.svg)
+<picture>
+  <source media="(max-width: 700px)" srcset="docs/assets/amc-flow-mobile.svg" />
+  <img src="docs/assets/amc-flow.svg" alt="AMC flowchart: one lead chooses direct work, a bounded specialist or isolated independent jobs; optional scout, resume and measured AVO loop; artifact checks and risk-based independent review; failed evidence returns to the lead." />
+</picture>
 
 **AMC is a portable skill, not a graph runtime.** The paths are conditional;
 the lead uses only what the task needs. [See the decision rules](docs/how-it-works.md).
