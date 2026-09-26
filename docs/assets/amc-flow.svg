@@ -1,125 +1,108 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1180 1600" role="img" aria-labelledby="title description">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1180 1520" role="img" aria-labelledby="title description">
 <title id="title">Agent Mission Control mission map</title>
 <desc id="description">One lead routes a coding task through direct work, a bounded specialist or independent isolated jobs. Scout and resume are conditional. Delegation sends a bounded packet. AVO-inspired measured optimization requires a frozen evaluator and baseline. The lead integrates and checks the current artifact. Failures and review findings return to the lead for repair. Costly retries prompt a resource checkpoint. Material risk adds independent review. The lead reports a qualified verdict. Reusable learning is separate after the task.</desc>
 <defs>
-  <pattern id="grid" width="32" height="32" patternUnits="userSpaceOnUse"><path d="M32 0H0V32" fill="none" stroke="#dce6fa" stroke-width="1" opacity=".35"/></pattern>
-  <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M1 1 9 5 1 9" fill="none" stroke="#1844b9" stroke-width="1.8"/></marker>
-  <marker id="red-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M1 1 9 5 1 9" fill="none" stroke="#cc3f4b" stroke-width="1.8"/></marker>
-  <marker id="amber-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M1 1 9 5 1 9" fill="none" stroke="#a86900" stroke-width="1.8"/></marker>
+  <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M1 1 9 5 1 9" fill="none" stroke="#58a6ff" stroke-width="1.8"/></marker>
+  <marker id="red-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M1 1 9 5 1 9" fill="none" stroke="#ff7b72" stroke-width="1.8"/></marker>
+  <marker id="amber-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M1 1 9 5 1 9" fill="none" stroke="#d29922" stroke-width="1.8"/></marker>
 </defs>
-<rect width="1180" height="1600" rx="16" fill="#f8faff"/>
-<rect width="1180" height="1600" rx="16" fill="url(#grid)"/>
-<text x="590" y="38" fill="#1844b9" font-size="16" font-weight="700" font-family="Segoe UI,Arial,sans-serif" text-anchor="middle" letter-spacing="2">WORKFLOW MAP</text>
-<text x="590" y="81" fill="#142f79" font-size="42" font-weight="750" font-family="Segoe UI,Arial,sans-serif" text-anchor="middle">Agent Mission Control</text>
-<path d="M335 96H845" fill="none" stroke="#1844b9" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-<rect x="415" y="128" width="360" height="100" rx="16" fill="#dfe7f9" stroke="none" stroke-width="0"/>
-<rect x="410" y="122" width="360" height="100" rx="15" fill="#ffffff" stroke="#1844b9" stroke-width="2.5"/>
-<text x="435" y="150" fill="#1844b9" font-size="16" font-weight="700" font-family="Segoe UI,Arial,sans-serif" letter-spacing="1.5">START</text>
-<text x="435" y="183" fill="#142f79" font-size="29" font-weight="700" font-family="Segoe UI,Arial,sans-serif">Coding task</text>
-<text x="435" y="207" fill="#4c5d7c" font-size="17" font-weight="500" font-family="Segoe UI,Arial,sans-serif">goal · limits · proof · authority</text>
-<path d="M590 222v37" fill="none" stroke="#1844b9" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrow)"/>
-<rect x="35" y="273" width="305" height="112" rx="16" fill="#dfe7f9" stroke="none" stroke-width="0"/>
-<rect x="30" y="267" width="305" height="112" rx="15" fill="#fff" stroke="#1844b9" stroke-width="2.5" stroke-dasharray="8 7"/>
-<text x="55" y="301" fill="#1844b9" font-size="16" font-weight="700" font-family="Segoe UI,Arial,sans-serif" letter-spacing="1.4">IF UNCLEAR</text>
-<text x="55" y="339" fill="#142f79" font-size="27" font-weight="700" font-family="Segoe UI,Arial,sans-serif">Scout</text>
-<text x="55" y="369" fill="#4c5d7c" font-size="18" font-weight="500" font-family="Segoe UI,Arial,sans-serif">scope + dependencies → advice</text>
-<rect x="415" y="268" width="360" height="122" rx="16" fill="#dfe7f9" stroke="none" stroke-width="0"/>
-<rect x="410" y="262" width="360" height="122" rx="15" fill="#eaf0ff" stroke="#1844b9" stroke-width="2.5"/>
-<rect x="438" y="305" width="48.6" height="42.300000000000004" rx="8.1" fill="none" stroke="#1844b9" stroke-width="3"/>
-<path d="M462.3 305v-9.9 M456.9 295.1h10.8 M438 323.9h-8.1 M486.6 323.9h8.1 M448.8 337.4h27.0" fill="none" stroke="#1844b9" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
-<circle cx="453.3" cy="323.9" r="2.7" fill="#1844b9"/><circle cx="471.3" cy="323.9" r="2.7" fill="#1844b9"/>
-<path d="M486.6 306.8l20.7 -15.3 m-3.6 0l-3.6 13.5" fill="none" stroke="#1844b9" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>
-<text x="522" y="294" fill="#1844b9" font-size="16" font-weight="700" font-family="Segoe UI,Arial,sans-serif" letter-spacing="1.3">ACCOUNTABLE</text>
-<text x="522" y="332" fill="#142f79" font-size="30" font-weight="700" font-family="Segoe UI,Arial,sans-serif">Lead agent</text>
-<text x="522" y="359" fill="#4c5d7c" font-size="18" font-weight="500" font-family="Segoe UI,Arial,sans-serif">routes · integrates · accepts</text>
-<rect x="850" y="273" width="305" height="112" rx="16" fill="#dfe7f9" stroke="none" stroke-width="0"/>
-<rect x="845" y="267" width="305" height="112" rx="15" fill="#fff" stroke="#1844b9" stroke-width="2.5" stroke-dasharray="8 7"/>
-<text x="870" y="301" fill="#1844b9" font-size="16" font-weight="700" font-family="Segoe UI,Arial,sans-serif" letter-spacing="1.4">IF INTERRUPTED</text>
-<text x="870" y="339" fill="#142f79" font-size="27" font-weight="700" font-family="Segoe UI,Arial,sans-serif">Resume</text>
-<text x="870" y="369" fill="#4c5d7c" font-size="18" font-weight="500" font-family="Segoe UI,Arial,sans-serif">reconcile record + current files</text>
-<path d="M335 323H410" fill="none" stroke="#1844b9" stroke-width="2.5" stroke-dasharray="7 7" marker-start="url(#arrow)" marker-end="url(#arrow)"/>
-<path d="M845 323H770" fill="none" stroke="#1844b9" stroke-width="2.5" stroke-dasharray="7 7" marker-start="url(#arrow)" marker-end="url(#arrow)"/>
-<text x="590" y="427" fill="#1844b9" font-size="18" font-weight="700" font-family="Segoe UI,Arial,sans-serif" text-anchor="middle" letter-spacing="1.3">CHOOSE THE SMALLEST USEFUL ROUTE</text>
-<path d="M590 384v70 M185 454h810" fill="none" stroke="#1844b9" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
-<path d="M185 454v34" fill="none" stroke="#1844b9" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrow)"/>
-<path d="M590 454v34" fill="none" stroke="#1844b9" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrow)"/>
-<path d="M995 454v34" fill="none" stroke="#1844b9" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrow)"/>
-<rect x="35" y="497" width="310" height="146" rx="16" fill="#dfe7f9" stroke="none" stroke-width="0"/>
-<rect x="30" y="491" width="310" height="146" rx="15" fill="#fff" stroke="#1844b9" stroke-width="2.5"/>
-<text x="55" y="525" fill="#1844b9" font-size="16" font-weight="700" font-family="Segoe UI,Arial,sans-serif" letter-spacing="1.4">KNOWN WORK</text>
-<text x="55" y="563" fill="#142f79" font-size="27" font-weight="700" font-family="Segoe UI,Arial,sans-serif">Direct</text>
-<text x="55" y="593" fill="#4c5d7c" font-size="19" font-weight="500" font-family="Segoe UI,Arial,sans-serif">lead implements + checks</text>
-<text x="55" y="621" fill="#4c5d7c" font-size="17" font-weight="500" font-family="Segoe UI,Arial,sans-serif" font-style="italic">one agent is enough</text>
-<rect x="440" y="497" width="310" height="146" rx="16" fill="#dfe7f9" stroke="none" stroke-width="0"/>
-<rect x="435" y="491" width="310" height="146" rx="15" fill="#fff" stroke="#1844b9" stroke-width="2.5"/>
-<text x="460" y="525" fill="#1844b9" font-size="16" font-weight="700" font-family="Segoe UI,Arial,sans-serif" letter-spacing="1.4">FOCUSED GAP</text>
-<text x="460" y="563" fill="#142f79" font-size="27" font-weight="700" font-family="Segoe UI,Arial,sans-serif">Specialist</text>
-<text x="460" y="593" fill="#4c5d7c" font-size="19" font-weight="500" font-family="Segoe UI,Arial,sans-serif">bounded handoff + result</text>
-<text x="460" y="621" fill="#4c5d7c" font-size="16" font-weight="500" font-family="Segoe UI,Arial,sans-serif" font-style="italic">serial if output depends on prior work</text>
-<rect x="845" y="497" width="310" height="146" rx="16" fill="#dfe7f9" stroke="none" stroke-width="0"/>
-<rect x="840" y="491" width="310" height="146" rx="15" fill="#fff" stroke="#1844b9" stroke-width="2.5"/>
-<text x="865" y="525" fill="#1844b9" font-size="16" font-weight="700" font-family="Segoe UI,Arial,sans-serif" letter-spacing="1.4">INDEPENDENT JOBS</text>
-<text x="865" y="563" fill="#142f79" font-size="27" font-weight="700" font-family="Segoe UI,Arial,sans-serif">Parallel</text>
-<text x="865" y="593" fill="#4c5d7c" font-size="19" font-weight="500" font-family="Segoe UI,Arial,sans-serif">isolated writers · lead fans in</text>
-<text x="865" y="621" fill="#4c5d7c" font-size="17" font-weight="500" font-family="Segoe UI,Arial,sans-serif" font-style="italic">no shared write scope</text>
-<path d="M185 637v58 M590 637v58 M995 637v58 M185 695h810 M590 695v55" fill="none" stroke="#1844b9" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrow)"/>
-<rect x="713" y="705" width="437" height="38" rx="10" fill="#eaf0ff" stroke="none" stroke-width="0"/>
-<text x="732" y="731" fill="#4c5d7c" font-size="16" font-weight="700" font-family="Segoe UI,Arial,sans-serif">WHEN DELEGATING: inputs · scope · check</text>
-<path d="M185 695v58" fill="none" stroke="#a86900" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="7 7" marker-end="url(#amber-arrow)"/>
-<rect x="35" y="762" width="330" height="192" rx="16" fill="#dfe7f9" stroke="none" stroke-width="0"/>
-<rect x="30" y="756" width="330" height="192" rx="15" fill="#fff8ea" stroke="#a86900" stroke-width="2.5" stroke-dasharray="9 7"/>
-<text x="55" y="786" fill="#a86900" font-size="16" font-weight="700" font-family="Segoe UI,Arial,sans-serif" letter-spacing="1.1">OPTIONAL · MEASURABLE</text>
-<text x="55" y="822" fill="#142f79" font-size="26" font-weight="700" font-family="Segoe UI,Arial,sans-serif">AVO-inspired loop</text>
-<text x="55" y="851" fill="#4c5d7c" font-size="18" font-weight="500" font-family="Segoe UI,Arial,sans-serif">1  Freeze evaluator + baseline</text>
-<text x="55" y="880" fill="#4c5d7c" font-size="18" font-weight="500" font-family="Segoe UI,Arial,sans-serif">2  Candidate → execute → compare</text>
-<text x="55" y="909" fill="#4c5d7c" font-size="18" font-weight="500" font-family="Segoe UI,Arial,sans-serif">3  Keep strict gain; else incumbent</text>
-<path d="M318 775a15 15 0 1 1 -9 14" fill="none" stroke="#a86900" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#amber-arrow)"/>
-<path d="M360 838h50" fill="none" stroke="#a86900" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="7 7" marker-end="url(#amber-arrow)"/>
-<rect x="415" y="759" width="360" height="126" rx="16" fill="#dfe7f9" stroke="none" stroke-width="0"/>
-<rect x="410" y="753" width="360" height="126" rx="15" fill="#edf4ff" stroke="#1844b9" stroke-width="2.5"/>
-<text x="435" y="787" fill="#1844b9" font-size="16" font-weight="700" font-family="Segoe UI,Arial,sans-serif" letter-spacing="1.3">FAN IN</text>
-<text x="435" y="824" fill="#142f79" font-size="28" font-weight="700" font-family="Segoe UI,Arial,sans-serif">Lead integrates</text>
-<text x="435" y="852" fill="#4c5d7c" font-size="18" font-weight="500" font-family="Segoe UI,Arial,sans-serif">inspect returned evidence + artifact</text>
-<path d="M590 879v79" fill="none" stroke="#1844b9" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrow)"/>
-<rect x="850" y="779" width="305" height="135" rx="16" fill="#dfe7f9" stroke="none" stroke-width="0"/>
-<rect x="845" y="773" width="305" height="135" rx="15" fill="#fff8ea" stroke="#a86900" stroke-width="2.5" stroke-dasharray="9 7"/>
-<text x="870" y="804" fill="#a86900" font-size="16" font-weight="700" font-family="Segoe UI,Arial,sans-serif" letter-spacing="1">IF NEXT STEP IS COSTLY</text>
-<text x="870" y="842" fill="#142f79" font-size="26" font-weight="700" font-family="Segoe UI,Arial,sans-serif">Budget checkpoint</text>
-<text x="870" y="870" fill="#4c5d7c" font-size="18" font-weight="500" font-family="Segoe UI,Arial,sans-serif">new evidence vs attempt cost</text>
-<rect x="415" y="967" width="360" height="129" rx="16" fill="#dfe7f9" stroke="none" stroke-width="0"/>
-<rect x="410" y="961" width="360" height="129" rx="15" fill="#ffffff" stroke="#1844b9" stroke-width="2.5"/>
-<text x="435" y="995" fill="#1844b9" font-size="16" font-weight="700" font-family="Segoe UI,Arial,sans-serif" letter-spacing="1.3">PROOF</text>
-<text x="435" y="1033" fill="#142f79" font-size="27" font-weight="700" font-family="Segoe UI,Arial,sans-serif">Check current artifact</text>
-<text x="435" y="1061" fill="#4c5d7c" font-size="17" font-weight="500" font-family="Segoe UI,Arial,sans-serif">run checks on files or shipped package</text>
-<path d="M590 1090v58" fill="none" stroke="#1844b9" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrow)"/>
-<path d="M430 1150H750L820 1210 750 1270H430L360 1210Z" fill="#eaf0ff" stroke="#1844b9" stroke-width="3" stroke-linejoin="round"/>
-<text x="590" y="1207" fill="#142f79" font-size="27" font-weight="700" font-family="Segoe UI,Arial,sans-serif" text-anchor="middle">Material risk?</text>
-<text x="590" y="1235" fill="#4c5d7c" font-size="17" font-weight="500" font-family="Segoe UI,Arial,sans-serif" text-anchor="middle">or changed gate / costly wrong PASS</text>
-<path d="M820 1210h23" fill="none" stroke="#1844b9" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrow)"/>
-<text x="809" y="1191" fill="#1844b9" font-size="17" font-weight="500" font-family="Segoe UI,Arial,sans-serif">yes</text>
-<rect x="850" y="1157" width="305" height="137" rx="16" fill="#dfe7f9" stroke="none" stroke-width="0"/>
-<rect x="845" y="1151" width="305" height="137" rx="15" fill="#ffffff" stroke="#1844b9" stroke-width="2.5"/>
-<text x="870" y="1184" fill="#1844b9" font-size="16" font-weight="700" font-family="Segoe UI,Arial,sans-serif" letter-spacing="1.2">SEPARATE EYES</text>
-<text x="870" y="1222" fill="#142f79" font-size="25" font-weight="700" font-family="Segoe UI,Arial,sans-serif">Independent review</text>
-<text x="870" y="1252" fill="#4c5d7c" font-size="17" font-weight="500" font-family="Segoe UI,Arial,sans-serif">falsify this artifact · read only</text>
-<path d="M770 1026h390V239H755v23" fill="none" stroke="#cc3f4b" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#red-arrow)"/>
-<text x="806" y="1011" fill="#cc3f4b" font-size="17" font-weight="500" font-family="Segoe UI,Arial,sans-serif">failed check</text>
-<path d="M1150 1218h10" fill="none" stroke="#cc3f4b" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#red-arrow)"/>
-<text x="1075" y="1138" fill="#cc3f4b" font-size="17" font-weight="500" font-family="Segoe UI,Arial,sans-serif">finding</text>
-<text x="918" y="230" fill="#cc3f4b" font-size="16" font-weight="700" font-family="Segoe UI,Arial,sans-serif" text-anchor="middle" letter-spacing="1">REPAIR / REROUTE WITH EVIDENCE</text>
-<path d="M590 1270v70" fill="none" stroke="#1844b9" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrow)"/>
-<text x="607" y="1309" fill="#1844b9" font-size="17" font-weight="500" font-family="Segoe UI,Arial,sans-serif">no</text>
-<path d="M997 1288v105H771" fill="none" stroke="#1844b9" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrow)"/>
-<text x="1009" y="1334" fill="#1844b9" font-size="17" font-weight="500" font-family="Segoe UI,Arial,sans-serif">review evidence</text>
-<rect x="415" y="1349" width="360" height="116" rx="16" fill="#dfe7f9" stroke="none" stroke-width="0"/>
-<rect x="410" y="1343" width="360" height="116" rx="15" fill="#eaf0ff" stroke="#1844b9" stroke-width="2.5"/>
-<text x="435" y="1376" fill="#1844b9" font-size="16" font-weight="700" font-family="Segoe UI,Arial,sans-serif" letter-spacing="1.4">LEAD&#x27;S REPORT</text>
-<text x="435" y="1414" fill="#142f79" font-size="28" font-weight="700" font-family="Segoe UI,Arial,sans-serif">Checks + limits</text>
-<text x="435" y="1443" fill="#4c5d7c" font-size="17" font-weight="500" font-family="Segoe UI,Arial,sans-serif">PASS · FAIL · NOT VERIFIED · BLOCKED</text>
-<path d="M590 1459v28" fill="none" stroke="#a86900" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="7 7" marker-end="url(#amber-arrow)"/>
-<rect x="337" y="1496" width="516" height="72" rx="16" fill="#dfe7f9" stroke="none" stroke-width="0"/>
-<rect x="332" y="1490" width="516" height="72" rx="15" fill="#fff8ea" stroke="#a86900" stroke-width="2.5" stroke-dasharray="8 7"/>
-<text x="355" y="1519" fill="#a86900" font-size="16" font-weight="700" font-family="Segoe UI,Arial,sans-serif" letter-spacing="1">AFTER TASK · OPTIONAL</text>
-<text x="355" y="1545" fill="#4c5d7c" font-size="18" font-weight="500" font-family="Segoe UI,Arial,sans-serif">Reusable lesson? Record signal; change skill separately.</text>
-<text x="590" y="1584" fill="#4c5d7c" font-size="15" font-weight="500" font-family="Segoe UI,Arial,sans-serif" text-anchor="middle">Portable skill inside the coding host  ·  advisory verdict  ·  external actions need user authority</text>
+<rect width="1180" height="1520" rx="16" fill="#0d1117"/>
+<g transform="translate(0,-80)">
+<rect x="410" y="122" width="360" height="100" rx="12" fill="#161b22" stroke="#30363d" stroke-width="2"/>
+<text x="435" y="150" fill="#58a6ff" font-size="16" font-weight="700" font-family="Segoe UI,Arial,sans-serif" letter-spacing="1.5">START</text>
+<text x="435" y="183" fill="#e6edf3" font-size="29" font-weight="700" font-family="Segoe UI,Arial,sans-serif">Coding task</text>
+<text x="435" y="207" fill="#9da7b3" font-size="17" font-weight="500" font-family="Segoe UI,Arial,sans-serif">goal · limits · proof · authority</text>
+<path d="M590 222v37" fill="none" stroke="#58a6ff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrow)"/>
+<rect x="30" y="267" width="305" height="112" rx="12" fill="#161b22" stroke="#30363d" stroke-width="2" stroke-dasharray="8 7"/>
+<text x="55" y="301" fill="#58a6ff" font-size="16" font-weight="700" font-family="Segoe UI,Arial,sans-serif" letter-spacing="1.4">IF UNCLEAR</text>
+<text x="55" y="339" fill="#e6edf3" font-size="27" font-weight="700" font-family="Segoe UI,Arial,sans-serif">Scout</text>
+<text x="55" y="369" fill="#9da7b3" font-size="18" font-weight="500" font-family="Segoe UI,Arial,sans-serif">scope + dependencies → advice</text>
+<rect x="410" y="262" width="360" height="122" rx="12" fill="#162335" stroke="#58a6ff" stroke-width="2"/>
+<rect x="438" y="305" width="48.6" height="42.300000000000004" rx="8.1" fill="none" stroke="#58a6ff" stroke-width="3"/>
+<path d="M462.3 305v-9.9 M456.9 295.1h10.8 M438 323.9h-8.1 M486.6 323.9h8.1 M448.8 337.4h27.0" fill="none" stroke="#58a6ff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+<circle cx="453.3" cy="323.9" r="2.7" fill="#58a6ff"/><circle cx="471.3" cy="323.9" r="2.7" fill="#58a6ff"/>
+<path d="M486.6 306.8l20.7 -15.3 m-3.6 0l-3.6 13.5" fill="none" stroke="#58a6ff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>
+<text x="522" y="294" fill="#58a6ff" font-size="16" font-weight="700" font-family="Segoe UI,Arial,sans-serif" letter-spacing="1.3">ACCOUNTABLE</text>
+<text x="522" y="332" fill="#e6edf3" font-size="30" font-weight="700" font-family="Segoe UI,Arial,sans-serif">Lead agent</text>
+<text x="522" y="359" fill="#9da7b3" font-size="18" font-weight="500" font-family="Segoe UI,Arial,sans-serif">routes · integrates · accepts</text>
+<rect x="845" y="267" width="305" height="112" rx="12" fill="#161b22" stroke="#30363d" stroke-width="2" stroke-dasharray="8 7"/>
+<text x="870" y="301" fill="#58a6ff" font-size="16" font-weight="700" font-family="Segoe UI,Arial,sans-serif" letter-spacing="1.4">IF INTERRUPTED</text>
+<text x="870" y="339" fill="#e6edf3" font-size="27" font-weight="700" font-family="Segoe UI,Arial,sans-serif">Resume</text>
+<text x="870" y="369" fill="#9da7b3" font-size="18" font-weight="500" font-family="Segoe UI,Arial,sans-serif">reconcile record + current files</text>
+<path d="M335 323H410" fill="none" stroke="#58a6ff" stroke-width="2.5" stroke-dasharray="7 7" marker-start="url(#arrow)" marker-end="url(#arrow)"/>
+<path d="M845 323H770" fill="none" stroke="#58a6ff" stroke-width="2.5" stroke-dasharray="7 7" marker-start="url(#arrow)" marker-end="url(#arrow)"/>
+<text x="590" y="427" fill="#58a6ff" font-size="18" font-weight="700" font-family="Segoe UI,Arial,sans-serif" text-anchor="middle" letter-spacing="1.3">CHOOSE THE SMALLEST USEFUL ROUTE</text>
+<path d="M590 384v70 M185 454h810" fill="none" stroke="#58a6ff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M185 454v34" fill="none" stroke="#58a6ff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrow)"/>
+<path d="M590 454v34" fill="none" stroke="#58a6ff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrow)"/>
+<path d="M995 454v34" fill="none" stroke="#58a6ff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrow)"/>
+<rect x="30" y="491" width="310" height="146" rx="12" fill="#161b22" stroke="#30363d" stroke-width="2"/>
+<text x="55" y="525" fill="#58a6ff" font-size="16" font-weight="700" font-family="Segoe UI,Arial,sans-serif" letter-spacing="1.4">KNOWN WORK</text>
+<text x="55" y="563" fill="#e6edf3" font-size="27" font-weight="700" font-family="Segoe UI,Arial,sans-serif">Direct</text>
+<text x="55" y="593" fill="#9da7b3" font-size="19" font-weight="500" font-family="Segoe UI,Arial,sans-serif">lead implements + checks</text>
+<text x="55" y="621" fill="#9da7b3" font-size="17" font-weight="500" font-family="Segoe UI,Arial,sans-serif" font-style="italic">one agent is enough</text>
+<rect x="435" y="491" width="310" height="146" rx="12" fill="#161b22" stroke="#30363d" stroke-width="2"/>
+<text x="460" y="525" fill="#58a6ff" font-size="16" font-weight="700" font-family="Segoe UI,Arial,sans-serif" letter-spacing="1.4">FOCUSED GAP</text>
+<text x="460" y="563" fill="#e6edf3" font-size="27" font-weight="700" font-family="Segoe UI,Arial,sans-serif">Specialist</text>
+<text x="460" y="593" fill="#9da7b3" font-size="19" font-weight="500" font-family="Segoe UI,Arial,sans-serif">bounded handoff + result</text>
+<text x="460" y="621" fill="#9da7b3" font-size="16" font-weight="500" font-family="Segoe UI,Arial,sans-serif" font-style="italic">serial if output depends on prior work</text>
+<rect x="840" y="491" width="310" height="146" rx="12" fill="#161b22" stroke="#30363d" stroke-width="2"/>
+<text x="865" y="525" fill="#58a6ff" font-size="16" font-weight="700" font-family="Segoe UI,Arial,sans-serif" letter-spacing="1.4">INDEPENDENT JOBS</text>
+<text x="865" y="563" fill="#e6edf3" font-size="27" font-weight="700" font-family="Segoe UI,Arial,sans-serif">Parallel</text>
+<text x="865" y="593" fill="#9da7b3" font-size="19" font-weight="500" font-family="Segoe UI,Arial,sans-serif">isolated writers · lead fans in</text>
+<text x="865" y="621" fill="#9da7b3" font-size="17" font-weight="500" font-family="Segoe UI,Arial,sans-serif" font-style="italic">no shared write scope</text>
+<path d="M185 637v58 M590 637v58 M995 637v58 M185 695h810 M590 695v55" fill="none" stroke="#58a6ff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrow)"/>
+<rect x="713" y="705" width="437" height="38" rx="10" fill="#162335" stroke="none" stroke-width="0"/>
+<text x="732" y="731" fill="#9da7b3" font-size="16" font-weight="700" font-family="Segoe UI,Arial,sans-serif">WHEN DELEGATING: inputs · scope · check</text>
+<path d="M185 695v58" fill="none" stroke="#d29922" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="7 7" marker-end="url(#amber-arrow)"/>
+<rect x="30" y="756" width="330" height="192" rx="12" fill="#211b12" stroke="#d29922" stroke-width="2" stroke-dasharray="9 7"/>
+<text x="55" y="786" fill="#d29922" font-size="16" font-weight="700" font-family="Segoe UI,Arial,sans-serif" letter-spacing="1.1">OPTIONAL · MEASURABLE</text>
+<text x="55" y="822" fill="#e6edf3" font-size="26" font-weight="700" font-family="Segoe UI,Arial,sans-serif">AVO-inspired loop</text>
+<text x="55" y="851" fill="#9da7b3" font-size="18" font-weight="500" font-family="Segoe UI,Arial,sans-serif">1  Freeze evaluator + baseline</text>
+<text x="55" y="880" fill="#9da7b3" font-size="18" font-weight="500" font-family="Segoe UI,Arial,sans-serif">2  Candidate → execute → compare</text>
+<text x="55" y="909" fill="#9da7b3" font-size="18" font-weight="500" font-family="Segoe UI,Arial,sans-serif">3  Keep strict gain; else incumbent</text>
+<path d="M318 775a15 15 0 1 1 -9 14" fill="none" stroke="#d29922" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#amber-arrow)"/>
+<path d="M360 838h50" fill="none" stroke="#d29922" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="7 7" marker-end="url(#amber-arrow)"/>
+<rect x="410" y="753" width="360" height="126" rx="12" fill="#162335" stroke="#30363d" stroke-width="2"/>
+<text x="435" y="787" fill="#58a6ff" font-size="16" font-weight="700" font-family="Segoe UI,Arial,sans-serif" letter-spacing="1.3">FAN IN</text>
+<text x="435" y="824" fill="#e6edf3" font-size="28" font-weight="700" font-family="Segoe UI,Arial,sans-serif">Lead integrates</text>
+<text x="435" y="852" fill="#9da7b3" font-size="18" font-weight="500" font-family="Segoe UI,Arial,sans-serif">inspect returned evidence + artifact</text>
+<path d="M590 879v79" fill="none" stroke="#58a6ff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrow)"/>
+<rect x="845" y="773" width="305" height="135" rx="12" fill="#211b12" stroke="#d29922" stroke-width="2" stroke-dasharray="9 7"/>
+<text x="870" y="804" fill="#d29922" font-size="16" font-weight="700" font-family="Segoe UI,Arial,sans-serif" letter-spacing="1">IF NEXT STEP IS COSTLY</text>
+<text x="870" y="842" fill="#e6edf3" font-size="26" font-weight="700" font-family="Segoe UI,Arial,sans-serif">Budget checkpoint</text>
+<text x="870" y="870" fill="#9da7b3" font-size="18" font-weight="500" font-family="Segoe UI,Arial,sans-serif">new evidence vs attempt cost</text>
+<rect x="410" y="961" width="360" height="129" rx="12" fill="#161b22" stroke="#30363d" stroke-width="2"/>
+<text x="435" y="995" fill="#58a6ff" font-size="16" font-weight="700" font-family="Segoe UI,Arial,sans-serif" letter-spacing="1.3">PROOF</text>
+<text x="435" y="1033" fill="#e6edf3" font-size="27" font-weight="700" font-family="Segoe UI,Arial,sans-serif">Check current artifact</text>
+<text x="435" y="1061" fill="#9da7b3" font-size="17" font-weight="500" font-family="Segoe UI,Arial,sans-serif">run checks on files or shipped package</text>
+<path d="M590 1090v58" fill="none" stroke="#58a6ff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrow)"/>
+<path d="M430 1150H750L820 1210 750 1270H430L360 1210Z" fill="#162335" stroke="#58a6ff" stroke-width="3" stroke-linejoin="round"/>
+<text x="590" y="1207" fill="#e6edf3" font-size="27" font-weight="700" font-family="Segoe UI,Arial,sans-serif" text-anchor="middle">Material risk?</text>
+<text x="590" y="1235" fill="#9da7b3" font-size="17" font-weight="500" font-family="Segoe UI,Arial,sans-serif" text-anchor="middle">or changed gate / costly wrong PASS</text>
+<path d="M820 1210h23" fill="none" stroke="#58a6ff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrow)"/>
+<text x="809" y="1191" fill="#58a6ff" font-size="17" font-weight="500" font-family="Segoe UI,Arial,sans-serif">yes</text>
+<rect x="845" y="1151" width="305" height="137" rx="12" fill="#161b22" stroke="#30363d" stroke-width="2"/>
+<text x="870" y="1184" fill="#58a6ff" font-size="16" font-weight="700" font-family="Segoe UI,Arial,sans-serif" letter-spacing="1.2">SEPARATE EYES</text>
+<text x="870" y="1222" fill="#e6edf3" font-size="25" font-weight="700" font-family="Segoe UI,Arial,sans-serif">Independent review</text>
+<text x="870" y="1252" fill="#9da7b3" font-size="17" font-weight="500" font-family="Segoe UI,Arial,sans-serif">falsify this artifact · read only</text>
+<path d="M770 1026h390V239H755v23" fill="none" stroke="#ff7b72" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#red-arrow)"/>
+<text x="806" y="1011" fill="#ff7b72" font-size="17" font-weight="500" font-family="Segoe UI,Arial,sans-serif">failed check</text>
+<path d="M1150 1218h10" fill="none" stroke="#ff7b72" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#red-arrow)"/>
+<text x="1075" y="1138" fill="#ff7b72" font-size="17" font-weight="500" font-family="Segoe UI,Arial,sans-serif">finding</text>
+<text x="918" y="230" fill="#ff7b72" font-size="16" font-weight="700" font-family="Segoe UI,Arial,sans-serif" text-anchor="middle" letter-spacing="1">REPAIR / REROUTE WITH EVIDENCE</text>
+<path d="M590 1270v70" fill="none" stroke="#58a6ff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrow)"/>
+<text x="607" y="1309" fill="#58a6ff" font-size="17" font-weight="500" font-family="Segoe UI,Arial,sans-serif">no</text>
+<path d="M997 1288v105H771" fill="none" stroke="#58a6ff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrow)"/>
+<text x="1009" y="1334" fill="#58a6ff" font-size="17" font-weight="500" font-family="Segoe UI,Arial,sans-serif">review evidence</text>
+<rect x="410" y="1343" width="360" height="116" rx="12" fill="#162335" stroke="#30363d" stroke-width="2"/>
+<text x="435" y="1376" fill="#58a6ff" font-size="16" font-weight="700" font-family="Segoe UI,Arial,sans-serif" letter-spacing="1.4">LEAD&#x27;S REPORT</text>
+<text x="435" y="1414" fill="#e6edf3" font-size="28" font-weight="700" font-family="Segoe UI,Arial,sans-serif">Checks + limits</text>
+<text x="435" y="1443" fill="#9da7b3" font-size="17" font-weight="500" font-family="Segoe UI,Arial,sans-serif">PASS · FAIL · NOT VERIFIED · BLOCKED</text>
+<path d="M590 1459v28" fill="none" stroke="#d29922" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="7 7" marker-end="url(#amber-arrow)"/>
+<rect x="332" y="1490" width="516" height="72" rx="12" fill="#211b12" stroke="#d29922" stroke-width="2" stroke-dasharray="8 7"/>
+<text x="355" y="1519" fill="#d29922" font-size="16" font-weight="700" font-family="Segoe UI,Arial,sans-serif" letter-spacing="1">AFTER TASK · OPTIONAL</text>
+<text x="355" y="1545" fill="#9da7b3" font-size="18" font-weight="500" font-family="Segoe UI,Arial,sans-serif">Reusable lesson? Record signal; change skill separately.</text>
+<text x="590" y="1584" fill="#9da7b3" font-size="15" font-weight="500" font-family="Segoe UI,Arial,sans-serif" text-anchor="middle">Portable skill inside the coding host  ·  advisory verdict  ·  external actions need user authority</text>
+</g>
 </svg>
