@@ -7,7 +7,7 @@
 
 <h1 align="center">Agent Mission Control</h1>
 <p align="center"><strong>Stop babysitting your coding agent.</strong><br />
-One skill that makes the agent choose the right amount of help,<br />and show which checks actually ran before it says “done”.</p>
+One skill that helps the agent choose the right amount of help,<br />and show which checks actually ran before it says “done”.</p>
 
 <p align="center">
   <a href="https://github.com/byensitmagnus/agent-mission-control/actions/workflows/validate.yml"><img src="https://github.com/byensitmagnus/agent-mission-control/actions/workflows/validate.yml/badge.svg?branch=main" alt="Public main engineering checks" /></a>
@@ -74,17 +74,26 @@ evidence and remaining limits.
 Stop before push or external changes.
 ```
 
-## What “done” looks like
+## What “done” looked like in one smoke run
 
-An illustrative delivery (format example, not a measured run):
+In a disposable migration case, the first independent reviewer rejected a
+parity check: Python treats `0 == False` as true, so a wrong-type value could
+pass. The agent repaired the check, reran it and got approval on the changed
+artifact. Condensed from the [candidate.15 Sonnet run](evals/haiku-smoke-2026-09-25.md#candidate15-smoke-2026-09-26):
 
 ```text
-Result:    zero now exports as 0; missing values stay blank
-Changed:   src/export.py, tests/test_export.py
-Checked:   python -m unittest tests.test_export — passed on the changed source
-Not done:  spreadsheet import untested; no deployment
-Status:    PASS for the identified artifact
+Result: preserve false and zero settings through migration
+Changed files: migrate.py, verify_migration.py
+Checks run: python verify_migration.py -> parity, rollback and corruption controls passed
+Not verified: record fields outside the fixture's ID and settings; no production release
+Delegation: independent review for migration risk
+Review: first REJECT (0 == False); after repair, APPROVE on the changed files
+Status: PASS for the disposable fixture
 ```
+
+This is one smoke observation, not a production run or proof that AMC improves
+quality generally. The run also started a second reviewer beyond the intended
+one-review ceiling.
 
 If someone will run a generated script or installer, that file is what gets
 checked. A green check on the source alone leaves the package NOT VERIFIED.
