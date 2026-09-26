@@ -8,25 +8,10 @@
 
 ## How it works
 
-```mermaid
-flowchart TD
-  task["Coding task<br/>goal · limits · done when"] --> lead{"Lead picks<br/>smallest useful route"}
-  lead -->|known work| direct["Direct<br/>lead does the work"]
-  lead -->|focused gap| specialist["Specialist<br/>bounded handoff"]
-  lead -->|independent jobs| parallel["Parallel<br/>isolated writers"]
-  direct --> verify["Lead integrates + checks<br/>current artifact"]
-  specialist --> verify
-  parallel --> verify
-  verify --> risk{"Material risk?"}
-  risk -->|yes| review["Independent review<br/>current artifact"]
-  risk -->|no| report["Report checks + limits<br/>PASS · FAIL<br/>NOT VERIFIED · BLOCKED"]
-  review --> report
-```
+![AMC flowchart: one lead chooses direct work, a bounded specialist or isolated independent jobs; optional scout, resume and measured AVO loop; artifact checks and risk-based independent review; failed evidence returns to the lead.](docs/assets/amc-flow.svg)
 
-**Agent Mission Control (AMC)** is a portable skill for Claude Code, Codex,
-Cursor, Grok and Kimi. Failed checks or confirmed review findings mean repair
-and recheck. A scout, measured AVO loop or resume step is added only when the
-task calls for it. [See the full decision rules](docs/how-it-works.md).
+**AMC is a portable skill, not a graph runtime.** The paths are conditional;
+the lead uses only what the task needs. [See the decision rules](docs/how-it-works.md).
 
 ## Try it on a real task
 
