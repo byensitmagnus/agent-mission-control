@@ -1,0 +1,60 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 1850" role="img" aria-labelledby="title desc">
+  <title id="title">Agent Mission Control decision map for small screens</title>
+  <desc id="desc">A coding task goes to one lead. The lead chooses direct work, a bounded specialist or independent parallel work. After integration and checks, measurable optimization may use a frozen evaluator; risky work requires independent review. The lead reports evidence and limits, and reconciles saved state after interruption.</desc>
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M1 1 8 5 1 9" fill="none" stroke="#9db6d2" stroke-width="1.6"/></marker>
+  </defs>
+  <rect width="640" height="1850" rx="24" fill="#0d1624"/>
+  <path d="M30 128H610" stroke="#8f83e9" stroke-width="3"/>
+  <text x="30" y="59" fill="#eef4fb" font-family="Segoe UI,Arial,sans-serif" font-size="31" font-weight="700">One lead. Adaptive route.</text>
+  <text x="30" y="100" fill="#a7bad0" font-family="Segoe UI,Arial,sans-serif" font-size="22">Every extra step needs a reason.</text>
+
+  <rect x="30" y="158" width="580" height="122" rx="14" fill="#18253a" stroke="#50627e" stroke-width="2"/>
+  <text x="57" y="201" fill="#a6bad3" font-family="Segoe UI,Arial,sans-serif" font-size="20" font-weight="700">TASK</text>
+  <text x="57" y="239" fill="#f1f6fc" font-family="Segoe UI,Arial,sans-serif" font-size="27" font-weight="700">Goal · constraints · done when</text>
+  <path d="M320 280V313" fill="none" stroke="#8aa3bf" stroke-width="3" marker-end="url(#arrow)"/>
+
+  <rect x="30" y="322" width="580" height="150" rx="14" fill="#202641" stroke="#9589df" stroke-width="2"/>
+  <text x="57" y="366" fill="#c5bbff" font-family="Segoe UI,Arial,sans-serif" font-size="20" font-weight="700">LEAD DECIDES</text>
+  <text x="57" y="407" fill="#f1f6fc" font-family="Segoe UI,Arial,sans-serif" font-size="26" font-weight="700">Smallest route that can prove it?</text>
+  <text x="57" y="444" fill="#bdcbe0" font-family="Segoe UI,Arial,sans-serif" font-size="20">Unclear? Ask a scoped scout first.</text>
+  <path d="M320 472V505" fill="none" stroke="#8aa3bf" stroke-width="3" marker-end="url(#arrow)"/>
+
+  <text x="30" y="549" fill="#a7bad0" font-family="Segoe UI,Arial,sans-serif" font-size="21" font-weight="700">CHOOSE ONE ROUTE</text>
+  <rect x="30" y="570" width="580" height="110" rx="13" fill="#172636" stroke="#6bbedc" stroke-width="2"/>
+  <text x="57" y="611" fill="#90d9ee" font-family="Segoe UI,Arial,sans-serif" font-size="20" font-weight="700">DIRECT · DEFAULT</text>
+  <text x="57" y="651" fill="#f1f6fc" font-family="Segoe UI,Arial,sans-serif" font-size="25">Known, sequential work</text>
+
+  <rect x="30" y="695" width="580" height="110" rx="13" fill="#21243b" stroke="#9d8def" stroke-width="2"/>
+  <text x="57" y="736" fill="#b5a7ff" font-family="Segoe UI,Arial,sans-serif" font-size="20" font-weight="700">SPECIALIST · FOCUSED GAP</text>
+  <text x="57" y="776" fill="#f1f6fc" font-family="Segoe UI,Arial,sans-serif" font-size="25">Bounded inputs and acceptance</text>
+
+  <rect x="30" y="820" width="580" height="110" rx="13" fill="#1d2936" stroke="#c9a775" stroke-width="2"/>
+  <text x="57" y="861" fill="#efd0a0" font-family="Segoe UI,Arial,sans-serif" font-size="20" font-weight="700">PARALLEL · INDEPENDENT JOBS</text>
+  <text x="57" y="901" fill="#f1f6fc" font-family="Segoe UI,Arial,sans-serif" font-size="25">Isolate writers, then fan in</text>
+  <path d="M320 930V963" fill="none" stroke="#8aa3bf" stroke-width="3" marker-end="url(#arrow)"/>
+
+  <rect x="30" y="972" width="580" height="135" rx="14" fill="#1c2b39" stroke="#85c5dc" stroke-width="2"/>
+  <text x="57" y="1017" fill="#9edcf0" font-family="Segoe UI,Arial,sans-serif" font-size="20" font-weight="700">LEAD INTEGRATES + CHECKS</text>
+  <text x="57" y="1056" fill="#f1f6fc" font-family="Segoe UI,Arial,sans-serif" font-size="25">Inspect the current artifact.</text>
+  <text x="57" y="1085" fill="#b9c9da" font-family="Segoe UI,Arial,sans-serif" font-size="20">Failed check → repair + rerun.</text>
+  <text x="30" y="1141" fill="#a7bad0" font-family="Segoe UI,Arial,sans-serif" font-size="20" font-weight="700">CONDITIONAL PATHS · USE ONLY IF TRIGGERED</text>
+
+  <rect x="30" y="1149" width="580" height="188" rx="14" fill="#21243b" stroke="#9d8def" stroke-width="2"/>
+  <text x="57" y="1192" fill="#b5a7ff" font-family="Segoe UI,Arial,sans-serif" font-size="19" font-weight="700">ONLY IF IMPROVEMENT IS MEASURABLE</text>
+  <text x="57" y="1235" fill="#f1f6fc" font-family="Segoe UI,Arial,sans-serif" font-size="27" font-weight="700">AVO-style loop</text>
+  <text x="57" y="1275" fill="#cad4e6" font-family="Segoe UI,Arial,sans-serif" font-size="20">Freeze evaluator → baseline → candidate</text>
+  <text x="57" y="1308" fill="#cad4e6" font-family="Segoe UI,Arial,sans-serif" font-size="20">Score → keep, repair or retain.</text>
+
+  <rect x="30" y="1379" width="580" height="188" rx="14" fill="#2a2931" stroke="#d6ae74" stroke-width="2"/>
+  <text x="57" y="1422" fill="#efd0a0" font-family="Segoe UI,Arial,sans-serif" font-size="19" font-weight="700">REQUIRED FOR HIGH-RISK WORK</text>
+  <text x="57" y="1465" fill="#f1f6fc" font-family="Segoe UI,Arial,sans-serif" font-size="27" font-weight="700">Independent review</text>
+  <text x="57" y="1505" fill="#d8d2cc" font-family="Segoe UI,Arial,sans-serif" font-size="20">Release, migration or data loss.</text>
+  <text x="57" y="1538" fill="#d8d2cc" font-family="Segoe UI,Arial,sans-serif" font-size="20">Finding? Repair + recheck current artifact.</text>
+
+  <rect x="30" y="1609" width="580" height="130" rx="14" fill="#2a2d36" stroke="#d9b575" stroke-width="2"/>
+  <text x="57" y="1653" fill="#f1f6fc" font-family="Segoe UI,Arial,sans-serif" font-size="26" font-weight="700">Report evidence + limits</text>
+  <text x="57" y="1696" fill="#f0c788" font-family="Segoe UI,Arial,sans-serif" font-size="21">PASS · FAIL · NOT VERIFIED · BLOCKED</text>
+  <text x="30" y="1786" fill="#a7bad0" font-family="Segoe UI,Arial,sans-serif" font-size="19">Interrupted? Reconcile saved state</text>
+  <text x="30" y="1816" fill="#a7bad0" font-family="Segoe UI,Arial,sans-serif" font-size="19">with files. PASS is advisory.</text>
+</svg>

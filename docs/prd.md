@@ -107,6 +107,8 @@ Proof has to fit a small team, so AMC relies on published practice, logic and sm
 
 Checked on 2026-09-26 with the GitHub API and the linked pages. Star counts are rounded and move over time. Pins for the sources AMC adapts are in [sources](sources.md).
 
+For the README system map, also inspected [Superpowers' public README](https://github.com/obra/superpowers), [Google ADK's workflow graph docs](https://github.com/google/adk-python/blob/main/docs/guides/workflow/graph/index.md), and [Codex Astra/Luna Orchestrator](https://github.com/donvito/codex-astra-luna-orchestrator) on 2026-09-26. Superpowers explains a staged workflow; ADK documents real executable graph edges; CALO documents explicit model roles. AMC instead needs a diagram of conditional skill instructions, not a mandatory model preset or graph engine. An image-generated route sketch was rejected as imprecise; the README uses editable SVG labels tied to the skill rules. No third-party code or art was copied, so no license-dependent asset was adopted.
+
 | Source | Signal | Reuse | Reject |
 |---|---|---|---|
 | [obra/superpowers](https://github.com/obra/superpowers/tree/8ca22dba9a94f28898bbce59f2537ff4d87c747d) | ~292k★, MIT | An excuses table. A reviewer briefed with the requirement and commit range, never the session history | Its full brainstorm-to-TDD methodology; AMC stays one skill |
