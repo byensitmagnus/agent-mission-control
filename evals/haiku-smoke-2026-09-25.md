@@ -133,6 +133,19 @@ same v3.1 scorer gives the original v2 results on candidate.15. The local
 ledger and per-run summaries are in `amc-eval-runs/2026-09-26-c16-smoke/`
 on the author's machine; they are outside the published repository.
 
+The bounded candidate.16 Sonnet case 08 run used `claude-sonnet-5` and the same
+runtime fingerprint. The frozen v3.1 scorer marked all seven checks true after
+normalizing Claude Code 2.1.201's Skill payload event; scorer rules were not
+changed. Independent inspection found a semantic failure: the generated parity
+checker returned `(True, [])` when `enabled` changed from Boolean `false` to
+numeric `0`. Its reviewer approved and the lead reported PASS. The final report
+also said `Delegation: none` despite a reviewer agent call. The raw stream's
+SHA-256 is `45ceee46854baf6aaa67a3f9118cc7c5f9a70ff78cd7a04b0299a0b839eb0934`;
+the normalization and [independent REJECT](https://github.com/byensitmagnus/agent-mission-control/pull/25#issuecomment-5847434888)
+are recorded on PR #25. Case 08's fixture now explicitly requires a
+type-changing corruption control for a targeted repair rerun. The original
+false PASS remains part of the evidence; the rerun cannot erase it.
+
 ## Limits
 
 - One run per case in the main table. Case 05 passed in all three candidate.12

@@ -113,8 +113,10 @@ actual code), then merge after green CI. It is an observed trace, not a benchmar
 - AMC's `PASS` is an agent's evidence claim, not permission to release or run a
   migration. For high-risk work, check the actual independent review of the
   current artifact and use host permissions and CI for the consequential step.
-  The tested Haiku runs include a false high-risk PASS; do not treat a small
-  model's release verdict as authoritative. [Supported use](docs/prd.md#supported-operating-envelope).
+  Candidate.16 smoke produced false high-risk PASS reports from Haiku and
+  Sonnet. In the Sonnet run, an approved parity checker accepted `false` changed
+  to numeric `0` as unchanged. Treat every model's release verdict as advisory.
+  [Supported use](docs/prd.md#supported-operating-envelope).
 - General gains in cost, speed or quality are **not established**. We do not
   claim them. [What was actually checked](docs/evidence.md).
 - AMC is instructions. Your host decides which tools, subagents and permissions exist.
@@ -128,6 +130,8 @@ actual code), then merge after green CI. It is an observed trace, not a benchmar
   independent review. The delegation reason appeared in 2 of 3 case 03 runs,
   versus 0 of 3 on candidate.15. These are smoke results, not a reliability
   claim. [Haiku results](evals/haiku-smoke-2026-09-25.md)
+  In the candidate.16 Sonnet case 08 run, the final report also said
+  `Delegation: none` despite using a reviewer agent.
 - The CI badge covers engineering checks on `main`, not agent behavior.
 
 ## Pick the right tool

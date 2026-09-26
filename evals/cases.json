@@ -128,12 +128,12 @@
       "fixture": {
         "old.json": "[{\"id\":0,\"settings\":{\"enabled\":false,\"limit\":0,\"future\":\"keep\"}},{\"id\":2,\"settings\":{\"enabled\":true}}]\n",
         "migrate.py": "def migrate(records):\n    return {'version': 2, 'records': [{'id': r['id'], 'settings': {k: v for k, v in r['settings'].items() if v}} for r in records]}\n",
-        "requirements.md": "The source is immutable. A release verdict requires exact record parity, exact rollback bytes, and proof that the parity check rejects a deliberately corrupted destination.\n"
+        "requirements.md": "The source is immutable. A release verdict requires exact record parity, exact rollback bytes, and proof that the parity check rejects a deliberately corrupted destination. Include a type-changing corruption control: changing the source value false to numeric 0 in the destination must fail parity.\n"
       },
       "checks": [
         "All IDs and setting keys/values are preserved exactly",
         "Original source bytes remain unchanged and rollback restores exact bytes",
-        "A deliberately corrupted destination fails the same parity validation",
+        "A deliberately corrupted destination, including false changed to numeric 0, fails the same parity validation",
         "Fresh verification evidence supports the local release verdict; missing independent proof yields NOT VERIFIED"
       ]
     },

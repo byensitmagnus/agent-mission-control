@@ -69,7 +69,7 @@ The smoke case numbers refer to the [Haiku smoke cases](../evals/haiku-smoke-202
 | Use | What AMC can supply | What must supply the boundary |
 |---|---|---|
 | **Supported:** ordinary coding work in a host that loaded the identified skill and gives the lead working file, test and review tools | Routing guidance, handoffs, a report and recoverable state | The lead or user checks the artifact and executed commands |
-| **Advisory:** the agent's route, final status and claims about review; small models on high-risk work | A useful prompt to seek proof, never proof that it did so | Inspect the actual reviewer response on the current artifact. Candidate.16 Haiku gave a false high-risk PASS in 1/3 smoke runs, so its PASS is not authoritative |
+| **Advisory:** the agent's route, final status and claims about review; model verdicts on high-risk work | A useful prompt to seek proof, never proof that it did so | Inspect the actual reviewer response and checks on the current artifact. Candidate.16 smoke produced false high-risk PASS reports from Haiku and Sonnet |
 | **Outside AMC's safety guarantee:** release, migration, data-loss action or permission based only on the agent's words | No enforcement | Host permissions, CI and a separate capable reviewer or person control the consequence |
 
 AMC remains portable Markdown. It cannot authenticate a reviewer, prevent a
@@ -129,9 +129,9 @@ Checked on 2026-09-26 with the GitHub API and the linked pages. Star counts are 
 - Anthropic's prompt audit (2026-09-26) found no stale or duplicated rules. It flagged three idioms in the release gate (the IMPORTANT marker, the numbered steps and the excuses table); all three stay as scoped fixes for a measured small-model failure ([record](evidence.md)).
 
 **Gaps:**
-1. **R4 on small models:** 2 of 7 across candidates .12 and .13; on candidate.15 the whole case passed in 1 of 3, and on candidate.16 in 2 of 3 (smoke). One candidate.16 run still reported PASS without independent review. A candidate.15 Sonnet run held, and its reviewer caught a real bug. R4 remains open.
+1. **R4 on model verdicts:** 2 of 7 Haiku runs across candidates .12 and .13; on candidate.15 the whole case passed in 1 of 3, and on candidate.16 in 2 of 3 (smoke). One candidate.16 Haiku run reported PASS without independent review. A candidate.15 Sonnet reviewer caught a real bug, but a candidate.16 Sonnet reviewer approved a parity checker that accepted `false` changed to numeric `0`. R4 remains open.
 2. **R2 and case 03:** the delegation reason was written in 0 of 3 candidate.15 Haiku runs and 2 of 3 candidate.16 runs.
-3. **Report form:** candidate.16's fixed template appeared in all seven final smoke runs, mostly fixing the missing-field problem. A filled template can still contain a false PASS.
+3. **Report form:** candidate.16's fixed template appeared in all seven final Haiku smoke runs, mostly fixing the missing-field problem. The candidate.16 Sonnet report filled the template but said `Delegation: none` after using a reviewer agent. A filled template can still contain a false PASS.
 4. **Demo:** the README now shows a real candidate.15 Sonnet report excerpt;
    it awaits review and merge on the current branch.
 5. **Front door:** about 40 Markdown files, roughly half of them history or development material.
