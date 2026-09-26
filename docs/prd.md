@@ -109,6 +109,8 @@ Checked on 2026-09-26 with the GitHub API and the linked pages. Star counts are 
 
 For the README workflow presentation, inspected [Dify's README](https://github.com/langgenius/dify), [LangGraph's README](https://github.com/langchain-ai/langgraph), [Superpowers' README](https://github.com/obra/superpowers), and [LangGraph's flowchart example](https://github.com/langchain-ai/docs/blob/main/src/oss/langgraph/thinking-in-langgraph.mdx) on 2026-09-26. The repos had about 157k, 42k and 292k stars respectively; stars signal reach, not product quality. Dify puts a visual and quick start near the top; LangGraph uses a short proposition and install command; its guide uses labeled branches for possible routes. AMC's README uses a factual SVG flowchart with short labels, a direct install example and links to deeper docs. The previous Mermaid chart omitted the scout, AVO, resume and repair paths. The SVG is an illustration of conditional instructions, not an executable graph runtime. No third-party art or code was copied.
 
+The owner's 2026-09-26 sketch led to a light technical-map treatment: blue task dependencies, red evidence-driven repair, and amber conditional mechanisms. The desktop and mobile diagrams also show bounded delegation inputs, a costly-retry checkpoint, and separate post-task learning. They depict choices in the current skill, not a fixed pipeline, runtime implementation, or proof of outcome gains.
+
 | Source | Signal | Reuse | Reject |
 |---|---|---|---|
 | [obra/superpowers](https://github.com/obra/superpowers/tree/8ca22dba9a94f28898bbce59f2537ff4d87c747d) | ~292k★, MIT | An excuses table. A reviewer briefed with the requirement and commit range, never the session history | Its full brainstorm-to-TDD methodology; AMC stays one skill |
