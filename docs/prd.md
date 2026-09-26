@@ -113,7 +113,8 @@ Checked on 2026-09-26 with the GitHub API and the linked pages. Star counts are 
 1. **R4 on small models:** 2 of 7 across candidates .12 and .13; on candidate.15 the whole case passed in 1 of 3, and on candidate.16 in 2 of 3 (smoke). One candidate.16 run still reported PASS without independent review. A candidate.15 Sonnet run held, and its reviewer caught a real bug. R4 remains open.
 2. **R2 and case 03:** the delegation reason was written in 0 of 3 candidate.15 Haiku runs and 2 of 3 candidate.16 runs.
 3. **Report form:** candidate.16's fixed template appeared in all seven final smoke runs, mostly fixing the missing-field problem. A filled template can still contain a false PASS.
-4. **No demo:** the README shows no real report.
+4. **Demo:** the README now shows a real candidate.15 Sonnet report excerpt;
+   it awaits review and merge on the current branch.
 5. **Front door:** about 40 Markdown files, roughly half of them history or development material.
 
 ## Plan
@@ -126,10 +127,25 @@ Checked on 2026-09-26 with the GitHub API and the linked pages. Star counts are 
 | M3b | Candidate.16: a fixed final-report template. The status is limited to the four values, with `Review:` and `Delegation:` fields | Lead; independent reviewer | Smoke on cases 08 and 03 shows the template followed. Released |
 | M4 | Front door: the README leads with the pain and a real report excerpt from an M3 smoke run, plus footprint numbers. The docs map separates current docs from the archive | Lead drafts; review | Merged |
 | M5 | Distribution: plugin-directory submission, one X post per concrete lesson, an r/ClaudeCode tip, a dev.to article, and Show HN once a demo exists | Magnus submits and posts to Reddit and HN; the lead drafts. X posts go out only after Magnus approves the text | Submitted or posted |
-| M6 | Optional completion gate on hosts with Stop hooks | Lead evaluates | Considered only if the M3b template leaves R1 or R4 failures on Haiku, and the gate fits in about 50 lines, is opt-in and runs no commands |
+| M6 | Optional report guard on hosts with Stop hooks | Lead evaluates | Evaluated and declined: a Stop hook cannot attest independent review or authorize release |
 
-M3b implementation and smoke are complete on `claude/candidate-16`; its
-independent review and release remain open.
+M3b implementation and smoke are complete on `claude/candidate-16`.
+Independent read-only review on 2026-09-26 rejected release readiness because
+one observed high-risk PASS had no independent approval. Candidate.16 is not
+released; the next candidate needs a root-cause fix and fresh R4 evidence.
+
+M6 research (2026-09-26): [planning-with-files at `4d24d9a`](https://github.com/OthmanAdi/planning-with-files/tree/4d24d9a8a2baa55a15e7f8f9ec6da8d19793ee8c)
+(about 27k stars, MIT) uses an opt-in Stop hook and reads local state; the
+prototype tested that principle without copying its planning system or code.
+Teardown: Claude Code's
+shipped [Stop hook](https://code.claude.com/docs/en/hooks#stop) exposes
+`last_assistant_message` and can request continuation, but has an eight-turn
+continuation cap; no hook UI or proprietary code was unpacked. A 49-line
+prototype caught the observed report strings, but independent review twice
+found ways for self-review or a negated approval to pass. A fabricated approval
+can also pass any text-only guard. M6 is declined; no hook ships. R4 remains
+open until actual risky tasks use another reviewer for the current artifact;
+the release path must separately enforce review of AMC itself.
 
 ## Exit gate: routine use, then maintenance
 
@@ -141,21 +157,30 @@ not claiming AMC is generally faster, cheaper or more accurate than direct work.
    checksums, documented version and selected daily-use installation agree.
    Installation and rollback checks pass. No page links to a nonexistent tag.
 2. **Risk stays controlled.** Engineering checks and an independent review pass
-   on the release artifact. Decide M6 against the known false-PASS case: an
-   opt-in host check must reject unsupported high-risk PASS without blocking
-   honest NOT VERIFIED or ordinary direct work. A Stop hook alone is not the
-   release authority; host permissions, CI and review protect actual release.
-   If the check cannot meet this contract, keep R4 open and narrow the public
-   claim instead of calling the project complete.
+   on the release artifact. M6 did not meet this gate; a Stop hook is no
+   release authority. Host permissions, CI and review protect actual release.
+   On 2026-09-26 GitHub reported no protection for `main`; require an
+   enforceable review/release control before accepting this check.
+   Until R4 meets this contract, narrow the public claim instead of calling
+   the project complete.
 3. **Real work succeeds.** Use the same installed release on three naturally
    occurring commissioned tasks: one small direct task, one multi-step or
    resumed task, and one with release, migration or data-loss risk. Inspect the
-   delivered artifacts and recorded checks. Require no known false PASS or
-   lost authorized work; record user intervention, elapsed time and reviewer
-   effort. These observations establish owner readiness, not a general gain.
+   delivered artifacts and recorded checks. Require 3/3 correct artifacts,
+   no known false PASS or lost authorized work, and at most one corrective user
+   nudge across the three tasks (expected risk approval does not count). The
+   small task must stay direct. Record elapsed time and reviewer effort; a
+   costly or confusing run fails owner acceptance even if its code passes.
+   A failed task triggers a repair and a fresh observation set. These three
+   observations establish owner readiness, not a general gain.
 4. **A usable front door.** README shows one real report and a short install
    path; evidence and host limitations are accurate. One outside reader can
    install the release and understand what PASS does and does not mean.
+
+Current state (2026-09-26): gate 1 is open because candidate.16 is unreleased
+and the daily installed skill differs from it; gate 2 is open after the R4
+review rejection and absent `main` protection; gate 3 has no same-release
+three-task record; gate 4 has a local README demo, but no outside-reader check.
 
 After these checks, record the accepted version and proof in project status,
 switch to maintenance, and change AMC only for a reproducible defect, a host

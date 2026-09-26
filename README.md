@@ -88,10 +88,11 @@ Checks run: python verify_migration.py -> parity, rollback and corruption contro
 Not verified: record fields outside the fixture's ID and settings; no production release
 Delegation: independent review for migration risk
 Review: first REJECT (0 == False); after repair, APPROVE on the changed files
-Status: PASS for the disposable fixture
+Status: PASS
 ```
 
-This is one smoke observation, not a production run or proof that AMC improves
+PASS here is for the disposable fixture only. This is one smoke observation,
+not a production run or proof that AMC improves
 quality generally. The run also started a second reviewer beyond the intended
 one-review ceiling.
 
@@ -142,7 +143,8 @@ live board. A model profile fits when you want fixed role/model presets.
 
 **Versions:** the installs above use `main`. The latest tagged ZIP is
 [candidate.15](https://github.com/byensitmagnus/agent-mission-control/releases/tag/v0.2.0-candidate.15),
-with checksums; candidate.16 is on a branch pending review and release.
+with checksums. Candidate.16 is an unreleased branch; independent review
+rejected its remaining false PASS on a migration case.
 The docs map is [docs/README.md](docs/README.md).
 
 ## Help it get better
