@@ -112,5 +112,7 @@ For long work, the lead keeps a compact, inspectable record of gates, current
 artifact, commands, results, blockers, and next action in an existing tracker or
 [Mission View](../skills/agent-mission-control/templates/mission-view.md). On return, AMC reconciles it with
 the workspace before trusting it. Its possible endings are `PASS`, `FAIL`,
-`BLOCKED`, and `NOT VERIFIED`; only PASS means every applicable gate has current
-evidence. The complete control rules live in [SKILL.md](../skills/agent-mission-control/SKILL.md).
+`BLOCKED`, and `NOT VERIFIED`. PASS is the lead's claim that every applicable
+gate has current evidence; inspect that evidence, especially the separate
+reviewer response for risky work. The complete control rules live in
+[SKILL.md](../skills/agent-mission-control/SKILL.md).

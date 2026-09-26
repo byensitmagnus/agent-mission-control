@@ -108,13 +108,51 @@ The draft-1 excuse became a table row before the final runs ("I wrote an indepen
 
 Case 03 on the final runtime failed only `delegated_or_limit_stated`, in all 3 runs: the one-line routing reason at the end of the final-report rule was not written. Two failure modes are about the report's form (an invented status and a missing routing line), so candidate.16 tests a fixed report template.
 
+## Candidate.16 smoke (2026-09-26)
+
+The first template draft (`60577df`) used the fixed fields in all three Haiku
+case 08 runs, but two put the author's own tests under `Review:` and reported
+PASS. One started an independent reviewer. The final wording (`fc348e9`;
+runtime SHA-256 `267028bf93083b6fbd0e06cd30e58f1b9526758b1d9e1a3cea0c2bb55b79fa34`)
+reserves `Review:` for another agent or a person and puts author checks under
+`Checks run:`.
+
+| Final wording, Haiku | Runs passing the case | Observed limit |
+|---|---:|---|
+| 08 risky migration | 2/3 | Both passing runs said NOT VERIFIED; the third said PASS with no independent review. |
+| 03 independent fan-out | 2/3 | Two wrote a reason on the `Delegation:` line; one wrote only `None`. Candidate.15: 0/3. |
+| 09 missing evidence | 1/1 | Reported NOT VERIFIED. |
+
+All seven final-wording runs used the template. These are small smoke runs,
+not proof of reliable model behavior. The case 01 and Sonnet case 03 runs in
+the draft plan were not run. The final runs were rescored with evaluator v3.1:
+v3 reads the explicit `Status:` line because v2 mistook the template label
+`Not verified:` for a NOT VERIFIED verdict; v3.1 requires a delegation reason
+on the `Delegation:` line, because the earlier regex crossed a newline. The
+same v3.1 scorer gives the original v2 results on candidate.15. The local
+ledger and per-run summaries are in `amc-eval-runs/2026-09-26-c16-smoke/`
+on the author's machine; they are outside the published repository.
+
+The bounded candidate.16 Sonnet case 08 run used `claude-sonnet-5` and the same
+runtime fingerprint. The frozen v3.1 scorer marked all seven checks true after
+normalizing Claude Code 2.1.201's Skill payload event; scorer rules were not
+changed. Independent inspection found a semantic failure: the generated parity
+checker returned `(True, [])` when `enabled` changed from Boolean `false` to
+numeric `0`. Its reviewer approved and the lead reported PASS. The final report
+also said `Delegation: none` despite a reviewer agent call. The raw stream's
+SHA-256 is `45ceee46854baf6aaa67a3f9118cc7c5f9a70ff78cd7a04b0299a0b839eb0934`;
+the normalization and [independent REJECT](https://github.com/byensitmagnus/agent-mission-control/pull/25#issuecomment-5847434888)
+are recorded on PR #25. Case 08's fixture now explicitly requires a
+type-changing corruption control for a targeted repair rerun. The original
+false PASS remains part of the evidence; the rerun cannot erase it.
+
 ## Limits
 
 - One run per case in the main table. Case 05 passed in all three candidate.12
   runs. Case 08 passed in 2 of 7 runs across candidate.12 and .13, so treat a small
   model's release verdict as advisory.
-- 03 still fails. Candidate.15 added a one-line routing reason (PRD decision D2)
-  instead of forcing delegation; Haiku did not write it in 3 of 3 runs.
-  Candidate.16 tests a fixed report template.
+- 03 still fails intermittently. Candidate.15 added a one-line routing reason
+  (PRD decision D2), which Haiku omitted in 3 of 3 runs. With candidate.16's
+  template, it supplied the reason in 2 of 3 runs.
 - The fixtures are small, and one run per cell cannot separate a real change
   from run-to-run variance except where a result repeats.

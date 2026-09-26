@@ -117,11 +117,21 @@ These verdict rules apply even when no reference file is opened:
 - **No delegation available:** run independent jobs one after another; if
   required independent review cannot be provided, say so; the verdict stays
   NOT VERIFIED.
-- **Final report:** result, changed files, checks that actually ran, what stays
-  unverified, and the status (PASS, FAIL, BLOCKED or NOT VERIFIED). With
-  release, migration or data-loss risk, add a `Review:` line: who reviewed which
-  artifact and their answer, or `Review: none`, which rules out PASS. If the
-  task had independent jobs, say in one line whether you delegated them and why.
+- **Final report:** end every task with this report, filled in:
+
+  ```text
+  Result: <what was done, in one sentence>
+  Changed files: <paths, or none>
+  Checks run: <command -> observed outcome, one per line, or none>
+  Not verified: <what stays unverified, or none>
+  Delegation: <jobs you delegated and why, or none and why>
+  Review: <another agent or person: which artifact, and their answer; or none>
+  Status: <exactly one of PASS, FAIL, BLOCKED, NOT VERIFIED>
+  ```
+
+  Your own tests and checks go under Checks run, never under Review. One Status
+  line for the whole task. With release, migration or data-loss risk,
+  `Review: none` rules out PASS.
 
 Reuse the existing mission record for long work: unresolved gates, artifact
 identities, owners and next authorized action. A stale PASS or completed worker

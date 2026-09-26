@@ -5,12 +5,13 @@ replaces the Danish [goal](../.claude/GOAL.md), whose exit gate is closed.
 
 ## Summary
 
-AMC is one small Agent Skill that makes a coding agent's "done" trustworthy:
+AMC is one small Agent Skill that asks a coding agent to make its work and
+completion evidence inspectable:
 
 - **Right-sized work.** The agent picks the smallest workflow that fits.
 - **Clean handoffs.** It hands off work completely when it delegates.
-- **Independent approval.** It gets independent approval before it passes risky changes.
-- **Proof at the end.** It finishes with the checks that actually ran.
+- **Independent approval.** It requests another reviewer before a risky PASS.
+- **Proof at the end.** It asks for the checks that actually ran.
 
 It is Markdown that the host already understands. There is no server, no
 runtime and no extra model.
@@ -27,7 +28,7 @@ runtime and no extra model.
 
 | User | Job | Needs from AMC |
 |---|---|---|
-| Developer using Claude Code, Codex or Cursor daily | Finish real repository tasks without babysitting | A report they can trust, and no false "tests pass" |
+| Developer using Claude Code, Codex or Cursor daily | Finish real repository tasks with less coordination | A report they can inspect against the actual artifact and checks |
 | Team lead or skill author | One definition of done across hosts and models | Portable rules, a small footprint and honest limits |
 
 ## Principles
@@ -48,7 +49,7 @@ The smoke case numbers refer to the [Haiku smoke cases](../evals/haiku-smoke-202
 | R1 Honest report | Every task ends with the result, changed files, the checks that ran (command and outcome), what stays unverified, and one status: PASS, FAIL, BLOCKED or NOT VERIFIED | Every check the report claims appears as an executed command. Missing evidence is NOT VERIFIED; an observed failure is FAIL | 01, 02, 07, 09 |
 | R2 Smallest workflow | Understood sequential work stays with the lead. Helpers are for fresh context, expertise or independent jobs. Parallel writers are isolated | Small cases stay direct. Independent jobs are delegated, or the lead says in one line why not | 01, 02, 04; 03 (failing) |
 | R3 Complete handoff | Each delegated job gets the working folder, exact input paths, a write scope and an acceptance check. The lead waits for every result | No worker reports missing inputs. The final report integrates or names every result | 03 (failing) |
-| R4 Independent approval | Release, migration or data-loss risk needs an approval of the current artifact, by a reviewer agent or a person, before PASS | No PASS or "approved for release" without that approval | 08 |
+| R4 Independent approval | Release, migration or data-loss risk needs an approval of the current artifact, by a reviewer agent or a person, before PASS | Behavioral target: no PASS or "approved for release" without that approval. Operationally, the host/person must verify the review; an agent's PASS alone cannot authorize the consequence | 08 |
 | R5 Safe resume | Before trusting a saved record, compare it with Git (or file digests) and rerun stale checks | A stale PASS is reported as NOT VERIFIED and rechecked | 05 |
 | R6 Authority | Continue authorized local work. Stop before unauthorized external or destructive steps | No push, publish or deploy without a mandate | 10, 11 |
 | R7 Footprint | `SKILL.md` has at most 200 lines and 12 KB (about 3,000 tokens). The description has at most 240 characters, and there are at most 20 installed files. One-line install through `npx skills` and the Claude Code plugin marketplace. No runtime dependency | `validate.py` enforces the limits. Public install checks pass for each release | validator |
@@ -63,6 +64,20 @@ The smoke case numbers refer to the [Haiku smoke cases](../evals/haiku-smoke-202
 - Mandatory hooks. Any host gate is opt-in.
 - Replacing host loops such as `/goal`. AMC defines done; the host runs the loop.
 
+## Supported operating envelope
+
+| Use | What AMC can supply | What must supply the boundary |
+|---|---|---|
+| **Supported:** ordinary coding work in a host that loaded the identified skill and gives the lead working file, test and review tools | Routing guidance, handoffs, a report and recoverable state | The lead or user checks the artifact and executed commands |
+| **Advisory:** the agent's route, final status and claims about review; model verdicts on high-risk work | A useful prompt to seek proof, never proof that it did so | Inspect the actual reviewer response and checks on the current artifact. Candidate.16 smoke produced false high-risk PASS reports from Haiku and Sonnet |
+| **Outside AMC's safety guarantee:** release, migration, data-loss action or permission based only on the agent's words | No enforcement | Host permissions, CI and a separate capable reviewer or person control the consequence |
+
+AMC remains portable Markdown. It cannot authenticate a reviewer, prevent a
+model from inventing a PASS, or grant release authority. Small models are useful
+scouts and workers; do not put a tested unreliable small model in sole charge
+of a high-risk release verdict. This is a boundary of the product, not a new
+prompt to make that model obey reliably.
+
 ## Quality plan
 
 Proof has to fit a small team, so AMC relies on published practice, logic and small checks:
@@ -71,6 +86,10 @@ Proof has to fit a small team, so AMC relies on published practice, logic and sm
   - `validate.py`, the unit tests and CI must pass;
   - one independent read-only review of the diff, by a cheaper reviewer model or a person;
   - release only after that approval (R4 applies to AMC itself).
+- **A labeled beta with an open behavioral target:** disclose the measured
+  failure and supported envelope. Engineering checks, the independent release
+  review and bounded smoke still apply. A beta release is not product exit and
+  does not turn an advisory model verdict into authorization.
 - **Smoke:** for each changed rule, run 3 Haiku runs on the mapped case and 1 Sonnet run, scored with the frozen scorer. Record the result as smoke, never as proof, and never as a headline based on one run.
 - **Prompt audit:** when rules change, run Anthropic's prompt audit on `SKILL.md`. Keep the explicit rules that small models need.
 - **Public install check for each release:**
@@ -105,15 +124,16 @@ Checked on 2026-09-26 with the GitHub API and the linked pages. Star counts are 
 
 **Working:**
 - Both install paths are checked for each release.
-- 68 validator negative controls, and CI on Linux and Windows.
+- 70 validator negative controls, and CI on Linux and Windows.
 - Checksummed releases, recorded sources and honest limits.
 - Anthropic's prompt audit (2026-09-26) found no stale or duplicated rules. It flagged three idioms in the release gate (the IMPORTANT marker, the numbered steps and the excuses table); all three stay as scoped fixes for a measured small-model failure ([record](evidence.md)).
 
 **Gaps:**
-1. **R4 on small models:** 2 of 7 before candidate.14; on candidate.15 the whole case passed in 1 of 3 (smoke). A Sonnet run held, and its reviewer caught a real bug.
-2. **R2 and case 03:** candidate.15's routing line was written in 0 of 3 Haiku runs.
-3. **Report form:** Haiku can invent a status or skip a report line when the fields are prose.
-4. **No demo:** the README shows no real report.
+1. **R4 on model verdicts:** 2 of 7 Haiku runs across candidates .12 and .13; on candidate.15 the whole case passed in 1 of 3, and on candidate.16 in 2 of 3 (smoke). One candidate.16 Haiku run reported PASS without independent review. A candidate.15 Sonnet reviewer caught a real bug, but a candidate.16 Sonnet reviewer approved a parity checker that accepted `false` changed to numeric `0`. R4 remains open.
+2. **R2 and case 03:** the delegation reason was written in 0 of 3 candidate.15 Haiku runs and 2 of 3 candidate.16 runs.
+3. **Report form:** candidate.16's fixed template appeared in all seven final Haiku smoke runs, mostly fixing the missing-field problem. The candidate.16 Sonnet report filled the template but said `Delegation: none` after using a reviewer agent. A filled template can still contain a false PASS.
+4. **Demo:** the README now shows a real candidate.15 Sonnet report excerpt;
+   it awaits review and merge on the current branch.
 5. **Front door:** about 40 Markdown files, roughly half of them history or development material.
 
 ## Plan
@@ -126,7 +146,69 @@ Checked on 2026-09-26 with the GitHub API and the linked pages. Star counts are 
 | M3b | Candidate.16: a fixed final-report template. The status is limited to the four values, with `Review:` and `Delegation:` fields | Lead; independent reviewer | Smoke on cases 08 and 03 shows the template followed. Released |
 | M4 | Front door: the README leads with the pain and a real report excerpt from an M3 smoke run, plus footprint numbers. The docs map separates current docs from the archive | Lead drafts; review | Merged |
 | M5 | Distribution: plugin-directory submission, one X post per concrete lesson, an r/ClaudeCode tip, a dev.to article, and Show HN once a demo exists | Magnus submits and posts to Reddit and HN; the lead drafts. X posts go out only after Magnus approves the text | Submitted or posted |
-| M6 | Optional completion gate on hosts with Stop hooks | Lead evaluates | Considered only if the M3b template leaves R1 or R4 failures on Haiku, and the gate fits in about 50 lines, is opt-in and runs no commands |
+| M6 | Optional report guard on hosts with Stop hooks | Lead evaluates | Evaluated and declined: a Stop hook cannot attest independent review or authorize release |
+
+M3b implementation and Haiku smoke are complete on `claude/candidate-16`.
+Independent read-only review on 2026-09-26 rejected the original claim that
+candidate.16 satisfies R4, because one observed high-risk PASS had no separate
+approval. At this review snapshot, candidate.16 was not released. **Product decision:** keep its runtime
+and consider it only as a report-format beta under the envelope above. Do not
+make candidate.17 for another wording tweak. A fresh reviewer must assess the
+current artifact and this narrower claim; engineering checks and the required
+Sonnet smoke remain gates before release.
+
+M6 research (2026-09-26): [planning-with-files at `4d24d9a`](https://github.com/OthmanAdi/planning-with-files/tree/4d24d9a8a2baa55a15e7f8f9ec6da8d19793ee8c)
+(about 27k stars, MIT) uses an opt-in Stop hook and reads local state; the
+prototype tested that principle without copying its planning system or code.
+Teardown: Claude Code's
+shipped [Stop hook](https://code.claude.com/docs/en/hooks#stop) exposes
+`last_assistant_message` and can request continuation, but has an eight-turn
+continuation cap; no hook UI or proprietary code was unpacked. A 49-line
+prototype caught the observed report strings, but independent review twice
+found ways for self-review or a negated approval to pass. A fabricated approval
+can also pass any text-only guard. M6 is declined; no hook ships. R4 remains
+open until actual risky tasks use another reviewer for the current artifact;
+the release path must separately enforce review of AMC itself.
+
+## Exit gate: routine use, then maintenance
+
+AMC is ready to leave active development when all four checks below pass on
+one identified release. Closing the project means maintaining that release,
+not claiming AMC is generally faster, cheaper or more accurate than direct work.
+
+1. **One current artifact.** The reviewed commit, tagged skill/plugin ZIPs,
+   checksums, documented version and selected daily-use installation agree.
+   Installation and rollback checks pass. No page links to a nonexistent tag.
+2. **Risk stays controlled.** Engineering checks and an independent review pass
+   on the release artifact. M6 did not meet this gate; a Stop hook is no
+   release authority. Host permissions, CI and review protect actual release.
+   On 2026-09-26 GitHub reported no protection for `main`; require an
+   enforceable review/release control before accepting this check.
+   Until R4 meets this contract, narrow the public claim instead of calling
+   the project complete.
+3. **Real work succeeds.** Use the same installed release on three naturally
+   occurring commissioned tasks: one small direct task, one multi-step or
+   resumed task, and one with release, migration or data-loss risk. Inspect the
+   delivered artifacts and recorded checks. Require 3/3 correct artifacts,
+   no known false PASS or lost authorized work, and at most one corrective user
+   nudge across the three tasks (expected risk approval does not count). The
+   small task must stay direct. Record elapsed time and reviewer effort; a
+   costly or confusing run fails owner acceptance even if its code passes.
+   A failed task triggers a repair and a fresh observation set. These three
+   observations establish owner readiness, not a general gain.
+4. **A usable front door.** README shows one real report and a short install
+   path; evidence and host limitations are accurate. One outside reader can
+   install the release and understand what PASS does and does not mean.
+
+PR #25 pre-release snapshot (2026-09-26): gate 1 is open because candidate.16 is unreleased
+and the daily installed skill differs from it; gate 2 is open after the R4
+review rejection and absent `main` protection; gate 3 has no same-release
+three-task record; gate 4 has a local README demo, but no outside-reader check.
+
+After these checks, record the accepted version and proof in project status,
+switch to maintenance, and change AMC only for a reproducible defect, a host
+compatibility change or a concrete user need. M5 promotion is separate from
+this product exit gate.
 
 ## Operating model
 
@@ -147,3 +229,6 @@ Checked on 2026-09-26 with the GitHub API and the linked pages. Star counts are 
 3. **D3:** the core skill has no hooks. M6 decides on an opt-in gate from evidence.
 4. **D4:** the four statuses stay: PASS, FAIL, BLOCKED and NOT VERIFIED.
 5. **D5:** proof means engineering checks, one independent review and small smoke runs. No campaigns.
+6. **D6:** candidate.16 may be reviewed as a report-format beta with R4 open,
+   under the supported operating envelope. A release is distinct from the
+   four-part product exit gate.

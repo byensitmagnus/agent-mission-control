@@ -7,7 +7,7 @@
 
 <h1 align="center">Agent Mission Control</h1>
 <p align="center"><strong>Stop babysitting your coding agent.</strong><br />
-One skill that makes the agent choose the right amount of help,<br />and show which checks actually ran before it says “done”.</p>
+One skill that helps the agent choose the right amount of help,<br />and show which checks actually ran before it says “done”.</p>
 
 <p align="center">
   <a href="https://github.com/byensitmagnus/agent-mission-control/actions/workflows/validate.yml"><img src="https://github.com/byensitmagnus/agent-mission-control/actions/workflows/validate.yml/badge.svg?branch=main" alt="Public main engineering checks" /></a>
@@ -74,17 +74,27 @@ evidence and remaining limits.
 Stop before push or external changes.
 ```
 
-## What “done” looks like
+## What “done” looked like in one smoke run
 
-An illustrative delivery (format example, not a measured run):
+In a disposable migration case, the first independent reviewer rejected a
+parity check: Python treats `0 == False` as true, so a wrong-type value could
+pass. The agent repaired the check, reran it and got approval on the changed
+artifact. Condensed from the [candidate.15 Sonnet run](evals/haiku-smoke-2026-09-25.md#candidate15-smoke-2026-09-26):
 
 ```text
-Result:    zero now exports as 0; missing values stay blank
-Changed:   src/export.py, tests/test_export.py
-Checked:   python -m unittest tests.test_export — passed on the changed source
-Not done:  spreadsheet import untested; no deployment
-Status:    PASS for the identified artifact
+Result: preserve false and zero settings through migration
+Changed files: migrate.py, verify_migration.py
+Checks run: python verify_migration.py -> parity, rollback and corruption controls passed
+Not verified: record fields outside the fixture's ID and settings; no production release
+Delegation: independent review for migration risk
+Review: first REJECT (0 == False); after repair, APPROVE on the changed files
+Status: PASS
 ```
+
+PASS here is for the disposable fixture only. This is one smoke observation,
+not a production run or proof that AMC improves
+quality generally. The run also started a second reviewer beyond the intended
+one-review ceiling.
 
 If someone will run a generated script or installer, that file is what gets
 checked. A green check on the source alone leaves the package NOT VERIFIED.
@@ -100,15 +110,28 @@ actual code), then merge after green CI. It is an observed trace, not a benchmar
 
 ## Honest limits
 
+- AMC's `PASS` is an agent's evidence claim, not permission to release or run a
+  migration. For high-risk work, check the actual independent review of the
+  current artifact and use host permissions and CI for the consequential step.
+  Candidate.16 smoke produced false high-risk PASS reports from Haiku and
+  Sonnet. In the Sonnet run, an approved parity checker accepted `false` changed
+  to numeric `0` as unchanged. Treat every model's release verdict as advisory.
+  [Supported use](docs/prd.md#supported-operating-envelope).
 - General gains in cost, speed or quality are **not established**. We do not
   claim them. [What was actually checked](docs/evidence.md).
 - AMC is instructions. Your host decides which tools, subagents and permissions exist.
 - Small models need the rules in plain sight. With Claude Haiku 4.5, 9 of 10
   repository cases passed after the verdict rules moved into `SKILL.md` (7 of 10
   before). One run per case. Haiku still approved a risky migration on its own
-  tests in 5 of 7 runs across candidate.12 and .13. On candidate.15, whose gate
-  follows published practice, the case passed in 1 of 3 runs; one run started an
-  independent reviewer on its own. [Haiku results](evals/haiku-smoke-2026-09-25.md)
+  tests in 5 of 7 runs across candidate.12 and .13. On candidate.15 the whole
+  migration case passed in 1 of 3 runs; one started an independent reviewer.
+  Candidate.16's fixed report template was used in all seven final smoke runs.
+  The migration case passed in 2 of 3, but one still reported PASS without
+  independent review. The delegation reason appeared in 2 of 3 case 03 runs,
+  versus 0 of 3 on candidate.15. These are smoke results, not a reliability
+  claim. [Haiku results](evals/haiku-smoke-2026-09-25.md)
+  In the candidate.16 Sonnet case 08 run, the final report also said
+  `Delegation: none` despite using a reviewer agent.
 - The CI badge covers engineering checks on `main`, not agent behavior.
 
 ## Pick the right tool
@@ -127,9 +150,12 @@ live board. A model profile fits when you want fixed role/model presets.
 | See where AMC is going | [Product requirements and plan](docs/prd.md) |
 | Contribute | [Development](docs/development.md) · [Contributing](CONTRIBUTING.md) |
 
-**Versions:** the installs above use `main`. The latest tagged ZIP,
-[candidate.15](https://github.com/byensitmagnus/agent-mission-control/releases/tag/v0.2.0-candidate.15),
-contains the same runtime, with checksums. The docs map is [docs/README.md](docs/README.md).
+**Versions:** the installs above use `main`. For a tagged ZIP, use the
+[latest release](https://github.com/byensitmagnus/agent-mission-control/releases/latest)
+and verify its checksums. Candidate.16's report template has a documented
+false high-risk PASS; any release of it is a report-format/workflow beta with
+advisory PASS, not an enforced release gate.
+The docs map is [docs/README.md](docs/README.md).
 
 ## Help it get better
 
