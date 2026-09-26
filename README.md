@@ -106,8 +106,9 @@ actual code), then merge after green CI. It is an observed trace, not a benchmar
 - Small models need the rules in plain sight. With Claude Haiku 4.5, 9 of 10
   repository cases passed after the verdict rules moved into `SKILL.md` (7 of 10
   before). One run per case. Haiku still approved a risky migration on its own
-  tests in 5 of 7 runs across candidate.12 and .13. candidate.14 rebuilds that
-  gate from published practice and is not re-measured. [Haiku results](evals/haiku-smoke-2026-09-25.md)
+  tests in 5 of 7 runs across candidate.12 and .13. On candidate.15, whose gate
+  follows published practice, the case passed in 1 of 3 runs; one run started an
+  independent reviewer on its own. [Haiku results](evals/haiku-smoke-2026-09-25.md)
 - The CI badge covers engineering checks on `main`, not agent behavior.
 
 ## Pick the right tool
@@ -127,7 +128,7 @@ live board. A model profile fits when you want fixed role/model presets.
 | Contribute | [Development](docs/development.md) · [Contributing](CONTRIBUTING.md) |
 
 **Versions:** the installs above use `main`. The latest tagged ZIP,
-[candidate.14](https://github.com/byensitmagnus/agent-mission-control/releases/tag/v0.2.0-candidate.14),
+[candidate.15](https://github.com/byensitmagnus/agent-mission-control/releases/tag/v0.2.0-candidate.15),
 contains the same runtime, with checksums. The docs map is [docs/README.md](docs/README.md).
 
 ## Help it get better

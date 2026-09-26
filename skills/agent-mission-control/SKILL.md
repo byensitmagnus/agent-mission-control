@@ -82,8 +82,8 @@ These verdict rules apply even when no reference file is opened:
 - **IMPORTANT: no release PASS without independent review.** For release,
   migration or data-loss risk (not trivial edits), the author's own assessment
   is insufficient; the lead still accepts:
-  1. If a person or reviewer already approved the current commit or artifact,
-     or the user named a review procedure, use that.
+  1. If a person or another agent already approved the current artifact,
+     including uncommitted changes, or the user named who reviews, use that.
   2. Otherwise, if you can start a subagent, start one read-only reviewer. Give
      it the requirement, the current diff or changed files, and the checks you
      ran with their output, but not your case for PASS. Ask it to find why the
@@ -92,19 +92,20 @@ These verdict rules apply even when no reference file is opened:
   3. If you cannot, ask the user or a person they name to review the current
      artifact, and finish the other authorized work.
   4. On REJECT, fix the findings you can confirm, rerun the affected checks and
-     ask the same reviewer to recheck the repaired artifact, once. List
-     unconfirmed findings under what stays unverified. A second reviewer does
-     not overrule an open finding.
+     have the repaired artifact rechecked once, by the same reviewer or a new
+     one given the findings. List unconfirmed findings under what stays
+     unverified. A reviewer who has not seen an open finding cannot clear it.
   5. Without that approval, the verdict is never PASS or "approved for
      release", even when the user asks for a release verdict: report FAIL if a
      check failed, otherwise NOT VERIFIED.
 
-  Without an approval of the current artifact:
+  Without an approval of the current artifact (a failed check is still FAIL):
 
   | If you think | Then |
   |---|---|
   | "My tests are thorough" | Your own tests are not an independent review. |
   | "I named the missing review" | Naming it does not replace it. |
+  | "I wrote an independent review" | A review you wrote is your own assessment. |
   | "Local-only PASS", "ready", "safe to release" | Same claim as PASS. Write NOT VERIFIED. |
   | "The user asked for a verdict" | NOT VERIFIED is the verdict. Name the missing review. |
 
@@ -119,7 +120,8 @@ These verdict rules apply even when no reference file is opened:
 - **Final report:** result, changed files, checks that actually ran, what stays
   unverified, and the status (PASS, FAIL, BLOCKED or NOT VERIFIED). With
   release, migration or data-loss risk, add a `Review:` line: who reviewed which
-  artifact and their answer, or `Review: none`, which rules out PASS.
+  artifact and their answer, or `Review: none`, which rules out PASS. If the
+  task had independent jobs, say in one line whether you delegated them and why.
 
 Reuse the existing mission record for long work: unresolved gates, artifact
 identities, owners and next authorized action. A stale PASS or completed worker

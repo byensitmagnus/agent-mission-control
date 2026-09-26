@@ -89,6 +89,8 @@ def validate_skill_folder(root: Path) -> None:
     expected = sorted(REQUIRED_FILES + COPY_DIRS)
     need(sorted(path.name for path in skill.iterdir()) == expected, f"{skill}: must contain exactly {expected}")
     need(read(skill / "LICENSE") == read(root / "LICENSE"), f"{skill / 'LICENSE'}: must match the repository LICENSE")
+    files = sum(path.is_file() for path in skill.rglob("*"))
+    need(files <= 20, f"{skill}: at most 20 runtime files (docs/prd.md R7); found {files}")
 
 def validate_claude_plugin(root: Path) -> None:
     # The repository root is the Claude Code plugin; its version must follow the runtime version.
@@ -101,7 +103,10 @@ def validate_claude_plugin(root: Path) -> None:
     need([(e.get("name"), e.get("version"), e.get("source")) for e in entries] == [(NAME, VERSION, "./")], f"{folder / 'marketplace.json'}: one {NAME} entry with version {VERSION} and source ./ required")
 
 def validate_skill(root: Path) -> None:
-    parts = read(root / "SKILL.md").split("---", 2)
+    text = read(root / "SKILL.md")
+    lines, size = len(text.splitlines()), len(text.encode("utf-8"))
+    need(lines <= 200 and size <= 12_000, f"SKILL.md: budget is 200 lines and 12,000 bytes (docs/prd.md R7); found {lines} lines, {size} bytes")
+    parts = text.split("---", 2)
     need(len(parts) == 3 and not parts[0].strip(), "SKILL.md: invalid frontmatter")
     entries = [line for line in parts[1].splitlines() if line.strip()]
     need(len(entries) == 2, "SKILL.md: frontmatter must contain exactly name and description")
