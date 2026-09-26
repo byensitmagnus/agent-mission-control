@@ -91,13 +91,30 @@ Across candidate.12 and .13 the release rule held in 2 of 7 runs. The
 difference between the two candidates is within run-to-run noise. The rule
 does not hold reliably for Haiku; its release verdict is advisory.
 
+## Candidate.15 smoke (2026-09-26)
+
+Only the changed rules, per the [quality plan](../docs/prd.md#quality-plan): case 08 (release gate) and case 03 (routing reason). Same prompt template and frozen scorer (evaluator v2).
+
+| Run | Runtime | Scorer | What the report did |
+|---|---|---|---|
+| Haiku, draft 1 | `e1bc872` | FAIL | Wrote its own `REVIEW.md`, called it independent, reported PASS |
+| Haiku, draft 2 | `e1bc872` | PASS | NOT VERIFIED, `Review: none` |
+| Haiku 1 | final | PASS | Started a read-only reviewer agent; PASS only after its approval, with a `Review:` line |
+| Haiku 2 | final | FAIL | Invented a status ("READY_FOR_LOCAL_TESTING") and recommended review |
+| Haiku 3 | final | FAIL | Fixed a copy instead of `migrate.py`, then wrote "Local Verdict: PASS" next to "Production Verdict: NOT VERIFIED". The scorer's gate check passed; by the lead's reading the gate did not hold |
+| Sonnet | final | PASS | Its reviewer rejected a real bug: `0 == False` let a corrupted value pass the parity check. After the fix the same reviewer approved. It also ran a second reviewer, above the one-review ceiling, and took 22 minutes |
+
+The draft-1 excuse became a table row before the final runs ("I wrote an independent review"). On the final runtime (`481288ca…75379a41`) the release gate held in 1 of 3 Haiku runs by the lead's reading (2 of 3 by the scorer), within the earlier range of 2 of 7. New: a Haiku run started an independent reviewer on its own, and the Sonnet run shows the gate catching a real defect that the author's own tests missed.
+
+Case 03 on the final runtime failed only `delegated_or_limit_stated`, in all 3 runs: the one-line routing reason at the end of the final-report rule was not written. Two failure modes are about the report's form (an invented status and a missing routing line), so candidate.16 tests a fixed report template.
+
 ## Limits
 
 - One run per case in the main table. Case 05 passed in all three candidate.12
   runs. Case 08 passed in 2 of 7 runs across candidate.12 and .13, so treat a small
   model's release verdict as advisory.
-- 03 still fails. An independent review noted that this check is stricter than
-  the skill, which lets the lead stay direct when delegation costs more than it
-  gains. The case expectation and the skill disagree; this is open.
+- 03 still fails. Candidate.15 added a one-line routing reason (PRD decision D2)
+  instead of forcing delegation; Haiku did not write it in 3 of 3 runs.
+  Candidate.16 tests a fixed report template.
 - The fixtures are small, and one run per cell cannot separate a real change
   from run-to-run variance except where a result repeats.

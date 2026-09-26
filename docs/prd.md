@@ -107,26 +107,26 @@ Checked on 2026-09-26 with the GitHub API and the linked pages. Star counts are 
 - Both install paths are checked for each release.
 - 68 validator negative controls, and CI on Linux and Windows.
 - Checksummed releases, recorded sources and honest limits.
-- Anthropic's prompt audit (2026-09-26) found no stale or duplicated rules. It flagged three idioms in the release gate (the IMPORTANT marker, the numbered steps and the excuses table); all three stay as scoped fixes for a measured small-model failure.
+- Anthropic's prompt audit (2026-09-26) found no stale or duplicated rules. It flagged three idioms in the release gate (the IMPORTANT marker, the numbered steps and the excuses table); all three stay as scoped fixes for a measured small-model failure ([record](evidence.md)).
 
 **Gaps:**
-1. **R4 on small models:** the rule held in 2 of 7 runs before candidate.14. Candidate.14 has not been measured.
-2. **R2 and case 03:** the lead keeps independent jobs without saying why.
-3. **No demo:** the README shows no real report.
-4. **Front door:** about 40 Markdown files, roughly half of them history or development material.
-5. **R7 is not enforced:** `validate.py` has no line or byte budget.
-6. **Four deferred review points** from candidate.14.
+1. **R4 on small models:** 2 of 7 before candidate.14, and 1 of 3 on candidate.15 (smoke). A Sonnet run held, and its reviewer caught a real bug.
+2. **R2 and case 03:** candidate.15's routing line was written in 0 of 3 Haiku runs.
+3. **Report form:** Haiku can invent a status or skip a report line when the fields are prose.
+4. **No demo:** the README shows no real report.
+5. **Front door:** about 40 Markdown files, roughly half of them history or development material.
 
 ## Plan
 
 | Milestone | Deliverable | Owner | Done when |
 |---|---|---|---|
 | M1 | Candidate.14 release gate | Lead | Released 2026-09-26 |
-| M2 | This PRD | Lead; cheaper-model review | Merged |
+| M2 | This PRD | Lead; cheaper-model review | Merged 2026-09-26 |
 | M3 | Candidate.15, with three parts:<br>• the four deferred points;<br>• a one-line reason when independent jobs stay with the lead (R2);<br>• an R7 budget in `validate.py` | Lead; independent reviewer | The review approves. Smoke: 3 Haiku runs each on cases 08 and 03, plus 1 Sonnet run on 08. Released |
+| M3b | Candidate.16: a fixed final-report template. The status is limited to the four values, with `Review:` and `Delegation:` fields | Lead; independent reviewer | Smoke on cases 08 and 03 shows the template followed. Released |
 | M4 | Front door: the README leads with the pain and a real report excerpt from an M3 smoke run, plus footprint numbers. The docs map separates current docs from the archive | Lead drafts; review | Merged |
 | M5 | Distribution: plugin-directory submission, one X post per concrete lesson, an r/ClaudeCode tip, a dev.to article, and Show HN once a demo exists | Magnus submits and posts to Reddit and HN; the lead drafts. X posts go out only after Magnus approves the text | Submitted or posted |
-| M6 | Optional completion gate on hosts with Stop hooks | Lead evaluates | Built only if M3 smoke still shows R1 or R4 failures on Haiku, and the gate fits in about 50 lines, is opt-in and runs no commands |
+| M6 | Optional completion gate on hosts with Stop hooks | Lead evaluates | Considered only if the M3b template leaves R1 or R4 failures on Haiku, and the gate fits in about 50 lines, is opt-in and runs no commands |
 
 ## Operating model
 
