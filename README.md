@@ -13,6 +13,8 @@
   <img src="docs/assets/amc-flow.svg" alt="AMC mission map: a lead routes each work slice to direct work, a specialist or isolated independent jobs. Scout, resume, measured optimization and budget checks are conditional. Artifact checks and independent review return failures for repair. The lead reports an advisory verdict; learning is separate after the task." />
 </picture>
 
+[Open full-size diagram](docs/assets/amc-flow.svg) · [Mobile layout](docs/assets/amc-flow-mobile.svg)
+
 **AMC is a portable skill, not a graph runtime.** The paths are conditional;
 the lead uses only what the task needs. [See the decision rules](docs/how-it-works.md).
 
