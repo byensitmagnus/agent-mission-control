@@ -20,6 +20,6 @@ Hard rules for agents working here:
 5. Cite [field state](docs/field-state.md) for evidence grades. Load
    [SKILL.md](skills/agent-mission-control/SKILL.md) only as far as the task needs.
 
-Product goal (Danish): [.claude/GOAL.md](.claude/GOAL.md). Its 2026-09-24 exit gate is closed; see MISSION.md.
+Product requirements and plan: [docs/prd.md](docs/prd.md). The earlier Danish goal, [.claude/GOAL.md](.claude/GOAL.md), is closed; see MISSION.md.
 Checks: [docs/development.md](docs/development.md).
 Contributing: [CONTRIBUTING.md](CONTRIBUTING.md).
