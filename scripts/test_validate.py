@@ -244,6 +244,8 @@ def stray_skill_file(root): (root / SKILL / "README.md").write_text("not runtime
 def skill_license_drift(root): (root / SKILL / "LICENSE").write_text("changed", encoding="utf-8")
 def plugin_version_drift(root): replace(root / ".claude-plugin/plugin.json", '"version": "', '"version": "9.9.9-')
 def marketplace_version_drift(root): replace(root / ".claude-plugin/marketplace.json", '"version": "', '"version": "9.9.9-')
+def skill_over_budget(root): path = root / SKILL / "SKILL.md"; path.write_text(path.read_text(encoding="utf-8") + "\nPadding line.\n" * 60, encoding="utf-8")
+def too_many_runtime_files(root): [(root / SKILL / f"references/extra-{n}.md").write_text("extra", encoding="utf-8") for n in range(5)]
 
 def main() -> int:
     from validate import srcset_urls
@@ -299,6 +301,7 @@ def main() -> int:
         svg_style_import: "unsafe SVG element style", placeholder: "unfinished placeholder",
         root_skill_md: "not the repository root", stray_skill_file: "must contain exactly", skill_license_drift: "must match the repository LICENSE",
         plugin_version_drift: "version must equal package VERSION", marketplace_version_drift: "entry with version",
+        skill_over_budget: "budget is 200 lines", too_many_runtime_files: "at most 20 runtime files",
     }
     for mutation, expected in controls.items():
         with tempfile.TemporaryDirectory() as directory:
