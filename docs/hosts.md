@@ -13,7 +13,7 @@ installation, native discovery and completed work.
 ## Install the current source
 
 The commands in this section require the **current default branch**, Git and
-Python 3.11+. Clone this repository, or check out the `v0.2.0-candidate.16` tag
+Python 3.11+. Clone this repository, or check out the `v0.2.0-candidate.15` tag
 for the latest tagged runtime; older tags carry older kernels.
 
 ```bash

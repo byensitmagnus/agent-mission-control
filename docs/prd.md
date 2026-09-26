@@ -131,6 +131,37 @@ Checked on 2026-09-26 with the GitHub API and the linked pages. Star counts are 
 M3b implementation and smoke are complete on `claude/candidate-16`; its
 independent review and release remain open.
 
+## Exit gate: routine use, then maintenance
+
+AMC is ready to leave active development when all four checks below pass on
+one identified release. Closing the project means maintaining that release,
+not claiming AMC is generally faster, cheaper or more accurate than direct work.
+
+1. **One current artifact.** The reviewed commit, tagged skill/plugin ZIPs,
+   checksums, documented version and selected daily-use installation agree.
+   Installation and rollback checks pass. No page links to a nonexistent tag.
+2. **Risk stays controlled.** Engineering checks and an independent review pass
+   on the release artifact. Decide M6 against the known false-PASS case: an
+   opt-in host check must reject unsupported high-risk PASS without blocking
+   honest NOT VERIFIED or ordinary direct work. A Stop hook alone is not the
+   release authority; host permissions, CI and review protect actual release.
+   If the check cannot meet this contract, keep R4 open and narrow the public
+   claim instead of calling the project complete.
+3. **Real work succeeds.** Use the same installed release on three naturally
+   occurring commissioned tasks: one small direct task, one multi-step or
+   resumed task, and one with release, migration or data-loss risk. Inspect the
+   delivered artifacts and recorded checks. Require no known false PASS or
+   lost authorized work; record user intervention, elapsed time and reviewer
+   effort. These observations establish owner readiness, not a general gain.
+4. **A usable front door.** README shows one real report and a short install
+   path; evidence and host limitations are accurate. One outside reader can
+   install the release and understand what PASS does and does not mean.
+
+After these checks, record the accepted version and proof in project status,
+switch to maintenance, and change AMC only for a reproducible defect, a host
+compatibility change or a concrete user need. M5 promotion is separate from
+this product exit gate.
+
 ## Operating model
 
 - **The lead** makes decisions, integrates work, verifies results and releases.

@@ -4,7 +4,8 @@ These projects solve related problems at different levels. This comparison is
 based on the linked repository versions inspected on 2026-09-13. It describes
 inspected implementation as well as documentation; it is not an execution benchmark.
 
-Install current GitHub `main`; the `v0.2.0-candidate.16` tag has the same runtime.
+Install current GitHub `main`; the latest tagged release is candidate.15.
+Candidate.16 is on a branch awaiting review and release.
 The mechanism table below records an older inspection.
 
 ## Start with what you need
@@ -79,7 +80,7 @@ quality, completion rate, speed and cost remain unverified.
 ## What to install
 
 Install current GitHub `main`, using [getting started](getting-started.md).
-candidate.16 is the latest tagged ZIP, with the same runtime as `main`. The 2026-09-13
+candidate.15 is the latest tagged ZIP, with the same runtime as `main`. The 2026-09-13
 inspection is not evidence of an overall lead over either alternative.
 
 Other branches are not this kernel. A product-contract draft adds a JSON
