@@ -110,7 +110,7 @@ Checked on 2026-09-26 with the GitHub API and the linked pages. Star counts are 
 - Anthropic's prompt audit (2026-09-26) found no stale or duplicated rules. It flagged three idioms in the release gate (the IMPORTANT marker, the numbered steps and the excuses table); all three stay as scoped fixes for a measured small-model failure ([record](evidence.md)).
 
 **Gaps:**
-1. **R4 on small models:** 2 of 7 before candidate.14, and 1 of 3 on candidate.15 (smoke). A Sonnet run held, and its reviewer caught a real bug.
+1. **R4 on small models:** 2 of 7 before candidate.14; on candidate.15 the whole case passed in 1 of 3 (smoke). A Sonnet run held, and its reviewer caught a real bug.
 2. **R2 and case 03:** candidate.15's routing line was written in 0 of 3 Haiku runs.
 3. **Report form:** Haiku can invent a status or skip a report line when the fields are prose.
 4. **No demo:** the README shows no real report.
