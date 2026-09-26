@@ -1,13 +1,7 @@
-<p align="center">
-  <picture>
-    <source media="(max-width: 600px)" srcset="docs/assets/mission-path-mobile.svg" />
-    <img src="docs/assets/mission-path.svg" alt="Illustration, not a recorded run: a lead takes a goal, chooses direct work or a specialist or parallel help, then integrates and verifies." width="100%" />
-  </picture>
-</p>
-
 <h1 align="center">Agent Mission Control</h1>
 <p align="center"><strong>Stop babysitting your coding agent.</strong><br />
-One skill that helps the agent choose the right amount of help,<br />and show which checks actually ran before it says “done”.</p>
+One lead chooses the help a task needs, integrates the work,<br />
+and reports the checks behind its result.</p>
 
 <p align="center">
   <a href="https://github.com/byensitmagnus/agent-mission-control/actions/workflows/validate.yml"><img src="https://github.com/byensitmagnus/agent-mission-control/actions/workflows/validate.yml/badge.svg?branch=main" alt="Public main engineering checks" /></a>
@@ -15,51 +9,27 @@ One skill that helps the agent choose the right amount of help,<br />and show wh
   <img src="https://img.shields.io/badge/Claude%20Code%20%C2%B7%20Codex%20%C2%B7%20Cursor%20%C2%B7%20Grok%20%C2%B7%20Kimi-skill-6d4aff" alt="Agent Skill for Claude Code, Codex, Cursor, Grok and Kimi" />
 </p>
 
-**Agent Mission Control (AMC)** is an open-source agent orchestration skill for
-AI coding agents. In Claude Code, Codex, Cursor, Grok or Kimi, it helps one lead
-choose direct work, a scoped specialist or independent parallel jobs, then
-check the current artifact and report what remains uncertain.
+<picture>
+  <source media="(max-width: 600px)" srcset="docs/assets/operating-map-mobile.svg" />
+  <img src="docs/assets/operating-map.svg" alt="AMC decision map: one lead chooses direct work, a scoped specialist or independent parallel help; checks the current artifact; then reports evidence and limits. Scout, AVO, review and resume are conditional." width="100%" />
+</picture>
+
+**Try it on a task you already need to finish:**
 
 ```bash
 npx skills add byensitmagnus/agent-mission-control
 ```
 
-<p align="center">16 small files (about 60 KB). No server or API key required.<br />
-<a href="docs/getting-started.md"><strong>Get started →</strong></a> ·
-<a href="docs/task-guide.md">Task recipes</a> ·
-<a href="#the-workflow-at-a-glance">See the workflow ↓</a> ·
-<a href="docs/evidence.md">Results &amp; limits</a></p>
+<p align="center"><a href="docs/getting-started.md"><strong>Get started →</strong></a> ·
+<a href="docs/task-guide.md">See task recipes</a> ·
+<a href="docs/evidence.md">Inspect evidence &amp; limits</a></p>
 
-## The workflow at a glance
-
-AMC helps the lead pick the smallest useful route, integrate the work, check
-the current artifact and report an evidence-based status. Review is added when
-risk or an unresolved finding calls for it; confirmed fixes go through the
-checks again.
-
-```mermaid
-flowchart TD
-  A["Coding task<br/>goal · limits · done when"] --> B{"Which route adds value?"}
-  B -->|small or sequential| C["Lead works directly"]
-  B -->|focused gap| D["One scoped specialist"]
-  B -->|independent jobs| E["Parallel help<br/>isolate writers"]
-  C --> F["Lead integrates current artifact"]
-  D --> F
-  E --> F
-  F --> G["Run relevant checks"]
-  G -->|failed check: repair| F
-  G --> H{"Risk or missing proof?"}
-  H -->|yes| I["Fresh independent review"]
-  H -->|no| J["Report evidence and limits"]
-  I -->|confirmed finding: repair| F
-  I --> J
-  J --> K["PASS · FAIL · NOT VERIFIED · BLOCKED"]
-```
-
-The diagram shows possible routes, not a mandatory pipeline. The lead owns
-integration and the final verdict. **PASS is advisory**; host permissions, CI
-and a separate reviewer still govern risky actions.
-[Detailed workflow →](docs/how-it-works.md)
+**Agent Mission Control (AMC)** is a portable Markdown skill for coding agents
+in Claude Code, Codex, Cursor, Grok and Kimi. The host provides tools,
+subagents and permissions; AMC provides routing and reporting instructions,
+not a graph runtime. The diagram shows possible routes, not required phases.
+**PASS is advisory**; host permissions, CI and a separate reviewer still govern
+risky actions. [How the decisions work →](docs/how-it-works.md)
 
 <details>
 <summary>When does AMC add a scout, AVO loop or independent review?</summary>
