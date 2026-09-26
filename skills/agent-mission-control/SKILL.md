@@ -82,8 +82,8 @@ These verdict rules apply even when no reference file is opened:
 - **IMPORTANT: no release PASS without independent review.** For release,
   migration or data-loss risk (not trivial edits), the author's own assessment
   is insufficient; the lead still accepts:
-  1. If a person or reviewer already approved the current artifact, including
-     uncommitted changes, or the user named who reviews, use that.
+  1. If a person or another agent already approved the current artifact,
+     including uncommitted changes, or the user named who reviews, use that.
   2. Otherwise, if you can start a subagent, start one read-only reviewer. Give
      it the requirement, the current diff or changed files, and the checks you
      ran with their output, but not your case for PASS. Ask it to find why the
@@ -105,6 +105,7 @@ These verdict rules apply even when no reference file is opened:
   |---|---|
   | "My tests are thorough" | Your own tests are not an independent review. |
   | "I named the missing review" | Naming it does not replace it. |
+  | "I wrote an independent review" | A review you wrote is your own assessment. |
   | "Local-only PASS", "ready", "safe to release" | Same claim as PASS. Write NOT VERIFIED. |
   | "The user asked for a verdict" | NOT VERIFIED is the verdict. Name the missing review. |
 
