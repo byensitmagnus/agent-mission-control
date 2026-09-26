@@ -15,6 +15,11 @@ One skill that helps the agent choose the right amount of help,<br />and show wh
   <img src="https://img.shields.io/badge/Claude%20Code%20%C2%B7%20Codex%20%C2%B7%20Cursor%20%C2%B7%20Grok%20%C2%B7%20Kimi-skill-6d4aff" alt="Agent Skill for Claude Code, Codex, Cursor, Grok and Kimi" />
 </p>
 
+**Agent Mission Control (AMC)** is an open-source agent orchestration skill for
+AI coding agents. In Claude Code, Codex, Cursor, Grok or Kimi, it helps one lead
+choose direct work, a scoped specialist or independent parallel jobs, then
+check the current artifact and report what remains uncertain.
+
 ```bash
 npx skills add byensitmagnus/agent-mission-control
 ```
@@ -22,7 +27,7 @@ npx skills add byensitmagnus/agent-mission-control
 <p align="center">16 small files (about 60 KB). No server, no API key, no extra model.<br />
 <a href="docs/getting-started.md"><strong>Get started →</strong></a> ·
 <a href="docs/task-guide.md">Task recipes</a> ·
-<a href="docs/how-it-works.md">How it works</a> ·
+<a href="#the-workflow-at-a-glance">See the workflow ↓</a> ·
 <a href="docs/evidence.md">Results &amp; limits</a></p>
 
 ## Why
@@ -35,6 +40,36 @@ rule set for each:
 | **A swarm for a one-line fix.** Five subagents, five context dumps, one tiny change. | Keep small work direct. Delegate only when a job earns its coordination cost. |
 | **“All tests pass”** when no test ran. | Report only checks that actually ran on the current artifact. Missing proof stays **NOT VERIFIED**. |
 | **Lost after a long session.** The context fills up and work starts over. | Keep a compact mission record and reconcile it with the files before trusting it. |
+
+## The workflow at a glance
+
+AMC helps the lead pick the smallest useful route, integrate the work, check
+the current artifact and report an evidence-based status. Review is added when
+risk or an unresolved finding calls for it; confirmed fixes go through the
+checks again.
+
+```mermaid
+flowchart TD
+  A["Coding task<br/>goal · limits · done when"] --> B{"Which route adds value?"}
+  B -->|small or sequential| C["Lead works directly"]
+  B -->|focused gap| D["One scoped specialist"]
+  B -->|independent jobs| E["Parallel help<br/>isolate writers"]
+  C --> F["Lead integrates current artifact"]
+  D --> F
+  E --> F
+  F --> G["Run relevant checks"]
+  G -->|failed check: repair| F
+  G --> H{"Risk or missing proof?"}
+  H -->|yes| I["Fresh independent review"]
+  H -->|no| J["Report evidence and limits"]
+  I -->|confirmed finding: repair| F
+  I --> J
+  J --> K["PASS · FAIL · NOT VERIFIED · BLOCKED"]
+```
+
+The diagram shows possible routes, not a mandatory pipeline or a measured
+outcome. A reported PASS is advisory; your host and reviewer control risky
+actions such as release or migration. [Detailed workflow →](docs/how-it-works.md)
 
 ## Three routes, one lead
 
