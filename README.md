@@ -19,7 +19,7 @@ flowchart TD
   parallel --> verify
   verify --> risk{"Material risk?"}
   risk -->|yes| review["Independent review<br/>current artifact"]
-  risk -->|no| report["Report checks + limits<br/>PASS · FAIL · NOT VERIFIED · BLOCKED"]
+  risk -->|no| report["Report checks + limits<br/>PASS · FAIL<br/>NOT VERIFIED · BLOCKED"]
   review --> report
 ```
 
