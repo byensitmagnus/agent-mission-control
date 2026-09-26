@@ -6,34 +6,27 @@
   <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-2c568c" alt="MIT license" /></a>
 </p>
 
-**Agent Mission Control (AMC)** is a portable skill for Claude Code, Codex,
-Cursor, Grok and Kimi. It helps a lead agent choose how much help a coding task
-needs, then report the checks and limits of the result.
-
 ## How it works
 
 ```mermaid
 flowchart TD
-  task["Coding task<br/>goal · limits · done when"] --> lead{"Lead chooses<br/>the smallest useful route"}
-  lead -->|known work| direct["Work directly"]
-  lead -->|focused gap| specialist["One scoped specialist"]
-  lead -->|independent jobs| parallel["Parallel help<br/>isolated writers"]
-  direct --> integrate["Lead integrates<br/>current artifact"]
-  specialist --> integrate
-  parallel --> integrate
-  integrate --> checks["Run relevant checks"]
-  checks -->|failed: repair + rerun| integrate
-  checks --> gate{"Risk or missing proof?"}
-  gate -->|yes| review["Independent review<br/>of current artifact"]
-  gate -->|no| report["Report evidence + limits"]
-  review -->|finding: repair + recheck| integrate
+  task["Coding task<br/>goal · limits · done when"] --> lead{"Lead picks<br/>smallest useful route"}
+  lead -->|known work| direct["Direct<br/>lead does the work"]
+  lead -->|focused gap| specialist["Specialist<br/>bounded handoff"]
+  lead -->|independent jobs| parallel["Parallel<br/>isolated writers"]
+  direct --> verify["Lead integrates + checks<br/>current artifact"]
+  specialist --> verify
+  parallel --> verify
+  verify --> risk{"Material risk?"}
+  risk -->|yes| review["Independent review<br/>current artifact"]
+  risk -->|no| report["Report checks + limits<br/>PASS · FAIL · NOT VERIFIED · BLOCKED"]
   review --> report
-  report --> status["PASS · FAIL<br/>NOT VERIFIED · BLOCKED"]
 ```
 
-**Only when needed:** a scout can clarify the route; an AVO-style loop can
-compare measurable candidates with a frozen evaluator; an interrupted task
-reconciles saved state with current files. [See the decision rules](docs/how-it-works.md).
+**Agent Mission Control (AMC)** is a portable skill for Claude Code, Codex,
+Cursor, Grok and Kimi. Failed checks or confirmed review findings mean repair
+and recheck. A scout, measured AVO loop or resume step is added only when the
+task calls for it. [See the full decision rules](docs/how-it-works.md).
 
 ## Try it on a real task
 
