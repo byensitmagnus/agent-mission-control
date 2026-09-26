@@ -11,7 +11,9 @@ No extra API key or server.
 ## 1. Install the skill
 
 Install the **current `main` source**. That is the kernel this site describes.
-The latest tagged ZIP, [candidate.15](https://github.com/byensitmagnus/agent-mission-control/releases/tag/v0.2.0-candidate.15), contains the same runtime with checksums.
+The latest tagged ZIP is [candidate.15](https://github.com/byensitmagnus/agent-mission-control/releases/tag/v0.2.0-candidate.15),
+with checksums. `main` can advance before the next tag; compare fingerprints
+when you need a specific version.
 
 **Fastest path** (Node.js). From your project folder, the open
 [skills CLI](https://github.com/vercel-labs/skills) copies only the skill folder:

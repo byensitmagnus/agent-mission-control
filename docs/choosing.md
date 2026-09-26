@@ -82,7 +82,7 @@ quality, completion rate, speed and cost remain unverified.
 ## What to install
 
 Install current GitHub `main`, using [getting started](getting-started.md).
-candidate.15 is the latest tagged ZIP, with the same runtime as `main`. The 2026-09-13
+candidate.15 is the latest tagged ZIP; `main` can advance before a new tag. The 2026-09-13
 inspection is not evidence of an overall lead over either alternative.
 
 Other branches are not this kernel. A product-contract draft adds a JSON
