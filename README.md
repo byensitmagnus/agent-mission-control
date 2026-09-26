@@ -1,13 +1,5 @@
-<p align="center">
-  <picture>
-    <source media="(max-width: 600px)" srcset="docs/assets/mission-path-mobile.svg" />
-    <img src="docs/assets/mission-path.svg" alt="Illustration, not a recorded run: a lead takes a goal, chooses direct work or a specialist or parallel help, then integrates and verifies." width="100%" />
-  </picture>
-</p>
-
 <h1 align="center">Agent Mission Control</h1>
-<p align="center"><strong>Stop babysitting your coding agent.</strong><br />
-One skill that helps the agent choose the right amount of help,<br />and show which checks actually ran before it says “done”.</p>
+<p align="center"><strong>One lead. The smallest useful execution graph. An inspectable result.</strong></p>
 
 <p align="center">
   <a href="https://github.com/byensitmagnus/agent-mission-control/actions/workflows/validate.yml"><img src="https://github.com/byensitmagnus/agent-mission-control/actions/workflows/validate.yml/badge.svg?branch=main" alt="Public main engineering checks" /></a>
@@ -15,75 +7,46 @@ One skill that helps the agent choose the right amount of help,<br />and show wh
   <img src="https://img.shields.io/badge/Claude%20Code%20%C2%B7%20Codex%20%C2%B7%20Cursor%20%C2%B7%20Grok%20%C2%B7%20Kimi-skill-6d4aff" alt="Agent Skill for Claude Code, Codex, Cursor, Grok and Kimi" />
 </p>
 
-**Agent Mission Control (AMC)** is an open-source agent orchestration skill for
-AI coding agents. In Claude Code, Codex, Cursor, Grok or Kimi, it helps one lead
-choose direct work, a scoped specialist or independent parallel jobs, then
-check the current artifact and report what remains uncertain.
+**Agent Mission Control (AMC)** is a portable Markdown skill for coding agents
+in Claude Code, Codex, Cursor, Grok and Kimi. It guides the lead to choose
+direct work, a scoped specialist or independent parallel jobs, then inspect
+the current artifact and report the checks that actually ran. The host supplies
+the tools, subagents and permissions; AMC supplies no graph runtime.
 
 ```bash
 npx skills add byensitmagnus/agent-mission-control
 ```
 
-<p align="center">16 small files (about 60 KB). No server, no API key, no extra model.<br />
+<p align="center">16 small files (about 60 KB). No server, no API key, no required extra model.<br />
 <a href="docs/getting-started.md"><strong>Get started →</strong></a> ·
 <a href="docs/task-guide.md">Task recipes</a> ·
 <a href="#the-workflow-at-a-glance">See the workflow ↓</a> ·
 <a href="docs/evidence.md">Results &amp; limits</a></p>
 
-## Why
-
-Coding agents tend to fail in three familiar ways. AMC gives the lead agent one
-rule set for each:
-
-| What goes wrong | What AMC tells the lead to do |
-|---|---|
-| **A swarm for a one-line fix.** Five subagents, five context dumps, one tiny change. | Keep small work direct. Delegate only when a job earns its coordination cost. |
-| **“All tests pass”** when no test ran. | Report only checks that actually ran on the current artifact. Missing proof stays **NOT VERIFIED**. |
-| **Lost after a long session.** The context fills up and work starts over. | Keep a compact mission record and reconcile it with the files before trusting it. |
-
 ## The workflow at a glance
 
-AMC helps the lead pick the smallest useful route, integrate the work, check
-the current artifact and report an evidence-based status. Review is added when
-risk or an unresolved finding calls for it; confirmed fixes go through the
-checks again.
+<picture>
+  <source media="(max-width: 600px)" srcset="docs/assets/operating-map-mobile.svg" />
+  <img src="docs/assets/operating-map.svg" alt="AMC decision map: task to lead; direct, specialist or independent parallel route; integration and checks; conditional measured candidate loop and independent review; evidence report. Full rules are in the table below." width="100%" />
+</picture>
 
-```mermaid
-flowchart TD
-  A["Coding task<br/>goal · limits · done when"] --> B{"Which route adds value?"}
-  B -->|small or sequential| C["Lead works directly"]
-  B -->|focused gap| D["One scoped specialist"]
-  B -->|independent jobs| E["Parallel help<br/>isolate writers"]
-  C --> F["Lead integrates current artifact"]
-  D --> F
-  E --> F
-  F --> G["Run relevant checks"]
-  G -->|failed check: repair| F
-  G --> H{"Risk or missing proof?"}
-  H -->|yes| I["Fresh independent review"]
-  H -->|no| J["Report evidence and limits"]
-  I -->|confirmed finding: repair| F
-  I --> J
-  J --> K["PASS · FAIL · NOT VERIFIED · BLOCKED"]
-```
+This is a **decision policy**, not a fixed pipeline or an executing graph engine.
+The lead can change route when evidence changes the task. The two lower branches
+are conditional and can be combined. [Detailed workflow →](docs/how-it-works.md)
 
-The diagram shows possible routes, not a mandatory pipeline or a measured
-outcome. A reported PASS is advisory; your host and reviewer control risky
-actions such as release or migration. [Detailed workflow →](docs/how-it-works.md)
+| Trigger | What the lead actually does | Rule source |
+|---|---|---|
+| Known, sequential change | Work directly, run the relevant check, finish. No scout or worker is required. | [Routing](skills/agent-mission-control/SKILL.md) |
+| Unclear scope or dependencies | Optionally ask a cheap, bounded scout; the lead makes the routing decision. Luna is one host-specific option, not an AMC dependency. | [Routing](skills/agent-mission-control/SKILL.md) |
+| Focused gap | Give one specialist exact inputs, write scope and acceptance check; integrate its result. | [Packets](skills/agent-mission-control/references/packets.md) |
+| At least two independent jobs | Fan out only if coordination pays off; isolate parallel writers and fan in before acceptance. | [Packets](skills/agent-mission-control/references/packets.md) |
+| Measurable candidate improvement | Freeze workload, evaluator, correctness gates and baseline **before** variation. Keep only a verified improvement; otherwise repair or retain the incumbent. This is the conditional AVO-style loop. | [Optimization](skills/agent-mission-control/references/optimization.md) |
+| Release, migration or data-loss risk | Get independent review of the **current artifact**. Repair confirmed findings and recheck; a model's PASS alone does not authorize the consequence. | [Verification](skills/agent-mission-control/references/verification.md) |
+| Interrupted work | Reconcile the saved mission record with current files and source identity before trusting an earlier PASS. | [Resume](skills/agent-mission-control/references/resume.md) |
 
-## Three routes, one lead
-
-The lead picks the smallest route that can finish the job and changes route
-when new evidence says so:
-
-1. **Direct.** The lead edits, checks and finishes. This is the default.
-2. **One specialist.** A bounded job gets focused expertise or a fresh context.
-   The handoff names inputs, write scope and the acceptance check.
-3. **Parallel.** Only for jobs that do not need each other's output. Parallel
-   writers need host isolation such as worktrees.
-
-The lead owns integration and the final verdict: **PASS**, **FAIL**,
-**NOT VERIFIED** or **BLOCKED**. A worker saying “done” is input, not acceptance.
+The lead owns the final report: **PASS**, **FAIL**, **NOT VERIFIED** or
+**BLOCKED**, with observed checks and remaining limits. PASS is advisory;
+host permissions, CI and a separate reviewer control risky actions.
 
 ## Start in 30 seconds
 
