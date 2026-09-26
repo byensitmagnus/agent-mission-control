@@ -5,24 +5,28 @@ the work; AMC is a portable skill, not a graph runtime.
 
 ## The main path
 
-```mermaid
-flowchart TD
-  Task["Coding task<br/>goal · limits · proof · authority"] --> Lead["Lead agent<br/>routes · integrates · accepts"]
-  Lead --> Route{"Smallest useful route?"}
-  Route -->|Known work| Direct["Direct<br/>lead implements + checks"]
-  Route -->|Focused gap| Specialist["Specialist<br/>bounded inputs · scope · check"]
-  Route -->|Independent jobs| Parallel["Parallel<br/>isolated writers · owned scope"]
-  Direct --> Integrate["Lead integrates<br/>current artifact + evidence"]
-  Specialist --> Integrate
-  Parallel --> Integrate
-  Integrate --> Check["Check current artifact<br/>run relevant checks"]
-  Check -->|Failed check| Lead
-  Check -->|Current evidence| Risk{"Material risk?"}
-  Risk -->|Yes| Review["Independent review<br/>read-only falsification"]
-  Review -->|Finding| Lead
-  Review -->|Cleared| Report["Final report<br/>PASS · FAIL · NOT VERIFIED · BLOCKED"]
-  Risk -->|No| Report
-  Report -.->|After task, optional| Learn["Record a reusable lesson separately"]
+```text
+Coding task: goal · limits · proof · authority
+                      ↓
+Lead chooses the smallest useful route
+  ├─ Direct       known work; lead implements
+  ├─ Specialist   focused gap; bounded inputs, scope and check
+  └─ Parallel     independent jobs; isolated writers and owned scope
+                      ↓
+Lead integrates the current artifact and evidence
+                      ↓
+Check the artifact with relevant executed checks
+  ├─ Failed check → repair/reroute and recheck, or report the limit
+  └─ Current proof
+                      ↓
+Material risk?
+  ├─ Yes → independent, read-only review
+  │         ├─ Finding → repair/reroute and recheck, or report the limit
+  │         └─ Cleared → final report
+  └─ No ───────────────→ final report
+
+Final report: PASS · FAIL · NOT VERIFIED · BLOCKED
+After the task: optional reusable lesson, recorded separately
 ```
 
 ## Add only when needed
