@@ -15,7 +15,7 @@ from pathlib import Path
 
 
 PLUGIN_NAME = "agent-mission-control"
-VERSION = "0.2.0-candidate.15"
+VERSION = "0.2.0-candidate.16"
 EXPECTED_ORIGIN = "https://github.com/byensitmagnus/agent-mission-control.git"
 SOURCE_ROOT = Path(os.path.abspath(__file__)).parent.parent
 # Runtime lives in its own folder so `npx skills add` copies only the skill.
