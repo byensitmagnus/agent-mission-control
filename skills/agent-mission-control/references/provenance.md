@@ -43,3 +43,20 @@ Superpowers, Spec Kit, ADK, Agent Framework, LangGraph and host-doc checks. Thes
 AMC's design; no benchmark gains or universal model ranking transfer to this
 skill. The whole-project research report is repository development material,
 deliberately outside the installed runtime.
+
+## Research-guided maintenance (2026-09-26)
+
+The release gate in `SKILL.md` adopts published practice instead of new AMC
+trials. [Claude Code best practices](https://code.claude.com/docs/en/best-practices):
+a separate verifier, not the author, grades the work, and shown evidence beats
+a claim. [Skill authoring](https://platform.claude.com/docs/en/agents-and-tools/agent-skills/best-practices):
+fixed steps for fragile operations, with more detail for small models.
+[obra/superpowers](https://github.com/obra/superpowers/tree/8ca22dba9a94f28898bbce59f2537ff4d87c747d)
+(MIT) `verification-before-completion` and `requesting-code-review`: a table of
+excuses, and a reviewer briefed with the requirement and diff, never the
+session history. [Google ADK patterns](https://developers.googleblog.com/developers-guide-to-multi-agent-patterns-in-adk/):
+a critic separate from the generator, and human approval before irreversible
+steps. [OpenAI's agent guide](https://openai.com/business/guides-and-resources/a-practical-guide-to-building-ai-agents/):
+human oversight for irreversible, high-stakes actions until reliability is
+shown. The wording is AMC's own. Whether small models now hold the gate is not
+measured.
