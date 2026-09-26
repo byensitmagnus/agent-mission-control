@@ -110,6 +110,11 @@ actual code), then merge after green CI. It is an observed trace, not a benchmar
 
 ## Honest limits
 
+- AMC's `PASS` is an agent's evidence claim, not permission to release or run a
+  migration. For high-risk work, check the actual independent review of the
+  current artifact and use host permissions and CI for the consequential step.
+  The tested Haiku runs include a false high-risk PASS; do not treat a small
+  model's release verdict as authoritative. [Supported use](docs/prd.md#supported-operating-envelope).
 - General gains in cost, speed or quality are **not established**. We do not
   claim them. [What was actually checked](docs/evidence.md).
 - AMC is instructions. Your host decides which tools, subagents and permissions exist.
@@ -143,8 +148,9 @@ live board. A model profile fits when you want fixed role/model presets.
 
 **Versions:** the installs above use `main`. The latest tagged ZIP is
 [candidate.15](https://github.com/byensitmagnus/agent-mission-control/releases/tag/v0.2.0-candidate.15),
-with checksums. Candidate.16 is an unreleased branch; independent review
-rejected its remaining false PASS on a migration case.
+with checksums. Candidate.16 is unreleased; its original R4 claim was rejected
+after a false PASS on a migration smoke case. Its report template is being
+considered as a limited beta with that failure disclosed.
 The docs map is [docs/README.md](docs/README.md).
 
 ## Help it get better

@@ -5,8 +5,9 @@ based on the linked repository versions inspected on 2026-09-13. It describes
 inspected implementation as well as documentation; it is not an execution benchmark.
 
 Install current GitHub `main`; the latest tagged release is candidate.15.
-Candidate.16 is on an unreleased branch; independent review rejected its
-remaining false PASS on a migration case.
+Candidate.16 is on an unreleased branch. Its original R4 claim was rejected
+after a false PASS on a migration smoke case; a limited report-format beta is
+under consideration.
 The mechanism table below records an older inspection.
 
 ## Start with what you need
