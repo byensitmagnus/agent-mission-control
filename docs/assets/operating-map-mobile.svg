@@ -1,0 +1,57 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 1600" role="img" aria-labelledby="title desc">
+  <title id="title">Agent Mission Control route map for mobile</title>
+  <desc id="desc">One lead receives a task, chooses direct work, one specialist, or independent parallel help, integrates and checks the current artifact, and reports evidence and limits. Scout, measured optimization, independent review, and resume are conditional. PASS is advisory.</desc>
+  <defs><marker id="arrow" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto"><path d="M1 1 10 6 1 11" fill="none" stroke="#90abc5" stroke-width="2"/></marker></defs>
+  <rect width="640" height="1600" rx="22" fill="#0b1424"/>
+  <path d="M30 174H610" stroke="#344960" stroke-width="2"/>
+  <path d="M30 174H218" stroke="#70d5e9" stroke-width="3"/>
+  <text x="30" y="54" fill="#8adcf0" font-family="Segoe UI,Arial,sans-serif" font-size="18" font-weight="700" letter-spacing="2">AGENT MISSION CONTROL</text>
+  <text x="30" y="101" fill="#f2f6fc" font-family="Segoe UI,Arial,sans-serif" font-size="32" font-weight="700">One task. One lead.</text>
+  <text x="30" y="140" fill="#f2f6fc" font-family="Segoe UI,Arial,sans-serif" font-size="32" font-weight="700">Evidence at the end.</text>
+
+  <rect x="30" y="210" width="580" height="126" rx="14" fill="#17263a" stroke="#566d86" stroke-width="2"/>
+  <text x="58" y="252" fill="#a6bad0" font-family="Segoe UI,Arial,sans-serif" font-size="20" font-weight="700">01 / INPUT</text>
+  <text x="58" y="298" fill="#f4f7fc" font-family="Segoe UI,Arial,sans-serif" font-size="27" font-weight="700">Goal · limits · done when</text>
+  <path d="M320 336V365" fill="none" stroke="#90abc5" stroke-width="3" marker-end="url(#arrow)"/>
+
+  <rect x="30" y="378" width="580" height="139" rx="14" fill="#20243d" stroke="#a391e7" stroke-width="2"/>
+  <text x="58" y="420" fill="#c1b5fb" font-family="Segoe UI,Arial,sans-serif" font-size="20" font-weight="700">02 / LEAD</text>
+  <text x="58" y="462" fill="#f4f7fc" font-family="Segoe UI,Arial,sans-serif" font-size="28" font-weight="700">Pick the smallest useful route.</text>
+  <text x="58" y="496" fill="#bfc7dc" font-family="Segoe UI,Arial,sans-serif" font-size="19">Change it when evidence changes the task.</text>
+  <path d="M320 517V546" fill="none" stroke="#90abc5" stroke-width="3" marker-end="url(#arrow)"/>
+
+  <rect x="30" y="559" width="580" height="280" rx="14" fill="#152a37" stroke="#65bfd3" stroke-width="2"/>
+  <text x="58" y="600" fill="#8cd9e9" font-family="Segoe UI,Arial,sans-serif" font-size="20" font-weight="700">03 / EXECUTION · CHOOSE A ROUTE</text>
+  <rect x="53" y="619" width="534" height="61" rx="8" fill="#1b3a47"/>
+  <rect x="53" y="686" width="534" height="61" rx="8" fill="#263247"/>
+  <rect x="53" y="753" width="534" height="61" rx="8" fill="#33313b"/>
+  <text x="75" y="658" fill="#f2f6fc" font-family="Segoe UI,Arial,sans-serif" font-size="25" font-weight="700">Direct <tspan fill="#a6c5cf" font-size="21" font-weight="400">/ known work</tspan></text>
+  <text x="75" y="725" fill="#f2f6fc" font-family="Segoe UI,Arial,sans-serif" font-size="25" font-weight="700">Specialist <tspan fill="#bbc0d8" font-size="21" font-weight="400">/ focused gap</tspan></text>
+  <text x="75" y="792" fill="#f2f6fc" font-family="Segoe UI,Arial,sans-serif" font-size="25" font-weight="700">Parallel <tspan fill="#d6c4ac" font-size="21" font-weight="400">/ independent jobs</tspan></text>
+  <path d="M320 839V868" fill="none" stroke="#90abc5" stroke-width="3" marker-end="url(#arrow)"/>
+
+  <rect x="30" y="881" width="580" height="158" rx="14" fill="#182b35" stroke="#8ac9d8" stroke-width="2"/>
+  <text x="58" y="925" fill="#a4deea" font-family="Segoe UI,Arial,sans-serif" font-size="20" font-weight="700">04 / LEAD INTEGRATES + CHECKS</text>
+  <text x="58" y="971" fill="#f4f7fc" font-family="Segoe UI,Arial,sans-serif" font-size="26" font-weight="700">Inspect the current artifact.</text>
+  <text x="58" y="1011" fill="#c9dce4" font-family="Segoe UI,Arial,sans-serif" font-size="21">Run checks. Repair failures and rerun.</text>
+  <path d="M320 1039V1068" fill="none" stroke="#90abc5" stroke-width="3" marker-end="url(#arrow)"/>
+
+  <rect x="30" y="1081" width="580" height="141" rx="14" fill="#242a38" stroke="#d6b780" stroke-width="2"/>
+  <text x="58" y="1123" fill="#f0ca89" font-family="Segoe UI,Arial,sans-serif" font-size="20" font-weight="700">05 / REPORT EVIDENCE + LIMITS</text>
+  <text x="58" y="1165" fill="#f4f7fc" font-family="Segoe UI,Arial,sans-serif" font-size="24" font-weight="700">PASS · FAIL · NOT VERIFIED · BLOCKED</text>
+  <text x="58" y="1200" fill="#c4cddd" font-family="Segoe UI,Arial,sans-serif" font-size="20">PASS is advisory.</text>
+
+  <text x="30" y="1271" fill="#98acc3" font-family="Segoe UI,Arial,sans-serif" font-size="20" font-weight="700">ADD ONLY WHEN TRIGGERED</text>
+  <rect x="30" y="1290" width="280" height="122" rx="12" fill="#192638" stroke="#4f6884" stroke-width="2"/>
+  <rect x="330" y="1290" width="280" height="122" rx="12" fill="#23243b" stroke="#8e80cf" stroke-width="2"/>
+  <rect x="30" y="1431" width="280" height="122" rx="12" fill="#2a2933" stroke="#c9a56f" stroke-width="2"/>
+  <rect x="330" y="1431" width="280" height="122" rx="12" fill="#192b33" stroke="#69b4c1" stroke-width="2"/>
+  <text x="50" y="1335" fill="#d7e3f3" font-family="Segoe UI,Arial,sans-serif" font-size="24" font-weight="700">Scout</text>
+  <text x="50" y="1375" fill="#acbfd4" font-family="Segoe UI,Arial,sans-serif" font-size="20">Route unclear</text>
+  <text x="350" y="1335" fill="#ded6ff" font-family="Segoe UI,Arial,sans-serif" font-size="24" font-weight="700">AVO loop</text>
+  <text x="350" y="1375" fill="#bcb9da" font-family="Segoe UI,Arial,sans-serif" font-size="20">Measured candidate</text>
+  <text x="50" y="1476" fill="#ffe0ad" font-family="Segoe UI,Arial,sans-serif" font-size="24" font-weight="700">Review</text>
+  <text x="50" y="1516" fill="#d1c2ad" font-family="Segoe UI,Arial,sans-serif" font-size="20">Material risk</text>
+  <text x="350" y="1476" fill="#d5f3ef" font-family="Segoe UI,Arial,sans-serif" font-size="24" font-weight="700">Resume</text>
+  <text x="350" y="1516" fill="#afcdd0" font-family="Segoe UI,Arial,sans-serif" font-size="20">Reconcile files</text>
+</svg>
