@@ -45,4 +45,5 @@ general gains in quality, cost or speed are not established.
 [Full docs](docs/README.md) · [Contribute](CONTRIBUTING.md) ·
 [Share a real-work result](https://github.com/byensitmagnus/agent-mission-control/issues/new?template=experience.yml)
 
-[Security](SECURITY.md) · [MIT license](LICENSE) · Made by [Byens IT](https://byens-it.dk).
+[Security](SECURITY.md) · [MIT license](LICENSE) · Made by
+[Magnus Steinmeier Olsen](https://github.com/byensitmagnus), founder of [Byens IT](https://byens-it.dk).
