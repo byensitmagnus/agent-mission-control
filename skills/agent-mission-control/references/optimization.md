@@ -25,15 +25,16 @@ progress. Explicit independent acceptance requirements still apply.
 ## Candidate selection needs a stable evaluator
 
 Before an optimization comparison, freeze workload, correctness gates,
-environment, metric priority and attempt/time/resource budget. Execute the
-baseline and keep its source recoverable. An unrepeatable baseline leaves the
+environment, metric priority and attempt/time/resource budget. Reuse matching
+baseline evidence for the relevant source, workload and environment; execute only
+missing or mismatched measurements, and keep the source recoverable. An unrepeatable baseline leaves the
 improvement NOT VERIFIED. Record each bounded hypothesis, parent/source, commands,
 correctness, score and diagnosis in the existing record, including failed attempts.
 Accept a strict improvement under the frozen rule with no higher-priority
 regression; a predeclared FAIL-to-PASS repair can be an improvement. Ties keep the
 incumbent. This conservative selection rule is AMC's policy, not NVIDIA's exact
 algorithm. Workers cannot change the evaluator or acceptance. A changed evaluator
-starts a separate baseline comparison; never weaken it to make a candidate pass.
+requires a comparison under the new rule; reuse still-applicable evidence and rerun only affected measurements. Never weaken it to make a candidate pass.
 
 Identify accepted inputs and observable behavior outside the visible benchmark.
 Use the recoverable incumbent for a small differential check of relevant cases
