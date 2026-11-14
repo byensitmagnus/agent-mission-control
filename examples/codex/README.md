@@ -14,7 +14,7 @@ are starting points from current host guidance, not a benchmark-proven optimum.
 | Lead | Sol / medium | Architecture, integration, final evidence |
 | Investigation or useful scout | Terra / medium | Read-only, one bounded question |
 | Implementation | Terra / medium | One assigned workspace scope |
-| Verification inspection | Luna / medium | Read-only evidence inspection; the lead runs checks that write build/test artifacts |
+| Verification inspection | Luna / low | Read-only candidate and evidence inspection; the lead runs checks that write build/test artifacts |
 | Material review | Terra / high | Read-only, separate from implementation |
 
 Use Luna for a clear mechanical question, or a stronger supported model for a
@@ -22,6 +22,13 @@ specific unresolved risk. High effort is for difficult reasoning, not a blanket
 setting on every cheap worker. Preserve a user's explicit model selection.
 A single agent can work serially; required independent proof stays NOT VERIFIED
 until supplied. The profile does not require all roles or an initial scout.
+
+For a pre-publication candidate, give `mission_verifier` the artifact identity,
+claims and existing check output. Use `mission_reviewer` or another capable,
+independent reviewer when the mission requires it.
+Map domain tasks to existing project skills first. See [specialists and
+workflow triggers](../../skills/agent-mission-control/references/specialists.md)
+for the work buddy and host-owned schedules. The example installs no jobs.
 
 The example ceiling is three spawned threads excluding the lead; actual useful
 child count may be zero. Named roles override generic defaults, so changing a

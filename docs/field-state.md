@@ -210,6 +210,12 @@ installed by AMC.
 
 ## What this file does not prove
 
+Specialist, buddy and recurring verification routes are AMC workflow choices
+(**E**). The [Codex custom-agent settings](https://developers.openai.com/codex/subagents)
+describe host capabilities (**C**; see the dated check in the [Codex profile
+notes](../examples/codex/compatibility.md)). A routing rule, a model name or a configured
+schedule does not prove role enforcement, detection quality or savings.
+
 AMC behavioral quality, cost, speed, host auto-activation and global adoption
 remain **NOT VERIFIED**. The closed nine-run Codex comparison is a historical
 negative: no unique candidate.9 win, Superpowers contamination on every arm.
