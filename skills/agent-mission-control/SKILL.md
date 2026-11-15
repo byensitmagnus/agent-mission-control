@@ -77,6 +77,7 @@ capability choice, read [work routing](references/packets.md).
 | Cross-phase state or interruption | [Reconciliation](references/resume.md) |
 | Another costly fan-out, escalation, candidate or repeated repair | [Resource checkpoint](references/resources.md) |
 | A concrete reusable success, failure or surprise | [Separate learning](references/learning.md) |
+| Named domain role, pre-publication check, scheduled oversight or work buddy | [Specialists and workflow triggers](references/specialists.md) |
 
 Load only the relevant mechanism. Domain skills may supply technical knowledge.
 AMC owns this workflow; do not hand the task to another orchestrator in sequence.

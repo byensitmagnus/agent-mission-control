@@ -10,6 +10,7 @@ Start here, then open one file. Do not read this folder in order.
 | Claude Code, Cursor, Grok, Kimi, Codex | [hosts.md](hosts.md) |
 | Real work prompts | [task-guide.md](task-guide.md) |
 | How the lead chooses a graph | [how-it-works.md](how-it-works.md) |
+| Specialist roles, work buddy and verification triggers | [Specialists and workflow triggers](../skills/agent-mission-control/references/specialists.md) |
 
 ## Choose and judge
 
